@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -81,58 +82,56 @@
   }
   .check-decl input { width: 16px; height: 16px; margin-top: 2px; accent-color: var(--brand-dark); cursor: pointer; }
 
-  /* ================= EXTRA PREMIUM ID CARD ================= */
+  /* ================= PREMIUM ID CARD ================= */
   #id-card-modal {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
     z-index: 2000; padding: 16px; overflow-y: auto; align-items: center; justify-content: center;
-    backdrop-filter: blur(4px);
   }
   .id-modal-box {
-    background: #ffffff; border-radius: 18px; max-width: 450px; width: 100%;
-    padding: 20px; box-shadow: 0 24px 60px rgba(0,0,0,0.32); margin: auto;
-    border: 1px solid #e2e8f0;
+    background: #ffffff; border-radius: 16px; max-width: 450px; width: 100%;
+    padding: 18px; box-shadow: 0 24px 60px rgba(0,0,0,0.32); margin: auto;
   }
   .premium-id-card {
-    background: linear-gradient(145deg, #0d2e20 0%, #14452f 42%, #f8fafc 42.5%, #ffffff 100%);
-    border: 2px solid #d4af37; border-radius: 16px; padding: 16px;
+    background: linear-gradient(145deg, #0b2b1d 0%, #14452f 42%, #ffffff 42.5%, #f7fbf9 100%);
+    border: 2px solid #c59b27; border-radius: 16px; padding: 14px;
     position: relative; overflow: hidden; box-shadow: 0 12px 28px rgba(20, 69, 47, 0.22);
   }
-  .premium-id-card::after {
-    content: "OFFICIAL ID"; position: absolute; right: -26px; bottom: 26px;
-    transform: rotate(-28deg); font-size: 26px; font-weight: 900; letter-spacing: 3px;
-    color: rgba(20, 69, 47, 0.06); pointer-events: none;
+  .premium-id-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    background: linear-gradient(90deg, #d4af37, var(--brand-accent), #d4af37);
   }
   .id-card-head {
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-    padding-bottom: 10px; border-bottom: 1.5px solid rgba(212, 175, 55, 0.65);
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    padding-top: 4px; padding-bottom: 8px; border-bottom: 1.5px solid rgba(212, 175, 55, 0.6);
   }
-  .id-card-head h4 { margin: 0; font-size: 15px; font-weight: 800; color: #ffffff; letter-spacing: 0.4px; }
-  .id-card-head p { margin: 2px 0 0 0; font-size: 9.5px; color: #fde68a; font-weight: 600; }
-  .id-card-head .logo-box { min-width: 60px; min-height: 48px; padding: 4px 6px; border-color: #d4af37; }
+  .id-card-head h4 { margin: 0; font-size: 14.5px; font-weight: 800; color: #ffffff; letter-spacing: 0.4px; }
+  .id-card-head p { margin: 2px 0 0 0; font-size: 9px; color: #f3e5ab; font-weight: 700; text-transform: uppercase; }
+  .id-ribbon {
+    margin-top: 6px; background: var(--brand-accent); color: #ffffff; font-size: 9.5px;
+    font-weight: 800; text-align: center; padding: 3px 8px; border-radius: 6px;
+    letter-spacing: 0.8px; text-transform: uppercase;
+  }
   .id-photo-row {
-    display: flex; gap: 13px; align-items: center; margin-top: 14px;
+    display: flex; gap: 12px; align-items: center; margin-top: 10px;
+    background: #ffffff; padding: 8px; border-radius: 10px; border: 1px solid #e2e8f0;
   }
   .id-photo-frame {
-    width: 88px; height: 106px; border: 2.5px solid #d4af37; border-radius: 10px;
-    background: #fff; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    width: 84px; height: 102px; border: 2px solid #c59b27; border-radius: 8px;
+    background: #f8fafc; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
   }
   .id-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
-  .id-meta-list { font-size: 11.5px; line-height: 1.55; color: var(--slate-900); flex: 1; min-width: 0; }
+  .id-meta-list { font-size: 11px; line-height: 1.55; color: var(--slate-900); flex: 1; min-width: 0; }
   .id-meta-list div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .id-badge-strip {
-    display: inline-block; background: #14452f; color: #fde68a; font-size: 9px;
-    font-weight: 800; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; margin-bottom: 4px;
-  }
   .id-extra-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 5px 10px;
-    font-size: 10.5px; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #cbd5e1;
+    font-size: 10.5px; margin-top: 8px; padding: 8px; background: #ffffff;
+    border-radius: 10px; border: 1px solid #e2e8f0;
   }
   .id-sign-row {
     display: flex; justify-content: space-between; align-items: flex-end;
-    margin-top: 18px; padding-top: 6px; font-size: 9.5px; font-weight: 700; color: var(--slate-700);
+    margin-top: 16px; padding-top: 6px; font-size: 9.5px; font-weight: 700; color: var(--slate-700);
   }
-  .id-sig-box { border-top: 1.5px solid #14452f; width: 120px; text-align: center; padding-top: 3px; }
+  .id-sig-box { border-top: 1.5px solid #334155; width: 120px; text-align: center; padding-top: 3px; }
 
   /* ================= SIDEBAR DRAWER & TOP HEADER ================= */
   #app-shell { display: none; }
@@ -168,7 +167,7 @@
   .drawer-item {
     width: 100%; text-align: left; background: transparent; border: 1px solid transparent;
     border-radius: 9px; padding: 10px 12px; font-size: 13px; font-weight: 700;
-    color: var(--slate-700); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    color: var(--slate-700); cursor: pointer; display: flex; align-items: center; gap: 8px;
     text-decoration: none;
   }
   .drawer-item:hover { background: var(--brand-soft); color: var(--brand-dark); }
@@ -326,10 +325,10 @@
     padding: 10px 18px; border: none; border-radius: 9px; font-size: 13px;
     font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
   }
+  .btn-save { background: #0369a1; color: #ffffff; }
+  .btn-save:hover { background: #075985; }
   .btn-excel { background: #0f766e; color: #ffffff; }
   .btn-excel:hover { background: #115e59; }
-  .btn-save { background: #1d4ed8; color: #ffffff; }
-  .btn-save:hover { background: #1e40af; }
   .btn-primary { background: var(--brand-dark); color: #ffffff; }
   .btn-primary:hover { background: #0e3322; }
   .btn-accent { background: var(--brand-accent); color: #ffffff; }
@@ -337,7 +336,7 @@
   .btn-combined { background: #1e293b; color: #ffffff; }
   .btn-combined:hover { background: #0f172a; }
 
-  /* ================= SAVED DATA & UPCOMING PAGES ================= */
+  /* ================= AIR COMPRESSOR & SAVED DATA PAGES ================= */
   .upcoming-card {
     background: #ffffff; border-radius: 14px; padding: 36px 24px; text-align: center;
     box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); border: 1px solid var(--slate-200);
@@ -351,14 +350,9 @@
   .upcoming-card p { margin: 0; font-size: 13.5px; color: var(--slate-500); font-weight: 600; }
 
   .saved-cat-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
-  .saved-cat-btn {
-    padding: 9px 16px; border-radius: 9px; border: 1.5px solid var(--brand-dark);
-    background: #ffffff; color: var(--brand-dark); font-size: 12.5px; font-weight: 700; cursor: pointer;
-  }
-  .saved-cat-btn.active { background: var(--brand-dark); color: #ffffff; }
-  .saved-record-card {
-    border: 1px solid var(--slate-200); border-radius: 10px; padding: 12px 14px;
-    background: #f8fafc; margin-bottom: 10px;
+  .saved-record-box {
+    background: #f8fafc; border: 1px solid var(--slate-200); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 10px;
   }
 
   /* ================= REPORT SECTION ================= */
@@ -676,12 +670,12 @@
 </div>
 
 <!-- ========================================================================= -->
-<!-- EXTRA PREMIUM ID CARD MODAL                                               -->
+<!-- PREMIUM ID CARD MODAL                                                     -->
 <!-- ========================================================================= -->
 <div id="id-card-modal" class="no-print">
   <div class="id-modal-box">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <span style="font-size:13px; font-weight:800; color:var(--brand-dark);">Premium Employee ID Card</span>
+      <span style="font-size:13px; font-weight:800; color:var(--brand-dark);">Executive Employee ID Card</span>
       <button type="button" class="link-btn" style="padding:5px 10px; font-size:11.5px;" onclick="closeIdCardAndEnterApp()">Continue to Portal</button>
     </div>
 
@@ -691,15 +685,15 @@
           <h4>PN. COMPOSITE LTD.</h4>
           <p>Ambag, Kunabari, Gazipur &bull; OFFICIAL IDENTITY CARD</p>
         </div>
-        <div class="logo-box" id="id-card-logo"></div>
+        <div id="id-card-logo"></div>
       </div>
+      <div class="id-ribbon">Authorized Utility &amp; Operations Personnel</div>
 
       <div class="id-photo-row">
         <div class="id-photo-frame" id="idCardPhotoBox">
           <span style="font-size:10px; color:#64748b; font-weight:700;">PHOTO</span>
         </div>
         <div class="id-meta-list">
-          <span class="id-badge-strip">Verified Utility Staff</span>
           <div><strong>Name:</strong> <span id="idCardName">-</span></div>
           <div><strong>Office ID:</strong> <span id="idCardOfficeId">-</span></div>
           <div><strong>Department:</strong> <span id="idCardDept">-</span></div>
@@ -749,10 +743,7 @@
       <button type="button" class="drawer-item" id="nav-generator" onclick="navigateSection('generator', this)">Generator</button>
       <button type="button" class="drawer-item" id="nav-boiler" onclick="navigateSection('boiler', this)">Boiler</button>
       <button type="button" class="drawer-item" id="nav-saved" onclick="navigateSection('saved', this)">Saved Data</button>
-      <a class="drawer-item" href="https://pn.esimsol.com/Auth/Login" target="_blank" rel="noopener noreferrer">
-        <span>PN Erp</span>
-        <span style="font-size:11px; color:var(--brand-accent);">↗</span>
-      </a>
+      <a href="https://pn.esimsol.com/Auth/Login" target="_blank" rel="noopener noreferrer" class="drawer-item">PN Erp</a>
       <button type="button" class="drawer-item" onclick="reopenMyIdCard()">My ID Card</button>
     </div>
     <div class="drawer-footer">
@@ -802,16 +793,16 @@
     <!-- ================= SAVED DATA VIEW ================= -->
     <div id="view-saved" class="no-print" style="display:none;">
       <div class="control-card">
-        <h2 style="margin:0 0 6px 0; font-size:18px; font-weight:800; color:var(--brand-dark);">Saved Utility Records</h2>
-        <p style="margin:0; font-size:12.5px; color:var(--slate-500);">জেনারেটর, কম্প্রেসর ও বয়লারের সেভ করা তথ্য আলাদা আলাদা বাটনে ক্লিক করে দেখুন।</p>
+        <h2 style="margin:0 0 4px 0; font-size:18px; font-weight:800; color:var(--brand-dark);">Saved Utility Records</h2>
+        <p style="margin:0; font-size:12.5px; color:var(--slate-500);">সেভ করা তথ্য দেখতে নিচের বাটনগুলোতে ক্লিক করুন:</p>
 
         <div class="saved-cat-tabs">
-          <button type="button" class="saved-cat-btn active" id="scat-generator" onclick="renderSavedCategory('generator', this)">Generator</button>
-          <button type="button" class="saved-cat-btn" id="scat-compressor" onclick="renderSavedCategory('compressor', this)">Compressor</button>
-          <button type="button" class="saved-cat-btn" id="scat-boiler" onclick="renderSavedCategory('boiler', this)">Boiler</button>
+          <button type="button" class="btn btn-primary" id="st-generator" onclick="renderSavedRecordsByType('generator')">Generator</button>
+          <button type="button" class="btn btn-combined" id="st-compressor" onclick="renderSavedRecordsByType('compressor')">Compressor</button>
+          <button type="button" class="btn btn-accent" id="st-boiler" onclick="renderSavedRecordsByType('boiler')">Boiler</button>
         </div>
 
-        <div id="savedDataListContainer"></div>
+        <div id="savedRecordsDisplay"></div>
       </div>
     </div>
 
@@ -952,7 +943,7 @@
         </div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-save" onclick="saveCurrentData('generator')">Save Data</button>
+          <button type="button" class="btn btn-save" onclick="saveCurrentSectionData('generator')">Save Data</button>
           <button type="button" class="btn btn-excel" onclick="downloadExcelSheet()">Download Excel Sheet</button>
           <button type="button" class="btn btn-primary" onclick="buildFinalReport('separate')">Submit & Generate Report</button>
           <button type="button" class="btn btn-accent" onclick="printSeparatePages()">Download / Print PDF</button>
@@ -961,7 +952,7 @@
       </div>
     </div>
 
-    <!-- ================= BOILER VIEW (MATCHING GENERATOR DESIGN & BUTTONS) ================= -->
+    <!-- ================= BOILER VIEW (GENERATOR DESIGN + IMAGE 4 PARAMETERS) ================= -->
     <div id="view-boiler" style="display:none;">
       <div class="control-card no-print">
         <div class="top-controls">
@@ -971,7 +962,7 @@
               <input type="date" id="boilerDate" value="2026-11-21">
             </div>
             <div class="input-group">
-              <label>NG Rate (Tk/m³)</label>
+              <label>Natural Gas Rate (Tk/m³)</label>
               <input type="number" step="0.01" id="boilerNgRate" value="27.00">
             </div>
             <div class="input-group">
@@ -1000,7 +991,7 @@
             <input type="number" step="any" id="boiler_steam_ton" value="0">
           </div>
           <div class="metric-input-card">
-            <label>Stenter Load / Value</label>
+            <label>Stenter Load</label>
             <input type="number" step="any" id="boiler_stenter_val" value="0">
           </div>
         </div>
@@ -1008,11 +999,9 @@
         <div class="table-wrapper" id="grid-boiler"></div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-save" onclick="saveCurrentData('boiler')">Save Data</button>
-          <button type="button" class="btn btn-excel" onclick="downloadBoilerExcelSheet()">Download Excel Sheet</button>
+          <button type="button" class="btn btn-save" onclick="saveCurrentSectionData('boiler')">Save Data</button>
           <button type="button" class="btn btn-primary" onclick="buildBoilerReport()">Submit & Generate Report</button>
           <button type="button" class="btn btn-accent" onclick="window.print()">Download / Print PDF</button>
-          <button type="button" class="btn btn-combined" onclick="window.print()">Day & Night Download / Print PDF</button>
         </div>
       </div>
 
@@ -1037,12 +1026,12 @@
 
 <script>
 // =========================================================================
-// এখানে "PN LOGO" লেখাটি মুছে আপনার Base64 Data URL পেস্ট করুন (অথবা "PN LOGO" রাখুন)
+// এখানে "PN LOGO" লেখাটি মুছে আপনার Base64 Data URL পেস্ট করুন (একটি দিলে সব জায়গায় বসবে)
 // =========================================================================
 const PN_LOGO_DATA_URL = "PN LOGO";
 
 // =========================================================================
-// Firebase Config (আপনার Firebase প্রজেক্টের কনফিগ এখানে বসালে সাথে সাথে কানেক্ট হবে)
+// Firebase Config
 // =========================================================================
 const FIREBASE_CONFIG = {
   apiKey: "",
@@ -1069,12 +1058,17 @@ function getLogoHtml(cssClass = "") {
   if (PN_LOGO_DATA_URL && PN_LOGO_DATA_URL !== "PN LOGO" && PN_LOGO_DATA_URL.startsWith("data:image")) {
     return `<img src="${PN_LOGO_DATA_URL}" alt="PN Logo" class="${cssClass}">`;
   }
-  return `<div style="font-weight:800; color:#14452f; font-size:11px; border:1.5px dashed #14452f; padding:5px 7px; border-radius:8px; text-align:center; background:#fff;">PN LOGO</div>`;
+  return `<div style="font-weight:800; color:#14452f; font-size:11.5px; border:1.5px dashed #14452f; padding:6px 8px; border-radius:8px; text-align:center;">PN LOGO</div>`;
 }
 
-document.getElementById("header-logo-container").innerHTML = getLogoHtml();
-document.getElementById("auth-logo-container").innerHTML = getLogoHtml();
-document.getElementById("id-card-logo").innerHTML = getLogoHtml();
+function applyGlobalLogo() {
+  const logoHtml = getLogoHtml();
+  ["header-logo-container", "auth-logo-container", "id-card-logo"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = logoHtml;
+  });
+}
+applyGlobalLogo();
 
 Chart.register(ChartDataLabels);
 
@@ -1100,7 +1094,6 @@ const BOILER_DEPTS = ["RMG", "Utility", "Dyeing", "Finishing", "AOP", "Oval", "O
 
 let currentActiveShift = 'day';
 let currentBoilerShift = 'day';
-let currentSavedCategory = 'generator';
 let scannedRowsDraft = [];
 let currentPrintMode = 'separate';
 let uploadedPhotoBase64 = "";
@@ -1126,7 +1119,7 @@ function handlePhotoUpload(event) {
   const maxBytes = 500 * 1024;
   if (file.size > maxBytes) {
     statusEl.style.color = "#dc2626";
-    statusEl.textContent = `ছবির সাইজ ${(file.size / 1024).toFixed(0)}KB (500KB-এর বেশি)! অনুগ্রহ করে 500KB-এর নিচে ছবি দিন।`;
+    statusEl.textContent = `ছবির সাইজ ${(file.size / 1024).toFixed(0)}KB (500KB-এর বেশি)! 500KB-এর নিচে ছবি দিন।`;
     event.target.value = "";
     uploadedPhotoBase64 = "";
     return;
@@ -1142,6 +1135,7 @@ function handlePhotoUpload(event) {
 }
 
 function populateAndOpenIdCard(profile) {
+  applyGlobalLogo();
   document.getElementById("idCardName").textContent = profile.name || "-";
   document.getElementById("idCardOfficeId").textContent = profile.officeId || "-";
   document.getElementById("idCardDept").textContent = profile.department || "-";
@@ -1338,90 +1332,73 @@ function navigateSection(section, btnEl = null) {
     document.getElementById("boiler-report-box").style.display = "none";
   }
   if (section === "saved") {
-    renderSavedCategory(currentSavedCategory);
+    renderSavedRecordsByType("generator");
   }
 }
 
-/* ================= SAVE DATA & SAVED RECORDS VIEW ================= */
-function saveCurrentData(type) {
-  const store = JSON.parse(localStorage.getItem("pn_saved_utility_records") || '{"generator":[],"compressor":[],"boiler":[]}');
-  let entry = null;
+/* ================= SAVE & VIEW SAVED DATA ================= */
+function saveCurrentSectionData(type) {
+  const store = JSON.parse(localStorage.getItem("pn_saved_utility_data") || '{"generator":[],"compressor":[],"boiler":[]}');
+  const nowStr = new Date().toLocaleString();
 
   if (type === "generator") {
     const dateVal = document.getElementById("reportDate").value;
     const dayMetrics = computeShiftMetrics("day", DAY_HOURS);
     const nightMetrics = computeShiftMetrics("night", NIGHT_HOURS);
-    entry = {
-      savedAt: new Date().toLocaleString("en-GB"),
+    store.generator.unshift({
+      savedAt: nowStr,
       date: dateVal,
       dayKwh: dayMetrics.totalKwh,
       nightKwh: nightMetrics.totalKwh,
-      totalCost: dayMetrics.grandCost + nightMetrics.grandCost
-    };
-    store.generator.unshift(entry);
+      dayCost: dayMetrics.grandCost,
+      nightCost: nightMetrics.grandCost
+    });
   } else if (type === "boiler") {
     const dateVal = document.getElementById("boilerDate").value;
     const ngCons = parseFloat(document.getElementById("boiler_ng_cons").value) || 0;
     const lpgCons = parseFloat(document.getElementById("boiler_lpg_cons").value) || 0;
     const steamTon = parseFloat(document.getElementById("boiler_steam_ton").value) || 0;
-    entry = {
-      savedAt: new Date().toLocaleString("en-GB"),
+    store.boiler.unshift({
+      savedAt: nowStr,
       date: dateVal,
       shift: currentBoilerShift.toUpperCase(),
       ngCons,
       lpgCons,
       steamTon
-    };
-    store.boiler.unshift(entry);
+    });
   }
 
-  localStorage.setItem("pn_saved_utility_records", JSON.stringify(store));
-
-  if (firebaseDb && entry) {
-    firebaseDb.collection("pn_saved_records").add({ category: type, ...entry }).catch(() => {});
-  }
-
-  alert(`${type.toUpperCase()} তথ্য সফলভাবে সেভ করা হয়েছে! Saved Data মেনু থেকে দেখতে পারবেন।`);
+  localStorage.setItem("pn_saved_utility_data", JSON.stringify(store));
+  alert(`${type.toUpperCase()} তথ্য সফলভাবে সেভ হয়েছে। Saved Data পেজ থেকে দেখা যাবে।`);
 }
 
-function renderSavedCategory(cat, btnEl = null) {
-  currentSavedCategory = cat;
-  document.querySelectorAll(".saved-cat-btn").forEach(b => b.classList.remove("active"));
-  const target = btnEl || document.getElementById(`scat-${cat}`);
-  if (target) target.classList.add("active");
+function renderSavedRecordsByType(type) {
+  const store = JSON.parse(localStorage.getItem("pn_saved_utility_data") || '{"generator":[],"compressor":[],"boiler":[]}');
+  const list = store[type] || [];
+  const box = document.getElementById("savedRecordsDisplay");
 
-  const store = JSON.parse(localStorage.getItem("pn_saved_utility_records") || '{"generator":[],"compressor":[],"boiler":[]}');
-  const list = store[cat] || [];
-  const box = document.getElementById("savedDataListContainer");
+  if (type === "compressor") {
+    box.innerHTML = `<div class="upcoming-card" style="padding:24px;"><h2>Compressor Saved Data — Upcoming</h2><p>কম্প্রেসর সেভ ডেটা শীঘ্রই যুক্ত হবে।</p></div>`;
+    return;
+  }
 
-  if (cat === "compressor" && list.length === 0) {
-    box.innerHTML = `<div class="upcoming-card" style="padding:24px; margin-top:10px;">
-      <span class="upcoming-pill">Compressor</span>
-      <h2 style="font-size:18px;">Upcoming</h2>
-      <p>কম্প্রেসরের সেভ করা তথ্য শীঘ্রই যুক্ত হবে — Upcoming</p>
+  if (!list.length) {
+    box.innerHTML = `<div class="saved-record-box"><strong>${type.toUpperCase()}</strong>-এর কোনো সেভ করা তথ্য পাওয়া যায়নি।</div>`;
+    return;
+  }
+
+  box.innerHTML = list.map((item, idx) => {
+    if (type === "generator") {
+      return `<div class="saved-record-box">
+        <div><strong>#${list.length - idx} &bull; Date: ${item.date}</strong> <span style="font-size:11px; color:#64748b;">(${item.savedAt})</span></div>
+        <div style="font-size:12.5px; margin-top:4px;">Day kWh: <strong>${item.dayKwh}</strong> (৳${item.dayCost.toLocaleString()}) | Night kWh: <strong>${item.nightKwh}</strong> (৳${item.nightCost.toLocaleString()})</div>
+      </div>`;
+    }
+    return `<div class="saved-record-box">
+      <div><strong>#${list.length - idx} &bull; Date: ${item.date} (${item.shift})</strong> <span style="font-size:11px; color:#64748b;">(${item.savedAt})</span></div>
+      <div style="font-size:12.5px; margin-top:4px;">NG: <strong>${item.ngCons} m³</strong> | LPG: <strong>${item.lpgCons} Kg</strong> | Steam: <strong>${item.steamTon} Ton</strong></div>
     </div>`;
-    return;
-  }
-
-  if (list.length === 0) {
-    box.innerHTML = `<p style="font-size:13px; color:var(--slate-500); padding:12px 0;">${cat.toUpperCase()} সেকশনের কোনো তথ্য এখনো সেভ করা হয়নি।</p>`;
-    return;
-  }
-
-  box.innerHTML = list.map((item, i) => `
-    <div class="saved-record-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-        <strong style="color:var(--brand-dark); font-size:13px;">#${list.length - i} &bull; Date: ${item.date || '-'}</strong>
-        <span style="font-size:11px; color:var(--slate-500);">${item.savedAt || ''}</span>
-      </div>
-      <div style="font-size:12px; color:var(--slate-700); margin-top:6px;">
-        ${cat === 'generator'
-          ? `Day kWh: <strong>${(item.dayKwh || 0).toLocaleString()}</strong> | Night kWh: <strong>${(item.nightKwh || 0).toLocaleString()}</strong> | Total Cost: <strong>৳ ${(item.totalCost || 0).toLocaleString()}</strong>`
-          : `Shift: <strong>${item.shift || '-'}</strong> | NG: <strong>${item.ngCons || 0} m³</strong> | LPG: <strong>${item.lpgCons || 0} Kg</strong> | Steam: <strong>${item.steamTon || 0} Ton</strong>`
-        }
-      </div>
-    </div>
-  `).join('');
+  }).join("");
 }
 
 /* ================= AUTO CLEAR '0' ON FOCUS ================= */
@@ -1532,7 +1509,7 @@ function switchShift(shift, btn) {
   }
 }
 
-/* ================= BOILER ENTRY & REPORT ================= */
+/* ================= BOILER ENTRY & REPORT (IMAGE 4 PARAMETERS + AUTO PSI) ================= */
 function renderBoilerGrid() {
   const hours = currentBoilerShift === 'day' ? BOILER_DAY_HOURS : BOILER_NIGHT_HOURS;
   const prefix = currentBoilerShift === 'day' ? 'bday' : 'bnight';
@@ -1541,17 +1518,18 @@ function renderBoilerGrid() {
     <thead>
       <tr>
         <th>Time</th>
-        <th>NG Pre<br>Before</th>
-        <th>NG Pre<br>After (Mbar)</th>
+        <th>Boiler NG Pre<br>Before</th>
+        <th>Boiler NG Pre<br>After (Mbar)</th>
+        <th>Boiler NG<br>PSI (Auto)</th>
         <th>Boiler<br>Run</th>
         <th>Fire %</th>
         <th>Steam<br>Pressure</th>
         <th>Steam Gen<br>(Ton)</th>
         <th>NG Cons<br>(m³)</th>
-        <th>LPG Run</th>
+        <th>LPG<br>Run</th>
         <th>LPG Cons<br>(Kg)</th>
         <th>Total<br>Steam</th>
-        ${BOILER_DEPTS.map(d => `<th class="dept-th">${d} Load</th>`).join('')}
+        ${BOILER_DEPTS.map(d => `<th class="dept-th">${d}</th>`).join('')}
       </tr>
     </thead>
     <tbody>`;
@@ -1560,7 +1538,8 @@ function renderBoilerGrid() {
     html += `<tr>
       <td><strong>${time}</strong></td>
       <td><input type="number" inputmode="decimal" step="any" id="${prefix}_ngpreb_${idx}" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_ngprea_${idx}" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_ngprea_${idx}" oninput="recalcBoilerRow('${prefix}', ${idx})" value="0"></td>
+      <td><input type="number" id="${prefix}_ngpsi_${idx}" readonly value="0.0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${prefix}_brun_${idx}" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${prefix}_fire_${idx}" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${prefix}_spress_${idx}" value="0"></td>
@@ -1578,6 +1557,9 @@ function renderBoilerGrid() {
 }
 
 function recalcBoilerRow(prefix, idx) {
+  const mbar = parseFloat(document.getElementById(`${prefix}_ngprea_${idx}`).value) || 0;
+  document.getElementById(`${prefix}_ngpsi_${idx}`).value = (mbar * 0.0145).toFixed(1);
+
   const sgen = parseFloat(document.getElementById(`${prefix}_sgen_${idx}`).value) || 0;
   document.getElementById(`${prefix}_tsteam_${idx}`).value = sgen;
 }
@@ -1587,40 +1569,6 @@ function switchBoilerShift(shift, btn) {
   document.querySelectorAll('#view-boiler .shift-tab').forEach(el => el.classList.remove('active'));
   btn.classList.add('active');
   renderBoilerGrid();
-}
-
-function downloadBoilerExcelSheet() {
-  const dateVal = document.getElementById("boilerDate").value;
-  const hours = currentBoilerShift === 'day' ? BOILER_DAY_HOURS : BOILER_NIGHT_HOURS;
-  const prefix = currentBoilerShift === 'day' ? 'bday' : 'bnight';
-  const rows = [["Time", "NG Pre Before", "NG Pre After", "Run", "Fire %", "Steam Press", "Steam Ton", "NG m3", "LPG Run", "LPG Kg", ...BOILER_DEPTS]];
-
-  hours.forEach((t, idx) => {
-    rows.push([
-      t,
-      document.getElementById(`${prefix}_ngpreb_${idx}`).value || 0,
-      document.getElementById(`${prefix}_ngprea_${idx}`).value || 0,
-      document.getElementById(`${prefix}_brun_${idx}`).value || 0,
-      document.getElementById(`${prefix}_fire_${idx}`).value || 0,
-      document.getElementById(`${prefix}_spress_${idx}`).value || 0,
-      document.getElementById(`${prefix}_sgen_${idx}`).value || 0,
-      document.getElementById(`${prefix}_ngc_${idx}`).value || 0,
-      document.getElementById(`${prefix}_lpgrun_${idx}`).value || 0,
-      document.getElementById(`${prefix}_lpgc_${idx}`).value || 0,
-      ...BOILER_DEPTS.map((_, dIdx) => document.getElementById(`${prefix}_bd${dIdx}_${idx}`).value || 0)
-    ]);
-  });
-
-  const csvContent = "\uFEFF" + rows.map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `PN_Boiler_Report_${currentBoilerShift}_${dateVal}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 }
 
 function buildBoilerReport() {
@@ -1637,6 +1585,7 @@ function buildBoilerReport() {
   hours.forEach((t, idx) => {
     const ngb = parseFloat(document.getElementById(`${prefix}_ngpreb_${idx}`).value) || 0;
     const nga = parseFloat(document.getElementById(`${prefix}_ngprea_${idx}`).value) || 0;
+    const psi = (nga * 0.0145).toFixed(1);
     const brun = parseFloat(document.getElementById(`${prefix}_brun_${idx}`).value) || 0;
     const fire = parseFloat(document.getElementById(`${prefix}_fire_${idx}`).value) || 0;
     const sp = parseFloat(document.getElementById(`${prefix}_spress_${idx}`).value) || 0;
@@ -1656,9 +1605,9 @@ function buildBoilerReport() {
     });
 
     rowsHtml += `<tr>
-      <td class="col-highlight">${t}</td><td>${ngb}</td><td>${nga}</td><td>${brun}</td><td>${fire}%</td>
-      <td>${sp}</td><td class="col-highlight">${sg}</td><td>${ngc}</td><td>${lpgr}</td><td>${lpgc}</td>
-      <td class="col-highlight">${sg}</td>
+      <td class="col-highlight">${t}</td><td>${ngb}</td><td>${nga}</td><td class="col-highlight">${psi}</td>
+      <td>${brun}</td><td>${fire}%</td><td>${sp}</td><td class="col-highlight">${sg}</td>
+      <td>${ngc}</td><td>${lpgr}</td><td>${lpgc}</td><td class="col-highlight">${sg}</td>
       ${dVals.map(v => `<td>${v}</td>`).join('')}
     </tr>`;
   });
@@ -1690,13 +1639,14 @@ function buildBoilerReport() {
     <table class="clean-rep-table" style="min-width:1100px;">
       <thead>
         <tr>
-          <th colspan="7" class="grp-gen">NG Boiler</th>
+          <th colspan="8" class="grp-gen">NG Boiler</th>
           <th colspan="4" class="grp-cost">LPG & Steam</th>
           <th colspan="${BOILER_DEPTS.length}" class="grp-dept">Department Steam Allocation</th>
         </tr>
         <tr>
           <th class="sub-gen">Time</th><th class="sub-gen">NG Pre<br>Before</th><th class="sub-gen">NG Pre<br>After</th>
-          <th class="sub-gen">Run</th><th class="sub-gen">Fire %</th><th class="sub-gen">Steam<br>Press.</th><th class="sub-gen">Steam<br>(Ton)</th>
+          <th class="sub-gen">NG<br>PSI</th><th class="sub-gen">Run</th><th class="sub-gen">Fire %</th>
+          <th class="sub-gen">Steam<br>Press.</th><th class="sub-gen">Steam<br>(Ton)</th>
           <th class="sub-cost">NG (m³)</th><th class="sub-cost">LPG Run</th><th class="sub-cost">LPG (Kg)</th><th class="sub-cost">Total<br>Steam</th>
           ${BOILER_DEPTS.map(d => `<th class="sub-dept">${d}</th>`).join('')}
         </tr>
@@ -1704,7 +1654,7 @@ function buildBoilerReport() {
       <tbody>
         ${rowsHtml}
         <tr class="total-row">
-          <td colspan="6" style="text-align:right; padding-right:6px;">TOTAL:</td>
+          <td colspan="7" style="text-align:right; padding-right:6px;">TOTAL:</td>
           <td>${sumSteam.toFixed(2)}</td>
           <td>${sumNg.toLocaleString()}</td>
           <td>-</td>
@@ -1714,45 +1664,38 @@ function buildBoilerReport() {
         </tr>
       </tbody>
     </table>
-
-    <div style="margin-top:12px;">
-      <table class="clean-rep-table" style="max-width:650px;">
-        <thead>
-          <tr>
-            <th class="grp-sum">Department</th>
-            <th class="grp-sum">Steam Share</th>
-            <th class="grp-sum">NG Cost (Tk)</th>
-            <th class="grp-sum">LPG Cost (Tk)</th>
-            <th class="grp-sum">Total Cost (Tk)</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${BOILER_DEPTS.map((dept, i) => {
-            const ratio = totalDeptSteam > 0 ? (deptTotals[i] / totalDeptSteam) : 0;
-            const nc = Math.round(ratio * totalNgCost);
-            const lc = Math.round(ratio * totalLpgCost);
-            return `<tr>
-              <td style="text-align:left; padding-left:8px; font-weight:700;">${dept}</td>
-              <td>${(ratio * 100).toFixed(2)}%</td>
-              <td>${nc.toLocaleString()}</td>
-              <td>${lc.toLocaleString()}</td>
-              <td class="col-highlight">${(nc + lc).toLocaleString()}</td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-    </div>
   `;
 
   document.getElementById("boiler-report-box").style.display = "block";
   document.getElementById("boiler-report-box").scrollIntoView({ behavior: "smooth" });
 }
 
-/* ================= CAMERA SCAN & COLUMN-AWARE PARSER ================= */
+/* ================= ENHANCED CONTRAST CAMERA SCAN & PARSER ================= */
 function closeScanModal() {
   document.getElementById('scan-modal').style.display = 'none';
   document.getElementById('cameraInput').value = '';
   document.getElementById('galleryInput').value = '';
+}
+
+function preprocessImageForOcr(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement("canvas");
+        const scale = img.width < 1200 ? 1.5 : 1;
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext("2d");
+        ctx.filter = "grayscale(100%) contrast(155%) brightness(108%)";
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/png"));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 async function handleImageScan(event) {
@@ -1762,14 +1705,16 @@ async function handleImageScan(event) {
   const imgUrl = URL.createObjectURL(file);
   document.getElementById('scannedImgPreview').src = imgUrl;
   document.getElementById('scan-modal').style.display = 'block';
-  document.getElementById('scanStatusText').textContent = "ছবি স্ক্যান করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...";
+  document.getElementById('scanStatusText').textContent = "ছবি প্রসেস ও স্ক্যান করা হচ্ছে...";
 
   const hours = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
   scannedRowsDraft = hours.map(t => ({ time: t, nums: [] }));
   renderParsedReviewTable();
 
   try {
-    const result = await Tesseract.recognize(file, 'eng', {
+    const enhancedDataUrl = await preprocessImageForOcr(file);
+    const result = await Tesseract.recognize(enhancedDataUrl, 'eng', {
+      tessedit_char_whitelist: '0123456789.: AMPMkwm-/',
       logger: m => {
         if (m.status === 'recognizing text') {
           document.getElementById('scanStatusText').textContent = `Scanning: ${Math.round(m.progress * 100)}%`;
@@ -1777,81 +1722,14 @@ async function handleImageScan(event) {
       }
     });
 
-    const words = result.data && Array.isArray(result.data.words) ? result.data.words : [];
     const rawText = result.data.text || "";
-    if (words.length > 0) {
-      parseWordsByRowAndColumn(words, hours);
-    } else {
-      parseTextIntoHours(rawText, hours);
-    }
+    parseTextIntoHours(rawText, hours);
     renderParsedReviewTable();
-    document.getElementById('scanStatusText').textContent = "স্ক্যান সম্পন্ন! সেকশন বেছে Auto-Fill Section চাপুন।";
+    document.getElementById('scanStatusText').textContent = "স্ক্যান সম্পন্ন! প্রয়োজন হলে মান ঠিক করে Auto-Fill Section চাপুন।";
   } catch (err) {
     document.getElementById('scanStatusText').textContent = "অটো-রিড অস্পষ্ট ছিল; ঘরে মান ঠিক করে Auto-Fill চাপুন।";
     renderParsedReviewTable();
   }
-}
-
-function parseWordsByRowAndColumn(words, hours) {
-  const numWords = words
-    .map(w => {
-      const txt = (w.text || "").trim().replace(/[^\d.]/g, '');
-      const val = parseFloat(txt);
-      const box = w.bbox || {};
-      return {
-        val,
-        x0: box.x0 || 0,
-        yMid: ((box.y0 || 0) + (box.y1 || 0)) / 2,
-        h: Math.max(8, (box.y1 || 12) - (box.y0 || 0))
-      };
-    })
-    .filter(item => !isNaN(item.val));
-
-  // Group words into horizontal rows by yMid proximity
-  numWords.sort((a, b) => a.yMid - b.yMid);
-  const rowClusters = [];
-  numWords.forEach(item => {
-    const last = rowClusters[rowClusters.length - 1];
-    if (!last || Math.abs(item.yMid - last.yMid) > last.h * 0.75) {
-      rowClusters.push({ yMid: item.yMid, h: item.h, items: [item] });
-    } else {
-      last.items.push(item);
-      last.yMid = (last.yMid * (last.items.length - 1) + item.yMid) / last.items.length;
-    }
-  });
-
-  // Collect all x0 positions to map columns consistently
-  const allX = numWords.map(w => w.x0).sort((a, b) => a - b);
-  const colAnchors = [];
-  allX.forEach(x => {
-    if (colAnchors.length === 0 || Math.abs(x - colAnchors[colAnchors.length - 1]) > 26) {
-      colAnchors.push(x);
-    }
-  });
-
-  let hourCursor = 0;
-  rowClusters.forEach(cluster => {
-    cluster.items.sort((a, b) => a.x0 - b.x0);
-    // Detect if row starts with an hour number (1..12)
-    const first = cluster.items[0];
-    let targetIdx = -1;
-    if (first && Number.isInteger(first.val) && first.val >= 1 && first.val <= 12) {
-      const found = hours.findIndex((h, idx) => idx >= hourCursor && h.startsWith(first.val + ":"));
-      if (found !== -1) {
-        targetIdx = found;
-        hourCursor = found + 1;
-      }
-    }
-    if (targetIdx === -1 && hourCursor < hours.length && cluster.items.length >= 3) {
-      targetIdx = hourCursor++;
-    }
-    if (targetIdx !== -1) {
-      const dataItems = (first && Number.isInteger(first.val) && first.val >= 1 && first.val <= 12)
-        ? cluster.items.slice(1)
-        : cluster.items;
-      scannedRowsDraft[targetIdx].nums = dataItems.map(d => d.val);
-    }
-  });
 }
 
 function parseTextIntoHours(rawText, hours) {
