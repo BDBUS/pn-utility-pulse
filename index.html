@@ -1,1197 +1,2085 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P.N. COMPOSITE LTD. - Utility & Employee Portal</title>
-    <style>
-        :root {
-            --forest-green: #19482e;
-            --forest-dark: #10321f;
-            --leaf-green: #78b833;
-            --spool-orange: #f27424;
-            --page-bg: #f4f7f5;
-            --soft-mint: #edf4ef;
-            --card-white: #ffffff;
-            --ink-dark: #15251c;
-            --ink-muted: #5a6d62;
-            --line-soft: #d5e1da;
-            --logout-red: #d32f2f;
-            --logout-red-dark: #9a1c1c;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--page-bg);
-            color: var(--ink-dark);
-            min-height: 100vh;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* ================= AUTH CONTAINERS ================= */
-        .auth-wrapper {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .auth-card {
-            background: var(--card-white);
-            width: 100%;
-            max-width: 480px;
-            border-radius: 16px;
-            padding: 24px 22px;
-            border: 1px solid var(--line-soft);
-            border-top: 5px solid var(--forest-green);
-            box-shadow: 0 10px 28px rgba(25, 72, 46, 0.08);
-        }
-
-        .brand-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding-bottom: 16px;
-            margin-bottom: 18px;
-            border-bottom: 1px solid var(--line-soft);
-        }
-
-        .brand-top h2 {
-            font-size: 18.5px;
-            font-weight: 800;
-            color: var(--forest-green);
-            letter-spacing: 0.3px;
-        }
-
-        .brand-top p {
-            font-size: 11.5px;
-            font-weight: 600;
-            color: var(--ink-muted);
-            margin-top: 3px;
-        }
-
-        .pn-logo-badge {
-            min-width: 68px;
-            height: 44px;
-            padding: 0 10px;
-            border-radius: 10px;
-            background: var(--soft-mint);
-            border: 1.5px solid var(--forest-green);
-            color: var(--forest-green);
-            font-weight: 900;
-            font-size: 11.5px;
-            letter-spacing: 0.6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .field-group {
-            margin-bottom: 14px;
-        }
-
-        .field-group label {
-            display: block;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--ink-dark);
-            margin-bottom: 5px;
-        }
-
-        .field-note {
-            font-size: 11px;
-            color: var(--ink-muted);
-            margin-top: 3px;
-            display: block;
-        }
-
-        .field-group input,
-        .field-group select {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 9px;
-            border: 1px solid var(--line-soft);
-            font-size: 13.5px;
-            color: var(--ink-dark);
-            background: #ffffff;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        .field-group input:focus,
-        .field-group select:focus {
-            border-color: var(--forest-green);
-            box-shadow: 0 0 0 3px rgba(25, 72, 46, 0.12);
-        }
-
-        .pass-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .pass-box input {
-            padding-right: 42px;
-        }
-
-        .eye-toggle {
-            position: absolute;
-            right: 10px;
-            background: transparent;
-            border: none;
-            color: var(--ink-muted);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4px;
-        }
-
-        .eye-toggle:hover {
-            color: var(--forest-green);
-        }
-
-        .action-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 11px 14px;
-            border-radius: 9px;
-            font-size: 13.5px;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: 0.2s;
-        }
-
-        .btn-green {
-            background: var(--forest-green);
-            color: #ffffff;
-        }
-
-        .btn-green:hover {
-            background: var(--forest-dark);
-        }
-
-        .btn-light-green {
-            background: var(--soft-mint);
-            color: var(--forest-green);
-            border: 1.5px solid var(--forest-green);
-        }
-
-        .btn-light-green:hover {
-            background: #deede3;
-        }
-
-        .btn-confirm-reg {
-            width: 100%;
-            margin-top: 14px;
-            background: var(--forest-green);
-            color: #ffffff;
-            border-bottom: 3px solid var(--spool-orange);
-        }
-
-        .btn-confirm-reg:hover {
-            background: var(--forest-dark);
-        }
-
-        .declaration-box {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            margin-top: 14px;
-            padding: 10px 12px;
-            background: var(--soft-mint);
-            border: 1px solid var(--line-soft);
-            border-radius: 9px;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--forest-green);
-        }
-
-        .declaration-box input {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--forest-green);
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .status-text {
-            margin-top: 10px;
-            font-size: 12.5px;
-            font-weight: 600;
-            text-align: center;
-            min-height: 18px;
-        }
-
-        /* ================= HOME PAGE & LEFT MENU DRAWER ================= */
-        .home-shell {
-            min-height: 100vh;
-            background: var(--page-bg);
-        }
-
-        .top-navbar {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: var(--card-white);
-            border-bottom: 1px solid var(--line-soft);
-            border-top: 4px solid var(--forest-green);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 3px 12px rgba(25, 72, 46, 0.06);
-        }
-
-        .left-nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .icon-btn {
-            height: 38px;
-            padding: 0 11px;
-            border-radius: 9px;
-            border: 1.5px solid var(--forest-green);
-            background: var(--soft-mint);
-            color: var(--forest-green);
-            font-weight: 700;
-            font-size: 12.5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .icon-btn:hover {
-            background: var(--forest-green);
-            color: #ffffff;
-        }
-
-        .nav-company-title h1 {
-            font-size: 15.5px;
-            font-weight: 800;
-            color: var(--forest-green);
-            line-height: 1.15;
-        }
-
-        .nav-company-title span {
-            font-size: 11px;
-            color: var(--ink-muted);
-            font-weight: 600;
-        }
-
-        /* Left Slide Menu Drawer */
-        .drawer-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(16, 50, 31, 0.45);
-            z-index: 120;
-        }
-
-        .left-drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 280px;
-            max-width: 85vw;
-            height: 100vh;
-            background: var(--card-white);
-            z-index: 130;
-            border-right: 2px solid var(--forest-green);
-            box-shadow: 6px 0 24px rgba(0, 0, 0, 0.16);
-            display: flex;
-            flex-direction: column;
-            transform: translateX(-100%);
-            transition: transform 0.25s ease;
-        }
-
-        .left-drawer.open {
-            transform: translateX(0);
-        }
-
-        .drawer-header {
-            padding: 14px 14px;
-            background: var(--forest-green);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            border-bottom: 3px solid var(--spool-orange);
-        }
-
-        .drawer-back-btn {
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 8px;
-            padding: 6px 10px;
-            font-size: 12px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .drawer-back-btn:hover {
-            background: rgba(255, 255, 255, 0.28);
-        }
-
-        .drawer-title {
-            font-size: 13.5px;
-            font-weight: 800;
-            letter-spacing: 0.3px;
-        }
-
-        .drawer-menu-list {
-            list-style: none;
-            padding: 14px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-        }
-
-        .drawer-item-btn {
-            width: 100%;
-            text-align: left;
-            padding: 11px 14px;
-            border-radius: 10px;
-            border: 1px solid var(--line-soft);
-            background: var(--soft-mint);
-            color: var(--forest-green);
-            font-size: 13.5px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .drawer-item-btn:hover,
-        .drawer-item-btn.active {
-            background: var(--forest-green);
-            color: #ffffff;
-            border-color: var(--forest-green);
-        }
-
-        .drawer-footer {
-            padding: 14px 12px 18px;
-            border-top: 1px solid var(--line-soft);
-        }
-
-        .logout-red-btn {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 10px;
-            border: none;
-            background-color: var(--logout-red);
-            color: #ffffff;
-            font-size: 13.5px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .logout-red-btn:hover {
-            background-color: var(--logout-red-dark);
-        }
-
-        /* Home Content Area */
-        .home-main {
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 20px 16px 40px;
-        }
-
-        .section-panel {
-            background: var(--card-white);
-            border: 1px solid var(--line-soft);
-            border-radius: 14px;
-            padding: 20px;
-            margin-top: 18px;
-            box-shadow: 0 4px 14px rgba(25, 72, 46, 0.05);
-        }
-
-        .section-panel h3 {
-            color: var(--forest-green);
-            font-size: 17px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .section-panel p {
-            font-size: 13.5px;
-            color: var(--ink-muted);
-            line-height: 1.5;
-        }
-
-        /* ================= PREMIUM ID CARD ================= */
-        .premium-id-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 8px;
-        }
-
-        .premium-id-card {
-            width: 356px;
-            max-width: 100%;
-            background: linear-gradient(180deg, #ffffff 0%, #f9fcf9 100%);
-            border-radius: 18px;
-            overflow: hidden;
-            border: 2px solid var(--forest-green);
-            box-shadow: 0 16px 36px rgba(16, 50, 31, 0.18);
-            position: relative;
-        }
-
-        .premium-id-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--forest-green), var(--leaf-green), var(--spool-orange));
-            z-index: 2;
-        }
-
-        .premium-card-header {
-            background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest-green) 65%, #23633f 100%);
-            color: #ffffff;
-            padding: 16px 15px 15px;
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            border-bottom: 3.5px solid var(--spool-orange);
-        }
-
-        .premium-logo-box {
-            min-width: 64px;
-            height: 44px;
-            padding: 0 8px;
-            border-radius: 10px;
-            background: #ffffff;
-            color: var(--forest-green);
-            border: 1.5px solid var(--leaf-green);
-            font-size: 10.5px;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .premium-org-info h3 {
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: 0.4px;
-            line-height: 1.15;
-        }
-
-        .premium-org-info span {
-            display: inline-block;
-            margin-top: 4px;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-            background: rgba(120, 184, 51, 0.25);
-            border: 1px solid rgba(120, 184, 51, 0.6);
-            color: #eef9e2;
-            padding: 2px 8px;
-            border-radius: 999px;
-        }
-
-        .premium-photo-box {
-            display: flex;
-            justify-content: center;
-            padding: 16px 0 10px;
-            background: radial-gradient(circle at top, rgba(120, 184, 51, 0.12), transparent 70%);
-        }
-
-        .premium-photo {
-            width: 108px;
-            height: 126px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 3px solid var(--forest-green);
-            box-shadow: 0 6px 14px rgba(25, 72, 46, 0.16);
-            background: var(--soft-mint);
-        }
-
-        .premium-fields {
-            padding: 8px 18px 12px;
-            font-size: 12.5px;
-        }
-
-        .premium-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding: 5px 0;
-            border-bottom: 1px dashed #dce7e0;
-            gap: 10px;
-        }
-
-        .premium-row:last-child {
-            border-bottom: none;
-        }
-
-        .premium-label {
-            font-weight: 700;
-            color: var(--forest-green);
-            min-width: 105px;
-        }
-
-        .premium-val {
-            font-weight: 600;
-            color: var(--ink-dark);
-            text-align: right;
-            word-break: break-word;
-            flex: 1;
-        }
-
-        .premium-sign-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding: 26px 18px 14px;
-            background: linear-gradient(180deg, var(--soft-mint) 0%, #e3efe7 100%);
-            border-top: 1.5px solid var(--line-soft);
-        }
-
-        .premium-sign-col {
-            width: 45%;
-            text-align: center;
-        }
-
-        .premium-sign-line {
-            border-top: 1.5px solid var(--forest-green);
-            padding-top: 4px;
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--forest-green);
-            letter-spacing: 0.2px;
-        }
-
-        .card-toolbar {
-            width: 356px;
-            max-width: 100%;
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        @media print {
-            body {
-                background: #ffffff;
-            }
-            body * {
-                visibility: hidden;
-            }
-            #id-card-print-target, #id-card-print-target * {
-                visibility: visible;
-            }
-            #id-card-print-target {
-                position: absolute;
-                left: 50%;
-                top: 20px;
-                transform: translateX(-50%);
-                box-shadow: none;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P.N. COMPOSITE LTD. — Utility & Power Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<!-- Firebase Compat SDKs (Ready for your Firebase Config) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+  :root {
+    --brand-dark: #14452f;
+    --brand-accent: #e86c1f;
+    --brand-soft: #eef6f2;
+    --slate-900: #0f172a;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --bg-body: #f8fafc;
+    --danger-red: #dc2626;
+  }
+
+  * { box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background: var(--bg-body); color: var(--slate-900); }
+  body { padding: 14px; }
+
+  .container { max-width: 1440px; width: 100%; margin: 0 auto; overflow-x: hidden; }
+
+  /* ================= AUTH / LOGIN / REGISTRATION ================= */
+  #auth-wrapper {
+    max-width: 680px; width: 100%; margin: 16px auto;
+  }
+  .auth-card {
+    background: #ffffff; border-radius: 14px; padding: 22px;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+    border-top: 5px solid var(--brand-dark); border-left: 1px solid var(--slate-200);
+    border-right: 1px solid var(--slate-200); border-bottom: 1px solid var(--slate-200);
+  }
+  .auth-top-brand {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--slate-200); margin-bottom: 18px;
+  }
+  .auth-top-brand h2 { margin: 0; font-size: 20px; font-weight: 800; color: var(--brand-dark); }
+  .auth-top-brand p { margin: 3px 0 0 0; font-size: 12.5px; color: var(--slate-500); font-weight: 500; }
+
+  .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .form-grid-2 { grid-template-columns: 1fr; } }
+
+  .field-box { display: flex; flex-direction: column; margin-bottom: 12px; }
+  .field-box label { font-size: 11.5px; font-weight: 700; color: var(--slate-700); margin-bottom: 5px; }
+  .field-box input, .field-box select {
+    padding: 9px 12px; border: 1.5px solid var(--slate-200); border-radius: 8px;
+    font-size: 13px; font-weight: 500; color: var(--slate-900); background: #fff; width: 100%;
+  }
+  .field-box input:focus, .field-box select:focus { outline: none; border-color: var(--brand-dark); }
+
+  .pass-wrap { position: relative; display: flex; align-items: center; }
+  .pass-wrap input { padding-right: 40px; }
+  .eye-btn {
+    position: absolute; right: 10px; background: transparent; border: none;
+    cursor: pointer; color: var(--slate-500); display: inline-flex; align-items: center; padding: 4px;
+  }
+  .eye-btn:hover { color: var(--brand-dark); }
+
+  .auth-switch-row {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+    gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--slate-200);
+  }
+  .link-btn {
+    background: var(--brand-soft); color: var(--brand-dark); border: 1.5px solid var(--brand-dark);
+    padding: 8px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer;
+  }
+  .link-btn:hover { background: #dff0e8; }
+
+  .check-decl {
+    display: flex; align-items: flex-start; gap: 8px; font-size: 12px;
+    font-weight: 600; color: var(--slate-700); margin: 10px 0 14px 0; cursor: pointer;
+  }
+  .check-decl input { width: 16px; height: 16px; margin-top: 2px; accent-color: var(--brand-dark); cursor: pointer; }
+
+  /* ================= PREMIUM ID CARD ================= */
+  #id-card-modal {
+    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65);
+    z-index: 2000; padding: 16px; overflow-y: auto; align-items: center; justify-content: center;
+  }
+  .id-modal-box {
+    background: #ffffff; border-radius: 16px; max-width: 440px; width: 100%;
+    padding: 18px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); margin: auto;
+  }
+  .premium-id-card {
+    background: linear-gradient(155deg, #ffffff 0%, #f4faf7 55%, #e6f3ec 100%);
+    border: 2px solid var(--brand-dark); border-radius: 14px; padding: 14px;
+    position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(20, 69, 47, 0.15);
+  }
+  .premium-id-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 7px;
+    background: linear-gradient(90deg, var(--brand-dark), var(--brand-accent));
+  }
+  .id-card-head {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    padding-top: 4px; padding-bottom: 8px; border-bottom: 1.5px solid #cbd5e1;
+  }
+  .id-card-head h4 { margin: 0; font-size: 14px; font-weight: 800; color: var(--brand-dark); }
+  .id-card-head p { margin: 1px 0 0 0; font-size: 9.5px; color: var(--slate-500); font-weight: 600; }
+  .id-photo-row {
+    display: flex; gap: 12px; align-items: center; margin-top: 10px;
+  }
+  .id-photo-frame {
+    width: 84px; height: 102px; border: 2px solid var(--brand-dark); border-radius: 8px;
+    background: #fff; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  }
+  .id-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .id-meta-list { font-size: 11px; line-height: 1.5; color: var(--slate-900); flex: 1; min-width: 0; }
+  .id-meta-list div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .id-extra-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px;
+    font-size: 10.5px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1;
+  }
+  .id-sign-row {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-top: 16px; padding-top: 6px; font-size: 9.5px; font-weight: 700; color: var(--slate-700);
+  }
+  .id-sig-box { border-top: 1px solid #475569; width: 115px; text-align: center; padding-top: 2px; }
+
+  /* ================= SIDEBAR DRAWER & TOP HEADER ================= */
+  #app-shell { display: none; }
+  .menu-trigger-btn {
+    background: var(--brand-dark); color: #ffffff; border: none; border-radius: 9px;
+    padding: 9px 12px; font-size: 13px; font-weight: 700; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+  }
+  .menu-trigger-btn:hover { background: #0d3221; }
+
+  .sidebar-backdrop {
+    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); z-index: 1400;
+  }
+  .sidebar-backdrop.open { display: block; }
+
+  .side-drawer {
+    position: fixed; top: 0; left: -290px; width: 280px; max-width: 85vw; height: 100vh;
+    background: #ffffff; z-index: 1500; box-shadow: 8px 0 28px rgba(15, 23, 42, 0.16);
+    transition: left 0.25s ease; display: flex; flex-direction: column;
+    border-right: 4px solid var(--brand-dark);
+  }
+  .side-drawer.open { left: 0; }
+  .drawer-top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 16px; border-bottom: 1px solid var(--slate-200); background: var(--brand-soft);
+  }
+  .back-drawer-btn {
+    background: #ffffff; color: var(--brand-dark); border: 1.5px solid var(--brand-dark);
+    border-radius: 8px; padding: 6px 11px; font-size: 12px; font-weight: 700;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .drawer-nav { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; }
+  .drawer-item {
+    width: 100%; text-align: left; background: transparent; border: 1px solid transparent;
+    border-radius: 9px; padding: 10px 12px; font-size: 13px; font-weight: 700;
+    color: var(--slate-700); cursor: pointer; display: flex; align-items: center; gap: 8px;
+  }
+  .drawer-item:hover { background: var(--brand-soft); color: var(--brand-dark); }
+  .drawer-item.active { background: var(--brand-dark); color: #ffffff; }
+  .drawer-footer { padding: 12px; border-top: 1px solid var(--slate-200); }
+  .logout-red-btn {
+    width: 100%; background: var(--danger-red); color: #ffffff; border: none;
+    border-radius: 9px; padding: 10px 14px; font-size: 13px; font-weight: 700;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  }
+  .logout-red-btn:hover { background: #b91c1c; }
+
+  /* ================= TOP HEADER ================= */
+  .company-header {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+    border-top: 5px solid var(--brand-dark);
+    margin-bottom: 18px;
+    max-width: 100%;
+  }
+  .header-left-group { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .company-info h1 { margin: 0; font-size: 22px; font-weight: 800; color: var(--brand-dark); }
+  .company-info p { margin: 4px 0 0 0; font-size: 13.5px; font-weight: 500; color: var(--slate-500); }
+  .company-badge {
+    display: inline-block; margin-top: 8px; background: var(--brand-soft); color: var(--brand-dark);
+    font-size: 10.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;
+  }
+  .logo-box {
+    display: flex; align-items: center; justify-content: center; background: #ffffff;
+    border: 1px solid var(--slate-200); border-radius: 12px; padding: 6px 10px;
+    min-width: 78px; min-height: 68px; flex-shrink: 0;
+  }
+  .logo-box img { max-height: 56px; max-width: 95px; object-fit: contain; }
+
+  /* ================= CONTROLS & CAMERA BAR ================= */
+  .control-card {
+    background: #ffffff; border-radius: 14px; padding: 18px 20px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); margin-bottom: 18px;
+    border: 1px solid var(--slate-200); max-width: 100%; overflow: hidden;
+  }
+  .top-controls {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
+    gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--slate-200);
+  }
+  .meta-inputs { display: flex; flex-wrap: wrap; gap: 14px; }
+  .input-group { display: flex; flex-direction: column; }
+  .input-group label { font-size: 11px; font-weight: 600; color: var(--slate-700); margin-bottom: 5px; text-transform: uppercase; }
+  .input-group input {
+    padding: 8px 12px; border: 1.5px solid var(--slate-200); border-radius: 8px;
+    font-size: 13px; font-weight: 600; color: var(--slate-900);
+  }
+
+  .shift-switcher { display: flex; flex-wrap: wrap; background: var(--slate-100); padding: 4px; border-radius: 10px; gap: 4px; }
+  .shift-tab {
+    padding: 8px 16px; border: none; border-radius: 8px; font-size: 12.5px;
+    font-weight: 700; cursor: pointer; background: transparent; color: var(--slate-500);
+  }
+  .shift-tab.active { background: var(--brand-dark); color: #ffffff; }
+
+  .camera-toolbar {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+    gap: 12px; background: var(--brand-soft); border: 1px solid #bfe0d1;
+    padding: 12px 14px; border-radius: 10px; margin-top: 14px; max-width: 100%;
+  }
+  .camera-info { font-size: 12px; color: var(--brand-dark); font-weight: 600; line-height: 1.45; }
+  .camera-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+  .cam-btn {
+    background: var(--brand-dark); color: #fff; border: none; border-radius: 8px;
+    padding: 8px 14px; font-size: 12.5px; font-weight: 700; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .cam-btn:hover { background: #0d3221; }
+  .cam-btn.secondary { background: #ffffff; color: var(--brand-dark); border: 1.5px solid var(--brand-dark); }
+  .cam-btn.secondary:hover { background: #e2f1ea; }
+
+  /* Locked Scan Container */
+  #scan-modal {
+    display: none; background: #ffffff; border: 2px solid var(--brand-dark);
+    border-radius: 14px; padding: 14px; margin: 14px 0;
+    box-shadow: 0 12px 32px rgba(15,23,42,0.12); max-width: 100%; overflow: hidden;
+  }
+  .scan-grid {
+    display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+    gap: 16px; align-items: start; max-width: 100%;
+  }
+  @media (max-width: 860px) { .scan-grid { grid-template-columns: minmax(0, 1fr); } }
+  .preview-img-box {
+    border: 1px solid var(--slate-200); border-radius: 10px; padding: 8px;
+    background: #f8fafc; text-align: center; max-width: 100%; overflow: hidden;
+  }
+  .preview-img-box img { max-width: 100%; width: auto; max-height: 210px; border-radius: 6px; object-fit: contain; display: block; margin: 0 auto; }
+  .scan-status { margin-top: 8px; font-size: 11.5px; font-weight: 700; color: var(--brand-accent); }
+  .scannable-tags {
+    background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px;
+    padding: 8px 10px; margin-bottom: 10px; font-size: 11px; color: var(--slate-700); line-height: 1.5;
+  }
+  .parsed-table-wrap {
+    max-height: 290px; max-width: 100%; overflow: auto;
+    border: 1px solid var(--slate-200); border-radius: 8px;
+  }
+  table.parsed-table { width: max-content; min-width: 100%; border-collapse: collapse; font-size: 11px; }
+  table.parsed-table th, table.parsed-table td { border: 1px solid #e2e8f0; padding: 4px 5px; text-align: center; white-space: nowrap; }
+  table.parsed-table th { background: #1e293b; color: #fff; position: sticky; top: 0; z-index: 2; }
+  table.parsed-table input { width: 56px; padding: 3px; border: 1px solid #cbd5e1; border-radius: 4px; text-align: center; font-size: 11px; }
+
+  /* Summary Metrics Bar */
+  .summary-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+    gap: 12px; margin: 16px 0;
+  }
+  .metric-input-card {
+    background: var(--bg-body); border: 1px solid var(--slate-200); border-radius: 10px; padding: 10px 12px;
+  }
+  .metric-input-card label { display: block; font-size: 10.5px; font-weight: 700; color: var(--slate-500); margin-bottom: 5px; }
+  .metric-input-card input {
+    width: 100%; padding: 7px 9px; border: 1px solid #cbd5e1; border-radius: 6px;
+    font-size: 13.5px; font-weight: 700; color: var(--slate-900);
+  }
+  .metric-input-card input[readonly] { background: var(--brand-soft); color: var(--brand-dark); border-color: #b7dccb; }
+
+  /* Data Entry Table */
+  .table-wrapper { max-width: 100%; overflow-x: auto; border-radius: 10px; border: 1px solid var(--slate-200); }
+  table.entry-grid { width: 100%; min-width: 1120px; border-collapse: collapse; font-size: 12px; }
+  table.entry-grid th {
+    background: var(--slate-900); color: #ffffff; font-weight: 600;
+    padding: 8px 5px; white-space: nowrap; border-right: 1px solid #1e293b;
+  }
+  table.entry-grid th.dept-th { background: var(--brand-dark); }
+  table.entry-grid td {
+    padding: 4px 3px; border-bottom: 1px solid var(--slate-200);
+    border-right: 1px solid var(--slate-100); text-align: center;
+  }
+  table.entry-grid tr:nth-child(even) { background: #fafbfc; }
+  table.entry-grid input {
+    width: 60px; padding: 5px 4px; border: 1px solid #cbd5e1;
+    border-radius: 5px; text-align: center; font-size: 12px; font-weight: 500;
+  }
+  table.entry-grid input:focus {
+    outline: none; border-color: var(--brand-accent); background: #fffaf5;
+  }
+  table.entry-grid input[readonly] {
+    background: #f1f5f9; border-color: transparent; font-weight: 700; color: var(--brand-dark);
+  }
+
+  /* Buttons */
+  .btn-bar { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+  .btn {
+    padding: 10px 18px; border: none; border-radius: 9px; font-size: 13px;
+    font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  }
+  .btn-excel { background: #0f766e; color: #ffffff; }
+  .btn-excel:hover { background: #115e59; }
+  .btn-primary { background: var(--brand-dark); color: #ffffff; }
+  .btn-primary:hover { background: #0e3322; }
+  .btn-accent { background: var(--brand-accent); color: #ffffff; }
+  .btn-accent:hover { background: #cf5c15; }
+  .btn-combined { background: #1e293b; color: #ffffff; }
+  .btn-combined:hover { background: #0f172a; }
+
+  /* ================= AIR COMPRESSOR UPCOMING PAGE ================= */
+  .upcoming-card {
+    background: #ffffff; border-radius: 14px; padding: 36px 24px; text-align: center;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); border: 1px solid var(--slate-200);
+    margin-bottom: 18px;
+  }
+  .upcoming-pill {
+    display: inline-block; background: var(--brand-soft); color: var(--brand-dark);
+    font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 20px; text-transform: uppercase;
+  }
+  .upcoming-card h2 { margin: 12px 0 6px 0; font-size: 22px; font-weight: 800; color: var(--brand-dark); }
+  .upcoming-card p { margin: 0; font-size: 13.5px; color: var(--slate-500); font-weight: 600; }
+
+  /* ================= REPORT SECTION ================= */
+  #report-container {
+    display: none; background: #ffffff; border-radius: 14px; padding: 20px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); border: 1px solid var(--slate-200);
+    margin-top: 24px; max-width: 100%; overflow-x: auto;
+  }
+  .report-page { min-width: 1260px; background: #ffffff; position: relative; }
+  .night-page-spacer { margin-top: 26px; }
+
+  .rep-header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2.5px solid var(--brand-dark); padding-bottom: 8px; margin-bottom: 10px;
+  }
+  .rep-company h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--brand-dark); }
+  .rep-company p { margin: 2px 0 0 0; font-size: 11px; color: var(--slate-500); font-weight: 500; }
+  .rep-title-box { text-align: center; }
+  .rep-title-box h3 { margin: 0; font-size: 13.5px; font-weight: 800; color: var(--slate-900); text-transform: uppercase; }
+  .rep-title-box span {
+    display: inline-block; margin-top: 3px; background: var(--brand-soft); color: var(--brand-dark);
+    padding: 2px 10px; border-radius: 12px; font-size: 10.5px; font-weight: 700;
+  }
+  .rep-logo img { max-height: 44px; max-width: 85px; object-fit: contain; }
+
+  .kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 10px; }
+  .kpi-item {
+    background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3.5px solid var(--brand-dark);
+    border-radius: 6px; padding: 5px 8px;
+  }
+  .kpi-item.orange { border-left-color: var(--brand-accent); }
+  .kpi-item .k-lbl { font-size: 8.5px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+  .kpi-item .k-val { font-size: 12px; font-weight: 800; color: #0f172a; margin-top: 1px; }
+
+  table.clean-rep-table { width: 100%; border-collapse: collapse; font-size: 9px; text-align: center; }
+  table.clean-rep-table th, table.clean-rep-table td { border: 1px solid #cbd5e1; padding: 3px 2.5px; }
+  .grp-gen { background: #1e293b; color: #fff; font-weight: 700; font-size: 9.5px; }
+  .grp-cost { background: #334155; color: #fff; font-weight: 700; font-size: 9.5px; }
+  .grp-dept { background: #14452f; color: #fff; font-weight: 700; font-size: 9.5px; }
+  .grp-sum { background: #c2410c; color: #fff; font-weight: 700; font-size: 9.5px; }
+
+  .sub-gen { background: #f1f5f9; color: #0f172a; font-weight: 700; }
+  .sub-cost { background: #e2e8f0; color: #0f172a; font-weight: 700; }
+  .sub-dept { background: #eef6f2; color: #14452f; font-weight: 700; }
+  .sub-sum { background: #fff7ed; color: #9a3412; font-weight: 700; }
+
+  .col-highlight { background: #f8fafc; font-weight: 700; color: #0f172a; }
+  .col-sum-cell { background: #fffaf5; font-weight: 600; }
+  .total-row td {
+    background: #f1f5f9; font-weight: 800; color: #0f172a;
+    border-top: 2px solid #475569; border-bottom: 2px solid #475569;
+  }
+  .pct-row td { background: #ffffff; font-size: 8px; color: #475569; font-weight: 600; }
+
+  .rep-charts {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;
+    overflow: hidden;
+  }
+  .rep-chart-card {
+    border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;
+    background: #ffffff; overflow: hidden; min-width: 0;
+  }
+  .rep-chart-card h4 {
+    margin: 0 0 4px 0; font-size: 10px; font-weight: 700;
+    color: #334155; text-align: center; text-transform: uppercase;
+  }
+  .canvas-wrap {
+    height: 145px; width: 100%; position: relative; overflow: hidden;
+  }
+  .canvas-wrap canvas {
+    display: block; width: 100% !important; height: 100% !important;
+  }
+
+  .rep-footer {
+    display: flex; justify-content: space-between; margin-top: 14px;
+    padding-top: 6px; font-size: 9.5px; color: #64748b;
+  }
+  .sig-line { border-top: 1px solid #94a3b8; width: 155px; text-align: center; padding-top: 3px; font-weight: 600; color: #334155; }
+
+  /* ================= PRINT MODES ================= */
+  @media print {
+    @page { size: A4 landscape; margin: 3.5mm; }
+    html, body {
+      width: 100%; height: auto; background: #fff !important;
+      padding: 0 !important; margin: 0 !important;
+      -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+    }
+    .no-print { display: none !important; }
+    .container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+    #report-container {
+      display: block !important; box-shadow: none !important; border: none !important;
+      padding: 0 !important; margin: 0 !important; overflow: visible !important;
+    }
+
+    body.print-mode-separate .report-page {
+      min-width: 100% !important; width: 100% !important;
+      margin: 0 !important; padding: 1px 0 !important;
+      break-inside: avoid !important; page-break-inside: avoid !important;
+    }
+    body.print-mode-separate .night-page-spacer { margin-top: 0 !important; }
+    body.print-mode-separate .page-break {
+      display: block; break-before: page !important; page-break-before: always !important;
+      height: 0; margin: 0; padding: 0;
+    }
+    body.print-mode-separate .rep-header { padding-bottom: 5px; margin-bottom: 7px; }
+    body.print-mode-separate .rep-company h2 { font-size: 19px; }
+    body.print-mode-separate .kpi-strip { gap: 7px; margin-bottom: 7px; }
+    body.print-mode-separate .kpi-item { padding: 5px 8px; }
+    body.print-mode-separate .kpi-item .k-val { font-size: 12.5px; }
+    body.print-mode-separate table.clean-rep-table th,
+    body.print-mode-separate table.clean-rep-table td { padding: 2.8px 2px; font-size: 8.6px; }
+    body.print-mode-separate .rep-charts { margin-top: 7px; gap: 10px; }
+    body.print-mode-separate .canvas-wrap { height: 132px !important; max-height: 132px !important; }
+    body.print-mode-separate .rep-footer { margin-top: 10px; }
+
+    body.print-mode-combined .page-break { display: none !important; }
+    body.print-mode-combined .report-page {
+      min-width: 100% !important; width: 100% !important;
+      margin: 0 !important; padding: 0 !important;
+      break-inside: avoid !important; page-break-inside: avoid !important;
+      overflow: hidden !important;
+    }
+    body.print-mode-combined .night-page-spacer {
+      margin-top: 5px !important; padding-top: 4px;
+      border-top: 1.5px dashed #94a3b8;
+    }
+    body.print-mode-combined .rep-header { padding-bottom: 1.5px; margin-bottom: 2.5px; border-bottom-width: 1.5px; }
+    body.print-mode-combined .rep-company h2 { font-size: 11px; }
+    body.print-mode-combined .rep-company p { font-size: 7.5px; margin-top: 1px; }
+    body.print-mode-combined .rep-title-box h3 { font-size: 9.5px; }
+    body.print-mode-combined .rep-title-box span { font-size: 7.5px; padding: 1px 6px; margin-top: 1px; }
+    body.print-mode-combined .rep-logo img { max-height: 22px; }
+    body.print-mode-combined .kpi-strip { gap: 4px; margin-bottom: 2.5px; }
+    body.print-mode-combined .kpi-item { padding: 1.5px 5px; border-left-width: 2.5px; }
+    body.print-mode-combined .kpi-item .k-lbl { font-size: 6px; }
+    body.print-mode-combined .kpi-item .k-val { font-size: 8px; margin-top: 0; }
+    body.print-mode-combined table.clean-rep-table th,
+    body.print-mode-combined table.clean-rep-table td {
+      padding: 0.7px 1.2px; font-size: 6px; line-height: 1.05;
+    }
+    body.print-mode-combined .rep-charts { margin-top: 2.5px; gap: 6px; }
+    body.print-mode-combined .rep-chart-card { padding: 2px 4px; }
+    body.print-mode-combined .rep-chart-card h4 { font-size: 7px; margin-bottom: 1px; }
+    body.print-mode-combined .canvas-wrap { height: 48px !important; max-height: 48px !important; }
+    body.print-mode-combined .rep-footer { margin-top: 2.5px; padding-top: 1.5px; font-size: 6.5px; }
+    body.print-mode-combined .sig-line { width: 105px; padding-top: 1px; }
+  }
+</style>
 </head>
-<body>
+<body class="print-mode-separate">
 
-    <!-- ================= 1. LOGIN SCREEN ================= -->
-    <div class="auth-wrapper" id="login-view">
-        <div class="auth-card">
-            <div class="brand-top">
-                <div>
-                    <h2>PN. COMPOSITE LTD.</h2>
-                    <p>Utility &amp; Employee Portal</p>
-                </div>
-                <div class="pn-logo-badge">PN LOGO</div>
-            </div>
+<!-- ========================================================================= -->
+<!-- AUTHENTICATION SCREEN (LOGIN & REGISTRATION)                              -->
+<!-- ========================================================================= -->
+<div id="auth-wrapper" class="no-print">
+  <div class="auth-card">
+    <div class="auth-top-brand">
+      <div>
+        <h2>PN. COMPOSITE LTD.</h2>
+        <p>Ambag, Kunabari, Gazipur &bull; Utility & Power Management Portal</p>
+      </div>
+      <div id="auth-logo-container"></div>
+    </div>
 
-            <form id="login-form">
-                <div class="field-group">
-                    <label for="login-email">Email Address</label>
-                    <input type="email" id="login-email" placeholder="example@mail.com" required>
-                </div>
+    <!-- LOGIN PANEL -->
+    <div id="login-panel">
+      <h3 style="margin:0 0 14px 0; font-size:16px; font-weight:800; color:var(--slate-900);">Login Now</h3>
 
-                <div class="field-group">
-                    <label for="login-password">Password</label>
-                    <div class="pass-box">
-                        <input type="password" id="login-password" placeholder="********" required>
-                        <button type="button" class="eye-toggle" onclick="togglePassVisibility('login-password', this)" title="Show/Hide Password">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+      <div class="field-box">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="example@mail.com">
+      </div>
 
-                <div class="action-row">
-                    <button type="button" class="btn btn-light-green" onclick="showRegisterView()">Registration Now</button>
-                    <button type="submit" class="btn btn-green">Login Now</button>
-                </div>
-
-                <p id="login-status" class="status-text"></p>
-            </form>
+      <div class="field-box">
+        <label>Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="loginPassword" placeholder="********">
+          <button type="button" class="eye-btn" onclick="togglePasswordVisibility('loginPassword', this)" title="Show / Hide Password">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
         </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" style="width:100%; justify-content:center;" onclick="handleLogin()">Login Now</button>
+
+      <div class="auth-switch-row">
+        <span style="font-size:12px; color:var(--slate-500); font-weight:600;">নতুন অ্যাকাউন্ট প্রয়োজন?</span>
+        <button type="button" class="link-btn" onclick="showAuthPanel('register')">Registration Now</button>
+      </div>
     </div>
 
-    <!-- ================= 2. REGISTRATION SCREEN ================= -->
-    <div class="auth-wrapper hidden" id="register-view">
-        <div class="auth-card">
-            <div class="brand-top">
-                <div>
-                    <h2>PN. COMPOSITE LTD.</h2>
-                    <p>Employee Registration Form</p>
-                </div>
-                <div class="pn-logo-badge">PN LOGO</div>
-            </div>
+    <!-- REGISTRATION PANEL -->
+    <div id="register-panel" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="margin:0; font-size:16px; font-weight:800; color:var(--brand-dark);">Employee Registration Form</h3>
+        <button type="button" class="link-btn" onclick="showAuthPanel('login')">login Now</button>
+      </div>
 
-            <form id="register-form">
-                <div class="field-group">
-                    <label for="reg-photo">Passport Size Photo (Max 500KB)</label>
-                    <input type="file" id="reg-photo" accept="image/*" required>
-                    <span class="field-note" id="reg-photo-note">ছবির সাইজ 500KB-এর ভিতরে হতে হবে।</span>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-office-id">Office ID</label>
-                    <input type="text" id="reg-office-id" placeholder="Enter Office ID" required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-name">Name</label>
-                    <input type="text" id="reg-name" placeholder="Enter full name" required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-department">Department</label>
-                    <input type="text" id="reg-department" placeholder="Enter department" required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-section">Section</label>
-                    <input type="text" id="reg-section" placeholder="Enter section" required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-joining-date">Joining date</label>
-                    <input type="date" id="reg-joining-date" required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-dob">Date of Birth</label>
-                    <input type="date" id="reg-dob" required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-mobile">Mobile Number</label>
-                    <input type="tel" id="reg-mobile" placeholder="+88017XXXXXXXX" required>
-                    <span class="field-note">Example: +88017XXXXXXXX</span>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-gender">Gender</label>
-                    <select id="reg-gender" required>
-                        <option value="" disabled selected>Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-division">Division</label>
-                    <input type="text" id="reg-division" placeholder="Example: Dhaka / Type division..." required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-district">District</label>
-                    <input type="text" id="reg-district" placeholder="Example: Cumilla / Type district..." required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-email">Email Address</label>
-                    <input type="email" id="reg-email" placeholder="example@mail.com" required>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-set-password">Set Password</label>
-                    <div class="pass-box">
-                        <input type="password" id="reg-set-password" placeholder="********" minlength="6" required>
-                        <button type="button" class="eye-toggle" onclick="togglePassVisibility('reg-set-password', this)" title="Show/Hide Password">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="field-group">
-                    <label for="reg-confirm-password">Confirm Password</label>
-                    <div class="pass-box">
-                        <input type="password" id="reg-confirm-password" placeholder="********" minlength="6" required>
-                        <button type="button" class="eye-toggle" onclick="togglePassVisibility('reg-confirm-password', this)" title="Show/Hide Password">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="declaration-box">
-                    <input type="checkbox" id="reg-declaration" required>
-                    <label for="reg-declaration">All data is correct declaration check.</label>
-                </div>
-
-                <button type="submit" class="btn btn-confirm-reg" id="reg-confirm-btn">Registration Confirm Now</button>
-                <button type="button" class="btn btn-light-green" style="width: 100%; margin-top: 8px;" onclick="showLoginView()">Back to Login</button>
-
-                <p id="reg-status" class="status-text"></p>
-            </form>
+      <div class="form-grid-2">
+        <div class="field-box">
+          <label>Passport Size Photo (Max 500KB)</label>
+          <input type="file" id="regPhotoInput" accept="image/*" onchange="handlePhotoUpload(event)">
+          <span id="regPhotoStatus" style="font-size:10.5px; color:var(--slate-500); margin-top:3px;">পাসপোর্ট সাইজের ছবি 500kb ভিতরে হতে হবে</span>
         </div>
+        <div class="field-box">
+          <label>Office ID</label>
+          <input type="text" id="regOfficeId" placeholder="PN-UTL-001">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="field-box">
+          <label>Name</label>
+          <input type="text" id="regName" placeholder="Full Name">
+        </div>
+        <div class="field-box">
+          <label>Department</label>
+          <input type="text" id="regDepartment" placeholder="Utility & Maintenance">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="field-box">
+          <label>Section</label>
+          <input type="text" id="regSection" placeholder="Substation / Generator / Boiler">
+        </div>
+        <div class="field-box">
+          <label>Joining date</label>
+          <input type="date" id="regJoiningDate">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="field-box">
+          <label>Date of Birth</label>
+          <input type="date" id="regDob">
+        </div>
+        <div class="field-box">
+          <label>Mobile Number</label>
+          <input type="tel" id="regMobile" placeholder="Example: +88017XXXXXXXX">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="field-box">
+          <label>Gender</label>
+          <select id="regGender">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field-box">
+          <label>Division</label>
+          <input type="text" id="regDivision" list="divisionList" placeholder="Example: Dhaka / Type division...">
+          <datalist id="divisionList">
+            <option value="Dhaka"><option value="Chattogram"><option value="Rajshahi"><option value="Khulna">
+            <option value="Sylhet"><option value="Barishal"><option value="Rangpur"><option value="Mymensingh">
+          </datalist>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="field-box">
+          <label>District</label>
+          <input type="text" id="regDistrict" placeholder="Example: Cumilla / Type district...">
+        </div>
+        <div class="field-box">
+          <label>Email Address</label>
+          <input type="email" id="regEmail" placeholder="Example: example@mail.com">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="field-box">
+          <label>Set Password</label>
+          <div class="pass-wrap">
+            <input type="password" id="regPassword" placeholder="Example: ********">
+            <button type="button" class="eye-btn" onclick="togglePasswordVisibility('regPassword', this)" title="Show / Hide Password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="field-box">
+          <label>Confirm Password</label>
+          <div class="pass-wrap">
+            <input type="password" id="regConfirmPassword" placeholder="Example: ********">
+            <button type="button" class="eye-btn" onclick="togglePasswordVisibility('regConfirmPassword', this)" title="Show / Hide Password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <label class="check-decl">
+        <input type="checkbox" id="regDeclarationCheck">
+        <span>All data is correct declaration check.</span>
+      </label>
+
+      <button type="button" class="btn btn-primary" style="width:100%; justify-content:center;" onclick="handleRegistrationConfirm()">
+        registration confirm now
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- PREMIUM ID CARD MODAL                                                     -->
+<!-- ========================================================================= -->
+<div id="id-card-modal" class="no-print">
+  <div class="id-modal-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <span style="font-size:13px; font-weight:800; color:var(--brand-dark);">Generated Employee ID Card</span>
+      <button type="button" class="link-btn" style="padding:5px 10px; font-size:11.5px;" onclick="closeIdCardAndEnterApp()">Continue to Portal</button>
     </div>
 
-    <!-- ================= 3. HOME PAGE WITH LEFT MENU DRAWER ================= -->
-    <div class="home-shell hidden" id="home-view">
-        <!-- Drawer Backdrop -->
-        <div class="drawer-backdrop hidden" id="drawer-backdrop" onclick="closeLeftDrawer()"></div>
+    <div class="premium-id-card" id="printableIdCard">
+      <div class="id-card-head">
+        <div>
+          <h4>PN. COMPOSITE LTD.</h4>
+          <p>Ambag, Kunabari, Gazipur &bull; OFFICIAL IDENTITY CARD</p>
+        </div>
+        <div id="id-card-logo"></div>
+      </div>
 
-        <!-- Left Side Menu Bar (Drawer) -->
-        <aside class="left-drawer" id="left-drawer" aria-label="Main Menu">
-            <div class="drawer-header">
-                <button type="button" class="drawer-back-btn" onclick="closeLeftDrawer()">
-                    <span>&larr;</span>
-                    <span>Back</span>
-                </button>
-                <span class="drawer-title">Menu</span>
-            </div>
+      <div class="id-photo-row">
+        <div class="id-photo-frame" id="idCardPhotoBox">
+          <span style="font-size:10px; color:#64748b; font-weight:700;">PHOTO</span>
+        </div>
+        <div class="id-meta-list">
+          <div><strong>Name:</strong> <span id="idCardName">-</span></div>
+          <div><strong>Office ID:</strong> <span id="idCardOfficeId">-</span></div>
+          <div><strong>Department:</strong> <span id="idCardDept">-</span></div>
+          <div><strong>Section:</strong> <span id="idCardSection">-</span></div>
+          <div><strong>Joining Date:</strong> <span id="idCardJoining">-</span></div>
+        </div>
+      </div>
 
-            <ul class="drawer-menu-list">
-                <li>
-                    <button type="button" class="drawer-item-btn active" id="nav-home" onclick="switchHomeSection('home')">
-                        <span>Home</span>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="drawer-item-btn" id="nav-compressor" onclick="switchHomeSection('compressor')">
-                        <span>Air Compressor</span>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="drawer-item-btn" id="nav-generator" onclick="switchHomeSection('generator')">
-                        <span>Generator</span>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="drawer-item-btn" id="nav-boiler" onclick="switchHomeSection('boiler')">
-                        <span>Boiler</span>
-                    </button>
-                </li>
-            </ul>
+      <div class="id-extra-grid">
+        <div><strong>DOB:</strong> <span id="idCardDob">-</span></div>
+        <div><strong>Gender:</strong> <span id="idCardGender">-</span></div>
+        <div><strong>Mobile:</strong> <span id="idCardMobile">-</span></div>
+        <div><strong>Email:</strong> <span id="idCardEmail">-</span></div>
+        <div><strong>Division:</strong> <span id="idCardDivision">-</span></div>
+        <div><strong>District:</strong> <span id="idCardDistrict">-</span></div>
+      </div>
 
-            <div class="drawer-footer">
-                <button type="button" class="logout-red-btn" onclick="logoutAccount()">Logout</button>
-            </div>
-        </aside>
-
-        <!-- Top Header Bar -->
-        <header class="top-navbar">
-            <div class="left-nav-controls">
-                <button type="button" class="icon-btn" onclick="openLeftDrawer()" aria-label="Open Menu">
-                    <span>&#9776;</span>
-                    <span>Menu</span>
-                </button>
-                <div class="nav-company-title">
-                    <h1>PN. COMPOSITE LTD.</h1>
-                    <span>Ambag, Konabari, Gazipur</span>
-                </div>
-            </div>
-            <div class="pn-logo-badge">PN LOGO</div>
-        </header>
-
-        <!-- Main Home Content -->
-        <main class="home-main">
-            <!-- HOME SECTION (Auto Generated Premium ID Card) -->
-            <section id="panel-home">
-                <div class="premium-id-wrap">
-                    <div class="premium-id-card" id="id-card-print-target">
-                        <div class="premium-card-header">
-                            <div class="premium-logo-box">PN LOGO</div>
-                            <div class="premium-org-info">
-                                <h3>PN. COMPOSITE LTD.</h3>
-                                <span>OFFICIAL IDENTITY CARD</span>
-                            </div>
-                        </div>
-
-                        <div class="premium-photo-box">
-                            <img id="card-photo" class="premium-photo" src="" alt="Passport Photo">
-                        </div>
-
-                        <div class="premium-fields">
-                            <div class="premium-row">
-                                <span class="premium-label">Office ID</span>
-                                <span class="premium-val" id="card-office-id"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">Name</span>
-                                <span class="premium-val" id="card-name"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">Department</span>
-                                <span class="premium-val" id="card-department"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">Section</span>
-                                <span class="premium-val" id="card-section"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">Joining date</span>
-                                <span class="premium-val" id="card-joining-date"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">Date of Birth</span>
-                                <span class="premium-val" id="card-dob"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">Mobile Number</span>
-                                <span class="premium-val" id="card-mobile"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">Gender</span>
-                                <span class="premium-val" id="card-gender"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">Division</span>
-                                <span class="premium-val" id="card-division"></span>
-                            </div>
-                            <div class="premium-row">
-                                <span class="premium-label">District</span>
-                                <span class="premium-val" id="card-district"></span>
-                            </div>
-                        </div>
-
-                        <div class="premium-sign-footer">
-                            <div class="premium-sign-col">
-                                <div class="premium-sign-line">Holders sign</div>
-                            </div>
-                            <div class="premium-sign-col">
-                                <div class="premium-sign-line">Authorisation</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-toolbar">
-                        <button type="button" class="btn btn-green" onclick="window.print()">Print ID Card</button>
-                        <button type="button" class="btn btn-light-green" onclick="openLeftDrawer()">Open Menu</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- AIR COMPRESSOR SECTION -->
-            <section class="section-panel hidden" id="panel-compressor">
-                <h3>Air Compressor</h3>
-                <p>PN. COMPOSITE LTD. Air Compressor section workspace. Connect your compressor log and pressure monitoring modules here.</p>
-            </section>
-
-            <!-- GENERATOR SECTION -->
-            <section class="section-panel hidden" id="panel-generator">
-                <h3>Generator</h3>
-                <p>PN. COMPOSITE LTD. Gas &amp; Diesel Generator section workspace. Connect your shift load, gas pressure, and kWh log tools here.</p>
-            </section>
-
-            <!-- BOILER SECTION -->
-            <section class="section-panel hidden" id="panel-boiler">
-                <h3>Boiler</h3>
-                <p>PN. COMPOSITE LTD. Boiler section workspace. Connect your steam pressure and fuel consumption monitoring tools here.</p>
-            </section>
-        </main>
+      <div class="id-sign-row">
+        <div class="id-sig-box">Holders sign</div>
+        <div class="id-sig-box">Authorisation</div>
+      </div>
     </div>
 
-    <!-- ================= FIREBASE & APPLICATION SCRIPT ================= -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <div style="display:flex; gap:8px; margin-top:14px;">
+      <button type="button" class="btn btn-primary" style="flex:1; justify-content:center; padding:9px;" onclick="window.print()">Print ID Card</button>
+      <button type="button" class="btn btn-accent" style="flex:1; justify-content:center; padding:9px;" onclick="closeIdCardAndEnterApp()">Open Dashboard</button>
+    </div>
+  </div>
+</div>
 
-        // Firebase Configuration বসান
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+<!-- ========================================================================= -->
+<!-- MAIN APPLICATION SHELL (HOME, AIR COMPRESSOR, GENERATOR, BOILER)          -->
+<!-- ========================================================================= -->
+<div id="app-shell">
+  <!-- LEFT SIDEBAR DRAWER -->
+  <div class="sidebar-backdrop no-print" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+  <aside class="side-drawer no-print" id="sideDrawer">
+    <div class="drawer-top">
+      <button type="button" class="back-drawer-btn" onclick="closeSidebar()" title="Back">
+        ← Back
+      </button>
+      <span style="font-size:12px; font-weight:800; color:var(--brand-dark);">PN. COMPOSITE LTD.</span>
+    </div>
+    <div class="drawer-nav">
+      <button type="button" class="drawer-item active" id="nav-home" onclick="navigateSection('home', this)">Home</button>
+      <button type="button" class="drawer-item" id="nav-compressor" onclick="navigateSection('compressor', this)">Air Compressor</button>
+      <button type="button" class="drawer-item" id="nav-generator" onclick="navigateSection('generator', this)">Generator</button>
+      <button type="button" class="drawer-item" id="nav-boiler" onclick="navigateSection('boiler', this)">Boiler</button>
+      <button type="button" class="drawer-item" onclick="reopenMyIdCard()">My ID Card</button>
+    </div>
+    <div class="drawer-footer">
+      <button type="button" class="logout-red-btn" onclick="handleLogout()">Logout</button>
+    </div>
+  </aside>
 
-        let auth = null;
-        let db = null;
-        const isFirebaseConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY";
+  <div class="container">
+    <!-- ================= TOP HEADER ================= -->
+    <div class="company-header no-print">
+      <div class="header-left-group">
+        <button type="button" class="menu-trigger-btn" onclick="openSidebar()" aria-label="Open Menu">
+          ☰ Menu
+        </button>
+        <div class="company-info">
+          <h1>P.N. COMPOSITE LTD.</h1>
+          <p>Ambag, Kunabari, Gazipur.</p>
+          <span class="company-badge">Utility & Power Distribution Management Portal</span>
+        </div>
+      </div>
+      <div class="logo-box" id="header-logo-container"></div>
+    </div>
 
-        if (isFirebaseConfigured) {
-            const app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
+    <!-- ================= HOME VIEW ================= -->
+    <div id="view-home" class="no-print" style="display:none;">
+      <div class="control-card">
+        <h2 style="margin:0 0 6px 0; font-size:18px; font-weight:800; color:var(--brand-dark);">Utility Control Home</h2>
+        <p style="margin:0 0 14px 0; font-size:13px; color:var(--slate-500);">বাম পাশের মেনুবার থেকে Air Compressor, Generator অথবা Boiler সেকশন নির্বাচন করুন।</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <button type="button" class="btn btn-primary" onclick="navigateSection('generator')">Generator Entry & Report</button>
+          <button type="button" class="btn btn-accent" onclick="navigateSection('boiler')">Boiler Entry & Report</button>
+          <button type="button" class="btn btn-combined" onclick="navigateSection('compressor')">Air Compressor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= AIR COMPRESSOR VIEW (UPCOMING) ================= -->
+    <div id="view-compressor" class="no-print" style="display:none;">
+      <div class="upcoming-card">
+        <span class="upcoming-pill">Air Compressor</span>
+        <h2>Upcoming</h2>
+        <p>সকল কম্প্রেসরের তথ্য ও রিপোর্ট শীঘ্রই যুক্ত করা হচ্ছে — Upcoming</p>
+      </div>
+    </div>
+
+    <!-- ================= GENERATOR VIEW (ORIGINAL ENTRY & CONTROLS) ================= -->
+    <div id="view-generator">
+      <div class="control-card no-print">
+        <div class="top-controls">
+          <div class="meta-inputs">
+            <div class="input-group">
+              <label>Report Date (তারিখ)</label>
+              <input type="date" id="reportDate" value="2026-11-22">
+            </div>
+            <div class="input-group">
+              <label>Natural Gas Rate (Tk/m³)</label>
+              <input type="number" step="0.01" id="ngRate" value="27.00">
+            </div>
+            <div class="input-group">
+              <label>Diesel Rate (Tk/Ltr)</label>
+              <input type="number" step="0.01" id="dgRate" value="109.00">
+            </div>
+          </div>
+
+          <div class="shift-switcher">
+            <button class="shift-tab active" onclick="switchShift('day', this)">Day Shift (9 AM – 8 PM)</button>
+            <button class="shift-tab" onclick="switchShift('night', this)">Night Shift (9 PM – 8 AM)</button>
+          </div>
+        </div>
+
+        <!-- CAMERA SCAN TOOLBAR -->
+        <div class="camera-toolbar">
+          <div class="camera-info">
+            📷 ক্যামেরা দিয়ে লগশিটের ছবি তুলে স্ক্যান করুন — নির্দিষ্ট ফ্রেমের ভেতরে প্রিভিউ ও সেকশন অনুযায়ী অটো-ফিল হবে।
+          </div>
+          <div class="camera-actions">
+            <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handleImageScan(event)">
+            <input type="file" id="galleryInput" accept="image/*" style="display:none;" onchange="handleImageScan(event)">
+
+            <button type="button" class="cam-btn" onclick="document.getElementById('cameraInput').click()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
+              Open Camera & Scan
+            </button>
+            <button type="button" class="cam-btn secondary" onclick="document.getElementById('galleryInput').click()">
+              Upload Photo
+            </button>
+          </div>
+        </div>
+
+        <!-- SCAN REVIEW & SECTION AUTO-FILL BOX -->
+        <div id="scan-modal">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; gap:8px;">
+            <h3 style="margin:0; font-size:14px; color:var(--brand-dark);">Scanned Logsheet Preview & Section Auto-Fill</h3>
+            <button type="button" class="btn btn-excel" style="padding:5px 11px; font-size:11.5px; background:#fff; color:#334155; border:1px solid #cbd5e1;" onclick="closeScanModal()">Close</button>
+          </div>
+
+          <div class="scannable-tags">
+            <strong>স্ক্যানযোগ্য টাইটেলসমূহ:</strong> Time (9:00 AM–8:00 PM / 9:00 PM–8:00 AM), M-Bar (→ PSI Auto), GG-1, GG-2, GG-3, DG-ETP, DG-Wash, DG-Rent, RMG Load, Utility Load, Dyeing Load, Finishing Load, AOP Load, Oval Load, Office Load, Knitting, Washing Load, Diesel/NG Consumption, GG/DG kWh।
+          </div>
+
+          <div class="scan-grid">
+            <div class="preview-img-box">
+              <img id="scannedImgPreview" src="" alt="Scanned Sheet">
+              <div class="scan-status" id="scanStatusText">Scanning image...</div>
+            </div>
+            <div style="min-width:0; max-width:100%;">
+              <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px;">
+                <label style="font-size:12px; font-weight:700;">সেকশন:</label>
+                <select id="scanTargetSection" style="padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:12px; font-weight:600; max-width:100%;">
+                  <option value="gen">Generator & M-Bar (M-Bar → PSI Auto, GG-1..3, DG)</option>
+                  <option value="dept">Department Load (RMG..Other Loads)</option>
+                </select>
+                <button type="button" class="btn btn-primary" style="padding:7px 13px; font-size:12px;" onclick="applyScannedDataToShift()">
+                  Auto-Fill Section
+                </button>
+              </div>
+              <div class="parsed-table-wrap" id="parsedTableContainer"></div>
+              <p style="font-size:11px; color:#64748b; margin:6px 0 0 0;">
+                * হাতের লেখা বা অস্পষ্ট সংখ্যার ক্ষেত্রে নিচের প্রতিটি কলামের টাইটেল অনুযায়ী মান ঠিক করে "Auto-Fill Section" চাপুন।
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DAY SHIFT INPUTS -->
+        <div id="panel-day">
+          <div class="summary-grid">
+            <div class="metric-input-card">
+              <label>Diesel Consumption (Ltr)</label>
+              <input type="number" step="any" id="day_dg_cons" value="0">
+            </div>
+            <div class="metric-input-card">
+              <label>Natural Gas Consumption (m³)</label>
+              <input type="number" step="any" id="day_ng_cons" value="0">
+            </div>
+            <div class="metric-input-card">
+              <label>Diesel Generator kWh</label>
+              <input type="number" step="any" id="day_dg_kwh" value="0" oninput="updateTotalKwh('day')">
+            </div>
+            <div class="metric-input-card">
+              <label>Gas Generator kWh</label>
+              <input type="number" step="any" id="day_gg_kwh" value="0" oninput="updateTotalKwh('day')">
+            </div>
+            <div class="metric-input-card">
+              <label>Total Shift kWh (Auto)</label>
+              <input type="number" id="day_total_kwh" value="0" readonly>
+            </div>
+          </div>
+          <div class="table-wrapper" id="grid-day"></div>
+        </div>
+
+        <!-- NIGHT SHIFT INPUTS -->
+        <div id="panel-night" style="display:none;">
+          <div class="summary-grid">
+            <div class="metric-input-card">
+              <label>Diesel Consumption (Ltr)</label>
+              <input type="number" step="any" id="night_dg_cons" value="0">
+            </div>
+            <div class="metric-input-card">
+              <label>Natural Gas Consumption (m³)</label>
+              <input type="number" step="any" id="night_ng_cons" value="0">
+            </div>
+            <div class="metric-input-card">
+              <label>Diesel Generator kWh</label>
+              <input type="number" step="any" id="night_dg_kwh" value="0" oninput="updateTotalKwh('night')">
+            </div>
+            <div class="metric-input-card">
+              <label>Gas Generator kWh</label>
+              <input type="number" step="any" id="night_gg_kwh" value="0" oninput="updateTotalKwh('night')">
+            </div>
+            <div class="metric-input-card">
+              <label>Total Shift kWh (Auto)</label>
+              <input type="number" id="night_total_kwh" value="0" readonly>
+            </div>
+          </div>
+          <div class="table-wrapper" id="grid-night"></div>
+        </div>
+
+        <div class="btn-bar">
+          <button type="button" class="btn btn-excel" onclick="downloadExcelSheet()">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary" onclick="buildFinalReport('separate')">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent" onclick="printSeparatePages()">Download / Print PDF</button>
+          <button type="button" class="btn btn-combined" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= BOILER VIEW (NG & LPG STEAM ENTRY & REPORT) ================= -->
+    <div id="view-boiler" style="display:none;">
+      <div class="control-card no-print">
+        <div class="top-controls">
+          <div class="meta-inputs">
+            <div class="input-group">
+              <label>Boiler Date (তারিখ)</label>
+              <input type="date" id="boilerDate" value="2026-11-21">
+            </div>
+            <div class="input-group">
+              <label>NG Rate (Tk/m³)</label>
+              <input type="number" step="0.01" id="boilerNgRate" value="27.00">
+            </div>
+            <div class="input-group">
+              <label>LPG Rate (Tk/Kg)</label>
+              <input type="number" step="0.01" id="boilerLpgRate" value="120.00">
+            </div>
+          </div>
+
+          <div class="shift-switcher">
+            <button class="shift-tab active" id="btab-day" onclick="switchBoilerShift('day', this)">Day Shift (8 AM – 8 PM)</button>
+            <button class="shift-tab" id="btab-night" onclick="switchBoilerShift('night', this)">Night Shift (8 PM – 8 AM)</button>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="metric-input-card">
+            <label>Total NG Consumption (m³)</label>
+            <input type="number" step="any" id="boiler_ng_cons" value="0">
+          </div>
+          <div class="metric-input-card">
+            <label>Total LPG Consumption (Kg)</label>
+            <input type="number" step="any" id="boiler_lpg_cons" value="0">
+          </div>
+          <div class="metric-input-card">
+            <label>Total Steam Generation (Ton)</label>
+            <input type="number" step="any" id="boiler_steam_ton" value="0">
+          </div>
+          <div class="metric-input-card">
+            <label>Stenter Load / Value</label>
+            <input type="number" step="any" id="boiler_stenter_val" value="0">
+          </div>
+        </div>
+
+        <div class="table-wrapper" id="grid-boiler"></div>
+
+        <div class="btn-bar">
+          <button type="button" class="btn btn-primary" onclick="buildBoilerReport()">Submit & Generate Boiler Report</button>
+          <button type="button" class="btn btn-accent" onclick="window.print()">Download / Print PDF</button>
+        </div>
+      </div>
+
+      <div id="boiler-report-box" style="display:none; background:#fff; border-radius:14px; padding:20px; border:1px solid var(--slate-200); margin-top:18px; overflow-x:auto;">
+        <div id="boiler-report-output"></div>
+      </div>
+    </div>
+
+    <!-- ================= GENERATOR REPORT SECTION ================= -->
+    <div id="report-container">
+      <div class="no-print" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
+        <span style="font-weight:700; color:var(--brand-dark); font-size:13px;">Report Preview Ready</span>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn btn-accent" style="padding:8px 14px; font-size:12px;" onclick="printSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
+          <button type="button" class="btn btn-combined" style="padding:8px 14px; font-size:12px;" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
+        </div>
+      </div>
+      <div id="report-output"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// =========================================================================
+// এখানে "PN LOGO" লেখাটি মুছে আপনার Base64 Data URL পেস্ট করুন (অথবা "PN LOGO" রাখুন)
+// =========================================================================
+const PN_LOGO_DATA_URL = "PN LOGO";
+
+// =========================================================================
+// Firebase Config (আপনার Firebase প্রজেক্টের কনফিগ এখানে বসালে সাথে সাথে কানেক্ট হবে)
+// =========================================================================
+const FIREBASE_CONFIG = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
+};
+
+let firebaseDb = null;
+let firebaseAuth = null;
+try {
+  if (FIREBASE_CONFIG.apiKey && typeof firebase !== "undefined") {
+    const app = !firebase.apps.length ? firebase.initializeApp(FIREBASE_CONFIG) : firebase.app();
+    firebaseAuth = firebase.auth();
+    firebaseDb = firebase.firestore();
+  }
+} catch (e) {
+  console.warn("Firebase offline/local mode active:", e);
+}
+
+function getLogoHtml(cssClass = "") {
+  if (PN_LOGO_DATA_URL && PN_LOGO_DATA_URL !== "PN LOGO" && PN_LOGO_DATA_URL.startsWith("data:image")) {
+    return `<img src="${PN_LOGO_DATA_URL}" alt="PN Logo" class="${cssClass}">`;
+  }
+  return `<div style="font-weight:800; color:#14452f; font-size:11.5px; border:1.5px dashed #14452f; padding:6px 8px; border-radius:8px; text-align:center;">PN LOGO</div>`;
+}
+
+document.getElementById("header-logo-container").innerHTML = getLogoHtml();
+document.getElementById("auth-logo-container").innerHTML = getLogoHtml();
+document.getElementById("id-card-logo").innerHTML = getLogoHtml();
+
+Chart.register(ChartDataLabels);
+
+const DAY_HOURS = ["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM"];
+const NIGHT_HOURS = ["9:00 PM","10:00 PM","11:00 PM","12:00 AM","1:00 AM","2:00 AM","3:00 AM","4:00 AM","5:00 AM","6:00 AM","7:00 AM","8:00 AM"];
+const BOILER_DAY_HOURS = ["8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM"];
+const BOILER_NIGHT_HOURS = ["8:00 PM","9:00 PM","10:00 PM","11:00 PM","12:00 AM","1:00 AM","2:00 AM","3:00 AM","4:00 AM","5:00 AM","6:00 AM","7:00 AM","8:00 AM"];
+
+const DEPARTMENTS = [
+  { key: 'rmg', label: 'RMG' },
+  { key: 'utility', label: 'Utility' },
+  { key: 'dyeing', label: 'Dyeing' },
+  { key: 'finishing', label: 'Finishing' },
+  { key: 'aop', label: 'AOP' },
+  { key: 'oval', label: 'Oval' },
+  { key: 'office', label: 'Office' },
+  { key: 'washing', label: 'Washing' },
+  { key: 'knitting', label: 'Knitting' },
+  { key: 'other', label: 'Other' }
+];
+
+const BOILER_DEPTS = ["RMG", "Utility", "Dyeing", "Finishing", "AOP", "Oval", "Office", "Washing"];
+
+let currentActiveShift = 'day';
+let currentBoilerShift = 'day';
+let scannedRowsDraft = [];
+let currentPrintMode = 'separate';
+let uploadedPhotoBase64 = "";
+
+/* ================= AUTH & ID CARD LOGIC ================= */
+function showAuthPanel(panel) {
+  document.getElementById("login-panel").style.display = panel === "login" ? "block" : "none";
+  document.getElementById("register-panel").style.display = panel === "register" ? "block" : "none";
+}
+
+function togglePasswordVisibility(inputId, btnEl) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  inp.type = inp.type === "password" ? "text" : "password";
+  btnEl.style.color = inp.type === "text" ? "#14452f" : "#64748b";
+}
+
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  const statusEl = document.getElementById("regPhotoStatus");
+  if (!file) return;
+
+  const maxBytes = 500 * 1024; // 500KB limit
+  if (file.size > maxBytes) {
+    statusEl.style.color = "#dc2626";
+    statusEl.textContent = `ছবির সাইজ ${(file.size / 1024).toFixed(0)}KB (500KB-এর বেশি)! অনুগ্রহ করে 500KB-এর নিচে ছবি দিন।`;
+    event.target.value = "";
+    uploadedPhotoBase64 = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    uploadedPhotoBase64 = e.target.result;
+    statusEl.style.color = "#14452f";
+    statusEl.textContent = `ছবি গৃহীত হয়েছে (${(file.size / 1024).toFixed(1)} KB)`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function populateAndOpenIdCard(profile) {
+  document.getElementById("idCardName").textContent = profile.name || "-";
+  document.getElementById("idCardOfficeId").textContent = profile.officeId || "-";
+  document.getElementById("idCardDept").textContent = profile.department || "-";
+  document.getElementById("idCardSection").textContent = profile.section || "-";
+  document.getElementById("idCardJoining").textContent = profile.joiningDate || "-";
+  document.getElementById("idCardDob").textContent = profile.dob || "-";
+  document.getElementById("idCardGender").textContent = profile.gender || "-";
+  document.getElementById("idCardMobile").textContent = profile.mobile || "-";
+  document.getElementById("idCardEmail").textContent = profile.email || "-";
+  document.getElementById("idCardDivision").textContent = profile.division || "-";
+  document.getElementById("idCardDistrict").textContent = profile.district || "-";
+
+  const photoBox = document.getElementById("idCardPhotoBox");
+  if (profile.photo) {
+    photoBox.innerHTML = `<img src="${profile.photo}" alt="Employee Photo">`;
+  } else {
+    photoBox.innerHTML = `<span style="font-size:10px; color:#64748b; font-weight:700;">NO PHOTO</span>`;
+  }
+
+  document.getElementById("id-card-modal").style.display = "flex";
+}
+
+function closeIdCardAndEnterApp() {
+  document.getElementById("id-card-modal").style.display = "none";
+  document.getElementById("auth-wrapper").style.display = "none";
+  document.getElementById("app-shell").style.display = "block";
+  navigateSection("generator");
+}
+
+function reopenMyIdCard() {
+  closeSidebar();
+  const saved = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (saved) {
+    populateAndOpenIdCard(saved);
+  } else {
+    alert("কোনো সক্রিয় ID Card পাওয়া যায়নি।");
+  }
+}
+
+async function handleRegistrationConfirm() {
+  const checked = document.getElementById("regDeclarationCheck").checked;
+  if (!checked) {
+    alert("অনুগ্রহ করে 'All data is correct declaration check' বক্সে টিক দিন।");
+    return;
+  }
+
+  const officeId = document.getElementById("regOfficeId").value.trim();
+  const name = document.getElementById("regName").value.trim();
+  const department = document.getElementById("regDepartment").value.trim();
+  const section = document.getElementById("regSection").value.trim();
+  const joiningDate = document.getElementById("regJoiningDate").value;
+  const dob = document.getElementById("regDob").value;
+  const mobile = document.getElementById("regMobile").value.trim();
+  const gender = document.getElementById("regGender").value;
+  const division = document.getElementById("regDivision").value.trim();
+  const district = document.getElementById("regDistrict").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const password = document.getElementById("regPassword").value;
+  const confirmPassword = document.getElementById("regConfirmPassword").value;
+
+  if (!name || !email || !password) {
+    alert("Name, Email Address এবং Set Password পূরণ করুন।");
+    return;
+  }
+  if (password !== confirmPassword) {
+    alert("Set Password এবং Confirm Password এক হতে হবে।");
+    return;
+  }
+
+  const profile = {
+    officeId: officeId || ("PN-" + Date.now().toString().slice(-4)),
+    name, department, section, joiningDate, dob,
+    mobile, gender, division, district, email,
+    password,
+    photo: uploadedPhotoBase64,
+    createdAt: new Date().toISOString()
+  };
+
+  // Save locally & connect Firebase immediately if configured
+  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
+  const idx = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+  if (idx >= 0) users[idx] = profile; else users.push(profile);
+  localStorage.setItem("pn_users_db", JSON.stringify(users));
+  localStorage.setItem("pn_active_user", JSON.stringify(profile));
+
+  if (firebaseDb && firebaseAuth) {
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(email, password).catch(() => {});
+      await firebaseDb.collection("pn_employees").doc(email.toLowerCase()).set({
+        ...profile,
+        password: "" // Do not store plain password in Firestore
+      });
+    } catch (err) {
+      console.warn("Firebase sync notice:", err);
+    }
+  }
+
+  populateAndOpenIdCard(profile);
+}
+
+async function handleLogin() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  if (!email || !password) {
+    alert("Email Address এবং Password দিন।");
+    return;
+  }
+
+  if (firebaseAuth && firebaseDb) {
+    try {
+      await firebaseAuth.signInWithEmailAndPassword(email, password);
+      const docSnap = await firebaseDb.collection("pn_employees").doc(email.toLowerCase()).get();
+      if (docSnap.exists) {
+        const data = docSnap.data();
+        localStorage.setItem("pn_active_user", JSON.stringify(data));
+        document.getElementById("auth-wrapper").style.display = "none";
+        document.getElementById("app-shell").style.display = "block";
+        navigateSection("generator");
+        return;
+      }
+    } catch (err) {
+      // Fallback to local records if offline or demo mode
+    }
+  }
+
+  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
+  const matched = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+
+  if (matched) {
+    localStorage.setItem("pn_active_user", JSON.stringify(matched));
+    document.getElementById("auth-wrapper").style.display = "none";
+    document.getElementById("app-shell").style.display = "block";
+    navigateSection("generator");
+  } else {
+    // Allow quick entry if email & password provided when no prior registration matches
+    const guestProfile = {
+      officeId: "PN-UTL-NEW",
+      name: email.split("@")[0],
+      department: "Utility & Maintenance",
+      section: "Power & Generator",
+      joiningDate: new Date().toISOString().slice(0, 10),
+      dob: "-",
+      mobile: "-",
+      gender: "-",
+      division: "Dhaka",
+      district: "Gazipur",
+      email,
+      photo: uploadedPhotoBase64
+    };
+    localStorage.setItem("pn_active_user", JSON.stringify(guestProfile));
+    document.getElementById("auth-wrapper").style.display = "none";
+    document.getElementById("app-shell").style.display = "block";
+    navigateSection("generator");
+  }
+}
+
+function handleLogout() {
+  closeSidebar();
+  if (firebaseAuth) {
+    firebaseAuth.signOut().catch(() => {});
+  }
+  localStorage.removeItem("pn_active_user");
+  document.getElementById("app-shell").style.display = "none";
+  document.getElementById("report-container").style.display = "none";
+  document.getElementById("auth-wrapper").style.display = "block";
+  showAuthPanel("login");
+}
+
+/* ================= SIDEBAR & SECTION NAVIGATION ================= */
+function openSidebar() {
+  document.getElementById("sideDrawer").classList.add("open");
+  document.getElementById("sidebarBackdrop").classList.add("open");
+}
+
+function closeSidebar() {
+  document.getElementById("sideDrawer").classList.remove("open");
+  document.getElementById("sidebarBackdrop").classList.remove("open");
+}
+
+function navigateSection(section, btnEl = null) {
+  closeSidebar();
+
+  document.querySelectorAll(".drawer-item").forEach(el => el.classList.remove("active"));
+  const targetNav = btnEl || document.getElementById(`nav-${section}`);
+  if (targetNav) targetNav.classList.add("active");
+
+  document.getElementById("view-home").style.display = section === "home" ? "block" : "none";
+  document.getElementById("view-compressor").style.display = section === "compressor" ? "block" : "none";
+  document.getElementById("view-generator").style.display = section === "generator" ? "block" : "none";
+  document.getElementById("view-boiler").style.display = section === "boiler" ? "block" : "none";
+
+  if (section !== "generator") {
+    document.getElementById("report-container").style.display = "none";
+  }
+  if (section !== "boiler") {
+    document.getElementById("boiler-report-box").style.display = "none";
+  }
+}
+
+/* ================= AUTO CLEAR '0' ON FOCUS ================= */
+document.addEventListener('focusin', function(e) {
+  if (e.target && e.target.tagName === 'INPUT' && e.target.type === 'number' && !e.target.readOnly) {
+    if (e.target.value === '0' || e.target.value === '0.0') {
+      e.target.value = '';
+    }
+  }
+});
+
+document.addEventListener('focusout', function(e) {
+  if (e.target && e.target.tagName === 'INPUT' && e.target.type === 'number' && !e.target.readOnly) {
+    if (e.target.value.trim() === '') {
+      e.target.value = '0';
+    }
+  }
+});
+
+/* ================= ENTER KEY MOVES DOWN TO NEXT ROW ================= */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT' && e.target.type === 'number' && !e.target.readOnly) {
+    const id = e.target.id || '';
+    const match = id.match(/^(day|night|bday|bnight)_([a-z0-9]+)_(\d+)$/);
+    if (match) {
+      e.preventDefault();
+      const prefix = match[1];
+      const field = match[2];
+      const nextIdx = parseInt(match[3], 10) + 1;
+      const nextInput = document.getElementById(`${prefix}_${field}_${nextIdx}`);
+      if (nextInput) {
+        nextInput.focus();
+      } else {
+        e.target.blur();
+      }
+    }
+  }
+});
+
+/* ================= GENERATOR GRID & CALCULATIONS ================= */
+function renderEntryGrid(shift, hours) {
+  let html = `<table class="entry-grid">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>M-Bar</th>
+        <th>Gas PSI<br>(M-Bar×0.0145)</th>
+        <th>GG-1 (kW)</th>
+        <th>GG-2 (kW)</th>
+        <th>GG-3 (kW)</th>
+        <th>DG-ETP</th>
+        <th>DG-Wash</th>
+        <th>DG-Rental</th>
+        <th>Total Gen (kW)</th>
+        ${DEPARTMENTS.map(d => `<th class="dept-th">${d.label} Load</th>`).join('')}
+      </tr>
+    </thead>
+    <tbody>`;
+
+  hours.forEach((time, idx) => {
+    html += `<tr>
+      <td><strong>${time}</strong></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_mbar_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" id="${shift}_psi_${idx}" readonly value="0.0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg1_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg2_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg3_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgetp_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgwash_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgrent_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" id="${shift}_tload_${idx}" readonly value="0"></td>
+      ${DEPARTMENTS.map(d => `<td><input type="number" inputmode="decimal" step="any" id="${shift}_${d.key}_${idx}" value="0"></td>`).join('')}
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById(`grid-${shift}`).innerHTML = html;
+}
+
+function recalcRow(shift, idx) {
+  const mbar = parseFloat(document.getElementById(`${shift}_mbar_${idx}`).value) || 0;
+  document.getElementById(`${shift}_psi_${idx}`).value = (mbar * 0.0145).toFixed(1);
+
+  const g1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
+  const g2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
+  const g3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
+  const d1 = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
+  const d2 = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
+  const d3 = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
+
+  document.getElementById(`${shift}_tload_${idx}`).value = (g1 + g2 + g3 + d1 + d2 + d3);
+}
+
+function updateTotalKwh(shift) {
+  const dg = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
+  const gg = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
+  document.getElementById(`${shift}_total_kwh`).value = dg + gg;
+}
+
+function switchShift(shift, btn) {
+  currentActiveShift = shift;
+  document.querySelectorAll('#view-generator .shift-tab').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-day').style.display = shift === 'day' ? 'block' : 'none';
+  document.getElementById('panel-night').style.display = shift === 'night' ? 'block' : 'none';
+  if (document.getElementById('scan-modal').style.display === 'block') {
+    renderParsedReviewTable();
+  }
+}
+
+/* ================= BOILER ENTRY & REPORT (IMAGE 2 STYLE) ================= */
+function renderBoilerGrid() {
+  const hours = currentBoilerShift === 'day' ? BOILER_DAY_HOURS : BOILER_NIGHT_HOURS;
+  const prefix = currentBoilerShift === 'day' ? 'bday' : 'bnight';
+
+  let html = `<table class="entry-grid">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>NG Pre<br>Before</th>
+        <th>NG Pre<br>After (Mbar)</th>
+        <th>Boiler<br>Run</th>
+        <th>Fire %</th>
+        <th>Steam<br>Pressure</th>
+        <th>Steam Gen<br>(Ton)</th>
+        <th>NG Cons<br>(m³)</th>
+        <th>LPG Run</th>
+        <th>LPG Cons<br>(Kg)</th>
+        <th>Total<br>Steam</th>
+        ${BOILER_DEPTS.map(d => `<th class="dept-th">${d}</th>`).join('')}
+      </tr>
+    </thead>
+    <tbody>`;
+
+  hours.forEach((time, idx) => {
+    html += `<tr>
+      <td><strong>${time}</strong></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_ngpreb_${idx}" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_ngprea_${idx}" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_brun_${idx}" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_fire_${idx}" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_spress_${idx}" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_sgen_${idx}" oninput="recalcBoilerRow('${prefix}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_ngc_${idx}" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_lpgrun_${idx}" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${prefix}_lpgc_${idx}" value="0"></td>
+      <td><input type="number" id="${prefix}_tsteam_${idx}" readonly value="0"></td>
+      ${BOILER_DEPTS.map((d, dIdx) => `<td><input type="number" inputmode="decimal" step="any" id="${prefix}_bd${dIdx}_${idx}" value="0"></td>`).join('')}
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById("grid-boiler").innerHTML = html;
+}
+
+function recalcBoilerRow(prefix, idx) {
+  const sgen = parseFloat(document.getElementById(`${prefix}_sgen_${idx}`).value) || 0;
+  document.getElementById(`${prefix}_tsteam_${idx}`).value = sgen;
+}
+
+function switchBoilerShift(shift, btn) {
+  currentBoilerShift = shift;
+  document.querySelectorAll('#view-boiler .shift-tab').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+  renderBoilerGrid();
+}
+
+function buildBoilerReport() {
+  const hours = currentBoilerShift === 'day' ? BOILER_DAY_HOURS : BOILER_NIGHT_HOURS;
+  const prefix = currentBoilerShift === 'day' ? 'bday' : 'bnight';
+  const ngRate = parseFloat(document.getElementById("boilerNgRate").value) || 0;
+  const lpgRate = parseFloat(document.getElementById("boilerLpgRate").value) || 0;
+  const dateVal = document.getElementById("boilerDate").value;
+
+  let sumSteam = 0, sumNg = 0, sumLpg = 0;
+  let deptTotals = BOILER_DEPTS.map(() => 0);
+  let rowsHtml = "";
+
+  hours.forEach((t, idx) => {
+    const ngb = parseFloat(document.getElementById(`${prefix}_ngpreb_${idx}`).value) || 0;
+    const nga = parseFloat(document.getElementById(`${prefix}_ngprea_${idx}`).value) || 0;
+    const brun = parseFloat(document.getElementById(`${prefix}_brun_${idx}`).value) || 0;
+    const fire = parseFloat(document.getElementById(`${prefix}_fire_${idx}`).value) || 0;
+    const sp = parseFloat(document.getElementById(`${prefix}_spress_${idx}`).value) || 0;
+    const sg = parseFloat(document.getElementById(`${prefix}_sgen_${idx}`).value) || 0;
+    const ngc = parseFloat(document.getElementById(`${prefix}_ngc_${idx}`).value) || 0;
+    const lpgr = parseFloat(document.getElementById(`${prefix}_lpgrun_${idx}`).value) || 0;
+    const lpgc = parseFloat(document.getElementById(`${prefix}_lpgc_${idx}`).value) || 0;
+
+    sumSteam += sg;
+    sumNg += ngc;
+    sumLpg += lpgc;
+
+    const dVals = BOILER_DEPTS.map((_, dIdx) => {
+      const v = parseFloat(document.getElementById(`${prefix}_bd${dIdx}_${idx}`).value) || 0;
+      deptTotals[dIdx] += v;
+      return v;
+    });
+
+    rowsHtml += `<tr>
+      <td class="col-highlight">${t}</td><td>${ngb}</td><td>${nga}</td><td>${brun}</td><td>${fire}%</td>
+      <td>${sp}</td><td class="col-highlight">${sg}</td><td>${ngc}</td><td>${lpgr}</td><td>${lpgc}</td>
+      <td class="col-highlight">${sg}</td>
+      ${dVals.map(v => `<td>${v}</td>`).join('')}
+    </tr>`;
+  });
+
+  const totalDeptSteam = deptTotals.reduce((a, b) => a + b, 0);
+  const totalNgCost = Math.round(sumNg * ngRate);
+  const totalLpgCost = Math.round(sumLpg * lpgRate);
+
+  document.getElementById("boiler-report-output").innerHTML = `
+    <div class="rep-header">
+      <div class="rep-company">
+        <h2>P.N. COMPOSITE LTD.</h2>
+        <p>Ambag, Kunabari, Gazipur.</p>
+      </div>
+      <div class="rep-title-box">
+        <h3>Boiler NG & LPG Steam Generation & Cost</h3>
+        <span>${currentBoilerShift.toUpperCase()} SHIFT &bull; Date: ${dateVal}</span>
+      </div>
+      <div class="rep-logo">${getLogoHtml()}</div>
+    </div>
+
+    <div class="kpi-strip" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="kpi-item"><div class="k-lbl">Total Steam</div><div class="k-val">${sumSteam.toFixed(2)} Ton</div></div>
+      <div class="kpi-item"><div class="k-lbl">NG Consumption & Cost</div><div class="k-val">${sumNg.toLocaleString()} m³ (৳${totalNgCost.toLocaleString()})</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">LPG Consumption & Cost</div><div class="k-val">${sumLpg.toLocaleString()} Kg (৳${totalLpgCost.toLocaleString()})</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total Fuel Cost</div><div class="k-val">৳ ${(totalNgCost + totalLpgCost).toLocaleString()}</div></div>
+    </div>
+
+    <table class="clean-rep-table" style="min-width:1100px;">
+      <thead>
+        <tr>
+          <th colspan="7" class="grp-gen">NG Boiler</th>
+          <th colspan="4" class="grp-cost">LPG & Steam</th>
+          <th colspan="${BOILER_DEPTS.length}" class="grp-dept">Department Steam Allocation</th>
+        </tr>
+        <tr>
+          <th class="sub-gen">Time</th><th class="sub-gen">NG Pre<br>Before</th><th class="sub-gen">NG Pre<br>After</th>
+          <th class="sub-gen">Run</th><th class="sub-gen">Fire %</th><th class="sub-gen">Steam<br>Press.</th><th class="sub-gen">Steam<br>(Ton)</th>
+          <th class="sub-cost">NG (m³)</th><th class="sub-cost">LPG Run</th><th class="sub-cost">LPG (Kg)</th><th class="sub-cost">Total<br>Steam</th>
+          ${BOILER_DEPTS.map(d => `<th class="sub-dept">${d}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${rowsHtml}
+        <tr class="total-row">
+          <td colspan="6" style="text-align:right; padding-right:6px;">TOTAL:</td>
+          <td>${sumSteam.toFixed(2)}</td>
+          <td>${sumNg.toLocaleString()}</td>
+          <td>-</td>
+          <td>${sumLpg.toLocaleString()}</td>
+          <td>${sumSteam.toFixed(2)}</td>
+          ${deptTotals.map(v => `<td>${v.toLocaleString()}</td>`).join('')}
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:12px;">
+      <table class="clean-rep-table" style="max-width:650px;">
+        <thead>
+          <tr>
+            <th class="grp-sum">Department</th>
+            <th class="grp-sum">Steam Share</th>
+            <th class="grp-sum">NG Cost (Tk)</th>
+            <th class="grp-sum">LPG Cost (Tk)</th>
+            <th class="grp-sum">Total Cost (Tk)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${BOILER_DEPTS.map((dept, i) => {
+            const ratio = totalDeptSteam > 0 ? (deptTotals[i] / totalDeptSteam) : 0;
+            const nc = Math.round(ratio * totalNgCost);
+            const lc = Math.round(ratio * totalLpgCost);
+            return `<tr>
+              <td style="text-align:left; padding-left:8px; font-weight:700;">${dept}</td>
+              <td>${(ratio * 100).toFixed(2)}%</td>
+              <td>${nc.toLocaleString()}</td>
+              <td>${lc.toLocaleString()}</td>
+              <td class="col-highlight">${(nc + lc).toLocaleString()}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  document.getElementById("boiler-report-box").style.display = "block";
+  document.getElementById("boiler-report-box").scrollIntoView({ behavior: "smooth" });
+}
+
+/* ================= CAMERA SCAN & PARSER ================= */
+function closeScanModal() {
+  document.getElementById('scan-modal').style.display = 'none';
+  document.getElementById('cameraInput').value = '';
+  document.getElementById('galleryInput').value = '';
+}
+
+async function handleImageScan(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const imgUrl = URL.createObjectURL(file);
+  document.getElementById('scannedImgPreview').src = imgUrl;
+  document.getElementById('scan-modal').style.display = 'block';
+  document.getElementById('scanStatusText').textContent = "ছবি স্ক্যান করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...";
+
+  const hours = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
+  scannedRowsDraft = hours.map(t => ({ time: t, nums: [] }));
+  renderParsedReviewTable();
+
+  try {
+    const result = await Tesseract.recognize(file, 'eng', {
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          document.getElementById('scanStatusText').textContent = `Scanning: ${Math.round(m.progress * 100)}%`;
         }
+      }
+    });
 
-        // Photo Size Check (Max 500 KB)
-        const MAX_PHOTO_BYTES = 500 * 1024;
-        let validatedPhotoData = "";
+    const rawText = result.data.text || "";
+    parseTextIntoHours(rawText, hours);
+    renderParsedReviewTable();
+    document.getElementById('scanStatusText').textContent = "স্ক্যান সম্পন্ন! সেকশন বেছে Auto-Fill Section চাপুন।";
+  } catch (err) {
+    document.getElementById('scanStatusText').textContent = "অটো-রিড অস্পষ্ট ছিল; ঘরে মান ঠিক করে Auto-Fill চাপুন।";
+    renderParsedReviewTable();
+  }
+}
 
-        const photoInput = document.getElementById("reg-photo");
-        const photoNote = document.getElementById("reg-photo-note");
+function parseTextIntoHours(rawText, hours) {
+  const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
 
-        photoInput.addEventListener("change", () => {
-            validatedPhotoData = "";
-            const file = photoInput.files[0];
-            if (!file) return;
+  lines.forEach(line => {
+    const hourMatch = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/);
+    if (!hourMatch) return;
 
-            const sizeInKB = (file.size / 1024).toFixed(1);
-            if (file.size > MAX_PHOTO_BYTES) {
-                photoNote.style.color = "#d32f2f";
-                photoNote.textContent = `ছবির সাইজ ${sizeInKB} KB! 500KB-এর বেশি ছবি দেওয়া যাবে না।`;
-                photoInput.value = "";
-                return;
-            }
+    const hrNum = hourMatch[1];
+    const matchedIdx = hours.findIndex(h => h.startsWith(hrNum + ":"));
+    if (matchedIdx === -1) return;
 
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                validatedPhotoData = event.target.result;
-                photoNote.style.color = "#19482e";
-                photoNote.textContent = `ছবি ঠিক আছে (${sizeInKB} KB / Max 500KB)`;
-            };
-            reader.readAsDataURL(file);
-        });
+    const cleaned = line
+      .replace(/\b(am|pm|kw|ltrs?|m3)\b/gi, ' ')
+      .replace(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/, ' ')
+      .replace(/[—–-]/g, ' 0 ');
 
-        // Password Eye Toggle
-        window.togglePassVisibility = function(inputId, btn) {
-            const field = document.getElementById(inputId);
-            const showText = field.type === "password";
-            field.type = showText ? "text" : "password";
-            btn.style.color = showText ? "#19482e" : "#5a6d62";
-        };
+    const extracted = (cleaned.match(/\d+(?:\.\d+)?/g) || [])
+      .map(n => parseFloat(n))
+      .filter(n => !isNaN(n));
 
-        // View Navigation
-        window.showRegisterView = function() {
-            document.getElementById("login-view").classList.add("hidden");
-            document.getElementById("home-view").classList.add("hidden");
-            document.getElementById("register-view").classList.remove("hidden");
-            document.getElementById("reg-status").textContent = "";
-        };
+    if (extracted.length > 0) {
+      scannedRowsDraft[matchedIdx].nums = extracted;
+    }
+  });
+}
 
-        window.showLoginView = function() {
-            document.getElementById("register-view").classList.add("hidden");
-            document.getElementById("home-view").classList.add("hidden");
-            document.getElementById("login-view").classList.remove("hidden");
-            document.getElementById("login-status").textContent = "";
-        };
+function getScanColumnTitles() {
+  const section = document.getElementById('scanTargetSection').value;
+  if (section === 'gen') {
+    return ["M-Bar", "GG-1", "GG-2", "GG-3", "DG-ETP", "DG-Wash", "DG-Rent", "Extra 1", "Extra 2", "Extra 3"];
+  }
+  return DEPARTMENTS.map(d => d.label);
+}
 
-        // Left Drawer Controls
-        window.openLeftDrawer = function() {
-            document.getElementById("drawer-backdrop").classList.remove("hidden");
-            document.getElementById("left-drawer").classList.add("open");
-        };
+function renderParsedReviewTable() {
+  const sectionSelect = document.getElementById('scanTargetSection');
+  if (!sectionSelect.dataset.bound) {
+    sectionSelect.addEventListener('change', renderParsedReviewTable);
+    sectionSelect.dataset.bound = "1";
+  }
+  const colTitles = getScanColumnTitles();
 
-        window.closeLeftDrawer = function() {
-            document.getElementById("left-drawer").classList.remove("open");
-            document.getElementById("drawer-backdrop").classList.add("hidden");
-        };
+  let html = `<table class="parsed-table">
+    <thead>
+      <tr>
+        <th>Time</th>
+        ${colTitles.map(title => `<th>${title}</th>`).join('')}
+      </tr>
+    </thead>
+    <tbody>`;
 
-        window.switchHomeSection = function(sectionKey) {
-            const panels = {
-                home: "panel-home",
-                compressor: "panel-compressor",
-                generator: "panel-generator",
-                boiler: "panel-boiler"
-            };
-            const navIds = {
-                home: "nav-home",
-                compressor: "nav-compressor",
-                generator: "nav-generator",
-                boiler: "nav-boiler"
-            };
+  scannedRowsDraft.forEach((row, rIdx) => {
+    html += `<tr><td><strong>${row.time}</strong></td>`;
+    for (let c = 0; c < colTitles.length; c++) {
+      const val = row.nums[c] !== undefined ? row.nums[c] : 0;
+      html += `<td><input type="number" step="any" value="${val}" onchange="updateDraftCell(${rIdx}, ${c}, this.value)"></td>`;
+    }
+    html += `</tr>`;
+  });
 
-            Object.values(panels).forEach(id => {
-                document.getElementById(id).classList.add("hidden");
-            });
-            Object.values(navIds).forEach(id => {
-                document.getElementById(id).classList.remove("active");
-            });
+  html += `</tbody></table>`;
+  document.getElementById('parsedTableContainer').innerHTML = html;
+}
 
-            document.getElementById(panels[sectionKey]).classList.remove("hidden");
-            document.getElementById(navIds[sectionKey]).classList.add("active");
-            closeLeftDrawer();
-        };
+function updateDraftCell(rIdx, cIdx, val) {
+  scannedRowsDraft[rIdx].nums[cIdx] = parseFloat(val) || 0;
+}
 
-        // Registration Form Submit
-        document.getElementById("register-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const statusEl = document.getElementById("reg-status");
-            const submitBtn = document.getElementById("reg-confirm-btn");
+function applyScannedDataToShift() {
+  const section = document.getElementById('scanTargetSection').value;
+  const shift = currentActiveShift;
 
-            const password = document.getElementById("reg-set-password").value;
-            const confirmPassword = document.getElementById("reg-confirm-password").value;
-            const checked = document.getElementById("reg-declaration").checked;
-
-            if (!validatedPhotoData) {
-                statusEl.style.color = "#d32f2f";
-                statusEl.textContent = "দয়া করে 500KB-এর ভিতরে পাসপোর্ট সাইজের ছবি দিন।";
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                statusEl.style.color = "#d32f2f";
-                statusEl.textContent = "Set Password এবং Confirm Password এক হতে হবে।";
-                return;
-            }
-
-            if (!checked) {
-                statusEl.style.color = "#d32f2f";
-                statusEl.textContent = "দয়া করে declaration check বক্সে টিক দিন।";
-                return;
-            }
-
-            const profileData = {
-                photo: validatedPhotoData,
-                officeId: document.getElementById("reg-office-id").value.trim(),
-                name: document.getElementById("reg-name").value.trim(),
-                department: document.getElementById("reg-department").value.trim(),
-                section: document.getElementById("reg-section").value.trim(),
-                joiningDate: document.getElementById("reg-joining-date").value,
-                dob: document.getElementById("reg-dob").value,
-                mobile: document.getElementById("reg-mobile").value.trim(),
-                gender: document.getElementById("reg-gender").value,
-                division: document.getElementById("reg-division").value.trim(),
-                district: document.getElementById("reg-district").value.trim(),
-                email: document.getElementById("reg-email").value.trim(),
-                declaredCorrect: true,
-                createdAt: new Date().toISOString()
-            };
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Connecting to Firebase...";
-            statusEl.style.color = "#19482e";
-            statusEl.textContent = "রেজিস্ট্রেশন ও আইডি তৈরি হচ্ছে...";
-
-            try {
-                if (isFirebaseConfigured) {
-                    const userCred = await createUserWithEmailAndPassword(auth, profileData.email, password);
-                    await setDoc(doc(db, "pn_employees", userCred.user.uid), profileData);
-                } else {
-                    localStorage.setItem("pn_employee_" + profileData.email, JSON.stringify({ ...profileData, password }));
-                }
-
-                enterHomeWithCard(profileData);
-            } catch (error) {
-                statusEl.style.color = "#d32f2f";
-                statusEl.textContent = "Registration Error: " + error.message;
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Registration Confirm Now";
-            }
-        });
-
-        // Login Form Submit
-        document.getElementById("login-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("login-email").value.trim();
-            const password = document.getElementById("login-password").value;
-            const statusEl = document.getElementById("login-status");
-
-            statusEl.style.color = "#19482e";
-            statusEl.textContent = "Logging in...";
-
-            try {
-                if (isFirebaseConfigured) {
-                    const userCred = await signInWithEmailAndPassword(auth, email, password);
-                    const docSnap = await getDoc(doc(db, "pn_employees", userCred.user.uid));
-                    if (docSnap.exists()) {
-                        enterHomeWithCard(docSnap.data());
-                    } else {
-                        statusEl.style.color = "#d32f2f";
-                        statusEl.textContent = "Employee record not found.";
-                    }
-                } else {
-                    const savedUser = JSON.parse(localStorage.getItem("pn_employee_" + email));
-                    if (savedUser && savedUser.password === password) {
-                        enterHomeWithCard(savedUser);
-                    } else {
-                        statusEl.style.color = "#d32f2f";
-                        statusEl.textContent = "Invalid Email or Password.";
-                    }
-                }
-            } catch (error) {
-                statusEl.style.color = "#d32f2f";
-                statusEl.textContent = "Login Error: " + error.message;
-            }
-        });
-
-        // Populate ID Card & Open Home Page
-        function enterHomeWithCard(data) {
-            document.getElementById("card-photo").src = data.photo || "";
-            document.getElementById("card-office-id").textContent = data.officeId;
-            document.getElementById("card-name").textContent = data.name;
-            document.getElementById("card-department").textContent = data.department;
-            document.getElementById("card-section").textContent = data.section;
-            document.getElementById("card-joining-date").textContent = data.joiningDate;
-            document.getElementById("card-dob").textContent = data.dob;
-            document.getElementById("card-mobile").textContent = data.mobile;
-            document.getElementById("card-gender").textContent = data.gender;
-            document.getElementById("card-division").textContent = data.division;
-            document.getElementById("card-district").textContent = data.district;
-
-            document.getElementById("login-view").classList.add("hidden");
-            document.getElementById("register-view").classList.add("hidden");
-            document.getElementById("home-view").classList.remove("hidden");
-            switchHomeSection("home");
+  scannedRowsDraft.forEach((row, i) => {
+    const n = row.nums;
+    if (section === 'gen') {
+      if (n[0] !== undefined) document.getElementById(`${shift}_mbar_${i}`).value = n[0];
+      if (n[1] !== undefined) document.getElementById(`${shift}_gg1_${i}`).value = n[1];
+      if (n[2] !== undefined) document.getElementById(`${shift}_gg2_${i}`).value = n[2];
+      if (n[3] !== undefined) document.getElementById(`${shift}_gg3_${i}`).value = n[3];
+      if (n[4] !== undefined) document.getElementById(`${shift}_dgetp_${i}`).value = n[4];
+      if (n[5] !== undefined) document.getElementById(`${shift}_dgwash_${i}`).value = n[5];
+      if (n[6] !== undefined) document.getElementById(`${shift}_dgrent_${i}`).value = n[6];
+      recalcRow(shift, i);
+    } else if (section === 'dept') {
+      DEPARTMENTS.forEach((d, dIdx) => {
+        if (n[dIdx] !== undefined) {
+          document.getElementById(`${shift}_${d.key}_${i}`).value = n[dIdx];
         }
+      });
+    }
+  });
 
-        // Logout Action
-        window.logoutAccount = async function() {
-            closeLeftDrawer();
-            if (isFirebaseConfigured && auth) {
-                await signOut(auth);
-            }
-            document.getElementById("login-form").reset();
-            showLoginView();
-        };
-    </script>
+  alert(`${shift.toUpperCase()} Shift-এর ${section === 'gen' ? 'Generator & M-Bar' : 'Department Load'} সেকশনে ডেটা বসানো হয়েছে।`);
+}
+
+/* ================= EXCEL (.CSV) EXPORT ================= */
+function downloadExcelSheet() {
+  const dateVal = document.getElementById('reportDate').value;
+  const dayData = computeShiftMetrics('day', DAY_HOURS);
+  const nightData = computeShiftMetrics('night', NIGHT_HOURS);
+
+  const csvRows = [];
+  csvRows.push(["P.N. COMPOSITE LTD. - Ambag, Kunabari, Gazipur"]);
+  csvRows.push(["Report Date", dateVal]);
+  csvRows.push([]);
+
+  function appendShiftCsv(label, hours, d) {
+    csvRows.push([`${label} LOAD & CONSUMPTION`]);
+    csvRows.push([
+      "Time", "Header PSI", "NG M-Bar", "GG-1", "GG-2", "GG-3",
+      "DG-ETP", "DG-Wash", "DG-Rent", "Total kW",
+      "DG (Ltr)", "DG Cost", "NG (m3)", "NG Cost", "Total Cost",
+      ...DEPARTMENTS.map(x => `${x.label} Load`)
+    ]);
+    d.rows.forEach(r => {
+      csvRows.push([
+        r.time, r.psi, r.mbar, r.gg1, r.gg2, r.gg3,
+        r.dgetp, r.dgwash, r.dgrent, r.tLoad,
+        r.dgCons, r.dgCost, r.ngCons, r.ngCost, r.totCost,
+        ...DEPARTMENTS.map(x => r.dVals[x.key])
+      ]);
+    });
+    csvRows.push([
+      "TOTAL kWh", "", "", d.sumGG1, d.sumGG2, d.sumGG3,
+      d.sumDGEtp, d.sumDGWash, d.sumDGRent, d.sumTLoad,
+      d.totalDgCons, d.totalDgCost, d.totalNgCons, d.totalNgCost, d.grandCost,
+      ...DEPARTMENTS.map(x => d.deptSums[x.key])
+    ]);
+    csvRows.push([]);
+  }
+
+  appendShiftCsv("DAY SHIFT", DAY_HOURS, dayData);
+  appendShiftCsv("NIGHT SHIFT", NIGHT_HOURS, nightData);
+
+  const csvContent = "\uFEFF" + csvRows.map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `PN_Composite_Power_Report_${dateVal}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ================= COMPUTE & RENDER GENERATOR REPORT ================= */
+function computeShiftMetrics(shift, hours) {
+  const ngRate = parseFloat(document.getElementById('ngRate').value) || 0;
+  const dgRate = parseFloat(document.getElementById('dgRate').value) || 0;
+  const totalDgCons = parseFloat(document.getElementById(`${shift}_dg_cons`).value) || 0;
+  const totalNgCons = parseFloat(document.getElementById(`${shift}_ng_cons`).value) || 0;
+  const dgKwh = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
+  const ggKwh = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
+  const totalKwh = dgKwh + ggKwh;
+
+  let rows = [];
+  let sumTLoad = 0, sumGGLoad = 0, sumDGLoad = 0;
+  let sumGG1 = 0, sumGG2 = 0, sumGG3 = 0, sumDGEtp = 0, sumDGWash = 0, sumDGRent = 0;
+
+  let deptSums = {};
+  DEPARTMENTS.forEach(d => deptSums[d.key] = 0);
+
+  hours.forEach((time, idx) => {
+    const mbar = parseFloat(document.getElementById(`${shift}_mbar_${idx}`).value) || 0;
+    const psi = (mbar * 0.0145).toFixed(1);
+    const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
+    const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
+    const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
+    const dgetp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
+    const dgwash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
+    const dgrent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
+
+    sumGG1 += gg1; sumGG2 += gg2; sumGG3 += gg3;
+    sumDGEtp += dgetp; sumDGWash += dgwash; sumDGRent += dgrent;
+
+    const ggLoad = gg1 + gg2 + gg3;
+    const dgLoad = dgetp + dgwash + dgrent;
+    const tLoad = ggLoad + dgLoad;
+
+    sumGGLoad += ggLoad; sumDGLoad += dgLoad; sumTLoad += tLoad;
+
+    let dVals = {};
+    DEPARTMENTS.forEach(d => {
+      const val = parseFloat(document.getElementById(`${shift}_${d.key}_${idx}`).value) || 0;
+      dVals[d.key] = val;
+      deptSums[d.key] += val;
+    });
+
+    rows.push({ time, psi, mbar, gg1, gg2, gg3, dgetp, dgwash, dgrent, ggLoad, dgLoad, tLoad, dVals });
+  });
+
+  rows.forEach(r => {
+    r.ngCons = sumGGLoad > 0 ? Math.round((r.ggLoad / sumGGLoad) * totalNgCons) : 0;
+    r.dgCons = sumDGLoad > 0 ? Math.round((r.dgLoad / sumDGLoad) * totalDgCons) : 0;
+    r.ngCost = Math.round(r.ngCons * ngRate);
+    r.dgCost = Math.round(r.dgCons * dgRate);
+    r.totCost = r.ngCost + r.dgCost;
+  });
+
+  const totalDeptKw = Object.values(deptSums).reduce((a, b) => a + b, 0);
+  const totalNgCost = Math.round(totalNgCons * ngRate);
+  const totalDgCost = Math.round(totalDgCons * dgRate);
+  const grandCost = totalNgCost + totalDgCost;
+
+  const deptSummary = DEPARTMENTS.map(d => {
+    const kwSum = deptSums[d.key];
+    const ratio = totalDeptKw > 0 ? (kwSum / totalDeptKw) : 0;
+    const elecUse = Math.round(ratio * totalKwh);
+    const ngCost = Math.round(ratio * totalNgCost);
+    const dgCost = Math.round(ratio * totalDgCost);
+    return {
+      label: d.label, kwSum, pct: (ratio * 100).toFixed(2),
+      elecUse, ngCost, dgCost, totCost: ngCost + dgCost
+    };
+  });
+
+  return {
+    rows,
+    sumGG1, sumGG2, sumGG3, sumDGEtp, sumDGWash, sumDGRent,
+    sumTLoad, totalDgCons, totalNgCons,
+    totalDgCost, totalNgCost, grandCost,
+    dgKwh, ggKwh, totalKwh, deptSums, totalDeptKw, deptSummary
+  };
+}
+
+let activeCharts = [];
+
+function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
+  let html = `
+    <div class="rep-header">
+      <div class="rep-company">
+        <h2>P.N. COMPOSITE LTD.</h2>
+        <p>Ambag, Kunabari, Gazipur.</p>
+      </div>
+      <div class="rep-title-box">
+        <h3>NG + DG Hourly Load & Cost Analysis</h3>
+        <span>${shiftLabel} &bull; Date: ${dateStr}</span>
+      </div>
+      <div class="rep-logo">${getLogoHtml()}</div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi-item"><div class="k-lbl">Total Generation</div><div class="k-val">${data.totalKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">Gas Gen / Diesel Gen</div><div class="k-val">${data.ggKwh.toLocaleString()} / ${data.dgKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">NG Consumption</div><div class="k-val">${data.totalNgCons.toLocaleString()} m³</div></div>
+      <div class="kpi-item"><div class="k-lbl">Diesel Consumption</div><div class="k-val">${data.totalDgCons.toLocaleString()} Ltr</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total Shift Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Avg. Cost / kWh</div><div class="k-val">৳ ${data.totalKwh > 0 ? (data.grandCost / data.totalKwh).toFixed(2) : '0.00'}</div></div>
+    </div>
+
+    <table class="clean-rep-table">
+      <thead>
+        <tr>
+          <th colspan="10" class="grp-gen">GG & DG Power Generation (kW)</th>
+          <th colspan="5" class="grp-cost">Fuel Consumption & Cost (Tk)</th>
+          <th colspan="${DEPARTMENTS.length}" class="grp-dept">Department-Wise Hourly Load Distribution (kW)</th>
+          <th colspan="5" class="grp-sum">Department-Wise Shift Cost Summary</th>
+        </tr>
+        <tr>
+          <th class="sub-gen">Time</th><th class="sub-gen">Header<br>PSI</th><th class="sub-gen">NG<br>M-Bar</th>
+          <th class="sub-gen">GG-1</th><th class="sub-gen">GG-2</th><th class="sub-gen">GG-3</th>
+          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wash</th><th class="sub-gen">DG-Rent</th><th class="sub-gen">Total kW</th>
+          <th class="sub-cost">DG<br>(Ltr)</th><th class="sub-cost">DG Cost</th><th class="sub-cost">NG<br>(m³)</th>
+          <th class="sub-cost">NG Cost</th><th class="sub-cost">Total Cost</th>
+          ${DEPARTMENTS.map(d => `<th class="sub-dept">${d.label}</th>`).join('')}
+          <th class="sub-sum">Department</th><th class="sub-sum">kWh<br>Share</th>
+          <th class="sub-sum">NG Cost</th><th class="sub-sum">DG Cost</th><th class="sub-sum">Total Cost</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  for (let i = 0; i < 12; i++) {
+    const r = data.rows[i];
+    const ds = data.deptSummary[i];
+
+    html += `<tr>
+      <td class="col-highlight">${r.time}</td><td class="col-highlight">${r.psi}</td><td>${r.mbar}</td>
+      <td>${r.gg1}</td><td>${r.gg2}</td><td>${r.gg3}</td>
+      <td>${r.dgetp}</td><td>${r.dgwash}</td><td>${r.dgrent}</td><td class="col-highlight">${r.tLoad}</td>
+      <td>${r.dgCons}</td><td>${r.dgCost.toLocaleString()}</td><td>${r.ngCons}</td>
+      <td>${r.ngCost.toLocaleString()}</td><td class="col-highlight">${r.totCost.toLocaleString()}</td>
+      ${DEPARTMENTS.map(d => `<td>${r.dVals[d.key]}</td>`).join('')}
+      ${ds ? `
+        <td class="col-sum-cell" style="text-align:left; padding-left:5px;">${ds.label}</td>
+        <td class="col-sum-cell">${ds.elecUse.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.ngCost.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.dgCost.toLocaleString()}</td>
+        <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
+      ` : `
+        <td></td>
+        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalKwh.toLocaleString() : ''}</td>
+        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalNgCost.toLocaleString() : ''}</td>
+        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalDgCost.toLocaleString() : ''}</td>
+        <td class="col-highlight" style="color:#9a3412;">${i === DEPARTMENTS.length ? data.grandCost.toLocaleString() : ''}</td>
+      `}
+    </tr>`;
+  }
+
+  html += `
+    <tr class="total-row">
+      <td colspan="3" style="text-align:right; padding-right:5px;">TOTAL kWh:</td>
+      <td>${data.sumGG1.toLocaleString()}</td>
+      <td>${data.sumGG2.toLocaleString()}</td>
+      <td>${data.sumGG3.toLocaleString()}</td>
+      <td>${data.sumDGEtp.toLocaleString()}</td>
+      <td>${data.sumDGWash.toLocaleString()}</td>
+      <td>${data.sumDGRent.toLocaleString()}</td>
+      <td>${data.sumTLoad.toLocaleString()}</td>
+      <td>${data.totalDgCons.toLocaleString()}</td>
+      <td>${data.totalDgCost.toLocaleString()}</td>
+      <td>${data.totalNgCons.toLocaleString()}</td>
+      <td>${data.totalNgCost.toLocaleString()}</td>
+      <td>${data.grandCost.toLocaleString()}</td>
+      ${DEPARTMENTS.map(d => `<td>${data.deptSums[d.key].toLocaleString()}</td>`).join('')}
+      <td>TOTAL kW</td><td>${data.totalDeptKw.toLocaleString()}</td><td colspan="3"></td>
+    </tr>
+    <tr class="pct-row">
+      <td colspan="9" style="text-align:right; padding-right:8px;">LOAD SHARE (%):</td>
+      <td>100%</td><td colspan="5"></td>
+      ${data.deptSummary.map(ds => `<td>${ds.pct}%</td>`).join('')}
+      <td>SHARE</td><td>100%</td><td colspan="3"></td>
+    </tr>
+  </tbody></table>
+
+  <div class="rep-charts">
+    <div class="rep-chart-card"><h4>Hourly Electricity Generation (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Department-Wise Electricity Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+  </div>
+
+  <div class="rep-footer">
+    <div class="sig-line">Prepared By (Utility Shift Engr.)</div>
+    <div class="sig-line">Checked By (In-Charge)</div>
+    <div class="sig-line">Approved By (Head of Utility)</div>
+  </div>`;
+
+  return html;
+}
+
+function renderBarChart(canvasId, labels, values, barColor, isCompact = false) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        backgroundColor: barColor,
+        borderRadius: isCompact ? 2 : 3,
+        barPercentage: 0.55
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: {
+        padding: { top: isCompact ? 11 : 14, bottom: 0, left: 2, right: 2 }
+      },
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          anchor: 'end',
+          align: 'top',
+          offset: isCompact ? 0 : 1,
+          clamp: true,
+          color: '#1e293b',
+          font: { size: isCompact ? 6.5 : 7.5, weight: '700' },
+          formatter: v => v > 0 ? v.toLocaleString() : ''
+        }
+      },
+      scales: {
+        y: { display: false, beginAtZero: true, grace: isCompact ? '32%' : '22%' },
+        x: {
+          grid: { display: false },
+          ticks: {
+            padding: 1,
+            font: { size: isCompact ? 6 : 7.5, weight: '600' },
+            color: '#475569'
+          }
+        }
+      }
+    }
+  });
+  activeCharts.push(chart);
+}
+
+function buildFinalReport(mode = 'separate') {
+  currentPrintMode = mode;
+  document.body.classList.remove('print-mode-separate', 'print-mode-combined');
+  document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
+
+  activeCharts.forEach(c => c.destroy());
+  activeCharts = [];
+
+  const rawDate = document.getElementById('reportDate').value;
+  const formattedDate = new Date(rawDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  const dayMetrics = computeShiftMetrics('day', DAY_HOURS);
+  const nightMetrics = computeShiftMetrics('night', NIGHT_HOURS);
+
+  document.getElementById('report-output').innerHTML = `
+    <div class="report-page">${createReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, dayMetrics, 'day')}</div>
+    <div class="page-break"></div>
+    <div class="report-page night-page-spacer">${createReportPageHtml('NIGHT SHIFT (9:00 PM - 8:00 AM)', formattedDate, nightMetrics, 'night')}</div>
+  `;
+
+  document.getElementById('report-container').style.display = 'block';
+
+  const isCompact = (mode === 'combined');
+  renderBarChart('day_gen', dayMetrics.rows.map(r => r.time), dayMetrics.rows.map(r => r.tLoad), '#14452f', isCompact);
+  renderBarChart('day_dept', dayMetrics.deptSummary.map(d => d.label), dayMetrics.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
+  renderBarChart('night_gen', nightMetrics.rows.map(r => r.time), nightMetrics.rows.map(r => r.tLoad), '#14452f', isCompact);
+  renderBarChart('night_dept', nightMetrics.deptSummary.map(d => d.label), nightMetrics.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
+
+  document.getElementById('report-container').scrollIntoView({ behavior: 'smooth' });
+}
+
+function triggerCleanPrint(mode) {
+  buildFinalReport(mode);
+  requestAnimationFrame(() => {
+    activeCharts.forEach(c => c.resize());
+    setTimeout(() => {
+      activeCharts.forEach(c => c.resize());
+      window.print();
+    }, 250);
+  });
+}
+
+function printSeparatePages() {
+  triggerCleanPrint('separate');
+}
+
+function printCombinedSinglePage() {
+  triggerCleanPrint('combined');
+}
+
+window.addEventListener('afterprint', () => {
+  if (document.getElementById('report-container').style.display === 'block') {
+    buildFinalReport('separate');
+  }
+});
+
+// Initialize grids
+renderEntryGrid('day', DAY_HOURS);
+renderEntryGrid('night', NIGHT_HOURS);
+renderBoilerGrid();
+
+// Check saved session on load
+(function initSession() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (activeUser) {
+    document.getElementById("auth-wrapper").style.display = "none";
+    document.getElementById("app-shell").style.display = "block";
+    navigateSection("generator");
+  }
+})();
+</script>
 </body>
 </html>
