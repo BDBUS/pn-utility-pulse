@@ -75,6 +75,7 @@
   .link-btn {
     background: var(--brand-soft); color: var(--brand-dark); border: 1.5px solid var(--brand-dark);
     padding: 8px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
   }
   .link-btn:hover { background: #dff0e8; }
 
@@ -84,49 +85,61 @@
   }
   .check-decl input { width: 16px; height: 16px; margin-top: 2px; accent-color: var(--brand-dark); cursor: pointer; }
 
-  /* ================= PREMIUM ID CARD ================= */
+  /* ================= ULTRA PREMIUM ID CARD ================= */
   #id-card-modal {
-    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65);
+    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
     z-index: 2000; padding: 16px; overflow-y: auto; align-items: center; justify-content: center;
+    backdrop-filter: blur(3px);
   }
   .id-modal-box {
-    background: #ffffff; border-radius: 16px; max-width: 440px; width: 100%;
-    padding: 18px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); margin: auto;
+    background: #ffffff; border-radius: 18px; max-width: 455px; width: 100%;
+    padding: 18px; box-shadow: 0 24px 60px rgba(0,0,0,0.3); margin: auto;
+    border: 1px solid #e2e8f0;
   }
   .premium-id-card {
-    background: linear-gradient(155deg, #ffffff 0%, #f4faf7 55%, #e6f3ec 100%);
-    border: 2px solid var(--brand-dark); border-radius: 14px; padding: 14px;
-    position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(20, 69, 47, 0.15);
+    background: linear-gradient(145deg, #0f3825 0%, #14452f 38%, #f8fcf9 38.5%, #ffffff 78%, #eef6f2 100%);
+    border: 2px solid #c59b27; border-radius: 16px; padding: 14px 15px;
+    position: relative; overflow: hidden; box-shadow: 0 12px 28px rgba(20, 69, 47, 0.22);
   }
   .premium-id-card::before {
-    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 7px;
-    background: linear-gradient(90deg, var(--brand-dark), var(--brand-accent));
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    background: linear-gradient(90deg, #c59b27, #e86c1f, #c59b27);
   }
   .id-card-head {
     display: flex; justify-content: space-between; align-items: center; gap: 8px;
-    padding-top: 4px; padding-bottom: 8px; border-bottom: 1.5px solid #cbd5e1;
+    padding-top: 4px; padding-bottom: 9px; border-bottom: 1.5px solid rgba(197, 155, 39, 0.45);
   }
-  .id-card-head h4 { margin: 0; font-size: 14px; font-weight: 800; color: var(--brand-dark); }
-  .id-card-head p { margin: 1px 0 0 0; font-size: 9.5px; color: var(--slate-500); font-weight: 600; }
+  .id-card-head h4 { margin: 0; font-size: 14.5px; font-weight: 800; color: #ffffff; letter-spacing: 0.4px; }
+  .id-card-head p { margin: 2px 0 0 0; font-size: 9px; color: #fde68a; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
   .id-photo-row {
-    display: flex; gap: 12px; align-items: center; margin-top: 10px;
+    display: flex; gap: 12px; align-items: center; margin-top: 12px;
   }
   .id-photo-frame {
-    width: 84px; height: 102px; border: 2px solid var(--brand-dark); border-radius: 8px;
+    width: 88px; height: 106px; border: 2.5px solid #c59b27; border-radius: 10px;
     background: #fff; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14);
   }
   .id-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
-  .id-meta-list { font-size: 11px; line-height: 1.5; color: var(--slate-900); flex: 1; min-width: 0; }
+  .id-meta-list {
+    font-size: 11px; line-height: 1.55; color: var(--slate-900); flex: 1; min-width: 0;
+    background: rgba(255,255,255,0.88); padding: 7px 9px; border-radius: 8px;
+    border: 1px solid #d1e5db;
+  }
   .id-meta-list div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .id-badge-pill {
+    display: inline-block; background: #14452f; color: #fde68a; font-size: 8.5px;
+    font-weight: 800; padding: 2px 7px; border-radius: 999px; margin-bottom: 3px; text-transform: uppercase;
+  }
   .id-extra-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px;
-    font-size: 10.5px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5px 10px;
+    font-size: 10.5px; margin-top: 9px; padding: 8px 10px; border-radius: 8px;
+    background: rgba(255,255,255,0.9); border: 1px dashed #94a3b8;
   }
   .id-sign-row {
     display: flex; justify-content: space-between; align-items: flex-end;
-    margin-top: 16px; padding-top: 6px; font-size: 9.5px; font-weight: 700; color: var(--slate-700);
+    margin-top: 18px; padding-top: 6px; font-size: 9.5px; font-weight: 700; color: var(--slate-700);
   }
-  .id-sig-box { border-top: 1px solid #475569; width: 115px; text-align: center; padding-top: 2px; }
+  .id-sig-box { border-top: 1.5px solid #334155; width: 120px; text-align: center; padding-top: 3px; }
 
   /* ================= SIDEBAR DRAWER & TOP HEADER ================= */
   #app-shell { display: none; }
@@ -162,10 +175,24 @@
   .drawer-item {
     width: 100%; text-align: left; background: transparent; border: 1px solid transparent;
     border-radius: 9px; padding: 10px 12px; font-size: 13px; font-weight: 700;
-    color: var(--slate-700); cursor: pointer; display: flex; align-items: center; gap: 8px;
+    color: var(--slate-700); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    text-decoration: none;
   }
   .drawer-item:hover { background: var(--brand-soft); color: var(--brand-dark); }
   .drawer-item.active { background: var(--brand-dark); color: #ffffff; }
+
+  .folder-sub-panel {
+    display: none; flex-direction: column; gap: 5px;
+    margin: 2px 0 6px 10px; padding-left: 10px; border-left: 2px solid var(--brand-accent);
+  }
+  .folder-sub-panel.open { display: flex; }
+  .folder-btn {
+    width: 100%; text-align: left; background: #f8fafc; border: 1px solid var(--slate-200);
+    border-radius: 8px; padding: 8px 10px; font-size: 12px; font-weight: 700;
+    color: var(--slate-900); cursor: pointer; display: flex; align-items: center; gap: 7px;
+  }
+  .folder-btn:hover { background: var(--brand-soft); border-color: var(--brand-dark); color: var(--brand-dark); }
+
   .drawer-footer { padding: 12px; border-top: 1px solid var(--slate-200); }
   .logout-red-btn {
     width: 100%; background: var(--danger-red); color: #ffffff; border: none;
@@ -319,6 +346,8 @@
     padding: 10px 18px; border: none; border-radius: 9px; font-size: 13px;
     font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
   }
+  .btn-save { background: #1d4ed8; color: #ffffff; }
+  .btn-save:hover { background: #1e40af; }
   .btn-excel { background: #0f766e; color: #ffffff; }
   .btn-excel:hover { background: #115e59; }
   .btn-primary { background: var(--brand-dark); color: #ffffff; }
@@ -327,6 +356,13 @@
   .btn-accent:hover { background: #cf5c15; }
   .btn-combined { background: #1e293b; color: #ffffff; }
   .btn-combined:hover { background: #0f172a; }
+
+  /* ================= SAVED DATA VIEWER ================= */
+  .saved-record-item {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+    gap: 10px; padding: 12px 14px; border: 1px solid var(--slate-200);
+    border-radius: 10px; background: #f8fafc; margin-bottom: 10px;
+  }
 
   /* ================= AIR COMPRESSOR UPCOMING PAGE ================= */
   .upcoming-card {
@@ -656,12 +692,12 @@
 </div>
 
 <!-- ========================================================================= -->
-<!-- PREMIUM ID CARD MODAL                                                     -->
+<!-- ULTRA PREMIUM ID CARD MODAL                                               -->
 <!-- ========================================================================= -->
 <div id="id-card-modal" class="no-print">
   <div class="id-modal-box">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <span style="font-size:13px; font-weight:800; color:var(--brand-dark);">Generated Employee ID Card</span>
+      <span style="font-size:13px; font-weight:800; color:var(--brand-dark);">Executive Employee ID Card</span>
       <button type="button" class="link-btn" style="padding:5px 10px; font-size:11.5px;" onclick="closeIdCardAndEnterApp()">Continue to Portal</button>
     </div>
 
@@ -669,7 +705,7 @@
       <div class="id-card-head">
         <div>
           <h4>PN. COMPOSITE LTD.</h4>
-          <p>Ambag, Kunabari, Gazipur &bull; OFFICIAL IDENTITY CARD</p>
+          <p>Ambag, Kunabari, Gazipur &bull; AUTHORIZED IDENTITY CARD</p>
         </div>
         <div id="id-card-logo"></div>
       </div>
@@ -679,6 +715,7 @@
           <span style="font-size:10px; color:#64748b; font-weight:700;">PHOTO</span>
         </div>
         <div class="id-meta-list">
+          <span class="id-badge-pill">Utility & Power Division</span>
           <div><strong>Name:</strong> <span id="idCardName">-</span></div>
           <div><strong>Office ID:</strong> <span id="idCardOfficeId">-</span></div>
           <div><strong>Department:</strong> <span id="idCardDept">-</span></div>
@@ -727,6 +764,24 @@
       <button type="button" class="drawer-item" id="nav-compressor" onclick="navigateSection('compressor', this)">Air Compressor</button>
       <button type="button" class="drawer-item" id="nav-generator" onclick="navigateSection('generator', this)">Generator</button>
       <button type="button" class="drawer-item" id="nav-boiler" onclick="navigateSection('boiler', this)">Boiler</button>
+
+      <!-- SAVED DATA FOLDER BUTTON -->
+      <button type="button" class="drawer-item" id="nav-saved-folder" onclick="toggleSavedFolderPanel()">
+        <span>Saved Data</span>
+        <span id="savedFolderArrow">▾</span>
+      </button>
+      <div class="folder-sub-panel" id="savedFolderSubPanel">
+        <button type="button" class="folder-btn" onclick="openSavedFolderCategory('generator')">📁 Generator</button>
+        <button type="button" class="folder-btn" onclick="openSavedFolderCategory('compressor')">📁 Compressor</button>
+        <button type="button" class="folder-btn" onclick="openSavedFolderCategory('boiler')">📁 Boiler</button>
+      </div>
+
+      <!-- PN ERP EXTERNAL PORTAL BUTTON -->
+      <a href="https://pn.esimsol.com/Auth/Login" target="_blank" rel="noopener noreferrer" class="drawer-item">
+        <span>PN Erp</span>
+        <span>↗</span>
+      </a>
+
       <button type="button" class="drawer-item" onclick="reopenMyIdCard()">My ID Card</button>
     </div>
     <div class="drawer-footer">
@@ -754,7 +809,7 @@
     <div id="view-home" class="no-print" style="display:none;">
       <div class="control-card">
         <h2 style="margin:0 0 6px 0; font-size:18px; font-weight:800; color:var(--brand-dark);">Utility Control Home</h2>
-        <p style="margin:0 0 14px 0; font-size:13px; color:var(--slate-500);">বাম পাশের মেনুবার থেকে Air Compressor, Generator অথবা Boiler সেকশন নির্বাচন করুন।</p>
+        <p style="margin:0 0 14px 0; font-size:13px; color:var(--slate-500);">বাম পাশের মেনুবার থেকে Air Compressor, Generator, Boiler অথবা Saved Data নির্বাচন করুন।</p>
         <div style="display:flex; flex-wrap:wrap; gap:10px;">
           <button type="button" class="btn btn-primary" onclick="navigateSection('generator')">Generator Entry & Report</button>
           <button type="button" class="btn btn-accent" onclick="navigateSection('boiler')">Boiler Entry & Report</button>
@@ -909,6 +964,7 @@
         </div>
 
         <div class="btn-bar">
+          <button type="button" class="btn btn-save" onclick="saveCurrentData('generator')">Save Data</button>
           <button type="button" class="btn btn-excel" onclick="downloadExcelSheet()">Download Excel Sheet</button>
           <button type="button" class="btn btn-primary" onclick="buildFinalReport('separate')">Submit & Generate Report</button>
           <button type="button" class="btn btn-accent" onclick="printSeparatePages()">Download / Print PDF</button>
@@ -917,7 +973,7 @@
       </div>
     </div>
 
-    <!-- ================= BOILER VIEW (NG & LPG STEAM ENTRY & REPORT) ================= -->
+    <!-- ================= BOILER VIEW (MATCHING GENERATOR DESIGN) ================= -->
     <div id="view-boiler" style="display:none;">
       <div class="control-card no-print">
         <div class="top-controls">
@@ -964,13 +1020,32 @@
         <div class="table-wrapper" id="grid-boiler"></div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-primary" onclick="buildBoilerReport()">Submit & Generate Boiler Report</button>
+          <button type="button" class="btn btn-save" onclick="saveCurrentData('boiler')">Save Data</button>
+          <button type="button" class="btn btn-primary" onclick="buildBoilerReport()">Submit & Generate Report</button>
           <button type="button" class="btn btn-accent" onclick="window.print()">Download / Print PDF</button>
         </div>
       </div>
 
       <div id="boiler-report-box" style="display:none; background:#fff; border-radius:14px; padding:20px; border:1px solid var(--slate-200); margin-top:18px; overflow-x:auto;">
         <div id="boiler-report-output"></div>
+      </div>
+    </div>
+
+    <!-- ================= SAVED DATA FOLDER VIEWER ================= -->
+    <div id="view-saved-data" class="no-print" style="display:none;">
+      <div class="control-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div>
+            <h2 id="savedFolderTitle" style="margin:0; font-size:18px; font-weight:800; color:var(--brand-dark);">Saved Data</h2>
+            <p style="margin:3px 0 0 0; font-size:12.5px; color:var(--slate-500);">সেভ করা তথ্য দেখতে বা এন্ট্রি ফর্মে লোড করতে নিচের তালিকা থেকে নির্বাচন করুন।</p>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button type="button" class="link-btn" onclick="openSavedFolderCategory('generator')">Generator</button>
+            <button type="button" class="link-btn" onclick="openSavedFolderCategory('compressor')">Compressor</button>
+            <button type="button" class="link-btn" onclick="openSavedFolderCategory('boiler')">Boiler</button>
+          </div>
+        </div>
+        <div id="savedRecordsList"></div>
       </div>
     </div>
 
@@ -1022,7 +1097,7 @@ function getLogoHtml(cssClass = "") {
   if (PN_LOGO_DATA_URL && PN_LOGO_DATA_URL !== "PN LOGO" && PN_LOGO_DATA_URL.startsWith("data:image")) {
     return `<img src="${PN_LOGO_DATA_URL}" alt="PN Logo" class="${cssClass}">`;
   }
-  return `<div style="font-weight:800; color:#14452f; font-size:11.5px; border:1.5px dashed #14452f; padding:6px 8px; border-radius:8px; text-align:center;">PN LOGO</div>`;
+  return `<div style="font-weight:800; color:#14452f; font-size:11.5px; border:1.5px dashed #14452f; padding:6px 8px; border-radius:8px; text-align:center; background:#fff;">PN LOGO</div>`;
 }
 
 document.getElementById("header-logo-container").innerHTML = getLogoHtml();
@@ -1075,7 +1150,7 @@ function handlePhotoUpload(event) {
   const statusEl = document.getElementById("regPhotoStatus");
   if (!file) return;
 
-  const maxBytes = 500 * 1024; // 500KB limit
+  const maxBytes = 500 * 1024;
   if (file.size > maxBytes) {
     statusEl.style.color = "#dc2626";
     statusEl.textContent = `ছবির সাইজ ${(file.size / 1024).toFixed(0)}KB (500KB-এর বেশি)! অনুগ্রহ করে 500KB-এর নিচে ছবি দিন।`;
@@ -1172,7 +1247,6 @@ async function handleRegistrationConfirm() {
     createdAt: new Date().toISOString()
   };
 
-  // Save locally & connect Firebase immediately if configured
   const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
   const idx = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
   if (idx >= 0) users[idx] = profile; else users.push(profile);
@@ -1184,7 +1258,7 @@ async function handleRegistrationConfirm() {
       await firebaseAuth.createUserWithEmailAndPassword(email, password).catch(() => {});
       await firebaseDb.collection("pn_employees").doc(email.toLowerCase()).set({
         ...profile,
-        password: "" // Do not store plain password in Firestore
+        password: ""
       });
     } catch (err) {
       console.warn("Firebase sync notice:", err);
@@ -1215,9 +1289,7 @@ async function handleLogin() {
         navigateSection("generator");
         return;
       }
-    } catch (err) {
-      // Fallback to local records if offline or demo mode
-    }
+    } catch (err) {}
   }
 
   const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
@@ -1229,7 +1301,6 @@ async function handleLogin() {
     document.getElementById("app-shell").style.display = "block";
     navigateSection("generator");
   } else {
-    // Allow quick entry if email & password provided when no prior registration matches
     const guestProfile = {
       officeId: "PN-UTL-NEW",
       name: email.split("@")[0],
@@ -1263,7 +1334,7 @@ function handleLogout() {
   showAuthPanel("login");
 }
 
-/* ================= SIDEBAR & SECTION NAVIGATION ================= */
+/* ================= SIDEBAR, FOLDER & SAVE DATA ================= */
 function openSidebar() {
   document.getElementById("sideDrawer").classList.add("open");
   document.getElementById("sidebarBackdrop").classList.add("open");
@@ -1272,6 +1343,13 @@ function openSidebar() {
 function closeSidebar() {
   document.getElementById("sideDrawer").classList.remove("open");
   document.getElementById("sidebarBackdrop").classList.remove("open");
+}
+
+function toggleSavedFolderPanel() {
+  const panel = document.getElementById("savedFolderSubPanel");
+  const arrow = document.getElementById("savedFolderArrow");
+  const isOpen = panel.classList.toggle("open");
+  arrow.textContent = isOpen ? "▴" : "▾";
 }
 
 function navigateSection(section, btnEl = null) {
@@ -1285,6 +1363,7 @@ function navigateSection(section, btnEl = null) {
   document.getElementById("view-compressor").style.display = section === "compressor" ? "block" : "none";
   document.getElementById("view-generator").style.display = section === "generator" ? "block" : "none";
   document.getElementById("view-boiler").style.display = section === "boiler" ? "block" : "none";
+  document.getElementById("view-saved-data").style.display = section === "saved" ? "block" : "none";
 
   if (section !== "generator") {
     document.getElementById("report-container").style.display = "none";
@@ -1292,6 +1371,200 @@ function navigateSection(section, btnEl = null) {
   if (section !== "boiler") {
     document.getElementById("boiler-report-box").style.display = "none";
   }
+}
+
+function collectGeneratorSnapshot() {
+  const snap = {
+    date: document.getElementById("reportDate").value,
+    ngRate: document.getElementById("ngRate").value,
+    dgRate: document.getElementById("dgRate").value,
+    daySummary: {
+      dg_cons: document.getElementById("day_dg_cons").value,
+      ng_cons: document.getElementById("day_ng_cons").value,
+      dg_kwh: document.getElementById("day_dg_kwh").value,
+      gg_kwh: document.getElementById("day_gg_kwh").value
+    },
+    nightSummary: {
+      dg_cons: document.getElementById("night_dg_cons").value,
+      ng_cons: document.getElementById("night_ng_cons").value,
+      dg_kwh: document.getElementById("night_dg_kwh").value,
+      gg_kwh: document.getElementById("night_gg_kwh").value
+    },
+    grid: {}
+  };
+  ["day", "night"].forEach(shift => {
+    const hrs = shift === "day" ? DAY_HOURS : NIGHT_HOURS;
+    snap.grid[shift] = hrs.map((_, idx) => ({
+      mbar: document.getElementById(`${shift}_mbar_${idx}`).value,
+      gg1: document.getElementById(`${shift}_gg1_${idx}`).value,
+      gg2: document.getElementById(`${shift}_gg2_${idx}`).value,
+      gg3: document.getElementById(`${shift}_gg3_${idx}`).value,
+      dgetp: document.getElementById(`${shift}_dgetp_${idx}`).value,
+      dgwash: document.getElementById(`${shift}_dgwash_${idx}`).value,
+      dgrent: document.getElementById(`${shift}_dgrent_${idx}`).value,
+      depts: DEPARTMENTS.map(d => document.getElementById(`${shift}_${d.key}_${idx}`).value)
+    }));
+  });
+  return snap;
+}
+
+function restoreGeneratorSnapshot(snap) {
+  if (!snap) return;
+  document.getElementById("reportDate").value = snap.date || "2026-11-22";
+  document.getElementById("ngRate").value = snap.ngRate || "27.00";
+  document.getElementById("dgRate").value = snap.dgRate || "109.00";
+
+  ["day", "night"].forEach(shift => {
+    const sObj = snap[shift + "Summary"] || {};
+    document.getElementById(`${shift}_dg_cons`).value = sObj.dg_cons || 0;
+    document.getElementById(`${shift}_ng_cons`).value = sObj.ng_cons || 0;
+    document.getElementById(`${shift}_dg_kwh`).value = sObj.dg_kwh || 0;
+    document.getElementById(`${shift}_gg_kwh`).value = sObj.gg_kwh || 0;
+    updateTotalKwh(shift);
+
+    const rows = (snap.grid && snap.grid[shift]) || [];
+    rows.forEach((r, idx) => {
+      if (!document.getElementById(`${shift}_mbar_${idx}`)) return;
+      document.getElementById(`${shift}_mbar_${idx}`).value = r.mbar || 0;
+      document.getElementById(`${shift}_gg1_${idx}`).value = r.gg1 || 0;
+      document.getElementById(`${shift}_gg2_${idx}`).value = r.gg2 || 0;
+      document.getElementById(`${shift}_gg3_${idx}`).value = r.gg3 || 0;
+      document.getElementById(`${shift}_dgetp_${idx}`).value = r.dgetp || 0;
+      document.getElementById(`${shift}_dgwash_${idx}`).value = r.dgwash || 0;
+      document.getElementById(`${shift}_dgrent_${idx}`).value = r.dgrent || 0;
+      DEPARTMENTS.forEach((d, dIdx) => {
+        document.getElementById(`${shift}_${d.key}_${idx}`).value = (r.depts && r.depts[dIdx]) || 0;
+      });
+      recalcRow(shift, idx);
+    });
+  });
+
+  navigateSection("generator");
+}
+
+function collectBoilerSnapshot() {
+  const prefix = currentBoilerShift === "day" ? "bday" : "bnight";
+  const hrs = currentBoilerShift === "day" ? BOILER_DAY_HOURS : BOILER_NIGHT_HOURS;
+  return {
+    date: document.getElementById("boilerDate").value,
+    ngRate: document.getElementById("boilerNgRate").value,
+    lpgRate: document.getElementById("boilerLpgRate").value,
+    shift: currentBoilerShift,
+    rows: hrs.map((_, idx) => ({
+      ngpreb: document.getElementById(`${prefix}_ngpreb_${idx}`).value,
+      ngprea: document.getElementById(`${prefix}_ngprea_${idx}`).value,
+      brun: document.getElementById(`${prefix}_brun_${idx}`).value,
+      fire: document.getElementById(`${prefix}_fire_${idx}`).value,
+      spress: document.getElementById(`${prefix}_spress_${idx}`).value,
+      sgen: document.getElementById(`${prefix}_sgen_${idx}`).value,
+      ngc: document.getElementById(`${prefix}_ngc_${idx}`).value,
+      lpgrun: document.getElementById(`${prefix}_lpgrun_${idx}`).value,
+      lpgc: document.getElementById(`${prefix}_lpgc_${idx}`).value,
+      bdepts: BOILER_DEPTS.map((_, dIdx) => document.getElementById(`${prefix}_bd${dIdx}_${idx}`).value)
+    }))
+  };
+}
+
+function restoreBoilerSnapshot(snap) {
+  if (!snap) return;
+  document.getElementById("boilerDate").value = snap.date || "2026-11-21";
+  document.getElementById("boilerNgRate").value = snap.ngRate || "27.00";
+  document.getElementById("boilerLpgRate").value = snap.lpgRate || "120.00";
+  currentBoilerShift = snap.shift || "day";
+  document.getElementById("btab-day").classList.toggle("active", currentBoilerShift === "day");
+  document.getElementById("btab-night").classList.toggle("active", currentBoilerShift === "night");
+  renderBoilerGrid();
+
+  const prefix = currentBoilerShift === "day" ? "bday" : "bnight";
+  (snap.rows || []).forEach((r, idx) => {
+    if (!document.getElementById(`${prefix}_sgen_${idx}`)) return;
+    document.getElementById(`${prefix}_ngpreb_${idx}`).value = r.ngpreb || 0;
+    document.getElementById(`${prefix}_ngprea_${idx}`).value = r.ngprea || 0;
+    document.getElementById(`${prefix}_brun_${idx}`).value = r.brun || 0;
+    document.getElementById(`${prefix}_fire_${idx}`).value = r.fire || 0;
+    document.getElementById(`${prefix}_spress_${idx}`).value = r.spress || 0;
+    document.getElementById(`${prefix}_sgen_${idx}`).value = r.sgen || 0;
+    document.getElementById(`${prefix}_ngc_${idx}`).value = r.ngc || 0;
+    document.getElementById(`${prefix}_lpgrun_${idx}`).value = r.lpgrun || 0;
+    document.getElementById(`${prefix}_lpgc_${idx}`).value = r.lpgc || 0;
+    BOILER_DEPTS.forEach((_, dIdx) => {
+      document.getElementById(`${prefix}_bd${dIdx}_${idx}`).value = (r.bdepts && r.bdepts[dIdx]) || 0;
+    });
+    recalcBoilerRow(prefix, idx);
+  });
+
+  navigateSection("boiler");
+}
+
+function saveCurrentData(category) {
+  const storageKey = `pn_saved_${category}`;
+  const existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  const payload = category === "boiler" ? collectBoilerSnapshot() : collectGeneratorSnapshot();
+  const record = {
+    id: Date.now(),
+    savedAt: new Date().toLocaleString("en-GB"),
+    date: payload.date || new Date().toISOString().slice(0, 10),
+    data: payload
+  };
+  existing.unshift(record);
+  localStorage.setItem(storageKey, JSON.stringify(existing.slice(0, 30)));
+  alert(`${category.toUpperCase()} তথ্য সফলভাবে সেভ করা হয়েছে! স্লাইডবারের Saved Data ফোল্ডারে দেখা যাবে।`);
+}
+
+function openSavedFolderCategory(category) {
+  navigateSection("saved");
+  const titleMap = {
+    generator: "Saved Data — Generator",
+    compressor: "Saved Data — Compressor",
+    boiler: "Saved Data — Boiler"
+  };
+  document.getElementById("savedFolderTitle").textContent = titleMap[category] || "Saved Data";
+
+  const listEl = document.getElementById("savedRecordsList");
+  if (category === "compressor") {
+    listEl.innerHTML = `<div class="upcoming-card" style="padding:24px;">
+      <span class="upcoming-pill">Compressor Folder</span>
+      <h3 style="margin:10px 0 4px 0; color:var(--brand-dark);">Upcoming</h3>
+      <p>কম্প্রেসরের সেভ করা তথ্য শীঘ্রই যুক্ত হচ্ছে।</p>
+    </div>`;
+    return;
+  }
+
+  const records = JSON.parse(localStorage.getItem(`pn_saved_${category}`) || "[]");
+  if (!records.length) {
+    listEl.innerHTML = `<p style="font-size:13px; color:var(--slate-500); font-weight:600;">এই ফোল্ডারে এখনো কোনো তথ্য সেভ করা হয়নি।</p>`;
+    return;
+  }
+
+  listEl.innerHTML = records.map(rec => `
+    <div class="saved-record-item">
+      <div>
+        <strong style="font-size:13.5px; color:var(--brand-dark);">Date: ${rec.date}</strong>
+        <div style="font-size:11.5px; color:var(--slate-500);">Saved at: ${rec.savedAt}</div>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="btn btn-primary" style="padding:7px 13px; font-size:12px;" onclick="loadSavedRecord('${category}', ${rec.id})">Load & View</button>
+        <button type="button" class="btn btn-excel" style="padding:7px 11px; font-size:12px; background:#dc2626;" onclick="deleteSavedRecord('${category}', ${rec.id})">Delete</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function loadSavedRecord(category, id) {
+  const records = JSON.parse(localStorage.getItem(`pn_saved_${category}`) || "[]");
+  const found = records.find(r => r.id === id);
+  if (!found) return;
+  if (category === "generator") {
+    restoreGeneratorSnapshot(found.data);
+  } else if (category === "boiler") {
+    restoreBoilerSnapshot(found.data);
+  }
+}
+
+function deleteSavedRecord(category, id) {
+  const records = JSON.parse(localStorage.getItem(`pn_saved_${category}`) || "[]").filter(r => r.id !== id);
+  localStorage.setItem(`pn_saved_${category}`, JSON.stringify(records));
+  openSavedFolderCategory(category);
 }
 
 /* ================= AUTO CLEAR '0' ON FOCUS ================= */
@@ -1402,7 +1675,7 @@ function switchShift(shift, btn) {
   }
 }
 
-/* ================= BOILER ENTRY & REPORT (IMAGE 2 STYLE) ================= */
+/* ================= BOILER ENTRY & REPORT ================= */
 function renderBoilerGrid() {
   const hours = currentBoilerShift === 'day' ? BOILER_DAY_HOURS : BOILER_NIGHT_HOURS;
   const prefix = currentBoilerShift === 'day' ? 'bday' : 'bnight';
@@ -1584,11 +1857,33 @@ function buildBoilerReport() {
   document.getElementById("boiler-report-box").scrollIntoView({ behavior: "smooth" });
 }
 
-/* ================= CAMERA SCAN & PARSER ================= */
+/* ================= ENHANCED GRID & HIGH-CONTRAST SCANNER ================= */
 function closeScanModal() {
   document.getElementById('scan-modal').style.display = 'none';
   document.getElementById('cameraInput').value = '';
   document.getElementById('galleryInput').value = '';
+}
+
+function enhanceImageForOcr(imgElement) {
+  return new Promise(resolve => {
+    const canvas = document.createElement("canvas");
+    const scale = Math.min(2.2, Math.max(1.4, 1600 / Math.max(imgElement.naturalWidth || 800, 1)));
+    canvas.width = Math.round((imgElement.naturalWidth || 800) * scale);
+    canvas.height = Math.round((imgElement.naturalHeight || 600) * scale);
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
+
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imgData.data;
+    // Boost contrast & convert to crisp grayscale so colored/tinted cells read cleanly
+    for (let i = 0; i < data.length; i += 4) {
+      const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+      const boosted = gray > 235 ? 255 : Math.max(0, Math.min(255, (gray - 128) * 1.45 + 128));
+      data[i] = data[i + 1] = data[i + 2] = boosted;
+    }
+    ctx.putImageData(imgData, 0, 0);
+    resolve(canvas.toDataURL("image/png"));
+  });
 }
 
 async function handleImageScan(event) {
@@ -1596,19 +1891,27 @@ async function handleImageScan(event) {
   if (!file) return;
 
   const imgUrl = URL.createObjectURL(file);
-  document.getElementById('scannedImgPreview').src = imgUrl;
+  const previewEl = document.getElementById('scannedImgPreview');
+  previewEl.src = imgUrl;
   document.getElementById('scan-modal').style.display = 'block';
-  document.getElementById('scanStatusText').textContent = "ছবি স্ক্যান করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...";
+  document.getElementById('scanStatusText').textContent = "ছবি প্রসেস ও স্ক্যান করা হচ্ছে...";
 
   const hours = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
   scannedRowsDraft = hours.map(t => ({ time: t, nums: [] }));
   renderParsedReviewTable();
 
+  await new Promise(res => {
+    if (previewEl.complete && previewEl.naturalWidth > 0) return res();
+    previewEl.onload = res;
+    previewEl.onerror = res;
+  });
+
   try {
-    const result = await Tesseract.recognize(file, 'eng', {
+    const processedDataUrl = await enhanceImageForOcr(previewEl);
+    const result = await Tesseract.recognize(processedDataUrl, 'eng', {
       logger: m => {
         if (m.status === 'recognizing text') {
-          document.getElementById('scanStatusText').textContent = `Scanning: ${Math.round(m.progress * 100)}%`;
+          document.getElementById('scanStatusText').textContent = `Scanning Grid: ${Math.round(m.progress * 100)}%`;
         }
       }
     });
@@ -1616,7 +1919,7 @@ async function handleImageScan(event) {
     const rawText = result.data.text || "";
     parseTextIntoHours(rawText, hours);
     renderParsedReviewTable();
-    document.getElementById('scanStatusText').textContent = "স্ক্যান সম্পন্ন! সেকশন বেছে Auto-Fill Section চাপুন।";
+    document.getElementById('scanStatusText').textContent = "স্ক্যান সম্পন্ন! প্রিভিউ টেবিলে মান যাচাই করে Auto-Fill চাপুন।";
   } catch (err) {
     document.getElementById('scanStatusText').textContent = "অটো-রিড অস্পষ্ট ছিল; ঘরে মান ঠিক করে Auto-Fill চাপুন।";
     renderParsedReviewTable();
