@@ -3,1204 +3,735 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P.N. COMPOSITE LTD. — Boiler Steam & Cost Analysis</title>
+<title>P.N. Composite Ltd. — Boiler Utility & Cost Portal</title>
 <style>
   :root {
-    --primary-green: #14452f;
-    --dark-green: #0d3121;
-    --accent-orange: #ea580c;
-    --report-orange: #c2410c;
-    --border-color: #d1d5db;
-    --bg-light: #f3f4f6;
+    --primary: #0f5132;
+    --primary-dark: #0a3622;
+    --accent: #ea580c;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --border: #cbd5e1;
+    --text: #0f172a;
+    --muted: #64748b;
   }
-  * {
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-  }
-  body {
-    margin: 0;
-    padding: 12px;
-    background: var(--bg-light);
-    color: #111827;
-  }
+  * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--text); }
 
-  /* ================= PORTAL UI STYLES (SCREEN) ================= */
-  .portal-wrapper {
-    max-width: 1280px;
-    margin: 0 auto 20px auto;
-  }
-  .top-status-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-  .status-pill {
-    background: #ecfdf5;
-    color: #065f46;
-    border: 1px solid #a7f3d0;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    background: #10b981;
-    border-radius: 50%;
-  }
-
-  .card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin-bottom: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-
-  /* Header Card */
-  .portal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 4px solid var(--primary-green);
-  }
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .menu-badge {
-    background: var(--primary-green);
-    color: #fff;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .company-info h1 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--primary-green);
-    letter-spacing: 0.3px;
-  }
-  .company-info p {
-    margin: 2px 0 4px 0;
-    font-size: 11px;
-    color: #6b7280;
-  }
-  .portal-subtag {
-    display: inline-block;
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 9.5px;
-    font-weight: 700;
-    color: #374151;
-    letter-spacing: 0.4px;
-  }
-  .pn-logo-box {
-    width: 48px;
-    height: 44px;
-    border: 1.5px solid #e5e7eb;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 18px;
-    color: var(--primary-green);
+  /* Top Portal Header matching P.N. Composite Ltd. */
+  .topbar {
     background: #fff;
-    position: relative;
-  }
-  .pn-logo-box span {
-    color: var(--accent-orange);
-  }
-
-  /* Controls & Shift Tabs */
-  .controls-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .input-group label {
-    display: block;
-    font-size: 10px;
-    font-weight: 700;
-    color: #6b7280;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-  .input-group input {
-    width: 100%;
-    padding: 7px 10px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #111827;
-  }
-  .shift-tabs {
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
     display: flex;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
-  .shift-tab {
-    padding: 7px 16px;
+  .brand-left { display: flex; align-items: center; gap: 10px; }
+  .menu-btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 7px 11px;
     border-radius: 6px;
-    border: 1px solid #d1d5db;
-    background: #f9fafb;
-    color: #374151;
-    font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
+    font-size: 13px;
   }
-  .shift-tab.active {
-    background: var(--primary-green);
-    color: #ffffff;
-    border-color: var(--primary-green);
+  .company-info h1 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0.3px; }
+  .company-info p { margin: 0; font-size: 11px; color: var(--muted); }
+  .portal-tag {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 9px;
+    font-weight: 700;
+    background: #dcfce7;
+    color: var(--primary-dark);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .pn-logo {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    border: 2px solid var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 17px; color: var(--primary);
+    background: #f0fdf4; position: relative;
+  }
+  .pn-logo span { color: var(--accent); }
+
+  /* Side Drawer */
+  .drawer-backdrop {
+    display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 90;
+  }
+  .drawer {
+    position: fixed; top: 0; left: -260px; width: 250px; height: 100%;
+    background: #fff; z-index: 100; transition: 0.25s; padding: 16px;
+    box-shadow: 4px 0 16px rgba(0,0,0,0.15);
+  }
+  .drawer.open { left: 0; }
+  .drawer-backdrop.open { display: block; }
+  .drawer-item {
+    padding: 10px 12px; border-radius: 6px; margin-bottom: 6px;
+    font-size: 13px; font-weight: 600; color: #334155; cursor: pointer;
+  }
+  .drawer-item.active { background: var(--primary); color: #fff; }
+
+  /* Main Container */
+  .container { max-width: 1280px; margin: 14px auto; padding: 0 12px 40px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
 
-  /* Top KPI Summary Inputs */
-  .kpi-entry-grid {
+  /* Meta & Shift Bar */
+  .meta-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .field-box label {
+    display: block; font-size: 10px; font-weight: 700;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 4px;
+  }
+  .field-box input {
+    width: 100%; padding: 7px 10px; border: 1px solid var(--border);
+    border-radius: 6px; font-size: 13px; font-weight: 600; background: #f8fafc;
+  }
+  .shift-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .shift-btn {
+    padding: 8px 16px; border-radius: 7px; border: 1px solid var(--border);
+    background: #fff; font-weight: 700; font-size: 13px; cursor: pointer;
+  }
+  .shift-btn.active {
+    background: var(--primary); color: #fff; border-color: var(--primary);
+  }
+
+  /* Totals KPI Strip */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
     gap: 10px;
     margin-bottom: 14px;
   }
-  .kpi-entry-box {
-    border: 1px solid #e5e7eb;
+  .kpi-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
     border-radius: 8px;
-    padding: 8px 10px;
-    background: #ffffff;
+    padding: 10px 12px;
   }
-  .kpi-entry-box.auto-box {
-    background: #ecfdf5;
-    border-color: #a7f3d0;
-  }
-  .kpi-entry-box label {
-    display: block;
-    font-size: 10px;
-    font-weight: 700;
-    color: #4b5563;
-    margin-bottom: 4px;
-  }
-  .kpi-entry-box .val-display {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--primary-green);
-  }
+  .kpi-card.lpg { border-left-color: var(--accent); }
+  .kpi-title { font-size: 11px; font-weight: 700; color: var(--muted); }
+  .kpi-val { font-size: 18px; font-weight: 800; margin-top: 3px; color: var(--text); }
 
   /* Entry Table */
-  .table-scroll {
-    overflow-x: auto;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-  }
-  table.entry-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11px;
-    text-align: center;
-    min-width: 1150px;
-  }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+  table.entry-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 980px; }
   table.entry-table th {
-    background: var(--primary-green);
-    color: #ffffff;
-    padding: 8px 4px;
-    font-weight: 600;
-    border-right: 1px solid rgba(255,255,255,0.15);
+    background: var(--primary); color: #fff; padding: 8px 6px;
+    font-size: 11px; font-weight: 700; border: 1px solid rgba(255,255,255,0.2);
     white-space: nowrap;
   }
-  table.entry-table th.lpg-th {
-    background: #1e3a8a;
-  }
-  table.entry-table th.dept-th {
-    background: #065f46;
-  }
+  table.entry-table th.lpg-th { background: #0369a1; }
   table.entry-table td {
-    padding: 4px 3px;
-    border-bottom: 1px solid #e5e7eb;
-    border-right: 1px solid #f3f4f6;
+    border: 1px solid #e2e8f0; padding: 4px; text-align: center; background: #fff;
+  }
+  table.entry-table tr:nth-child(even) td { background: #f8fafc; }
+  table.entry-table td.time-col { font-weight: 700; background: #f1f5f9 !important; white-space: nowrap; padding: 0 8px; }
+  table.entry-table td.auto-col { font-weight: 700; background: #ecfdf5 !important; color: var(--primary-dark); }
+  table.entry-table input.cell-inp {
+    width: 100%; min-width: 58px; padding: 5px 4px; border: 1px solid #cbd5e1;
+    border-radius: 4px; text-align: center; font-size: 12px; font-weight: 600;
     background: #fff;
   }
-  table.entry-table tr:nth-child(even) td {
-    background: #f9fafb;
-  }
-  table.entry-table td.time-col {
-    font-weight: 700;
-    color: #1f2937;
-    background: #f3f4f6 !important;
-    white-space: nowrap;
-  }
-  table.entry-table input {
-    width: 56px;
-    padding: 4px 2px;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-    background: #fff;
-  }
-  table.entry-table input:focus {
-    outline: none;
-    border-color: var(--primary-green);
-    background: #ecfdf5;
-  }
-  table.entry-table input.readonly-cell {
-    background: #f3f4f6;
-    border-color: #e5e7eb;
-    color: #111827;
-    font-weight: 700;
-  }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  table.entry-table input.cell-inp:focus {
+    outline: 2px solid var(--primary); border-color: var(--primary); background: #fffbeb;
   }
 
-  /* Bottom Action Buttons (Matching Screenshot 1 & 2) */
-  .action-bar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 8px;
+  /* Stenter & Finishing Box (12-Hour Single Entry) */
+  .stenter-box {
     margin-top: 14px;
+    background: #fff7ed;
+    border: 1px solid #fdba74;
+    border-radius: 8px;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    align-items: end;
   }
-  .btn-portal {
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: #fff;
-    cursor: pointer;
-    transition: 0.2s;
+  .stenter-box label { display: block; font-size: 11px; font-weight: 700; color: #9a3412; margin-bottom: 4px; }
+  .stenter-box input {
+    width: 100%; padding: 7px 10px; border: 1px solid #fb923c;
+    border-radius: 6px; font-weight: 700; background: #fff; text-align: center;
   }
-  .btn-save { background: #2563eb; }
-  .btn-save:hover { background: #1d4ed8; }
-  .btn-excel { background: #0f766e; }
-  .btn-excel:hover { background: #115e59; }
-  .btn-submit { background: var(--primary-green); }
-  .btn-submit:hover { background: var(--dark-green); }
-  .btn-pdf-single { background: var(--accent-orange); }
-  .btn-pdf-single:hover { background: #c2410c; }
-  .btn-pdf-both { background: #1e293b; }
-  .btn-pdf-both:hover { background: #0f172a; }
+  .stenter-auto {
+    background: #fff; border: 1px dashed #ea580c; border-radius: 6px;
+    padding: 7px 10px; font-size: 12px; font-weight: 700; color: #7c2d12;
+  }
 
-  /* ================= A4 REPORT SHEET STYLES (MATCHING SCREENSHOT 3 & 4) ================= */
-  .report-preview-section {
-    max-width: 1280px;
-    margin: 20px auto;
+  /* Action Buttons matching portal */
+  .action-bar {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; justify-content: flex-end;
   }
-  .a4-sheet {
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    padding: 12px 16px;
+  .btn {
+    padding: 9px 15px; border-radius: 7px; border: none;
+    font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.15s;
+  }
+  .btn-save { background: #2563eb; color: #fff; }
+  .btn-generate { background: var(--primary); color: #fff; }
+  .btn-pdf { background: var(--accent); color: #fff; }
+  .btn-combined { background: #1e293b; color: #fff; }
+
+  /* Generated Report Section (2-Page Mode & 1-Page Combined Mode) */
+  #reportArea { display: none; margin-top: 20px; }
+  .report-toolbar {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px; background: #0f172a; color: #fff;
+    padding: 12px 16px; border-radius: 8px; margin-bottom: 14px;
+  }
+  .a4-page {
+    background: #fff;
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    padding: 14px 16px;
     margin-bottom: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
   }
   .rep-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1.5px solid #9ca3af;
-    padding-bottom: 5px;
-    margin-bottom: 7px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 10px;
   }
-  .rep-company h2 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--primary-green);
+  .rep-header h2 { margin: 0; font-size: 16px; color: var(--primary-dark); }
+  .rep-header p { margin: 2px 0 0; font-size: 11px; color: var(--muted); }
+  .rep-summary-bar {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px;
   }
-  .rep-company p {
-    margin: 1px 0 0 0;
-    font-size: 9px;
-    color: #4b5563;
+  .rep-pill {
+    border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 6px 8px;
   }
-  .rep-center {
-    text-align: center;
-  }
-  .rep-center h3 {
-    margin: 0;
-    font-size: 12.5px;
-    font-weight: 800;
-    color: #111827;
-    letter-spacing: 0.3px;
-  }
-  .rep-shift-badge {
-    display: inline-block;
-    margin-top: 2px;
-    background: #f3f4f6;
-    border: 1px solid #d1d5db;
-    padding: 1px 10px;
-    border-radius: 3px;
-    font-size: 9.5px;
-    font-weight: 700;
-    color: #1f2937;
-  }
-  .rep-logo {
-    border: 1px solid #9ca3af;
-    border-radius: 4px;
-    padding: 4px 10px;
-    font-weight: 900;
-    font-size: 12px;
-    color: var(--primary-green);
-  }
-  .rep-logo span { color: var(--accent-orange); }
+  .rep-pill small { display: block; font-size: 10px; color: var(--muted); font-weight: 700; }
+  .rep-pill strong { font-size: 13px; color: #0f172a; }
 
-  /* 6 KPI Summary Cards */
-  .rep-kpi-row {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 6px;
-    margin-bottom: 7px;
+  table.rep-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  table.rep-table th, table.rep-table td {
+    border: 1px solid #cbd5e1; padding: 3px 4px; text-align: center;
   }
-  .rep-kpi-card {
-    border: 1px solid #d1d5db;
-    border-left: 3px solid var(--primary-green);
-    border-radius: 4px;
-    padding: 4px 7px;
-    background: #fafafa;
+  table.rep-table th { background: #ecfdf5; color: #064e3b; font-weight: 700; }
+  table.rep-table tr.tot-row td { background: #fef3c7; font-weight: 800; }
+
+  .rep-footer-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px; margin-top: 10px; font-size: 11px;
   }
-  .rep-kpi-card.orange-border {
-    border-left-color: var(--accent-orange);
+  .finishing-card {
+    border: 1px solid #fed7aa; background: #fff7ed; border-radius: 6px; padding: 8px 10px;
   }
-  .rep-kpi-title {
-    font-size: 7.5px;
-    font-weight: 700;
-    color: #6b7280;
-    text-transform: uppercase;
-  }
-  .rep-kpi-val {
-    font-size: 11px;
-    font-weight: 800;
-    color: #111827;
-    margin-top: 1px;
+  .sign-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-top: 22px; padding-top: 8px; border-top: 1px dashed #cbd5e1;
+    font-size: 10px; text-align: center; color: #475569;
   }
 
-  /* Report Data Table */
-  table.rep-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 8.2px;
-    text-align: center;
+  /* Combined 1-Page Day + Night Mode */
+  .combined-mode .a4-page {
+    padding: 8px 10px;
+    margin-bottom: 0;
   }
-  table.rep-table th,
-  table.rep-table td {
-    border: 1px solid #cbd5e1;
-    padding: 2px 2px;
-    height: 15.5px;
-  }
-  .th-group-green {
-    background: var(--primary-green);
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 8.5px;
-  }
-  .th-group-orange {
-    background: var(--report-orange);
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 8.5px;
-  }
-  .th-sub {
-    background: #f3f4f6;
-    color: #1f2937;
-    font-weight: 700;
-  }
-  .th-sub-orange {
-    background: #ffedd5;
-    color: #9a3412;
-    font-weight: 700;
-  }
-  .rep-total-row td {
-    background: #f3f4f6;
-    font-weight: 800;
-    border-top: 1.5px solid #6b7280;
-  }
-  .rep-share-row td {
-    background: #ecfdf5;
-    font-weight: 700;
-    color: var(--primary-green);
-  }
-  .text-orange-bold {
-    color: var(--report-orange);
-    font-weight: 800;
-  }
+  .combined-mode .rep-header { padding-bottom: 4px; margin-bottom: 6px; }
+  .combined-mode .rep-header h2 { font-size: 13px; }
+  .combined-mode .rep-summary-bar { gap: 5px; margin-bottom: 6px; }
+  .combined-mode .rep-pill { padding: 4px 6px; }
+  .combined-mode .rep-pill strong { font-size: 11px; }
+  .combined-mode table.rep-table { font-size: 8.5px; }
+  .combined-mode table.rep-table th, .combined-mode table.rep-table td { padding: 1.5px 2px; }
+  .combined-mode .rep-footer-grid { margin-top: 6px; font-size: 9.5px; }
+  .combined-mode .sign-row { margin-top: 10px; padding-top: 4px; font-size: 9px; }
 
-  /* Report Bottom Charts */
-  .rep-charts-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 7px;
-  }
-  .rep-chart-box {
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    padding: 5px 8px;
-  }
-  .rep-chart-title {
-    text-align: center;
-    font-size: 8.5px;
-    font-weight: 800;
-    color: #374151;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-  }
-  .rep-bars {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    height: 54px;
-    border-bottom: 1px solid #9ca3af;
-    padding-top: 10px;
-  }
-  .rep-bar-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-  }
-  .rep-bar-num {
-    font-size: 6.8px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 1px;
-  }
-  .rep-bar-rect-green {
-    width: 14px;
-    background: var(--primary-green);
-    border-radius: 1px 1px 0 0;
-    min-height: 1px;
-  }
-  .rep-bar-rect-orange {
-    width: 16px;
-    background: var(--accent-orange);
-    border-radius: 1px 1px 0 0;
-    min-height: 1px;
-  }
-  .rep-bar-lbl {
-    font-size: 6.5px;
-    color: #4b5563;
-    margin-top: 2px;
-    white-space: nowrap;
-  }
-
-  /* Signatures Footer */
-  .rep-signatures {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 14px;
-    padding-top: 3px;
-    font-size: 8.5px;
-    font-weight: 700;
-    color: #374151;
-  }
-  .sig-line {
-    border-top: 1px solid #6b7280;
-    padding-top: 2px;
-    width: 155px;
-    text-align: center;
-  }
-
-  /* ================= PRINT / PDF MEDIA QUERIES ================= */
   @media print {
-    @page {
-      size: A4 landscape;
-      margin: 4mm;
-    }
-    body {
-      background: #ffffff;
-      padding: 0;
-      margin: 0;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-    .no-print {
-      display: none !important;
-    }
-    .report-preview-section {
-      margin: 0;
-      max-width: 100%;
-    }
-    /* Single Sheet Mode (Page 2 behavior when printing single shift) */
-    body.print-single .a4-sheet {
-      margin: 0;
-      border: 1px solid #9ca3af;
-      box-shadow: none;
-      padding: 10px 14px;
-    }
-    /* Both Shifts on ONE Single A4 Page (Matching Screenshot 3 & 4) */
-    body.print-both .a4-sheet {
-      margin: 0 0 6px 0;
-      padding: 6px 10px;
-      border: 1px solid #9ca3af;
-      box-shadow: none;
-      page-break-inside: avoid;
-    }
-    body.print-both .rep-header { padding-bottom: 2px; margin-bottom: 3px; }
-    body.print-both .rep-company h2 { font-size: 11px; }
-    body.print-both .rep-center h3 { font-size: 10px; }
-    body.print-both .rep-kpi-row { margin-bottom: 3px; gap: 4px; }
-    body.print-both .rep-kpi-card { padding: 2px 5px; }
-    body.print-both .rep-kpi-val { font-size: 9px; }
-    body.print-both table.rep-table { font-size: 6.8px; }
-    body.print-both table.rep-table th,
-    body.print-both table.rep-table td { height: 11.2px; padding: 0.5px 1px; }
-    body.print-both .rep-charts-grid { margin-top: 3px; gap: 8px; }
-    body.print-both .rep-chart-box { padding: 2px 5px; }
-    body.print-both .rep-bars { height: 32px; padding-top: 6px; }
-    body.print-both .rep-bar-num { font-size: 5.8px; }
-    body.print-both .rep-bar-lbl { font-size: 5.8px; }
-    body.print-both .rep-signatures { margin-top: 6px; font-size: 7px; }
+    @page { size: A4 portrait; margin: 6mm; }
+    body { background: #fff; }
+    .topbar, .container > .card, .report-toolbar, .no-print { display: none !important; }
+    #reportArea { display: block !important; margin: 0; }
+    .a4-page { box-shadow: none; border: 1px solid #cbd5e1; margin-bottom: 0; }
+    .page-break-after { page-break-after: always; }
+    .combined-mode .page-break-after { page-break-after: auto; }
   }
 </style>
 </head>
 <body>
 
-<!-- ==================== DATA ENTRY PORTAL (SCREEN ONLY) ==================== -->
-<div class="portal-wrapper no-print">
-  <div class="top-status-bar">
-    <div class="status-pill"><span class="status-dot"></span> Auto-Save Active</div>
-    <div style="font-size:11px; font-weight:700; color:#4b5563;">BOILER UTILITY MODULE</div>
-  </div>
+<!-- Drawer -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div style="font-weight:800; font-size:14px; color:var(--primary); margin-bottom:12px;">P.N. COMPOSITE LTD.</div>
+  <div class="drawer-item">Home</div>
+  <div class="drawer-item">Air Compressor</div>
+  <div class="drawer-item">Generator</div>
+  <div class="drawer-item active">Boiler (Active)</div>
+  <div class="drawer-item">Saved Data</div>
+  <div class="drawer-item">PN ERP</div>
+  <div class="drawer-item">My ID Card</div>
+</aside>
 
-  <!-- Header -->
-  <div class="card portal-header">
-    <div class="header-left">
-      <div class="menu-badge">☰ Boiler Log</div>
-      <div class="company-info">
-        <h1>P.N. COMPOSITE LTD.</h1>
-        <p>Ambag, Konabari, Gazipur.</p>
-        <span class="portal-subtag">UTILITY & STEAM DISTRIBUTION MANAGEMENT PORTAL</span>
-      </div>
+<!-- Top Bar -->
+<header class="topbar">
+  <div class="brand-left">
+    <button class="menu-btn" onclick="toggleDrawer()">☰ Menu</button>
+    <div class="company-info">
+      <h1>P.N. COMPOSITE LTD.</h1>
+      <p>Ambag, Konabari, Gazipur.</p>
+      <span class="portal-tag">UTILITY & POWER DISTRIBUTION MANAGEMENT PORTAL</span>
     </div>
-    <div class="pn-logo-box">P<span>N</span></div>
   </div>
+  <div class="pn-logo">P<span>N</span></div>
+</header>
 
-  <!-- Date, Rates & Shift Switcher -->
+<div class="container">
+  <!-- Controls & Shift Selector -->
   <div class="card">
-    <div class="controls-grid">
-      <div class="input-group">
+    <div class="meta-grid">
+      <div class="field-box">
         <label>Report Date</label>
-        <input type="date" id="reportDate" onchange="syncAll()">
+        <input type="date" id="repDate" value="2026-11-24">
       </div>
-      <div class="input-group">
-        <label>Natural Gas Rate (Tk/M³)</label>
-        <input type="number" id="ngRate" value="27.00" step="0.01" oninput="syncAll()">
+      <div class="field-box">
+        <label>NG Rate (Tk / M³)</label>
+        <input type="number" step="0.01" id="ngRate" value="27.00" oninput="recalc()">
       </div>
-      <div class="input-group">
-        <label>LPG Gas Rate (Tk/Kg)</label>
-        <input type="number" id="lpgRate" value="115.00" step="0.01" oninput="syncAll()">
+      <div class="field-box">
+        <label>LPG Rate (Tk / Kg)</label>
+        <input type="number" step="0.01" id="lpgRate" value="115.00" oninput="recalc()">
       </div>
     </div>
 
     <div class="shift-tabs">
-      <button class="shift-tab active" id="tab-day" onclick="setActiveShift('day')">Day Shift (8 AM – 8 PM)</button>
-      <button class="shift-tab" id="tab-night" onclick="setActiveShift('night')">Night Shift (8 PM – 8 AM)</button>
+      <button class="shift-btn active" id="btnDay" onclick="switchShift('day')">Day Shift (8:00 AM – 8:00 PM)</button>
+      <button class="shift-btn" id="btnNight" onclick="switchShift('night')">Night Shift (8:00 PM – 8:00 AM)</button>
     </div>
   </div>
 
-  <!-- Live KPI Summary & Hourly Data Entry Table -->
+  <!-- Shift Totals KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-title">NG Steam Total (Ton)</div>
+      <div class="kpi-val" id="kpiNgSteam">0.00</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">NG Consumption M³ Total</div>
+      <div class="kpi-val" id="kpiNgCons">0</div>
+    </div>
+    <div class="kpi-card lpg">
+      <div class="kpi-title">LPG Steam Total (Ton)</div>
+      <div class="kpi-val" id="kpiLpgSteam">0.00</div>
+    </div>
+    <div class="kpi-card lpg">
+      <div class="kpi-title">LPG Consumption Kg Total</div>
+      <div class="kpi-val" id="kpiLpgCons">0.00</div>
+    </div>
+  </div>
+
+  <!-- Hourly Entry Table -->
   <div class="card">
-    <div class="kpi-entry-grid">
-      <div class="kpi-entry-box auto-box">
-        <label>NG Steam Generation (Ton)</label>
-        <div class="val-display" id="ui-ngSteam">0.00 Ton</div>
+    <div style="font-weight:800; font-size:14px; margin-bottom:8px; color:var(--primary-dark);" id="shiftHeading">
+      Boiler Hourly Data Entry — Day Shift
+    </div>
+    <div class="table-wrap">
+      <table class="entry-table" id="entryTable">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>NG Pre Before</th>
+            <th>NG Pre After (Mbar)</th>
+            <th>NG Run</th>
+            <th>NG Fire %</th>
+            <th>Steam Press</th>
+            <th>NG Steam (Ton)</th>
+            <th>NG Cons (M³)</th>
+            <th>NG Cost (Tk)</th>
+            <th class="lpg-th">LPG Stop/Run</th>
+            <th class="lpg-th">LPG Fire %</th>
+            <th class="lpg-th">LPG Press</th>
+            <th class="lpg-th">LPG Steam (Ton)</th>
+            <th class="lpg-th">LPG Cons (Kg)</th>
+            <th class="lpg-th">LPG Cost (Tk)</th>
+          </tr>
+        </thead>
+        <tbody id="entryBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Finishing Steam & 12-Hour Stenter Box -->
+    <div class="stenter-box">
+      <div>
+        <label>Finishing Steam (Ton) — শুধু Finishing ঘরে বসবে</label>
+        <input type="number" step="0.01" id="finishingSteam" value="0" oninput="recalc()">
       </div>
-      <div class="kpi-entry-box auto-box">
-        <label>LPG Steam Generation (Ton)</label>
-        <div class="val-display" id="ui-lpgSteam">0.00 Ton</div>
+      <div>
+        <label>Stenter (12-Hour Single Entry — প্রতি ঘণ্টায় নয়)</label>
+        <input type="number" step="1" id="stenter12h" value="0" oninput="recalc()">
       </div>
-      <div class="kpi-entry-box auto-box">
-        <label>NG Consumption (M³)</label>
-        <div class="val-display" id="ui-ngCons">0 M³</div>
-      </div>
-      <div class="kpi-entry-box auto-box">
-        <label>LPG Consumption (Kg)</label>
-        <div class="val-display" id="ui-lpgCons">0 Kg</div>
-      </div>
-      <div class="kpi-entry-box auto-box">
-        <label>Total Shift Steam (Auto)</label>
-        <div class="val-display" id="ui-totSteam">0.00 Ton</div>
+      <div class="stenter-auto" id="finishingSummaryBox">
+        Finishing Total Cost: Tk 0 | Stenter (12h): 0
       </div>
     </div>
 
-    <div class="table-scroll" id="entryTableContainer"></div>
-
-    <!-- Action Buttons matching Generator Portal -->
+    <!-- Main Action Buttons -->
     <div class="action-bar">
-      <button class="btn-portal btn-save" onclick="saveData()">Save Data</button>
-      <button class="btn-portal btn-excel" onclick="downloadExcel()">Download Excel Sheet</button>
-      <button class="btn-portal btn-submit" onclick="submitAndGenerate()">Submit & Generate Report</button>
-      <button class="btn-portal btn-pdf-single" onclick="printSingleShift()">Download / Print PDF</button>
-      <button class="btn-portal btn-pdf-both" onclick="printBothShifts()">Day & Night Download / Print PDF</button>
+      <button class="btn btn-save" onclick="saveData()">Save Data</button>
+      <button class="btn btn-generate" onclick="generateTwoPageReport()">Submit &amp; Generate Report</button>
+      <button class="btn btn-combined" onclick="generateCombinedOnePagePDF()">Day &amp; Night Download / Print PDF</button>
     </div>
   </div>
 </div>
 
-<!-- ==================== GENERATED A4 REPORT PREVIEW ==================== -->
-<div class="report-preview-section" id="reportPreviewSection">
-  <div id="report-day-container"></div>
-  <div id="report-night-container" style="display:none;"></div>
+<!-- Generated Report Output Area -->
+<div id="reportArea" class="container">
+  <div class="report-toolbar">
+    <div id="reportModeLabel" style="font-weight:700; font-size:13px;">Generated Boiler Report</div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="btn btn-pdf" onclick="window.print()">Download / Print PDF</button>
+      <button class="btn btn-save" onclick="generateCombinedOnePagePDF()">Day &amp; Night Download / Print PDF (1 Page)</button>
+      <button class="btn btn-combined" onclick="document.getElementById('reportArea').style.display='none'">Back to Entry</button>
+    </div>
+  </div>
+  <div id="reportPages"></div>
 </div>
 
 <script>
-const dayTimes = [
-  "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
-  "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"
+const DAY_SLOTS = [
+  "8:00 AM","9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM",
+  "2:00 PM","3:00 PM","4:00 PM","5:00 PM","6:00 PM","7:00 PM","8:00 PM"
+];
+const NIGHT_SLOTS = [
+  "8:00 PM","9:00 PM","10:00 PM","11:00 PM","12:00 AM","1:00 AM",
+  "2:00 AM","3:00 AM","4:00 AM","5:00 AM","6:00 AM","7:00 AM","8:00 AM"
 ];
 
-const nightTimes = [
-  "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM",
-  "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM", "8:00 AM"
-];
-
-const deptList = ["RMG", "Utility", "Dyeing", "Finishing", "AOP", "Oval", "Office", "Washing"];
-
-function makeEmptyShift() {
-  return Array.from({ length: 13 }, () => ({
-    ngPreBef: 0, ngPreAft: 0, ngFire: 0, ngPress: 0, ngSteam: 0, ngCons: 0,
-    lpgFire: 0, lpgPress: 0, lpgSteam: 0, lpgCons: 0,
-    depts: { RMG: 0, Utility: 0, Dyeing: 0, Finishing: 0, AOP: 0, Oval: 0, Office: 0, Washing: 0 },
-    stenter: 0 // Only applies to Finishing
-  }));
-}
-
-let activeShift = 'day';
-let state = {
-  date: "2026-11-22",
-  ngRate: 27.00,
-  lpgRate: 115.00,
-  day: makeEmptyShift(),
-  night: makeEmptyShift()
-};
-
-// Pre-fill sample rows in Day Shift for immediate clarity
-state.day[1] = { ngPreBef: 5.5, ngPreAft: 125, ngFire: 55, ngPress: 6.6, ngSteam: 4.96, ngCons: 347, lpgFire: 0, lpgPress: 0, lpgSteam: 0, lpgCons: 0, depts: { RMG: 0.60, Utility: 0, Dyeing: 2.96, Finishing: 0.65, AOP: 0, Oval: 0, Office: 0, Washing: 0.75 }, stenter: 0 };
-state.day[2] = { ngPreBef: 3.5, ngPreAft: 122, ngFire: 70, ngPress: 5.8, ngSteam: 6.31, ngCons: 441, lpgFire: 0, lpgPress: 0, lpgSteam: 0, lpgCons: 0, depts: { RMG: 0.80, Utility: 0, Dyeing: 3.71, Finishing: 0.80, AOP: 0, Oval: 0, Office: 0, Washing: 1.00 }, stenter: 0 };
-state.day[3] = { ngPreBef: 2.5, ngPreAft: 100, ngFire: 80, ngPress: 6.0, ngSteam: 7.21, ngCons: 505, lpgFire: 0, lpgPress: 0, lpgSteam: 0, lpgCons: 0, depts: { RMG: 0.90, Utility: 0, Dyeing: 4.21, Finishing: 0.90, AOP: 0, Oval: 0, Office: 0, Washing: 1.20 }, stenter: 1.79 };
-
-function renderEntryTable() {
-  const times = activeShift === 'day' ? dayTimes : nightTimes;
-  const rows = state[activeShift];
-
-  let html = `
-  <table class="entry-table">
-    <thead>
-      <tr>
-        <th>Time</th>
-        <th>NG Pre<br>Before</th>
-        <th>NG Pre<br>After (Mbar)</th>
-        <th>NG Fire<br>%</th>
-        <th>NG Steam<br>Press</th>
-        <th>NG Steam<br>(Ton)</th>
-        <th>NG Cons.<br>(M³)</th>
-        <th class="lpg-th">LPG Fire<br>%</th>
-        <th class="lpg-th">LPG Steam<br>Press</th>
-        <th class="lpg-th">LPG Steam<br>(Ton)</th>
-        <th class="lpg-th">LPG Cons.<br>(Kg)</th>
-        <th>Total Steam<br>(Ton)</th>
-        <th class="dept-th">RMG<br>(Ton)</th>
-        <th class="dept-th">Utility<br>(Ton)</th>
-        <th class="dept-th">Dyeing<br>(Ton)</th>
-        <th class="dept-th">Finishing<br>(Ton)</th>
-        <th class="dept-th" style="background:#b45309;">Stenter<br>(Finishing)</th>
-        <th class="dept-th">AOP<br>(Ton)</th>
-        <th class="dept-th">Oval<br>(Ton)</th>
-        <th class="dept-th">Office<br>(Ton)</th>
-        <th class="dept-th">Washing<br>(Ton)</th>
-      </tr>
-    </thead>
-    <tbody>
-  `;
-
-  rows.forEach((r, i) => {
-    const rowTotSteam = (Number(r.ngSteam) || 0) + (Number(r.lpgSteam) || 0);
-    html += `
-      <tr>
-        <td class="time-col">${times[i]}</td>
-        <td><input type="number" step="0.01" value="${r.ngPreBef}" oninput="onCellChange(${i},'ngPreBef',this.value)"></td>
-        <td><input type="number" step="1" value="${r.ngPreAft}" oninput="onCellChange(${i},'ngPreAft',this.value)"></td>
-        <td><input type="number" step="1" value="${r.ngFire}" oninput="onCellChange(${i},'ngFire',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.ngPress}" oninput="onCellChange(${i},'ngPress',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.ngSteam}" oninput="onCellChange(${i},'ngSteam',this.value)"></td>
-        <td><input type="number" step="1" value="${r.ngCons}" oninput="onCellChange(${i},'ngCons',this.value)"></td>
-
-        <td><input type="number" step="1" value="${r.lpgFire}" oninput="onCellChange(${i},'lpgFire',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.lpgPress}" oninput="onCellChange(${i},'lpgPress',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.lpgSteam}" oninput="onCellChange(${i},'lpgSteam',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.lpgCons}" oninput="onCellChange(${i},'lpgCons',this.value)"></td>
-
-        <td><input type="text" class="readonly-cell" id="rowTot-${i}" value="${rowTotSteam.toFixed(2)}" readonly></td>
-
-        <td><input type="number" step="0.01" value="${r.depts.RMG}" oninput="onDeptChange(${i},'RMG',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.depts.Utility}" oninput="onDeptChange(${i},'Utility',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.depts.Dyeing}" oninput="onDeptChange(${i},'Dyeing',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.depts.Finishing}" oninput="onDeptChange(${i},'Finishing',this.value)"></td>
-        <td><input type="number" step="0.01" style="border-color:#f59e0b; background:#fffbeb;" value="${r.stenter}" oninput="onCellChange(${i},'stenter',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.depts.AOP}" oninput="onDeptChange(${i},'AOP',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.depts.Oval}" oninput="onDeptChange(${i},'Oval',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.depts.Office}" oninput="onDeptChange(${i},'Office',this.value)"></td>
-        <td><input type="number" step="0.01" value="${r.depts.Washing}" oninput="onDeptChange(${i},'Washing',this.value)"></td>
-      </tr>
-    `;
-  });
-
-  html += `</tbody></table>`;
-  document.getElementById('entryTableContainer').innerHTML = html;
-}
-
-function onCellChange(rowIdx, key, val) {
-  state[activeShift][rowIdx][key] = parseFloat(val) || 0;
-  const r = state[activeShift][rowIdx];
-  document.getElementById(`rowTot-${rowIdx}`).value = ((r.ngSteam || 0) + (r.lpgSteam || 0)).toFixed(2);
-  syncAll();
-}
-
-function onDeptChange(rowIdx, deptName, val) {
-  state[activeShift][rowIdx].depts[deptName] = parseFloat(val) || 0;
-  syncAll();
-}
-
-function computeShiftStats(shiftKey) {
-  const rows = state[shiftKey];
-  const ngRate = parseFloat(document.getElementById('ngRate').value) || 27;
-  const lpgRate = parseFloat(document.getElementById('lpgRate').value) || 115;
-
-  let totNgFire = 0, totNgSteam = 0, totNgCons = 0, totNgCost = 0;
-  let totLpgFire = 0, totLpgSteam = 0, totLpgCons = 0, totLpgCost = 0;
-  let grandSteam = 0, grandCost = 0;
-
-  const deptTotals = { RMG: 0, Utility: 0, Dyeing: 0, Finishing: 0, AOP: 0, Oval: 0, Office: 0, Washing: 0 };
-  let totalStenter = 0;
-
-  const computedRows = rows.map(r => {
-    const ngSteam = Number(r.ngSteam) || 0;
-    const ngCons = Number(r.ngCons) || 0;
-    const ngCost = Math.round(ngCons * ngRate);
-
-    const lpgSteam = Number(r.lpgSteam) || 0;
-    const lpgCons = Number(r.lpgCons) || 0;
-    const lpgCost = Math.round(lpgCons * lpgRate);
-
-    const rowSteam = ngSteam + lpgSteam;
-    const rowCost = ngCost + lpgCost;
-
-    totNgFire += Number(r.ngFire) || 0;
-    totNgSteam += ngSteam;
-    totNgCons += ngCons;
-    totNgCost += ngCost;
-
-    totLpgFire += Number(r.lpgFire) || 0;
-    totLpgSteam += lpgSteam;
-    totLpgCons += lpgCons;
-    totLpgCost += lpgCost;
-
-    grandSteam += rowSteam;
-    grandCost += rowCost;
-
-    const stenterVal = Number(r.stenter) || 0;
-    totalStenter += stenterVal;
-
-    deptList.forEach(d => {
-      deptTotals[d] += Number(r.depts[d]) || 0;
-    });
-    // Stenter steam goes exclusively into Finishing
-    deptTotals.Finishing += stenterVal;
-
-    return {
-      ...r,
-      ngCost,
-      lpgCost,
-      rowSteam,
-      rowCost,
-      finishingWithStenter: (Number(r.depts.Finishing) || 0) + stenterVal
-    };
-  });
-
-  const sumDeptSteam = Object.values(deptTotals).reduce((a, b) => a + b, 0);
-
-  const deptSummary = deptList.map(d => {
-    const st = deptTotals[d];
-    const share = sumDeptSteam > 0 ? (st / sumDeptSteam) : 0;
-    const ngCostShare = Math.round(totNgCost * share);
-    const lpgCostShare = Math.round(totLpgCost * share);
-    return {
-      name: d,
-      steam: st,
-      sharePct: (share * 100).toFixed(2),
-      ngCost: ngCostShare,
-      lpgCost: lpgCostShare,
-      totalCost: ngCostShare + lpgCostShare
-    };
-  });
-
-  const avgCostPerTon = grandSteam > 0 ? (grandCost / grandSteam) : 0;
-
+function emptyRow() {
   return {
-    computedRows,
-    totNgFire, totNgSteam, totNgCons, totNgCost,
-    totLpgFire, totLpgSteam, totLpgCons, totLpgCost,
-    grandSteam, grandCost, avgCostPerTon,
-    deptSummary, sumDeptSteam, totalStenter
+    ngPreBef: 0, ngPreAft: 0, ngRun: 0, ngFire: 0, ngPress: 0, ngSteam: 0, ngCons: 0,
+    lpgStatus: "", lpgFire: 0, lpgPress: 0, lpgSteam: 0, lpgCons: 0
   };
 }
 
-function buildReportHTML(shiftKey) {
-  const stats = computeShiftStats(shiftKey);
-  const times = shiftKey === 'day' ? dayTimes : nightTimes;
-  const shiftLabel = shiftKey === 'day'
-    ? 'DAY SHIFT (8:00 AM - 8:00 PM)'
-    : 'NIGHT SHIFT (8:00 PM - 8:00 AM)';
+let currentShift = "day";
+let store = {
+  day: { rows: DAY_SLOTS.map(emptyRow), finishingSteam: 0, stenter12h: 0 },
+  night: { rows: NIGHT_SLOTS.map(emptyRow), finishingSteam: 0, stenter12h: 0 }
+};
 
-  const dObj = new Date(state.date || "2026-11-22");
-  const dateFormatted = dObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+function toggleDrawer() {
+  document.getElementById("drawer").classList.toggle("open");
+  document.getElementById("drawerBackdrop").classList.toggle("open");
+}
 
-  let tableRowsHTML = '';
-  for (let i = 0; i < 13; i++) {
-    const r = stats.computedRows[i];
-    const dSum = i < deptList.length ? stats.deptSummary[i] : null;
+function switchShift(shift) {
+  currentShift = shift;
+  document.getElementById("btnDay").classList.toggle("active", shift === "day");
+  document.getElementById("btnNight").classList.toggle("active", shift === "night");
+  document.getElementById("shiftHeading").textContent =
+    shift === "day" ? "Boiler Hourly Data Entry — Day Shift" : "Boiler Hourly Data Entry — Night Shift";
+  renderTable();
+  loadShiftExtras();
+  recalc();
+}
 
-    tableRowsHTML += `<tr>
-      <td style="font-weight:700; background:#f9fafb;">${times[i]}</td>
-      <td>${r.ngPreBef.toFixed(1)}</td>
-      <td>${r.ngPreAft}</td>
-      <td>${r.ngFire}</td>
-      <td>${r.ngSteam.toFixed(2)}</td>
-      <td>${r.lpgFire}</td>
-      <td>${r.lpgSteam.toFixed(2)}</td>
-      <td style="font-weight:700;">${r.rowSteam.toFixed(2)}</td>
-
-      <td>${r.lpgCons}</td>
-      <td>${r.lpgCost.toLocaleString()}</td>
-      <td>${r.ngCons}</td>
-      <td>${r.ngCost.toLocaleString()}</td>
-      <td style="font-weight:700;">${r.rowCost.toLocaleString()}</td>
-
-      <td>${r.depts.RMG.toFixed(2)}</td>
-      <td>${r.depts.Utility.toFixed(2)}</td>
-      <td>${r.depts.Dyeing.toFixed(2)}</td>
-      <td title="Includes Stenter: ${r.stenter}">${r.finishingWithStenter.toFixed(2)}</td>
-      <td>${r.depts.AOP.toFixed(2)}</td>
-      <td>${r.depts.Oval.toFixed(2)}</td>
-      <td>${r.depts.Office.toFixed(2)}</td>
-      <td>${r.depts.Washing.toFixed(2)}</td>
-    `;
-
-    if (dSum) {
-      tableRowsHTML += `
-        <td style="font-weight:700; text-align:left; padding-left:4px;">${dSum.name}</td>
-        <td>${dSum.steam.toFixed(2)}</td>
-        <td>${dSum.ngCost.toLocaleString()}</td>
-        <td>${dSum.lpgCost.toLocaleString()}</td>
-        <td class="text-orange-bold">${dSum.totalCost.toLocaleString()}</td>
-      `;
-    } else if (i === 8) {
-      tableRowsHTML += `
-        <td style="font-weight:800; background:#f3f4f6;">Total</td>
-        <td style="font-weight:800; background:#f3f4f6;">${stats.sumDeptSteam.toFixed(2)}</td>
-        <td style="font-weight:800; background:#f3f4f6;">${stats.totNgCost.toLocaleString()}</td>
-        <td style="font-weight:800; background:#f3f4f6;">${stats.totLpgCost.toLocaleString()}</td>
-        <td class="text-orange-bold" style="background:#f3f4f6;">${stats.grandCost.toLocaleString()}</td>
-      `;
-    } else if (i === 9) {
-      tableRowsHTML += `
-        <td colspan="2" style="font-weight:700; background:#fffbeb; color:#92400e;">Finishing Stenter</td>
-        <td colspan="3" style="font-weight:800; background:#fffbeb; color:#b45309;">${stats.totalStenter.toFixed(2)} Ton</td>
-      `;
-    } else {
-      tableRowsHTML += `<td>-</td><td>0</td><td>0</td><td>0</td><td>0</td>`;
+function attachZeroClearBehavior(inp, isNumeric) {
+  inp.addEventListener("focus", function () {
+    if (isNumeric && (this.value === "0" || Number(this.value) === 0)) {
+      this.value = "";
     }
-    tableRowsHTML += `</tr>`;
-  }
-
-  // Total & Share Rows matching Generator Report
-  const dMap = {};
-  stats.deptSummary.forEach(d => dMap[d.name] = d);
-
-  tableRowsHTML += `
-    <tr class="rep-total-row">
-      <td>TOTAL STEAM:</td>
-      <td>-</td>
-      <td>-</td>
-      <td>${stats.totNgFire}</td>
-      <td>${stats.totNgSteam.toFixed(2)}</td>
-      <td>${stats.totLpgFire}</td>
-      <td>${stats.totLpgSteam.toFixed(2)}</td>
-      <td>${stats.grandSteam.toFixed(2)}</td>
-
-      <td>${stats.totLpgCons}</td>
-      <td>${stats.totLpgCost.toLocaleString()}</td>
-      <td>${stats.totNgCons}</td>
-      <td>${stats.totNgCost.toLocaleString()}</td>
-      <td>${stats.grandCost.toLocaleString()}</td>
-
-      <td>${dMap.RMG.steam.toFixed(2)}</td>
-      <td>${dMap.Utility.steam.toFixed(2)}</td>
-      <td>${dMap.Dyeing.steam.toFixed(2)}</td>
-      <td>${dMap.Finishing.steam.toFixed(2)}</td>
-      <td>${dMap.AOP.steam.toFixed(2)}</td>
-      <td>${dMap.Oval.steam.toFixed(2)}</td>
-      <td>${dMap.Office.steam.toFixed(2)}</td>
-      <td>${dMap.Washing.steam.toFixed(2)}</td>
-
-      <td style="background:#14452f; color:#fff;">TOTAL TON</td>
-      <td>${stats.sumDeptSteam.toFixed(2)}</td>
-      <td colspan="3"></td>
-    </tr>
-    <tr class="rep-share-row">
-      <td colspan="7" style="text-align:right; padding-right:6px;">STEAM SHARE (%):</td>
-      <td>100%</td>
-      <td colspan="5"></td>
-      <td>${dMap.RMG.sharePct}%</td>
-      <td>${dMap.Utility.sharePct}%</td>
-      <td>${dMap.Dyeing.sharePct}%</td>
-      <td>${dMap.Finishing.sharePct}%</td>
-      <td>${dMap.AOP.sharePct}%</td>
-      <td>${dMap.Oval.sharePct}%</td>
-      <td>${dMap.Office.sharePct}%</td>
-      <td>${dMap.Washing.sharePct}%</td>
-      <td>SHARE</td>
-      <td>100%</td>
-      <td colspan="3"></td>
-    </tr>
-  `;
-
-  // Bar Charts HTML
-  const maxHourly = Math.max(...stats.computedRows.map(r => r.rowSteam), 0.1);
-  const hourlyBars = stats.computedRows.map((r, idx) => {
-    const h = Math.round((r.rowSteam / maxHourly) * 38);
-    return `
-      <div class="rep-bar-col">
-        <div class="rep-bar-num">${r.rowSteam > 0 ? r.rowSteam.toFixed(1) : ''}</div>
-        <div class="rep-bar-rect-green" style="height:${h}px;"></div>
-        <div class="rep-bar-lbl">${times[idx].replace(':00 ', '')}</div>
-      </div>
-    `;
-  }).join('');
-
-  const maxDeptCost = Math.max(...stats.deptSummary.map(d => d.totalCost), 1);
-  const deptBars = stats.deptSummary.map(d => {
-    const h = Math.round((d.totalCost / maxDeptCost) * 38);
-    return `
-      <div class="rep-bar-col">
-        <div class="rep-bar-num">${d.totalCost > 0 ? d.totalCost.toLocaleString() : ''}</div>
-        <div class="rep-bar-rect-orange" style="height:${h}px;"></div>
-        <div class="rep-bar-lbl">${d.name}</div>
-      </div>
-    `;
-  }).join('');
-
-  return `
-  <div class="a4-sheet">
-    <div class="rep-header">
-      <div class="rep-company">
-        <h2>P.N. COMPOSITE LTD.</h2>
-        <p>Ambag, Konabari, Gazipur.</p>
-      </div>
-      <div class="rep-center">
-        <h3>NG + LPG HOURLY STEAM & COST ANALYSIS</h3>
-        <div class="rep-shift-badge">${shiftLabel} • Date: ${dateFormatted}</div>
-      </div>
-      <div class="rep-logo">P<span>N</span> LOGO</div>
-    </div>
-
-    <!-- 6 KPI Summary Cards matching Generator Report -->
-    <div class="rep-kpi-row">
-      <div class="rep-kpi-card">
-        <div class="rep-kpi-title">Total Steam Gen.</div>
-        <div class="rep-kpi-val">${stats.grandSteam.toFixed(2)} Ton (${Math.round(stats.grandSteam * 1000).toLocaleString()} kg)</div>
-      </div>
-      <div class="rep-kpi-card">
-        <div class="rep-kpi-title">NG Steam / LPG Steam</div>
-        <div class="rep-kpi-val">${stats.totNgSteam.toFixed(2)} / ${stats.totLpgSteam.toFixed(2)} Ton</div>
-      </div>
-      <div class="rep-kpi-card">
-        <div class="rep-kpi-title">NG Consumption</div>
-        <div class="rep-kpi-val">${stats.totNgCons.toLocaleString()} m³</div>
-      </div>
-      <div class="rep-kpi-card">
-        <div class="rep-kpi-title">LPG Consumption</div>
-        <div class="rep-kpi-val">${stats.totLpgCons.toLocaleString()} Kg</div>
-      </div>
-      <div class="rep-kpi-card orange-border">
-        <div class="rep-kpi-title">Total Shift Cost</div>
-        <div class="rep-kpi-val">৳ ${stats.grandCost.toLocaleString()}</div>
-      </div>
-      <div class="rep-kpi-card orange-border">
-        <div class="rep-kpi-title">Avg. Cost / Ton</div>
-        <div class="rep-kpi-val">৳ ${stats.avgCostPerTon.toFixed(2)}</div>
-      </div>
-    </div>
-
-    <!-- Main Report Table -->
-    <table class="rep-table">
-      <thead>
-        <tr>
-          <th colspan="8" class="th-group-green">NG & LPG Steam Generation (Ton)</th>
-          <th colspan="5" class="th-group-green">Fuel Consumption & Cost (Tk)</th>
-          <th colspan="8" class="th-group-green">Department-Wise Hourly Steam Distribution (Ton)</th>
-          <th colspan="5" class="th-group-orange">Department-Wise Shift Cost Summary</th>
-        </tr>
-        <tr>
-          <th class="th-sub">Time</th>
-          <th class="th-sub">Pre<br>Bef</th>
-          <th class="th-sub">NG<br>Mbar</th>
-          <th class="th-sub">NG<br>Fire%</th>
-          <th class="th-sub">NG<br>Steam</th>
-          <th class="th-sub">LPG<br>Fire%</th>
-          <th class="th-sub">LPG<br>Steam</th>
-          <th class="th-sub">Total<br>Ton</th>
-
-          <th class="th-sub">LPG<br>(Kg)</th>
-          <th class="th-sub">LPG<br>Cost</th>
-          <th class="th-sub">NG<br>(m³)</th>
-          <th class="th-sub">NG<br>Cost</th>
-          <th class="th-sub">Total<br>Cost</th>
-
-          <th class="th-sub">RMG</th>
-          <th class="th-sub">Utility</th>
-          <th class="th-sub">Dyeing</th>
-          <th class="th-sub">Finishing<br>(+Stenter)</th>
-          <th class="th-sub">AOP</th>
-          <th class="th-sub">Oval</th>
-          <th class="th-sub">Office</th>
-          <th class="th-sub">Washing</th>
-
-          <th class="th-sub-orange">Department</th>
-          <th class="th-sub-orange">Steam<br>(Ton)</th>
-          <th class="th-sub-orange">NG Cost</th>
-          <th class="th-sub-orange">LPG Cost</th>
-          <th class="th-sub-orange">Total Cost</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${tableRowsHTML}
-      </tbody>
-    </table>
-
-    <!-- Bottom Dual Charts -->
-    <div class="rep-charts-grid">
-      <div class="rep-chart-box">
-        <div class="rep-chart-title">HOURLY STEAM GENERATION (TON)</div>
-        <div class="rep-bars">${hourlyBars}</div>
-      </div>
-      <div class="rep-chart-box">
-        <div class="rep-chart-title">DEPARTMENT-WISE STEAM COST (TK)</div>
-        <div class="rep-bars">${deptBars}</div>
-      </div>
-    </div>
-
-    <!-- Sign-off Footer -->
-    <div class="rep-signatures">
-      <div class="sig-line">Prepared By (Utility Shift Engr.)</div>
-      <div class="sig-line">Checked By (In-Charge)</div>
-      <div class="sig-line">Approved By (Head of Utility)</div>
-    </div>
-  </div>
-  `;
+  });
+  inp.addEventListener("blur", function () {
+    if (isNumeric && this.value.trim() === "") {
+      this.value = "0";
+      this.dispatchEvent(new Event("input"));
+    }
+  });
 }
 
-function setActiveShift(shift) {
-  activeShift = shift;
-  document.getElementById('tab-day').classList.toggle('active', shift === 'day');
-  document.getElementById('tab-night').classList.toggle('active', shift === 'night');
-  renderEntryTable();
-  syncAll();
+function renderTable() {
+  const slots = currentShift === "day" ? DAY_SLOTS : NIGHT_SLOTS;
+  const rows = store[currentShift].rows;
+  const tbody = document.getElementById("entryBody");
+  tbody.innerHTML = "";
+
+  const fields = [
+    ["ngPreBef", true, "0.01"],
+    ["ngPreAft", true, "1"],
+    ["ngRun", true, "1"],
+    ["ngFire", true, "1"],
+    ["ngPress", true, "0.01"],
+    ["ngSteam", true, "0.01"],
+    ["ngCons", true, "0.01"],
+    ["lpgStatus", false, null],
+    ["lpgFire", true, "1"],
+    ["lpgPress", true, "0.01"],
+    ["lpgSteam", true, "0.01"],
+    ["lpgCons", true, "0.01"]
+  ];
+
+  slots.forEach((timeLabel, idx) => {
+    const tr = document.createElement("tr");
+    const tdTime = document.createElement("td");
+    tdTime.className = "time-col";
+    tdTime.textContent = timeLabel;
+    tr.appendChild(tdTime);
+
+    fields.forEach(([key, isNum, step], fIdx) => {
+      const td = document.createElement("td");
+      const inp = document.createElement("input");
+      inp.className = "cell-inp";
+      inp.type = isNum ? "number" : "text";
+      if (step) inp.step = step;
+      inp.value = rows[idx][key];
+      attachZeroClearBehavior(inp, isNum);
+      inp.addEventListener("input", () => {
+        rows[idx][key] = isNum ? (parseFloat(inp.value) || 0) : inp.value;
+        recalc();
+      });
+      td.appendChild(inp);
+      tr.appendChild(td);
+
+      // Insert NG Cost auto cell right after ngCons
+      if (key === "ngCons") {
+        const tdCost = document.createElement("td");
+        tdCost.className = "auto-col";
+        tdCost.id = `rowNgCost_${idx}`;
+        tdCost.textContent = "0";
+        tr.appendChild(tdCost);
+      }
+    });
+
+    // Insert LPG Cost auto cell at end
+    const tdLpgCost = document.createElement("td");
+    tdLpgCost.className = "auto-col";
+    tdLpgCost.id = `rowLpgCost_${idx}`;
+    tdLpgCost.textContent = "0";
+    tr.appendChild(tdLpgCost);
+
+    tbody.appendChild(tr);
+  });
 }
 
-function syncAll() {
-  state.date = document.getElementById('reportDate').value;
-  state.ngRate = parseFloat(document.getElementById('ngRate').value) || 27;
-  state.lpgRate = parseFloat(document.getElementById('lpgRate').value) || 115;
+function loadShiftExtras() {
+  const finInp = document.getElementById("finishingSteam");
+  const stInp = document.getElementById("stenter12h");
+  finInp.value = store[currentShift].finishingSteam;
+  stInp.value = store[currentShift].stenter12h;
+}
 
-  const currentStats = computeShiftStats(activeShift);
-  document.getElementById('ui-ngSteam').innerText = `${currentStats.totNgSteam.toFixed(2)} Ton`;
-  document.getElementById('ui-lpgSteam').innerText = `${currentStats.totLpgSteam.toFixed(2)} Ton`;
-  document.getElementById('ui-ngCons').innerText = `${currentStats.totNgCons.toLocaleString()} M³`;
-  document.getElementById('ui-lpgCons').innerText = `${currentStats.totLpgCons.toLocaleString()} Kg`;
-  document.getElementById('ui-totSteam').innerText = `${currentStats.grandSteam.toFixed(2)} Ton`;
+function computeShiftMetrics(shiftKey) {
+  const ngRate = parseFloat(document.getElementById("ngRate").value) || 0;
+  const lpgRate = parseFloat(document.getElementById("lpgRate").value) || 0;
+  const d = store[shiftKey];
 
-  document.getElementById('report-day-container').innerHTML = buildReportHTML('day');
-  document.getElementById('report-night-container').innerHTML = buildReportHTML('night');
+  let ngSteamTot = 0, ngConsTot = 0, ngCostTot = 0;
+  let lpgSteamTot = 0, lpgConsTot = 0, lpgCostTot = 0;
 
-  // Show active shift preview by default
-  document.getElementById('report-day-container').style.display = activeShift === 'day' ? 'block' : 'none';
-  document.getElementById('report-night-container').style.display = activeShift === 'night' ? 'block' : 'none';
+  const computedRows = d.rows.map(r => {
+    const ngSteam = parseFloat(r.ngSteam) || 0;
+    const ngCons = parseFloat(r.ngCons) || 0;
+    const ngCost = Math.round(ngCons * ngRate);
 
-  localStorage.setItem('pn_boiler_portal_v1', JSON.stringify(state));
+    const lpgSteam = parseFloat(r.lpgSteam) || 0;
+    const lpgCons = parseFloat(r.lpgCons) || 0;
+    const lpgCost = Math.round(lpgCons * lpgRate);
+
+    ngSteamTot += ngSteam;
+    ngConsTot += ngCons;
+    ngCostTot += ngCost;
+    lpgSteamTot += lpgSteam;
+    lpgConsTot += lpgCons;
+    lpgCostTot += lpgCost;
+
+    return { ...r, ngSteam, ngCons, ngCost, lpgSteam, lpgCons, lpgCost };
+  });
+
+  const finSteam = parseFloat(d.finishingSteam) || 0;
+  const stenter12h = parseFloat(d.stenter12h) || 0;
+  const finCost = Math.round(finSteam * 1000 * (ngRate / 10));
+
+  return {
+    rows: computedRows,
+    ngSteamTot,
+    ngConsTot,
+    ngCostTot,
+    lpgSteamTot,
+    lpgConsTot,
+    lpgCostTot,
+    totalCost: ngCostTot + lpgCostTot,
+    finSteam,
+    stenter12h,
+    finCost
+  };
+}
+
+function recalc() {
+  store[currentShift].finishingSteam = parseFloat(document.getElementById("finishingSteam").value) || 0;
+  store[currentShift].stenter12h = parseFloat(document.getElementById("stenter12h").value) || 0;
+
+  const m = computeShiftMetrics(currentShift);
+  document.getElementById("kpiNgSteam").textContent = m.ngSteamTot.toFixed(2);
+  document.getElementById("kpiNgCons").textContent = m.ngConsTot.toLocaleString();
+  document.getElementById("kpiLpgSteam").textContent = m.lpgSteamTot.toFixed(2);
+  document.getElementById("kpiLpgCons").textContent = m.lpgConsTot.toFixed(2);
+
+  m.rows.forEach((r, idx) => {
+    const c1 = document.getElementById(`rowNgCost_${idx}`);
+    const c2 = document.getElementById(`rowLpgCost_${idx}`);
+    if (c1) c1.textContent = r.ngCost.toLocaleString();
+    if (c2) c2.textContent = r.lpgCost.toLocaleString();
+  });
+
+  document.getElementById("finishingSummaryBox").textContent =
+    `Finishing Steam: ${m.finSteam.toFixed(2)} Ton | Finishing Cost: Tk ${m.finCost.toLocaleString()} | Stenter (12h): ${m.stenter12h}`;
 }
 
 function saveData() {
-  syncAll();
-  alert('✅ Boiler Shift Data Saved Successfully!');
+  recalc();
+  localStorage.setItem("pn_boiler_portal_data", JSON.stringify(store));
+  alert("ডেটা সফলভাবে সেভ হয়েছে।");
 }
 
-function submitAndGenerate() {
-  syncAll();
-  document.getElementById('reportPreviewSection').scrollIntoView({ behavior: 'smooth' });
+function buildPageHTML(shiftKey, isCombined, addPageBreak) {
+  const slots = shiftKey === "day" ? DAY_SLOTS : NIGHT_SLOTS;
+  const label = shiftKey === "day" ? "DAY SHIFT (8:00 AM – 8:00 PM)" : "NIGHT SHIFT (8:00 PM – 8:00 AM)";
+  const m = computeShiftMetrics(shiftKey);
+  const dateStr = document.getElementById("repDate").value || "2026-11-24";
+
+  let trs = m.rows.map((r, i) => `
+    <tr>
+      <td>${slots[i]}</td>
+      <td>${r.ngPreBef}</td>
+      <td>${r.ngPreAft}</td>
+      <td>${r.ngRun}</td>
+      <td>${r.ngFire}</td>
+      <td>${Number(r.ngPress).toFixed(2)}</td>
+      <td>${r.ngSteam.toFixed(2)}</td>
+      <td>${r.ngCons}</td>
+      <td>${r.ngCost.toLocaleString()}</td>
+      <td>${r.lpgStatus || "-"}</td>
+      <td>${r.lpgFire}</td>
+      <td>${Number(r.lpgPress).toFixed(2)}</td>
+      <td>${r.lpgSteam.toFixed(2)}</td>
+      <td>${r.lpgCons.toFixed(2)}</td>
+      <td>${r.lpgCost.toLocaleString()}</td>
+    </tr>
+  `).join("");
+
+  trs += `
+    <tr class="tot-row">
+      <td colspan="6">SHIFT TOTAL</td>
+      <td>${m.ngSteamTot.toFixed(2)}</td>
+      <td>${m.ngConsTot.toLocaleString()}</td>
+      <td>${m.ngCostTot.toLocaleString()}</td>
+      <td colspan="3">LPG TOTAL</td>
+      <td>${m.lpgSteamTot.toFixed(2)}</td>
+      <td>${m.lpgConsTot.toFixed(2)}</td>
+      <td>${m.lpgCostTot.toLocaleString()}</td>
+    </tr>
+  `;
+
+  return `
+    <div class="a4-page ${addPageBreak ? "page-break-after" : ""}">
+      <div class="rep-header">
+        <div>
+          <h2>P.N. COMPOSITE LTD. — BOILER GENERATION &amp; COST REPORT</h2>
+          <p>Ambag, Konabari, Gazipur | ${label} | Date: ${dateStr}</p>
+        </div>
+        <div class="pn-logo" style="width:36px;height:36px;font-size:14px;">P<span>N</span></div>
+      </div>
+
+      <div class="rep-summary-bar">
+        <div class="rep-pill"><small>NG STEAM TOTAL</small><strong>${m.ngSteamTot.toFixed(2)} Ton</strong></div>
+        <div class="rep-pill"><small>NG CONSUMPTION M³ TOTAL</small><strong>${m.ngConsTot.toLocaleString()} M³</strong></div>
+        <div class="rep-pill"><small>LPG STEAM TOTAL</small><strong>${m.lpgSteamTot.toFixed(2)} Ton</strong></div>
+        <div class="rep-pill"><small>LPG CONSUMPTION KG TOTAL</small><strong>${m.lpgConsTot.toFixed(2)} Kg</strong></div>
+      </div>
+
+      <table class="rep-table">
+        <thead>
+          <tr>
+            <th>Time</th><th>NG Pre Bef</th><th>NG Pre Aft</th><th>Run</th><th>Fire%</th><th>Press</th>
+            <th>NG Steam</th><th>NG M³</th><th>NG Cost</th><th>LPG St</th><th>LPG Fire%</th>
+            <th>LPG Press</th><th>LPG Steam</th><th>LPG Kg</th><th>LPG Cost</th>
+          </tr>
+        </thead>
+        <tbody>${trs}</tbody>
+      </table>
+
+      <div class="rep-footer-grid">
+        <div class="finishing-card">
+          <strong>Finishing &amp; Stenter (12-Hour Single Entry):</strong><br>
+          Finishing Steam: <strong>${m.finSteam.toFixed(2)} Ton</strong> | Finishing Cost: <strong>Tk ${m.finCost.toLocaleString()}</strong><br>
+          Stenter (12h): <strong>${m.stenter12h}</strong> (শুধু Finishing-এ প্রযোজ্য, প্রতি ঘণ্টায় নয়)
+        </div>
+        <div class="finishing-card" style="background:#f8fafc; border-color:#cbd5e1;">
+          <strong>Shift Cost Summary:</strong><br>
+          NG Cost: <strong>Tk ${m.ngCostTot.toLocaleString()}</strong> | LPG Cost: <strong>Tk ${m.lpgCostTot.toLocaleString()}</strong><br>
+          Total Shift Cost: <strong>Tk ${m.totalCost.toLocaleString()}</strong>
+        </div>
+      </div>
+
+      <div class="sign-row">
+        <div>Prepared By (Utility Shift Eng.)</div>
+        <div>Checked By (In-Charge)</div>
+        <div>Approved By (Head of Utility)</div>
+      </div>
+    </div>
+  `;
 }
 
-function printSingleShift() {
-  syncAll();
-  document.body.classList.remove('print-both');
-  document.body.classList.add('print-single');
-  document.getElementById('report-day-container').style.display = activeShift === 'day' ? 'block' : 'none';
-  document.getElementById('report-night-container').style.display = activeShift === 'night' ? 'block' : 'none';
+function generateTwoPageReport() {
+  recalc();
+  const area = document.getElementById("reportArea");
+  const pages = document.getElementById("reportPages");
+  pages.className = "";
+  pages.innerHTML =
+    buildPageHTML("day", false, true) +
+    buildPageHTML("night", false, false);
+  document.getElementById("reportModeLabel").textContent =
+    "2-Page A4 Report Preview (Page 1: Day Shift | Page 2: Night Shift)";
+  area.style.display = "block";
+  area.scrollIntoView({ behavior: "smooth" });
+}
+
+function generateCombinedOnePagePDF() {
+  recalc();
+  const area = document.getElementById("reportArea");
+  const pages = document.getElementById("reportPages");
+  pages.className = "combined-mode";
+  pages.innerHTML =
+    buildPageHTML("day", true, false) +
+    buildPageHTML("night", true, false);
+  document.getElementById("reportModeLabel").textContent =
+    "Combined 1-Page A4 Report (Day + Night Shift Together)";
+  area.style.display = "block";
   window.print();
 }
 
-function printBothShifts() {
-  syncAll();
-  document.body.classList.remove('print-single');
-  document.body.classList.add('print-both');
-  document.getElementById('report-day-container').style.display = 'block';
-  document.getElementById('report-night-container').style.display = 'block';
-  window.print();
-}
-
-function downloadExcel() {
-  syncAll();
-  const stats = computeShiftStats(activeShift);
-  const times = activeShift === 'day' ? dayTimes : nightTimes;
-  let csv = `P.N. COMPOSITE LTD. - Boiler Steam & Cost Analysis (${activeShift.toUpperCase()} SHIFT - ${state.date})\n`;
-  csv += `Time,NG Pre Bef,NG Mbar,NG Fire%,NG Steam (Ton),LPG Fire%,LPG Steam (Ton),Total Steam (Ton),LPG (Kg),LPG Cost,NG (M3),NG Cost,Total Cost,RMG,Utility,Dyeing,Finishing (+Stenter),Stenter Only,AOP,Oval,Office,Washing\n`;
-
-  stats.computedRows.forEach((r, i) => {
-    csv += `${times[i]},${r.ngPreBef},${r.ngPreAft},${r.ngFire},${r.ngSteam},${r.lpgFire},${r.lpgSteam},${r.rowSteam.toFixed(2)},${r.lpgCons},${r.lpgCost},${r.ngCons},${r.ngCost},${r.rowCost},${r.depts.RMG},${r.depts.Utility},${r.depts.Dyeing},${r.finishingWithStenter.toFixed(2)},${r.stenter},${r.depts.AOP},${r.depts.Oval},${r.depts.Office},${r.depts.Washing}\n`;
-  });
-
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = `PN_Boiler_${activeShift}_${state.date}.csv`;
-  link.click();
-}
-
-window.onload = function () {
-  const saved = localStorage.getItem('pn_boiler_portal_v1');
+// Init
+(function init() {
+  const saved = localStorage.getItem("pn_boiler_portal_data");
   if (saved) {
-    try { state = JSON.parse(saved); } catch (e) {}
+    try { store = JSON.parse(saved); } catch (e) {}
   }
-  document.getElementById('reportDate').value = state.date || "2026-11-22";
-  document.getElementById('ngRate').value = state.ngRate || 27.00;
-  document.getElementById('lpgRate').value = state.lpgRate || 115.00;
-  renderEntryTable();
-  syncAll();
-};
+  document.querySelectorAll(".stenter-box input").forEach(inp => attachZeroClearBehavior(inp, true));
+  renderTable();
+  loadShiftExtras();
+  recalc();
+})();
 </script>
 </body>
 </html>
