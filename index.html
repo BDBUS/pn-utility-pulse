@@ -31,6 +31,7 @@
 
   .container { max-width: 1440px; width: 100%; margin: 0 auto; overflow-x: hidden; }
 
+  /* Subtle Creator Footer */
   .creator-faint-footer {
     text-align: center;
     font-size: 11px;
@@ -41,6 +42,7 @@
     user-select: none;
   }
 
+  /* Report Bottom-Left Faint Creator Mark */
   .rep-creator-faint-left {
     font-size: 9px;
     font-weight: 600;
@@ -142,108 +144,141 @@
     background: #ffffff; border-radius: 16px; max-width: 440px; width: 100%;
     padding: 18px; box-shadow: 0 24px 60px rgba(0,0,0,0.3); margin: auto;
   }
+  .id-flip-top {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;
+  }
+  .flip-pill-btn {
+    background: #fff7ed; color: #c2410c; border: 1px solid #fdba74;
+    border-radius: 20px; padding: 4px 11px; font-size: 11px; font-weight: 800; cursor: pointer;
+  }
+
   .pn-3d-scene {
-    width: 310px; max-width: 100%; height: 470px; margin: 0 auto;
-    perspective: 1200px; cursor: pointer;
+    width: 100%; max-width: 340px; height: 500px; margin: 0 auto;
+    perspective: 1200px;
   }
   .pn-3d-card {
     width: 100%; height: 100%; position: relative;
     transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .pn-3d-card.is-flipped { transform: rotateY(180deg); }
-
+  .pn-3d-card.is-flipped {
+    transform: rotateY(180deg);
+  }
   .pn-card-face {
     position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    border-radius: 16px; overflow: hidden; border: 1.5px solid #cbd5e1;
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16); background: #ffffff;
+    border-radius: 18px; overflow: hidden; background: #ffffff;
+    border: 1.5px solid #cbd5e1; box-shadow: 0 14px 32px rgba(15, 23, 42, 0.16);
     display: flex; flex-direction: column; justify-content: space-between;
   }
-  .pn-card-back { transform: rotateY(180deg); padding: 14px 16px; }
+  .pn-card-back {
+    transform: rotateY(180deg);
+  }
 
+  /* Front Face Styling */
   .pn-front-top {
-    position: relative; padding: 14px 14px 12px 14px;
-    background: linear-gradient(122deg, #144d29 0%, #144d29 66%, #ffffff 66.4%, #ffffff 100%);
-    display: flex; justify-content: space-between; align-items: flex-start; min-height: 94px;
+    position: relative; padding: 14px 14px 10px 14px;
+    background: linear-gradient(125deg, #144d29 0%, #144d29 66%, #ffffff 66.4%, #ffffff 100%);
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;
   }
-  .pn-front-top h4 { margin: 0; font-size: 14.5px; font-weight: 800; color: #ffffff; letter-spacing: 0.3px; }
-  .pn-front-top p { margin: 2px 0 0 0; font-size: 9px; color: #dcfce7; font-weight: 600; line-height: 1.3; max-width: 185px; }
-  .pn-front-badge {
-    display: inline-block; margin-top: 5px; background: #e86c1f; color: #ffffff;
-    font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 8px; text-transform: uppercase;
+  .pn-front-company h4 { margin: 0; font-size: 14px; font-weight: 800; color: #ffffff; letter-spacing: 0.3px; }
+  .pn-front-company p { margin: 2px 0 0 0; font-size: 9px; color: #dcfce7; font-weight: 500; line-height: 1.25; max-width: 195px; }
+  .pn-official-tag {
+    display: inline-block; margin-top: 5px; background: #e66a1f; color: #ffffff;
+    font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;
   }
-  .pn-front-logo-wrap {
-    width: 68px; height: 54px; background: #ffffff; border-radius: 8px;
+  .pn-front-logo-box {
+    width: 62px; height: 48px; background: #ffffff; border-radius: 8px;
     border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center;
-    padding: 3px; overflow: hidden; flex-shrink: 0;
+    padding: 3px; flex-shrink: 0;
   }
-  .pn-front-logo-wrap img { max-width: 60px; max-height: 46px; object-fit: contain; }
+  .pn-front-logo-box img { max-width: 56px; max-height: 42px; object-fit: contain; }
 
-  .pn-front-body { padding: 8px 16px 4px 16px; text-align: center; flex: 1; display: flex; flex-direction: column; align-items: center; }
-  .pn-photo-box {
-    width: 84px; height: 98px; border-radius: 10px; border: 2px solid #144d29;
-    background: #144d29; overflow: hidden; display: flex; align-items: center; justify-content: center;
-    margin-bottom: 6px;
+  .pn-front-body {
+    padding: 6px 16px 8px 16px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center;
   }
-  .pn-photo-box img { width: 100%; height: 100%; object-fit: cover; }
-  .pn-emp-name { font-size: 14px; font-weight: 800; color: #0f172a; margin: 0; text-transform: uppercase; }
-  .pn-emp-desig { font-size: 10.5px; font-weight: 700; color: #e86c1f; margin: 2px 0 7px 0; }
-
+  .pn-photo-square {
+    width: 82px; height: 96px; margin: 0 auto 7px auto;
+    border-radius: 10px; border: 2px solid #144d29; background: #144d29;
+    overflow: hidden; display: flex; align-items: center; justify-content: center;
+  }
+  .pn-photo-square img { width: 100%; height: 100%; object-fit: cover; }
+  .pn-emp-name { margin: 0; font-size: 14.5px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
+  .pn-emp-role { margin: 2px 0 7px 0; font-size: 10.5px; font-weight: 700; color: #e66a1f; }
   .pn-info-box {
-    width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
-    padding: 7px 10px; text-align: left; font-size: 10px; line-height: 1.5; color: #0f172a;
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 7px 10px; text-align: left; font-size: 10px; line-height: 1.48; color: #1e293b;
   }
-  .pn-info-row { display: flex; justify-content: space-between; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pn-info-row span { overflow: hidden; text-overflow: ellipsis; }
+  .pn-info-row { display: flex; justify-content: space-between; gap: 6px; border-bottom: 1px dashed #e2e8f0; padding: 1.5px 0; }
+  .pn-info-row:last-child { border-bottom: none; }
+  .pn-info-row strong { color: #0f172a; }
 
-  .pn-front-sig {
-    width: 100%; padding: 6px 16px 8px 16px;
+  .pn-front-footer {
+    padding: 4px 16px 0 16px;
+  }
+  .pn-sig-line-wrap {
     display: flex; justify-content: space-between; align-items: flex-end;
-    font-size: 8.5px; font-weight: 700; color: #334155;
+    font-size: 9px; font-weight: 700; color: #334155; padding-bottom: 8px;
   }
-  .pn-sig-line { border-top: 1px solid #475569; width: 108px; text-align: center; padding-top: 2px; }
-  .pn-bottom-bar { height: 7px; width: 100%; display: flex; }
-  .pn-bottom-bar .g { flex: 1.3; background: #144d29; }
-  .pn-bottom-bar .o { flex: 1; background: #e86c1f; }
-
-  .pn-back-head {
-    display: flex; align-items: center; gap: 8px;
-    border-bottom: 1.5px solid #144d29; padding-bottom: 6px;
+  .pn-sig-col { border-top: 1px solid #64748b; width: 112px; text-align: center; padding-top: 2px; }
+  .pn-bottom-stripe {
+    height: 7px; width: 100%;
+    background: linear-gradient(90deg, #144d29 0%, #144d29 52%, #e66a1f 52%, #e66a1f 100%);
   }
-  .pn-back-head img { max-width: 44px; max-height: 34px; object-fit: contain; }
-  .pn-back-head h5 { margin: 0; font-size: 11px; font-weight: 800; color: #144d29; }
-  .pn-back-head p { margin: 1px 0 0 0; font-size: 7.5px; color: #64748b; font-weight: 600; }
 
-  .pn-addr-block {
+  /* Back Face Styling */
+  .pn-back-top-stripe {
+    height: 7px; width: 100%;
+    background: linear-gradient(90deg, #144d29 0%, #144d29 52%, #e66a1f 52%, #e66a1f 100%);
+  }
+  .pn-back-header {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px 8px 14px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .pn-back-logo-box {
+    width: 48px; height: 38px; border: 1px solid #e2e8f0; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center; padding: 2px; background: #fff;
+  }
+  .pn-back-logo-box img { max-width: 42px; max-height: 32px; object-fit: contain; }
+  .pn-back-header h4 { margin: 0; font-size: 12.5px; font-weight: 800; color: #144d29; }
+  .pn-back-header p { margin: 1px 0 0 0; font-size: 8.5px; color: #64748b; }
+
+  .pn-back-body {
+    padding: 8px 14px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 6px;
+  }
+  .pn-addr-card {
     background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
-    padding: 6px 9px; margin-top: 7px; font-size: 9px; line-height: 1.42; color: #0f172a;
+    padding: 6px 9px; font-size: 9.5px; line-height: 1.38; color: #1e293b;
   }
-  .pn-addr-title { font-size: 9.5px; font-weight: 800; color: #144d29; margin-bottom: 2px; text-transform: uppercase; }
-
-  .pn-notice-box {
-    margin-top: 6px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 7px;
-    padding: 5px 7px; font-size: 7.5px; font-weight: 600; color: #9a3412; text-align: center; line-height: 1.35;
+  .pn-addr-title {
+    font-size: 10px; font-weight: 800; color: #144d29; text-decoration: underline;
+    margin-bottom: 3px; text-transform: uppercase;
+  }
+  .pn-lost-notice {
+    background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px;
+    padding: 5px 8px; font-size: 8.5px; font-weight: 600; color: #9a3412; text-align: center; line-height: 1.3;
   }
   .pn-back-bottom {
-    margin-top: 7px; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 2px;
   }
   .pn-long-qr {
-    flex: 1; height: 34px; border: 1px solid #cbd5e1; border-radius: 5px;
-    background: repeating-linear-gradient(90deg, #0f172a 0px, #0f172a 2px, #ffffff 2px, #ffffff 4px, #0f172a 4px, #0f172a 5px, #ffffff 5px, #ffffff 8px);
-    position: relative; display: flex; align-items: flex-end; justify-content: center;
+    flex: 1; height: 38px; border: 1px solid #cbd5e1; border-radius: 6px;
+    background: #ffffff; padding: 3px; display: flex; align-items: center; justify-content: center;
   }
-  .pn-long-qr span {
-    background: rgba(255,255,255,0.92); font-size: 7px; font-weight: 800; color: #0f172a;
-    padding: 0 4px; letter-spacing: 1px; margin-bottom: 1px;
+  .pn-extra-slot {
+    width: 66px; height: 38px; border: 1px dashed #94a3b8; border-radius: 6px;
+    background: #f8fafc; display: flex; align-items: center; justify-content: center;
+    font-size: 7.5px; font-weight: 800; color: #64748b; text-align: center; padding: 2px;
   }
-  .pn-extra-logo {
-    width: 48px; height: 34px; border: 1px dashed #94a3b8; border-radius: 5px;
-    display: flex; align-items: center; justify-content: center; font-size: 7px; font-weight: 700; color: #64748b; overflow: hidden;
-  }
-  .pn-extra-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .pn-extra-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-  /* Admin ID Update Drawer/Modal */
-  #id-update-panel {
-    display: none; margin-top: 12px; padding-top: 12px; border-top: 1.5px solid var(--slate-200);
+  /* Admin ID Update Modal */
+  #admin-id-edit-modal {
+    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
+    z-index: 2200; padding: 16px; overflow-y: auto; align-items: center; justify-content: center;
+  }
+  .admin-id-edit-box {
+    background: #ffffff; border-radius: 16px; max-width: 540px; width: 100%;
+    padding: 20px; box-shadow: 0 24px 60px rgba(0,0,0,0.3); margin: auto;
+    border-top: 5px solid var(--brand-dark);
   }
 
   /* ================= SIDEBAR DRAWER & TOP HEADER ================= */
@@ -483,7 +518,9 @@
     border: 1px solid var(--slate-200); border-radius: 12px; padding: 14px;
     margin-bottom: 12px; background: #f8fafc;
   }
-  .saved-record-item.marked { border-color: #fca5a5; background: #fff5f5; }
+  .saved-record-item.marked {
+    border-color: #fca5a5; background: #fff5f5;
+  }
   .saved-mark-label {
     display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
     font-size: 13px; font-weight: 700; color: var(--brand-dark);
@@ -587,6 +624,7 @@
   }
   .sig-line { border-top: 1px solid #94a3b8; width: 155px; text-align: center; padding-top: 3px; font-weight: 600; color: #334155; }
 
+  /* ================= PRINT MODES ================= */
   @media print {
     @page { size: A4 landscape; margin: 3.5mm; }
     html, body {
@@ -735,8 +773,8 @@
           <span id="regPhotoStatus" style="font-size:10.5px; color:var(--slate-500); margin-top:3px;" data-i18n="photoHint">Passport size photo must be under 500KB</span>
         </div>
         <div class="field-box">
-          <label data-i18n="officeIdLbl">Office ID</label>
-          <input type="text" id="regOfficeId" placeholder="PN-UTL-001">
+          <label data-i18n="officeIdLbl">ID</label>
+          <input type="text" id="regOfficeId" placeholder="83611">
         </div>
       </div>
 
@@ -746,102 +784,90 @@
           <input type="text" id="regName" placeholder="Full Name">
         </div>
         <div class="field-box">
-          <label data-i18n="desigLbl">Designation</label>
+          <label data-i18n="designationLbl">Designation</label>
           <input type="text" id="regDesignation" placeholder="Sub-Assistant Engineer">
         </div>
       </div>
 
       <div class="form-grid-2">
         <div class="field-box">
-          <label data-i18n="divLbl">Division</label>
-          <input type="text" id="regDivisionField" value="Textile" placeholder="Textile">
+          <label data-i18n="divisionTopLbl">Division</label>
+          <input type="text" id="regDivisionTop" value="Textile">
         </div>
         <div class="field-box">
           <label data-i18n="deptLbl">Department</label>
-          <input type="text" id="regDepartment" placeholder="Utility & Maintenance">
+          <input type="text" id="regDepartment" placeholder="Utility">
         </div>
       </div>
 
       <div class="form-grid-2">
         <div class="field-box">
           <label data-i18n="secLbl">Section</label>
-          <input type="text" id="regSection" placeholder="Generator / Boiler / Compressor">
+          <input type="text" id="regSection" placeholder="Generator Section">
         </div>
         <div class="field-box">
-          <label data-i18n="joinDateLbl">Joining date</label>
+          <label data-i18n="joinDateLbl">Joining Date</label>
           <input type="date" id="regJoiningDate">
         </div>
       </div>
 
       <div class="form-grid-2">
         <div class="field-box">
-          <label data-i18n="dobLbl">Date of Birth</label>
-          <input type="date" id="regDob">
-        </div>
-        <div class="field-box">
           <label data-i18n="mobileLbl">Mobile Number</label>
-          <input type="tel" id="regMobile" placeholder="Example: +88017XXXXXXXX">
-        </div>
-      </div>
-
-      <div class="form-grid-2">
-        <div class="field-box">
-          <label data-i18n="genderLbl">Gender</label>
-          <select id="regGender">
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
+          <input type="tel" id="regMobile" placeholder="017XXXXXXXX">
         </div>
         <div class="field-box">
           <label data-i18n="emailAddr">Email Address</label>
-          <input type="email" id="regEmail" placeholder="Example: example@mail.com">
+          <input type="email" id="regEmail" placeholder="example@mail.com">
         </div>
       </div>
 
-      <!-- PRESENT ADDRESS: DIVISION -> DISTRICT -> UPAZILA + AREA -->
+      <!-- PRESENT ADDRESS (DIVISION -> DISTRICT -> UPAZILA + AREA) -->
       <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:10px 12px; margin-bottom:12px;">
         <div style="font-size:12px; font-weight:800; color:var(--brand-dark); margin-bottom:8px;" data-i18n="presentAddrLbl">Present Address</div>
         <div class="form-grid-2">
           <div class="field-box" style="margin-bottom:8px;">
-            <label data-i18n="divisionLbl">Division</label>
-            <select id="regPresDiv" onchange="populateDistricts('regPresDiv', 'regPresDist', 'regPresUpa')"></select>
+            <label data-i18n="divLbl">Division</label>
+            <select id="regPresDiv" onchange="populateDistricts('regPresDiv', 'regPresDist', 'regPresUpz')"></select>
           </div>
           <div class="field-box" style="margin-bottom:8px;">
-            <label data-i18n="districtLbl">District</label>
-            <select id="regPresDist" onchange="populateUpazilas('regPresDiv', 'regPresDist', 'regPresUpa')"></select>
+            <label data-i18n="distLbl">District</label>
+            <select id="regPresDist" onchange="populateUpazilas('regPresDiv', 'regPresDist', 'regPresUpz')"></select>
           </div>
+        </div>
+        <div class="form-grid-2">
           <div class="field-box" style="margin-bottom:4px;">
-            <label data-i18n="upazilaLbl">Upazila</label>
-            <select id="regPresUpa"></select>
+            <label data-i18n="upzLbl">Upazila</label>
+            <select id="regPresUpz"></select>
           </div>
           <div class="field-box" style="margin-bottom:4px;">
             <label data-i18n="areaLbl">Area</label>
-            <input type="text" id="regPresArea" placeholder="Enter Area / Village / Road">
+            <input type="text" id="regPresArea" placeholder="Enter Area">
           </div>
         </div>
       </div>
 
-      <!-- PERMANENT ADDRESS: DIVISION -> DISTRICT -> UPAZILA + AREA -->
+      <!-- PERMANENT ADDRESS (DIVISION -> DISTRICT -> UPAZILA + AREA) -->
       <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:10px 12px; margin-bottom:12px;">
         <div style="font-size:12px; font-weight:800; color:var(--brand-dark); margin-bottom:8px;" data-i18n="permAddrLbl">Permanent Address</div>
         <div class="form-grid-2">
           <div class="field-box" style="margin-bottom:8px;">
-            <label data-i18n="divisionLbl">Division</label>
-            <select id="regPermDiv" onchange="populateDistricts('regPermDiv', 'regPermDist', 'regPermUpa')"></select>
+            <label data-i18n="divLbl">Division</label>
+            <select id="regPermDiv" onchange="populateDistricts('regPermDiv', 'regPermDist', 'regPermUpz')"></select>
           </div>
           <div class="field-box" style="margin-bottom:8px;">
-            <label data-i18n="districtLbl">District</label>
-            <select id="regPermDist" onchange="populateUpazilas('regPermDiv', 'regPermDist', 'regPermUpa')"></select>
+            <label data-i18n="distLbl">District</label>
+            <select id="regPermDist" onchange="populateUpazilas('regPermDiv', 'regPermDist', 'regPermUpz')"></select>
           </div>
+        </div>
+        <div class="form-grid-2">
           <div class="field-box" style="margin-bottom:4px;">
-            <label data-i18n="upazilaLbl">Upazila</label>
-            <select id="regPermUpa"></select>
+            <label data-i18n="upzLbl">Upazila</label>
+            <select id="regPermUpz"></select>
           </div>
           <div class="field-box" style="margin-bottom:4px;">
             <label data-i18n="areaLbl">Area</label>
-            <input type="text" id="regPermArea" placeholder="Enter Area / Village / Post">
+            <input type="text" id="regPermArea" placeholder="Enter Area">
           </div>
         </div>
       </div>
@@ -850,7 +876,7 @@
         <div class="field-box">
           <label data-i18n="setPassLbl">Set Password</label>
           <div class="pass-wrap">
-            <input type="password" id="regPassword" placeholder="Example: ********">
+            <input type="password" id="regPassword" placeholder="********">
             <button type="button" class="eye-btn" onclick="togglePasswordVisibility('regPassword', this)" title="Show / Hide Password">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -862,7 +888,7 @@
         <div class="field-box">
           <label data-i18n="confirmPassLbl">Confirm Password</label>
           <div class="pass-wrap">
-            <input type="password" id="regConfirmPassword" placeholder="Example: ********">
+            <input type="password" id="regConfirmPassword" placeholder="********">
             <button type="button" class="eye-btn" onclick="togglePasswordVisibility('regConfirmPassword', this)" title="Show / Hide Password">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -888,130 +914,215 @@
 </div>
 
 <!-- ========================================================================= -->
-<!-- 3D VERTICAL ID CARD MODAL (FRONT + BACK + DOWNLOAD + UPDATE NOW)          -->
+<!-- 3D VERTICAL ID CARD MODAL (FRONT & BACK + DOWNLOAD + ADMIN UPDATE)       -->
 <!-- ========================================================================= -->
 <div id="id-card-modal" class="no-print">
   <div class="id-modal-box">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; gap:8px;">
+    <div class="id-flip-top">
       <span style="font-size:13px; font-weight:800; color:var(--brand-dark);" data-i18n="idCardTitle">Employee ID Card</span>
-      <button type="button" class="link-btn" style="padding:4px 10px; font-size:11px;" onclick="pnFlipIdCard()">↻ Flip 3D</button>
-      <button type="button" class="link-btn" style="padding:4px 10px; font-size:11px;" onclick="closeIdCardAndEnterApp()" data-i18n="openPortal">Open Portal</button>
+      <div style="display:flex; gap:6px; align-items:center;">
+        <button type="button" class="flip-pill-btn" onclick="pnFlipIdCard()" data-i18n="flip3dBtn">Click to Flip 3D</button>
+        <button type="button" class="link-btn" style="padding:4px 9px; font-size:11px;" onclick="closeIdCardAndEnterApp()" data-i18n="openPortal">Open Portal</button>
+      </div>
     </div>
 
-    <div class="pn-3d-scene" onclick="pnFlipIdCard()">
+    <div class="pn-3d-scene">
       <div class="pn-3d-card" id="pnIdCard3d">
-        <!-- FRONT SIDE -->
+        <!-- FRONT FACE -->
         <div class="pn-card-face pn-card-front">
           <div>
             <div class="pn-front-top">
-              <div>
+              <div class="pn-front-company">
                 <h4>PN. COMPOSITE LTD.</h4>
                 <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
-                <span class="pn-front-badge">Official Utility ID</span>
+                <span class="pn-official-tag">Official Utility ID</span>
               </div>
-              <div class="pn-front-logo-wrap">
+              <div class="pn-front-logo-box">
                 <img id="pnFrontLogo" alt="PN Logo">
               </div>
             </div>
 
             <div class="pn-front-body">
-              <div class="pn-photo-box">
-                <img id="pnEmployeePhoto" alt="Employee Photo">
+              <div class="pn-photo-square">
+                <img id="pnEmployeePhoto" alt="PHOTO">
               </div>
-              <h5 class="pn-emp-name" id="idCardName">EMON TALUKDER</h5>
-              <div class="pn-emp-desig" id="idCardDesignation">Sub-Assistant Engineer</div>
+              <h3 class="pn-emp-name" id="idCardName">EMON TALUKDER</h3>
+              <div class="pn-emp-role" id="idCardDesignation">Sub-Assistant Engineer</div>
 
               <div class="pn-info-box">
-                <div class="pn-info-row"><span><strong>ID:</strong> <span id="idCardOfficeId">-</span></span><span><strong>Joining:</strong> <span id="idCardJoining">-</span></span></div>
-                <div class="pn-info-row"><span><strong>Division:</strong> <span id="idCardDivisionField">Textile</span></span><span><strong>Dept:</strong> <span id="idCardDept">-</span></span></div>
-                <div class="pn-info-row"><span><strong>Section:</strong> <span id="idCardSection">-</span></span></div>
+                <div class="pn-info-row"><span>ID:</span><strong id="idCardOfficeId">-</strong></div>
+                <div class="pn-info-row"><span>Division:</span><strong id="idCardDivisionTop">Textile</strong></div>
+                <div class="pn-info-row"><span>Department:</span><strong id="idCardDept">-</strong></div>
+                <div class="pn-info-row"><span>Section:</span><strong id="idCardSection">-</strong></div>
+                <div class="pn-info-row"><span>Joining Date:</span><strong id="idCardJoining">-</strong></div>
               </div>
             </div>
           </div>
 
-          <div>
-            <div class="pn-front-sig">
-              <div class="pn-sig-line">Holder sign</div>
-              <div class="pn-sig-line">Authorisation</div>
+          <div class="pn-front-footer">
+            <div class="pn-sig-line-wrap">
+              <div class="pn-sig-col">Holder sign</div>
+              <div class="pn-sig-col">Authorization</div>
             </div>
-            <div class="pn-bottom-bar"><div class="g"></div><div class="o"></div></div>
+            <div class="pn-bottom-stripe"></div>
           </div>
         </div>
 
-        <!-- BACK SIDE -->
+        <!-- BACK FACE -->
         <div class="pn-card-face pn-card-back">
           <div>
-            <div class="pn-back-head">
-              <img id="pnBackLogo" alt="PN Logo">
+            <div class="pn-back-top-stripe"></div>
+            <div class="pn-back-header">
+              <div class="pn-back-logo-box">
+                <img id="pnBackLogo" alt="PN Logo">
+              </div>
               <div>
-                <h5>PN. COMPOSITE LTD.</h5>
+                <h4>PN. COMPOSITE LTD.</h4>
                 <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
               </div>
             </div>
+          </div>
 
-            <div class="pn-addr-block">
-              <div class="pn-addr-title" data-i18n="presentAddrLbl">Present Address</div>
-              <div><strong>Division:</strong> <span id="backPresDiv">-</span> &bull; <strong>District:</strong> <span id="backPresDist">-</span></div>
-              <div><strong>Upazila:</strong> <span id="backPresUpa">-</span> &bull; <strong>Area:</strong> <span id="backPresArea">-</span></div>
+          <div class="pn-back-body">
+            <div class="pn-addr-card">
+              <div class="pn-addr-title">Present Address</div>
+              <div><strong>Division:</strong> <span id="idBackPresDiv">-</span> | <strong>District:</strong> <span id="idBackPresDist">-</span></div>
+              <div><strong>Upazila:</strong> <span id="idBackPresUpz">-</span> | <strong>Area:</strong> <span id="idBackPresArea">-</span></div>
             </div>
 
-            <div class="pn-addr-block">
-              <div class="pn-addr-title" data-i18n="permAddrLbl">Permanent Address</div>
-              <div><strong>Division:</strong> <span id="backPermDiv">-</span> &bull; <strong>District:</strong> <span id="backPermDist">-</span></div>
-              <div><strong>Upazila:</strong> <span id="backPermUpa">-</span> &bull; <strong>Area:</strong> <span id="backPermArea">-</span></div>
+            <div class="pn-addr-card">
+              <div class="pn-addr-title">Permanent Address</div>
+              <div><strong>Division:</strong> <span id="idBackPermDiv">-</span> | <strong>District:</strong> <span id="idBackPermDist">-</span></div>
+              <div><strong>Upazila:</strong> <span id="idBackPermUpz">-</span> | <strong>Area:</strong> <span id="idBackPermArea">-</span></div>
             </div>
 
-            <div class="pn-notice-box" data-i18n="lostCardNotice">
-              If found lost, please return to the nearest police station or company office.
+            <div class="pn-lost-notice" data-i18n="lostCardNote">
+              If this card is lost or found, please return it to the nearest police station or company office.
+            </div>
+
+            <div class="pn-back-bottom">
+              <div class="pn-long-qr" id="pnLongQrCode" title="Employee Verification QR"></div>
+              <div class="pn-extra-slot" id="pnExtraLogoBox">LOGO URL HERE</div>
             </div>
           </div>
 
-          <div class="pn-back-bottom">
-            <div class="pn-long-qr"><span id="backQrText">PN-ID</span></div>
-            <div class="pn-extra-logo" id="pnExtraLogoBox">ID QR</div>
-          </div>
+          <div class="pn-bottom-stripe"></div>
         </div>
       </div>
     </div>
 
-    <!-- ACTION BUTTONS: DOWNLOAD (BOTH SIDES) + UPDATE NOW (ADMIN ONLY) -->
-    <div style="display:flex; gap:8px; margin-top:14px;">
-      <button type="button" class="btn btn-primary" style="flex:1; justify-content:center; padding:9px;" onclick="downloadBothIdSides()" data-i18n="downloadIdBtn">Download</button>
-      <button type="button" class="btn btn-accent" style="flex:1; justify-content:center; padding:9px;" onclick="toggleAdminIdUpdatePanel()" data-i18n="updateNowBtn">Update Now</button>
+    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;">
+      <button type="button" class="btn btn-primary" style="flex:1; justify-content:center; padding:9px;" onclick="downloadBothSidesIdCard()" data-i18n="downloadBtn">Download</button>
+      <button type="button" class="btn btn-accent" id="idModalUpdateBtn" style="flex:1; justify-content:center; padding:9px;" onclick="openAdminIdUpdaterForCurrent()" data-i18n="updateNowBtn">Update Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- ADMIN ID CARD UPDATER MODAL (SUPER ADMIN ONLY)                            -->
+<!-- ========================================================================= -->
+<div id="admin-id-edit-modal" class="no-print">
+  <div class="admin-id-edit-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="margin:0; font-size:15px; font-weight:800; color:var(--brand-dark);">Admin ID Card Update</h3>
+      <button type="button" class="link-btn" style="padding:4px 10px; font-size:11.5px;" onclick="closeAdminIdUpdater()">Close</button>
     </div>
 
-    <!-- ADMIN ONLY ID UPDATE FORM -->
-    <div id="id-update-panel">
-      <div style="font-size:12px; font-weight:800; color:var(--brand-dark); margin-bottom:8px;">Admin ID Card Update</div>
-      <div class="form-grid-2">
-        <div class="field-box" style="margin-bottom:6px;"><label>ID</label><input type="text" id="updOfficeId"></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Name</label><input type="text" id="updName"></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Designation</label><input type="text" id="updDesignation"></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Division</label><input type="text" id="updDivisionField"></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Department</label><input type="text" id="updDept"></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Section</label><input type="text" id="updSection"></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Joining Date</label><input type="date" id="updJoining"></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Photo (Max 500KB)</label><input type="file" id="updPhotoFile" accept="image/*" onchange="handleUpdatePhoto(event)"></div>
-      </div>
+    <input type="hidden" id="editTargetEmail">
 
-      <div style="font-size:11px; font-weight:800; color:var(--brand-dark); margin:6px 0 4px 0;">Present Address</div>
-      <div class="form-grid-2">
-        <div class="field-box" style="margin-bottom:6px;"><label>Division</label><select id="updPresDiv" onchange="populateDistricts('updPresDiv','updPresDist','updPresUpa')"></select></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>District</label><select id="updPresDist" onchange="populateUpazilas('updPresDiv','updPresDist','updPresUpa')"></select></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Upazila</label><select id="updPresUpa"></select></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Area</label><input type="text" id="updPresArea"></div>
+    <div class="form-grid-2">
+      <div class="field-box">
+        <label>ID</label>
+        <input type="text" id="editIdOfficeId">
       </div>
-
-      <div style="font-size:11px; font-weight:800; color:var(--brand-dark); margin:6px 0 4px 0;">Permanent Address</div>
-      <div class="form-grid-2">
-        <div class="field-box" style="margin-bottom:6px;"><label>Division</label><select id="updPermDiv" onchange="populateDistricts('updPermDiv','updPermDist','updPermUpa')"></select></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>District</label><select id="updPermDist" onchange="populateUpazilas('updPermDiv','updPermDist','updPermUpa')"></select></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Upazila</label><select id="updPermUpa"></select></div>
-        <div class="field-box" style="margin-bottom:6px;"><label>Area</label><input type="text" id="updPermArea"></div>
+      <div class="field-box">
+        <label>Name</label>
+        <input type="text" id="editIdName">
       </div>
-
-      <button type="button" class="btn btn-save" style="width:100%; justify-content:center; margin-top:6px;" onclick="saveAdminIdUpdate()">Save ID Card Update</button>
     </div>
+
+    <div class="form-grid-2">
+      <div class="field-box">
+        <label>Designation</label>
+        <input type="text" id="editIdDesignation">
+      </div>
+      <div class="field-box">
+        <label>Division</label>
+        <input type="text" id="editIdDivisionTop" value="Textile">
+      </div>
+    </div>
+
+    <div class="form-grid-2">
+      <div class="field-box">
+        <label>Department</label>
+        <input type="text" id="editIdDepartment">
+      </div>
+      <div class="field-box">
+        <label>Section</label>
+        <input type="text" id="editIdSection">
+      </div>
+    </div>
+
+    <div class="form-grid-2">
+      <div class="field-box">
+        <label>Joining Date</label>
+        <input type="date" id="editIdJoiningDate">
+      </div>
+      <div class="field-box">
+        <label>Passport Photo (Max 500KB)</label>
+        <input type="file" id="editIdPhotoFile" accept="image/*" onchange="handleAdminEditPhoto(event)">
+      </div>
+    </div>
+
+    <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:10px; margin-bottom:10px;">
+      <div style="font-size:11.5px; font-weight:800; color:var(--brand-dark); margin-bottom:6px;">Present Address</div>
+      <div class="form-grid-2">
+        <div class="field-box" style="margin-bottom:6px;">
+          <label>Division</label>
+          <select id="editPresDiv" onchange="populateDistricts('editPresDiv', 'editPresDist', 'editPresUpz')"></select>
+        </div>
+        <div class="field-box" style="margin-bottom:6px;">
+          <label>District</label>
+          <select id="editPresDist" onchange="populateUpazilas('editPresDiv', 'editPresDist', 'editPresUpz')"></select>
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div class="field-box" style="margin-bottom:2px;">
+          <label>Upazila</label>
+          <select id="editPresUpz"></select>
+        </div>
+        <div class="field-box" style="margin-bottom:2px;">
+          <label>Area</label>
+          <input type="text" id="editPresArea">
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:10px; margin-bottom:12px;">
+      <div style="font-size:11.5px; font-weight:800; color:var(--brand-dark); margin-bottom:6px;">Permanent Address</div>
+      <div class="form-grid-2">
+        <div class="field-box" style="margin-bottom:6px;">
+          <label>Division</label>
+          <select id="editPermDiv" onchange="populateDistricts('editPermDiv', 'editPermDist', 'editPermUpz')"></select>
+        </div>
+        <div class="field-box" style="margin-bottom:6px;">
+          <label>District</label>
+          <select id="editPermDist" onchange="populateUpazilas('editPermDiv', 'editPermDist', 'editPermUpz')"></select>
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div class="field-box" style="margin-bottom:2px;">
+          <label>Upazila</label>
+          <select id="editPermUpz"></select>
+        </div>
+        <div class="field-box" style="margin-bottom:2px;">
+          <label>Area</label>
+          <input type="text" id="editPermArea">
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" style="width:100%; justify-content:center;" onclick="saveAdminUpdatedIdCard()">Save ID Card Update</button>
   </div>
 </div>
 
@@ -1019,6 +1130,7 @@
 <!-- MAIN APPLICATION SHELL                                                    -->
 <!-- ========================================================================= -->
 <div id="app-shell">
+  <!-- LEFT SIDEBAR DRAWER -->
   <div class="sidebar-backdrop no-print" id="sidebarBackdrop" onclick="closeSidebar()"></div>
   <aside class="side-drawer no-print" id="sideDrawer">
     <div class="drawer-top">
@@ -1047,7 +1159,7 @@
         <button type="button" class="menu-trigger-btn" onclick="openSidebar()">☰ <span data-i18n="menuBtn">Menu</span></button>
         <div class="company-info">
           <h1>P.N. COMPOSITE LTD.</h1>
-          <p>529, Ambag, Nilnagar, Konabari, Gazipur.</p>
+          <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
           <span class="company-badge" data-i18n="portalBadge">Utility & Power Distribution Management Portal</span>
         </div>
       </div>
@@ -1075,7 +1187,7 @@
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px;">
           <div>
             <h2 style="margin:0; font-size:18px; font-weight:800; color:var(--brand-dark);" data-i18n="navAdmin">Admin Panel</h2>
-            <p style="margin:3px 0 0 0; font-size:12.5px; color:var(--slate-500);">Super Admin: <strong>emontalukder380@gmail.com</strong> — Full Website, Member Approval & ID Card Control</p>
+            <p style="margin:3px 0 0 0; font-size:12.5px; color:var(--slate-500);">Super Admin: <strong>emontalukder380@gmail.com</strong> — Full Website, Member Approval & ID Card Update Control</p>
           </div>
           <span class="company-badge" id="adminRoleBadge">Super Admin Control</span>
         </div>
@@ -1090,7 +1202,7 @@
           <div class="meta-inputs">
             <div class="input-group">
               <label data-i18n="reportDateLbl">Report Date</label>
-              <input type="date" id="compDate" value="2026-11-24" onchange="triggerCompAutoSave()">
+              <input type="date" id="compDate" value="2026-11-26" onchange="triggerCompAutoSave()">
             </div>
             <div class="input-group">
               <label>Electricity Rate (Tk/kWh)</label>
@@ -1106,52 +1218,22 @@
 
         <div id="cpanel-day">
           <div class="summary-grid">
-            <div class="metric-input-card">
-              <label>Electricity Used (kWh)</label>
-              <input type="number" step="any" id="c_day_kwh" value="0" oninput="recalcCompShift('day'); triggerCompAutoSave();">
-            </div>
-            <div class="metric-input-card">
-              <label>Air Produced (Kg)</label>
-              <input type="number" step="any" id="c_day_air_kg" value="0" oninput="recalcCompShift('day'); triggerCompAutoSave();">
-            </div>
-            <div class="metric-input-card">
-              <label>Total Comp Prod (Kg Auto)</label>
-              <input type="number" id="c_day_comp_prod_auto" value="0.0" readonly>
-            </div>
-            <div class="metric-input-card">
-              <label>Total Hourly Dept Air (Kg Auto)</label>
-              <input type="number" id="c_day_dept_air_auto" value="0.0" readonly>
-            </div>
-            <div class="metric-input-card">
-              <label>Total Shift Cost (Tk Auto)</label>
-              <input type="number" id="c_day_cost_auto" value="0" readonly>
-            </div>
+            <div class="metric-input-card"><label>Electricity Used (kWh)</label><input type="number" step="any" id="c_day_kwh" value="0" oninput="recalcCompShift('day'); triggerCompAutoSave();"></div>
+            <div class="metric-input-card"><label>Air Produced (Kg)</label><input type="number" step="any" id="c_day_air_kg" value="0" oninput="recalcCompShift('day'); triggerCompAutoSave();"></div>
+            <div class="metric-input-card"><label>Total Comp Prod (Kg Auto)</label><input type="number" id="c_day_comp_prod_auto" value="0.0" readonly></div>
+            <div class="metric-input-card"><label>Total Hourly Dept Air (Kg Auto)</label><input type="number" id="c_day_dept_air_auto" value="0.0" readonly></div>
+            <div class="metric-input-card"><label>Total Shift Cost (Tk Auto)</label><input type="number" id="c_day_cost_auto" value="0" readonly></div>
           </div>
           <div class="table-wrapper" id="cgrid-day"></div>
         </div>
 
         <div id="cpanel-night" style="display:none;">
           <div class="summary-grid">
-            <div class="metric-input-card">
-              <label>Electricity Used (kWh)</label>
-              <input type="number" step="any" id="c_night_kwh" value="0" oninput="recalcCompShift('night'); triggerCompAutoSave();">
-            </div>
-            <div class="metric-input-card">
-              <label>Air Produced (Kg)</label>
-              <input type="number" step="any" id="c_night_air_kg" value="0" oninput="recalcCompShift('night'); triggerCompAutoSave();">
-            </div>
-            <div class="metric-input-card">
-              <label>Total Comp Prod (Kg Auto)</label>
-              <input type="number" id="c_night_comp_prod_auto" value="0.0" readonly>
-            </div>
-            <div class="metric-input-card">
-              <label>Total Hourly Dept Air (Kg Auto)</label>
-              <input type="number" id="c_night_dept_air_auto" value="0.0" readonly>
-            </div>
-            <div class="metric-input-card">
-              <label>Total Shift Cost (Tk Auto)</label>
-              <input type="number" id="c_night_cost_auto" value="0" readonly>
-            </div>
+            <div class="metric-input-card"><label>Electricity Used (kWh)</label><input type="number" step="any" id="c_night_kwh" value="0" oninput="recalcCompShift('night'); triggerCompAutoSave();"></div>
+            <div class="metric-input-card"><label>Air Produced (Kg)</label><input type="number" step="any" id="c_night_air_kg" value="0" oninput="recalcCompShift('night'); triggerCompAutoSave();"></div>
+            <div class="metric-input-card"><label>Total Comp Prod (Kg Auto)</label><input type="number" id="c_night_comp_prod_auto" value="0.0" readonly></div>
+            <div class="metric-input-card"><label>Total Hourly Dept Air (Kg Auto)</label><input type="number" id="c_night_dept_air_auto" value="0.0" readonly></div>
+            <div class="metric-input-card"><label>Total Shift Cost (Tk Auto)</label><input type="number" id="c_night_cost_auto" value="0" readonly></div>
           </div>
           <div class="table-wrapper" id="cgrid-night"></div>
         </div>
@@ -1184,18 +1266,9 @@
       <div class="control-card no-print">
         <div class="top-controls">
           <div class="meta-inputs">
-            <div class="input-group">
-              <label data-i18n="reportDateLbl">Report Date</label>
-              <input type="date" id="boilerDate" value="2026-11-24">
-            </div>
-            <div class="input-group">
-              <label>NG Rate (Tk/m³)</label>
-              <input type="number" step="0.01" id="boilerNgRate" value="27.00">
-            </div>
-            <div class="input-group">
-              <label>LPG Rate (Tk/Kg)</label>
-              <input type="number" step="0.01" id="boilerLpgRate" value="120.00">
-            </div>
+            <div class="input-group"><label data-i18n="reportDateLbl">Report Date</label><input type="date" id="boilerDate" value="2026-11-26"></div>
+            <div class="input-group"><label>NG Rate (Tk/m³)</label><input type="number" step="0.01" id="boilerNgRate" value="27.00"></div>
+            <div class="input-group"><label>LPG Rate (Tk/Kg)</label><input type="number" step="0.01" id="boilerLpgRate" value="120.00"></div>
           </div>
 
           <div class="shift-switcher">
@@ -1205,9 +1278,7 @@
         </div>
 
         <div class="camera-toolbar">
-          <div class="camera-info">
-            📷 Boiler Logsheet Scan / Photo Upload — preview stays locked in frame and auto-fills selected shift.
-          </div>
+          <div class="camera-info">📷 Boiler Logsheet Scan / Photo Upload — preview stays locked in frame and auto-fills selected shift.</div>
           <div class="camera-actions">
             <input type="file" id="boilerCameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handleBoilerImageScan(event)">
             <input type="file" id="boilerGalleryInput" accept="image/*" style="display:none;" onchange="handleBoilerImageScan(event)">
@@ -1237,26 +1308,11 @@
 
         <div id="bpanel-day">
           <div class="summary-grid">
-            <div class="metric-input-card">
-              <label>NG Consumption (m³)</label>
-              <input type="number" step="any" id="b_day_ng_cons" value="0" oninput="recalcBoilerShift('day')">
-            </div>
-            <div class="metric-input-card">
-              <label>LPG Consumption (Kg)</label>
-              <input type="number" step="any" id="b_day_lpg_cons" value="0" oninput="recalcBoilerShift('day')">
-            </div>
-            <div class="metric-input-card">
-              <label>NG Steam (Ton) Auto</label>
-              <input type="number" id="b_day_ng_steam_auto" value="0.00" readonly>
-            </div>
-            <div class="metric-input-card">
-              <label>LPG Steam (Ton) Auto</label>
-              <input type="number" id="b_day_lpg_steam_auto" value="0.00" readonly>
-            </div>
-            <div class="metric-input-card">
-              <label>Total Steam (Ton) Auto</label>
-              <input type="number" id="b_day_tot_steam_auto" value="0.00" readonly>
-            </div>
+            <div class="metric-input-card"><label>NG Consumption (m³)</label><input type="number" step="any" id="b_day_ng_cons" value="0" oninput="recalcBoilerShift('day')"></div>
+            <div class="metric-input-card"><label>LPG Consumption (Kg)</label><input type="number" step="any" id="b_day_lpg_cons" value="0" oninput="recalcBoilerShift('day')"></div>
+            <div class="metric-input-card"><label>NG Steam (Ton) Auto</label><input type="number" id="b_day_ng_steam_auto" value="0.00" readonly></div>
+            <div class="metric-input-card"><label>LPG Steam (Ton) Auto</label><input type="number" id="b_day_lpg_steam_auto" value="0.00" readonly></div>
+            <div class="metric-input-card"><label>Total Steam (Ton) Auto</label><input type="number" id="b_day_tot_steam_auto" value="0.00" readonly></div>
           </div>
           <div class="table-wrapper" id="bgrid-day"></div>
           <div class="stenter-12h-box">
@@ -1267,26 +1323,11 @@
 
         <div id="bpanel-night" style="display:none;">
           <div class="summary-grid">
-            <div class="metric-input-card">
-              <label>NG Consumption (m³)</label>
-              <input type="number" step="any" id="b_night_ng_cons" value="0" oninput="recalcBoilerShift('night')">
-            </div>
-            <div class="metric-input-card">
-              <label>LPG Consumption (Kg)</label>
-              <input type="number" step="any" id="b_night_lpg_cons" value="0" oninput="recalcBoilerShift('night')">
-            </div>
-            <div class="metric-input-card">
-              <label>NG Steam (Ton) Auto</label>
-              <input type="number" id="b_night_ng_steam_auto" value="0.00" readonly>
-            </div>
-            <div class="metric-input-card">
-              <label>LPG Steam (Ton) Auto</label>
-              <input type="number" id="b_night_lpg_steam_auto" value="0.00" readonly>
-            </div>
-            <div class="metric-input-card">
-              <label>Total Steam (Ton) Auto</label>
-              <input type="number" id="b_night_tot_steam_auto" value="0.00" readonly>
-            </div>
+            <div class="metric-input-card"><label>NG Consumption (m³)</label><input type="number" step="any" id="b_night_ng_cons" value="0" oninput="recalcBoilerShift('night')"></div>
+            <div class="metric-input-card"><label>LPG Consumption (Kg)</label><input type="number" step="any" id="b_night_lpg_cons" value="0" oninput="recalcBoilerShift('night')"></div>
+            <div class="metric-input-card"><label>NG Steam (Ton) Auto</label><input type="number" id="b_night_ng_steam_auto" value="0.00" readonly></div>
+            <div class="metric-input-card"><label>LPG Steam (Ton) Auto</label><input type="number" id="b_night_lpg_steam_auto" value="0.00" readonly></div>
+            <div class="metric-input-card"><label>Total Steam (Ton) Auto</label><input type="number" id="b_night_tot_steam_auto" value="0.00" readonly></div>
           </div>
           <div class="table-wrapper" id="bgrid-night"></div>
           <div class="stenter-12h-box">
@@ -1337,18 +1378,9 @@
       <div class="control-card no-print">
         <div class="top-controls">
           <div class="meta-inputs">
-            <div class="input-group">
-              <label data-i18n="reportDateLbl">Report Date</label>
-              <input type="date" id="reportDate" value="2026-11-22">
-            </div>
-            <div class="input-group">
-              <label>Natural Gas Rate (Tk/m³)</label>
-              <input type="number" step="0.01" id="ngRate" value="27.00">
-            </div>
-            <div class="input-group">
-              <label>Diesel Rate (Tk/Ltr)</label>
-              <input type="number" step="0.01" id="dgRate" value="109.00">
-            </div>
+            <div class="input-group"><label data-i18n="reportDateLbl">Report Date</label><input type="date" id="reportDate" value="2026-11-26"></div>
+            <div class="input-group"><label>Natural Gas Rate (Tk/m³)</label><input type="number" step="0.01" id="ngRate" value="27.00"></div>
+            <div class="input-group"><label>Diesel Rate (Tk/Ltr)</label><input type="number" step="0.01" id="dgRate" value="109.00"></div>
           </div>
 
           <div class="shift-switcher">
@@ -1358,23 +1390,12 @@
         </div>
 
         <div class="camera-toolbar">
-          <div class="camera-info" data-i18n="scanInfo">
-            📷 Scan logsheet via Camera or Upload Photo — preview stays locked in frame and auto-fills selected section.
-          </div>
+          <div class="camera-info" data-i18n="scanInfo">📷 Scan logsheet via Camera or Upload Photo — preview stays locked in frame and auto-fills selected section.</div>
           <div class="camera-actions">
             <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handleImageScan(event)">
             <input type="file" id="galleryInput" accept="image/*" style="display:none;" onchange="handleImageScan(event)">
-
-            <button type="button" class="cam-btn" onclick="document.getElementById('cameraInput').click()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                <circle cx="12" cy="13" r="4"></circle>
-              </svg>
-              Open Camera & Scan
-            </button>
-            <button type="button" class="cam-btn secondary" onclick="document.getElementById('galleryInput').click()">
-              Upload Photo
-            </button>
+            <button type="button" class="cam-btn" onclick="document.getElementById('cameraInput').click()">Open Camera & Scan</button>
+            <button type="button" class="cam-btn secondary" onclick="document.getElementById('galleryInput').click()">Upload Photo</button>
           </div>
         </div>
 
@@ -1383,11 +1404,9 @@
             <h3 style="margin:0; font-size:14px; color:var(--brand-dark);">Scanned Logsheet Preview & Section Auto-Fill</h3>
             <button type="button" class="btn btn-excel" style="padding:5px 11px; font-size:11.5px; background:#fff; color:#334155; border:1px solid #cbd5e1;" onclick="closeScanModal()">Close</button>
           </div>
-
           <div class="scannable-tags">
             <strong>Scannable Titles:</strong> Time (9:00 AM–8:00 PM / 9:00 PM–8:00 AM), M-Bar (→ PSI Auto), GG-1, GG-2, GG-3, DG-ETP, DG-Wash, DG-Rent, RMG Load, Utility Load, Dyeing Load, Finishing Load, AOP Load, Oval Load, Office Load, Knitting, Washing Load, Diesel/NG Consumption, GG/DG kWh.
           </div>
-
           <div class="scan-grid">
             <div class="preview-img-box">
               <img id="scannedImgPreview" src="" alt="Scanned Sheet">
@@ -1400,66 +1419,31 @@
                   <option value="gen">Generator & M-Bar (M-Bar → PSI Auto, GG-1..3, DG)</option>
                   <option value="dept">Department Load (RMG..Other Loads)</option>
                 </select>
-                <button type="button" class="btn btn-primary" style="padding:7px 13px; font-size:12px;" onclick="applyScannedDataToShift()">
-                  Auto-Fill Section
-                </button>
+                <button type="button" class="btn btn-primary" style="padding:7px 13px; font-size:12px;" onclick="applyScannedDataToShift()">Auto-Fill Section</button>
               </div>
               <div class="parsed-table-wrap" id="parsedTableContainer"></div>
-              <p style="font-size:11px; color:#64748b; margin:6px 0 0 0;">
-                * Adjust any unclear handwritten cell above by column title, then click "Auto-Fill Section".
-              </p>
             </div>
           </div>
         </div>
 
         <div id="panel-day">
           <div class="summary-grid">
-            <div class="metric-input-card">
-              <label>Diesel Consumption (Ltr)</label>
-              <input type="number" step="any" id="day_dg_cons" value="0">
-            </div>
-            <div class="metric-input-card">
-              <label>Natural Gas Consumption (m³)</label>
-              <input type="number" step="any" id="day_ng_cons" value="0">
-            </div>
-            <div class="metric-input-card">
-              <label>Diesel Generator kWh</label>
-              <input type="number" step="any" id="day_dg_kwh" value="0" oninput="updateTotalKwh('day')">
-            </div>
-            <div class="metric-input-card">
-              <label>Gas Generator kWh</label>
-              <input type="number" step="any" id="day_gg_kwh" value="0" oninput="updateTotalKwh('day')">
-            </div>
-            <div class="metric-input-card">
-              <label>Total Shift kWh (Auto)</label>
-              <input type="number" id="day_total_kwh" value="0" readonly>
-            </div>
+            <div class="metric-input-card"><label>Diesel Consumption (Ltr)</label><input type="number" step="any" id="day_dg_cons" value="0"></div>
+            <div class="metric-input-card"><label>Natural Gas Consumption (m³)</label><input type="number" step="any" id="day_ng_cons" value="0"></div>
+            <div class="metric-input-card"><label>Diesel Generator kWh</label><input type="number" step="any" id="day_dg_kwh" value="0" oninput="updateTotalKwh('day')"></div>
+            <div class="metric-input-card"><label>Gas Generator kWh</label><input type="number" step="any" id="day_gg_kwh" value="0" oninput="updateTotalKwh('day')"></div>
+            <div class="metric-input-card"><label>Total Shift kWh (Auto)</label><input type="number" id="day_total_kwh" value="0" readonly></div>
           </div>
           <div class="table-wrapper" id="grid-day"></div>
         </div>
 
         <div id="panel-night" style="display:none;">
           <div class="summary-grid">
-            <div class="metric-input-card">
-              <label>Diesel Consumption (Ltr)</label>
-              <input type="number" step="any" id="night_dg_cons" value="0">
-            </div>
-            <div class="metric-input-card">
-              <label>Natural Gas Consumption (m³)</label>
-              <input type="number" step="any" id="night_ng_cons" value="0">
-            </div>
-            <div class="metric-input-card">
-              <label>Diesel Generator kWh</label>
-              <input type="number" step="any" id="night_dg_kwh" value="0" oninput="updateTotalKwh('night')">
-            </div>
-            <div class="metric-input-card">
-              <label>Gas Generator kWh</label>
-              <input type="number" step="any" id="night_gg_kwh" value="0" oninput="updateTotalKwh('night')">
-            </div>
-            <div class="metric-input-card">
-              <label>Total Shift kWh (Auto)</label>
-              <input type="number" id="night_total_kwh" value="0" readonly>
-            </div>
+            <div class="metric-input-card"><label>Diesel Consumption (Ltr)</label><input type="number" step="any" id="night_dg_cons" value="0"></div>
+            <div class="metric-input-card"><label>Natural Gas Consumption (m³)</label><input type="number" step="any" id="night_ng_cons" value="0"></div>
+            <div class="metric-input-card"><label>Diesel Generator kWh</label><input type="number" step="any" id="night_dg_kwh" value="0" oninput="updateTotalKwh('night')"></div>
+            <div class="metric-input-card"><label>Gas Generator kWh</label><input type="number" step="any" id="night_gg_kwh" value="0" oninput="updateTotalKwh('night')"></div>
+            <div class="metric-input-card"><label>Total Shift kWh (Auto)</label><input type="number" id="night_total_kwh" value="0" readonly></div>
           </div>
           <div class="table-wrapper" id="grid-night"></div>
         </div>
@@ -1492,7 +1476,7 @@
 </div>
 
 <script>
-// ===== SINGLE LOGO FOR ENTIRE WEBSITE (REPLACE "PN LOGO" WITH DATA URL LATER) =====
+// ===== PN 3D Vertical ID Card Script =====
 const PN_LOGO_URL = "PN LOGO";
 const PN_EXTRA_BACK_LOGO_URL = "";
 const PN_EMPLOYEE_PHOTO_URL = "https://via.placeholder.com/160x180/144d29/ffffff?text=PHOTO";
@@ -1516,33 +1500,41 @@ function pnIsValidUrl(val) {
   );
 }
 
-function getActiveSiteLogo() {
+function getActiveLogoSrc() {
   return pnIsValidUrl(PN_LOGO_URL) ? PN_LOGO_URL.trim() : pnDefaultLogo;
 }
 
-function getLogoHtml() {
-  const activeLogo = getActiveSiteLogo();
-  if (PN_LOGO_URL && PN_LOGO_URL.trim() !== "" && PN_LOGO_URL.trim() !== "PN LOGO") {
-    return `<img src="${activeLogo}" alt="PN Logo">`;
+function getLogoHtml(cssClass = "") {
+  if (pnIsValidUrl(PN_LOGO_URL)) {
+    return `<img src="${PN_LOGO_URL.trim()}" alt="PN LOGO" class="${cssClass}">`;
   }
-  return `<img src="${activeLogo}" alt="PN LOGO">`;
+  return `<div style="font-weight:800; color:#14452f; font-size:10.5px; border:1.5px dashed #14452f; padding:5px 7px; border-radius:7px; text-align:center; background:#ffffff;">PN LOGO</div>`;
 }
 
 function refreshAllLogos() {
-  const activeLogo = getActiveSiteLogo();
+  const html = getLogoHtml();
   document.querySelectorAll(".header-logo-slot, .auth-logo-slot").forEach(el => {
-    el.innerHTML = `<img src="${activeLogo}" alt="PN LOGO">`;
+    el.innerHTML = html;
   });
+}
+
+(function initPnIdCard() {
+  const activeLogo = getActiveLogoSrc();
   const frontLogo = document.getElementById("pnFrontLogo");
   const backLogo = document.getElementById("pnBackLogo");
+  const empPhoto = document.getElementById("pnEmployeePhoto");
   const extraLogoBox = document.getElementById("pnExtraLogoBox");
+
   if (frontLogo) frontLogo.src = activeLogo;
   if (backLogo) backLogo.src = activeLogo;
+  if (empPhoto) empPhoto.src = PN_EMPLOYEE_PHOTO_URL;
+
   if (extraLogoBox && pnIsValidUrl(PN_EXTRA_BACK_LOGO_URL)) {
     extraLogoBox.innerHTML = `<img src="${PN_EXTRA_BACK_LOGO_URL.trim()}" alt="Extra Logo">`;
     extraLogoBox.style.border = "none";
   }
-}
+  refreshAllLogos();
+})();
 
 function pnFlipIdCard() {
   const card = document.getElementById("pnIdCard3d");
@@ -1552,7 +1544,7 @@ function pnFlipIdCard() {
 }
 
 /* ================= BANGLADESH DIVISION -> DISTRICT -> UPAZILA CASCADE ================= */
-const BD_GEO_DATA = {
+const BD_LOCATIONS = {
   "Dhaka": {
     "Gazipur": ["Gazipur Sadar", "Kaliakair", "Kapasia", "Sreepur", "Kaliganj"],
     "Dhaka": ["Dhamrai", "Dohar", "Keraniganj", "Nawabganj", "Savar"],
@@ -1561,78 +1553,88 @@ const BD_GEO_DATA = {
   },
   "Sylhet": {
     "Sunamganj": ["Sunamganj Sadar", "Bishwambarpur", "Chhatak", "Derai", "Jagannathpur", "Tahirpur"],
-    "Sylhet": ["Sylhet Sadar", "Beanibazar", "Companiganj", "Golapganj", "Gowainghat", "Jaintiapur"],
+    "Sylhet": ["Sylhet Sadar", "Beanibazar", "Companiganj", "Fenchuganj", "Golapganj", "Gowainghat"],
     "Habiganj": ["Habiganj Sadar", "Chunarughat", "Madhabpur", "Nabiganj"],
     "Moulvibazar": ["Moulvibazar Sadar", "Kamalganj", "Kulaura", "Sreemangal"]
   },
   "Chattogram": {
     "Chattogram": ["Anwara", "Banshkhali", "Boalkhali", "Mirsharai", "Patiya", "Rangunia", "Sitakunda"],
-    "Cumilla": ["Cumilla Sadar", "Barura", "Brahmanpara", "Chandina", "Chauddagram", "Daudkandi", "Laksam"],
-    "Cox's Bazar": ["Cox's Bazar Sadar", "Chakoria", "Ramu", "Teknaf", "Ukhiya"]
+    "Cumilla": ["Cumilla Sadar", "Barura", "Brahmanpara", "Chauddagram", "Daudkandi", "Laksam"],
+    "Noakhali": ["Noakhali Sadar", "Begumganj", "Chatkhil", "Senbagh"],
+    "Cox's Bazar": ["Cox's Bazar Sadar", "Chakaria", "Ramu", "Teknaf", "Ukhiya"]
   },
   "Rajshahi": {
     "Rajshahi": ["Bagha", "Bagmara", "Godagari", "Paba", "Puthia", "Tanore"],
-    "Bogura": ["Bogura Sadar", "Adamdighi", "Dhunat", "Kahalu", "Sherpur", "Shibganj"],
-    "Pabna": ["Pabna Sadar", "Bera", "Ishwardi", "Santhia", "Sujanagar"]
+    "Bogura": ["Bogura Sadar", "Adamdighi", "Dhunat", "Sherpur", "Shibganj"],
+    "Pabna": ["Pabna Sadar", "Bera", "Ishwardi", "Santhia"]
   },
   "Khulna": {
-    "Khulna": ["Batiaghata", "Dacope", "Dumuria", "Koyra", "Paikgachha", "Rupsa"],
-    "Jashore": ["Jashore Sadar", "Abhaynagar", "Bagherpara", "Chaugachha", "Jhikargachha", "Sharsha"],
-    "Kushtia": ["Kushtia Sadar", "Bheramara", "Daulatpur", "Kumarkhali"]
+    "Khulna": ["Batiaghata", "Dacope", "Dighalia", "Dumuria", "Koyra", "Paikgachha", "Rupsa"],
+    "Jashore": ["Abhaynagar", "Bagherpara", "Chaugachha", "Jhikargachha", "Keshabpur", "Sharsha"],
+    "Kushtia": ["Kushtia Sadar", "Bheramara", "Kumarkhali", "Mirpur"]
   },
   "Barishal": {
-    "Barishal": ["Barishal Sadar", "Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Gaurnadi", "Muladi"],
-    "Bhola": ["Bhola Sadar", "Borhanuddin", "Char Fasson", "Lalmohan", "Tazumuddin"],
+    "Barishal": ["Barishal Sadar", "Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Gournadi", "Mehendiganj", "Muladi", "Wazirpur"],
+    "Bhola": ["Bhola Sadar", "Borhanuddin", "Char Fasson", "Lalmohan", "Manpura"],
     "Patuakhali": ["Patuakhali Sadar", "Bauphal", "Dashmina", "Galachipa", "Kalapara"]
   },
   "Rangpur": {
-    "Rangpur": ["Rangpur Sadar", "Badarganj", "Gangachara", "Kaunia", "Mithapukur", "Pirgachha"],
-    "Dinajpur": ["Dinajpur Sadar", "Birampur", "Birganj", "Fulbari", "Ghoraghat", "Parbatipur"],
-    "Kurigram": ["Kurigram Sadar", "Bhurungamari", "Chilmari", "Nageshwari", "Ulipur"]
+    "Rangpur": ["Rangpur Sadar", "Badarganj", "Gangachara", "Kaunia", "Mithapukur", "Pirgachha", "Pirganj"],
+    "Dinajpur": ["Dinajpur Sadar", "Birampur", "Birganj", "Fulbari", "Hakimpur", "Parbatipur"]
   },
   "Mymensingh": {
-    "Mymensingh": ["Mymensingh Sadar", "Bhaluka", "Fulbaria", "Gaffargaon", "Gauripur", "Muktagachha", "Trishal"],
-    "Jamalpur": ["Jamalpur Sadar", "Bakshiganj", "Dewanganj", "Islampur", "Madarganj", "Melandaha"],
-    "Netrokona": ["Netrokona Sadar", "Atpara", "Durgapur", "Kalmakanda", "Kendua", "Purbadhala"]
+    "Mymensingh": ["Mymensingh Sadar", "Bhaluka", "Fulbaria", "Gaffargaon", "Gauripur", "Haluaghat", "Muktagachha", "Phulpur", "Trishal"],
+    "Jamalpur": ["Jamalpur Sadar", "Bakshiganj", "Dewanganj", "Islampur", "Madarganj", "Melandaha", "Sarishabari"],
+    "Netrokona": ["Netrokona Sadar", "Atpara", "Barhatta", "Durgapur", "Kalmakanda", "Kendua", "Purbadhala"]
   }
 };
 
-function initGeoDropdowns(divId, distId, upaId, selectedDiv = "Dhaka", selectedDist = "", selectedUpa = "") {
-  const divSel = document.getElementById(divId);
+function initDivisionDropdown(divSelectId, distSelectId, upzSelectId, selectedDiv = "", selectedDist = "", selectedUpz = "") {
+  const divSel = document.getElementById(divSelectId);
   if (!divSel) return;
-  divSel.innerHTML = Object.keys(BD_GEO_DATA).map(d => `<option value="${d}">${d}</option>`).join("");
-  divSel.value = BD_GEO_DATA[selectedDiv] ? selectedDiv : "Dhaka";
-  populateDistricts(divId, distId, upaId, selectedDist, selectedUpa);
+  divSel.innerHTML = `<option value="">Select Division</option>` + Object.keys(BD_LOCATIONS).map(d =>
+    `<option value="${d}" ${d === selectedDiv ? "selected" : ""}>${d}</option>`
+  ).join("");
+  populateDistricts(divSelectId, distSelectId, upzSelectId, selectedDist, selectedUpz);
 }
 
-function populateDistricts(divId, distId, upaId, selectedDist = "", selectedUpa = "") {
-  const divVal = document.getElementById(divId).value;
-  const distSel = document.getElementById(distId);
-  const districts = Object.keys(BD_GEO_DATA[divVal] || {});
-  distSel.innerHTML = districts.map(dt => `<option value="${dt}">${dt}</option>`).join("");
-  if (selectedDist && districts.includes(selectedDist)) {
-    distSel.value = selectedDist;
+function populateDistricts(divSelectId, distSelectId, upzSelectId, selectedDist = "", selectedUpz = "") {
+  const divVal = document.getElementById(divSelectId)?.value || "";
+  const distSel = document.getElementById(distSelectId);
+  if (!distSel) return;
+  const distObj = BD_LOCATIONS[divVal] || {};
+  distSel.innerHTML = `<option value="">Select District</option>` + Object.keys(distObj).map(dist =>
+    `<option value="${dist}" ${dist === selectedDist ? "selected" : ""}>${dist}</option>`
+  ).join("");
+  populateUpazilas(divSelectId, distSelectId, upzSelectId, selectedUpz);
+}
+
+function populateUpazilas(divSelectId, distSelectId, upzSelectId, selectedUpz = "") {
+  const divVal = document.getElementById(divSelectId)?.value || "";
+  const distVal = document.getElementById(distSelectId)?.value || "";
+  const upzSel = document.getElementById(upzSelectId);
+  if (!upzSel) return;
+  const upzList = (BD_LOCATIONS[divVal] && BD_LOCATIONS[divVal][distVal]) ? BD_LOCATIONS[divVal][distVal] : [];
+  upzSel.innerHTML = `<option value="">Select Upazila</option>` + upzList.map(upz =>
+    `<option value="${upz}" ${upz === selectedUpz ? "selected" : ""}>${upz}</option>`
+  ).join("");
+}
+
+function renderLongQrCode(seedText = "PN-COMPOSITE") {
+  const box = document.getElementById("pnLongQrCode");
+  if (!box) return;
+  let bars = "";
+  const cleanSeed = String(seedText || "PN");
+  for (let i = 0; i < 42; i++) {
+    const code = cleanSeed.charCodeAt(i % cleanSeed.length) + i * 7;
+    const w = (code % 3) + 1.4;
+    const x = 6 + i * 5.2;
+    bars += `<rect x="${x.toFixed(1)}" y="4" width="${w.toFixed(1)}" height="24" fill="#0f172a"/>`;
   }
-  populateUpazilas(divId, distId, upaId, selectedUpa);
+  box.innerHTML = `<svg viewBox="0 0 228 32" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">${bars}</svg>`;
 }
 
-function populateUpazilas(divId, distId, upaId, selectedUpa = "") {
-  const divVal = document.getElementById(divId).value;
-  const distVal = document.getElementById(distId).value;
-  const upaSel = document.getElementById(upaId);
-  const upazilas = ((BD_GEO_DATA[divVal] || {})[distVal]) || [];
-  upaSel.innerHTML = upazilas.map(u => `<option value="${u}">${u}</option>`).join("");
-  if (selectedUpa && upazilas.includes(selectedUpa)) {
-    upaSel.value = selectedUpa;
-  }
-}
-
-initGeoDropdowns("regPresDiv", "regPresDist", "regPresUpa", "Dhaka", "Gazipur", "Gazipur Sadar");
-initGeoDropdowns("regPermDiv", "regPermDist", "regPermUpa", "Sylhet", "Sunamganj", "Bishwambarpur");
-initGeoDropdowns("updPresDiv", "updPresDist", "updPresUpa", "Dhaka", "Gazipur", "Gazipur Sadar");
-initGeoDropdowns("updPermDiv", "updPermDist", "updPermUpa", "Sylhet", "Sunamganj", "Bishwambarpur");
-
-/* ================= FIREBASE INIT ================= */
+/* ================= FIREBASE CONFIG & SYNC ================= */
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBqrEtn-oWVZP3Z_LTdTLd_m6wAt0wsb8s",
   authDomain: "pn-composite-utility-6a495.firebaseapp.com",
@@ -1663,14 +1665,21 @@ async function syncRecordToFirestore(category, entry) {
   } catch (err) {}
 }
 
-refreshAllLogos();
+async function syncEmployeeToFirestore(profile) {
+  if (!firebaseDb || !profile || !profile.email) return;
+  try {
+    const safeCopy = { ...profile };
+    delete safeCopy.password;
+    await firebaseDb.collection("pn_employees").doc(profile.email.trim().toLowerCase()).set(safeCopy, { merge: true });
+  } catch (err) {}
+}
 
-/* ================= LANGUAGE (DEFAULT: ENGLISH) ================= */
+/* ================= LANGUAGE (DEFAULT: EN) ================= */
 let currentLang = "en";
 const I18N_DICT = {
   bn: {
     autoSaveOn: "অটো-সেভ চালু আছে",
-    portalSub: "৫২৯, আমবাগ, নীলনগর, কোনাবাড়ী, গাজীপুর • ইউটিলিটি ও পাওয়ার ম্যানেজমেন্ট পোর্টাল",
+    portalSub: "৫২৯, আমবাগ, নীলনগর, কোনাবাড়ী, গাজীপুর • ইউটিলিটি ও পাওয়ার ম্যানেজমেন্ট পোর্টাল",
     loginNow: "লগইন করুন",
     regNow: "রেজিস্ট্রেশন করুন",
     emailAddr: "ইমেইল ঠিকানা",
@@ -1680,29 +1689,28 @@ const I18N_DICT = {
     photoHint: "পাসপোর্ট সাইজের ছবি 500KB-এর ভিতরে হতে হবে",
     officeIdLbl: "আইডি",
     nameLbl: "নাম",
-    desigLbl: "পদবী",
-    divLbl: "ডিভিশন",
+    designationLbl: "পদবী",
+    divisionTopLbl: "ডিভিশন",
     deptLbl: "ডিপার্টমেন্ট",
     secLbl: "সেকশন",
     joinDateLbl: "যোগদানের তারিখ",
-    dobLbl: "জন্ম তারিখ",
     mobileLbl: "মোবাইল নম্বর",
-    genderLbl: "লিঙ্গ",
     presentAddrLbl: "বর্তমান ঠিকানা",
-    permAddrLbl: "স্থায়ী ঠিকানা",
-    divisionLbl: "বিভাগ",
-    districtLbl: "জেলা",
-    upazilaLbl: "উপজেলা",
+    permAddrLbl: "স্থায়ী ঠিকানা",
+    divLbl: "বিভাগ",
+    distLbl: "জেলা",
+    upzLbl: "উপজেলা",
     areaLbl: "এরিয়া",
     setPassLbl: "পাসওয়ার্ড দিন",
     confirmPassLbl: "পাসওয়ার্ড নিশ্চিত করুন",
     declCheckLbl: "সকল তথ্য সঠিক—এই মর্মে ঘোষণা টিক দিন।",
     regConfirmBtn: "রেজিস্ট্রেশন কনফার্ম করুন",
-    idCardTitle: "কর্মী আইডি কার্ড",
+    idCardTitle: "এমপ্লয়ি আইডি কার্ড",
+    flip3dBtn: "3D ফ্লিপ করুন",
     openPortal: "পোর্টালে যান",
-    downloadIdBtn: "Download",
-    updateNowBtn: "Update Now",
-    lostCardNotice: "এই কার্ডটি হারিয়ে গেলে বা পাওয়া গেলে অনুগ্রহ করে নিকটস্থ থানায় অথবা কোম্পানির অফিসে জমা দিন।",
+    downloadBtn: "ডাউনলোড",
+    updateNowBtn: "আপডেট নাও",
+    lostCardNote: "এই কার্ডটি হারিয়ে গেলে বা পাওয়া গেলে অনুগ্রহ করে নিকটস্থ থানায় অথবা কোম্পানির অফিসে জমা দিন।",
     backBtn: "ব্যাক",
     menuBtn: "মেনু",
     portalBadge: "ইউটিলিটি ও পাওয়ার ডিস্ট্রিবিউশন ম্যানেজমেন্ট পোর্টাল",
@@ -1732,29 +1740,28 @@ const I18N_DICT = {
     photoHint: "Passport size photo must be under 500KB",
     officeIdLbl: "ID",
     nameLbl: "Name",
-    desigLbl: "Designation",
-    divLbl: "Division",
+    designationLbl: "Designation",
+    divisionTopLbl: "Division",
     deptLbl: "Department",
     secLbl: "Section",
-    joinDateLbl: "Joining date",
-    dobLbl: "Date of Birth",
+    joinDateLbl: "Joining Date",
     mobileLbl: "Mobile Number",
-    genderLbl: "Gender",
     presentAddrLbl: "Present Address",
     permAddrLbl: "Permanent Address",
-    divisionLbl: "Division",
-    districtLbl: "District",
-    upazilaLbl: "Upazila",
+    divLbl: "Division",
+    distLbl: "District",
+    upzLbl: "Upazila",
     areaLbl: "Area",
     setPassLbl: "Set Password",
     confirmPassLbl: "Confirm Password",
     declCheckLbl: "All data is correct declaration check.",
     regConfirmBtn: "registration confirm now",
     idCardTitle: "Employee ID Card",
+    flip3dBtn: "Click to Flip 3D",
     openPortal: "Open Portal",
-    downloadIdBtn: "Download",
+    downloadBtn: "Download",
     updateNowBtn: "Update Now",
-    lostCardNotice: "If found lost, please return to the nearest police station or company office.",
+    lostCardNote: "If this card is lost or found, please return it to the nearest police station or company office.",
     backBtn: "Back",
     menuBtn: "Menu",
     portalBadge: "Utility & Power Distribution Management Portal",
@@ -1817,14 +1824,14 @@ let scannedRowsDraft = [];
 let boilerScannedDraft = [];
 let activeCharts = [];
 let uploadedPhotoBase64 = "";
-let updatedIdPhotoBase64 = "";
-let viewingIdRecordIndex = -1;
+let adminEditPhotoBase64 = "";
+let currentlyViewingIdProfile = null;
 
 function isSuperAdminUser(user) {
   return !!(user && user.email && user.email.trim().toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase());
 }
 
-/* ================= AUTH & ADMIN APPROVAL LOGIC ================= */
+/* ================= AUTH & ID CARD DISPLAY + ADMIN UPDATE ================= */
 function showAuthPanel(panel) {
   document.getElementById("login-panel").style.display = panel === "login" ? "block" : "none";
   document.getElementById("register-panel").style.display = panel === "register" ? "block" : "none";
@@ -1860,358 +1867,51 @@ function handlePhotoUpload(event) {
   reader.readAsDataURL(file);
 }
 
-function populateAndOpenIdCard(profile, recordIdx = -1) {
-  viewingIdRecordIndex = recordIdx;
-  const p = profile || {};
-  document.getElementById("idCardName").textContent = p.name || "EMON TALUKDER";
-  document.getElementById("idCardDesignation").textContent = p.designation || "Sub-Assistant Engineer";
-  document.getElementById("idCardOfficeId").textContent = p.officeId || "-";
-  document.getElementById("idCardDivisionField").textContent = p.divisionField || "Textile";
-  document.getElementById("idCardDept").textContent = p.department || "-";
-  document.getElementById("idCardSection").textContent = p.section || "-";
-  document.getElementById("idCardJoining").textContent = p.joiningDate || "-";
+function populateAndOpenIdCard(profile) {
+  currentlyViewingIdProfile = profile;
+  const cardEl = document.getElementById("pnIdCard3d");
+  if (cardEl) cardEl.classList.remove("is-flipped");
 
-  document.getElementById("backPresDiv").textContent = p.presDiv || "-";
-  document.getElementById("backPresDist").textContent = p.presDist || "-";
-  document.getElementById("backPresUpa").textContent = p.presUpa || "-";
-  document.getElementById("backPresArea").textContent = p.presArea || "-";
+  document.getElementById("idCardName").textContent = profile.name || "EMON TALUKDER";
+  document.getElementById("idCardDesignation").textContent = profile.designation || "Sub-Assistant Engineer";
+  document.getElementById("idCardOfficeId").textContent = profile.officeId || "-";
+  document.getElementById("idCardDivisionTop").textContent = profile.divisionTop || "Textile";
+  document.getElementById("idCardDept").textContent = profile.department || "-";
+  document.getElementById("idCardSection").textContent = profile.section || "-";
+  document.getElementById("idCardJoining").textContent = profile.joiningDate || "-";
 
-  document.getElementById("backPermDiv").textContent = p.permDiv || "-";
-  document.getElementById("backPermDist").textContent = p.permDist || "-";
-  document.getElementById("backPermUpa").textContent = p.permUpa || "-";
-  document.getElementById("backPermArea").textContent = p.permArea || "-";
-  document.getElementById("backQrText").textContent = `PN-${p.officeId || "ID"}`;
+  document.getElementById("idBackPresDiv").textContent = profile.presentDivision || "-";
+  document.getElementById("idBackPresDist").textContent = profile.presentDistrict || "-";
+  document.getElementById("idBackPresUpz").textContent = profile.presentUpazila || "-";
+  document.getElementById("idBackPresArea").textContent = profile.presentArea || "-";
+
+  document.getElementById("idBackPermDiv").textContent = profile.permanentDivision || "-";
+  document.getElementById("idBackPermDist").textContent = profile.permanentDistrict || "-";
+  document.getElementById("idBackPermUpz").textContent = profile.permanentUpazila || "-";
+  document.getElementById("idBackPermArea").textContent = profile.permanentArea || "-";
+
+  const activeLogo = getActiveLogoSrc();
+  document.getElementById("pnFrontLogo").src = activeLogo;
+  document.getElementById("pnBackLogo").src = activeLogo;
 
   const empPhoto = document.getElementById("pnEmployeePhoto");
-  if (empPhoto) {
-    empPhoto.src = p.photo || PN_EMPLOYEE_PHOTO_URL;
+  if (profile.photo) {
+    empPhoto.src = profile.photo;
+  } else {
+    empPhoto.src = PN_EMPLOYEE_PHOTO_URL;
   }
 
-  const card3d = document.getElementById("pnIdCard3d");
-  if (card3d) card3d.classList.remove("is-flipped");
-  document.getElementById("id-update-panel").style.display = "none";
+  renderLongQrCode(`${profile.officeId || "PN"}-${profile.name || "EMP"}`);
+
+  // Only Super Admin can click Update Now; members cannot update their own ID
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const updateBtn = document.getElementById("idModalUpdateBtn");
+  if (updateBtn) {
+    updateBtn.style.display = isSuperAdminUser(activeUser) ? "inline-flex" : "none";
+  }
 
   refreshAllLogos();
   document.getElementById("id-card-modal").style.display = "flex";
-}
-
-function toggleAdminIdUpdatePanel() {
-  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
-  if (!isSuperAdminUser(activeUser)) {
-    alert(
-      currentLang === "bn"
-        ? "শুধুমাত্র Super Admin (emontalukder380@gmail.com) আইডি কার্ড আপডেট করতে পারবেন। সদস্য নিজে থেকে আইডি আপডেট করতে পারবেন না।"
-        : "Only Super Admin (emontalukder380@gmail.com) can update ID Cards. Members cannot update their own ID."
-    );
-    return;
-  }
-
-  const panel = document.getElementById("id-update-panel");
-  const isOpen = panel.style.display === "block";
-  if (isOpen) {
-    panel.style.display = "none";
-    return;
-  }
-
-  const target = getTargetIdProfile();
-  updatedIdPhotoBase64 = target.photo || "";
-  document.getElementById("updOfficeId").value = target.officeId || "";
-  document.getElementById("updName").value = target.name || "";
-  document.getElementById("updDesignation").value = target.designation || "";
-  document.getElementById("updDivisionField").value = target.divisionField || "Textile";
-  document.getElementById("updDept").value = target.department || "";
-  document.getElementById("updSection").value = target.section || "";
-  document.getElementById("updJoining").value = target.joiningDate || "";
-
-  initGeoDropdowns("updPresDiv", "updPresDist", "updPresUpa", target.presDiv || "Dhaka", target.presDist || "Gazipur", target.presUpa || "Gazipur Sadar");
-  document.getElementById("updPresArea").value = target.presArea || "";
-
-  initGeoDropdowns("updPermDiv", "updPermDist", "updPermUpa", target.permDiv || "Sylhet", target.permDist || "Sunamganj", target.permUpa || "Bishwambarpur");
-  document.getElementById("updPermArea").value = target.permArea || "";
-
-  panel.style.display = "block";
-}
-
-function handleUpdatePhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  if (file.size > 500 * 1024) {
-    alert("Photo size must be under 500KB.");
-    event.target.value = "";
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    updatedIdPhotoBase64 = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function getTargetIdProfile() {
-  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
-  if (viewingIdRecordIndex >= 0 && users[viewingIdRecordIndex]) {
-    return users[viewingIdRecordIndex];
-  }
-  return JSON.parse(localStorage.getItem("pn_active_user") || "{}");
-}
-
-async function saveAdminIdUpdate() {
-  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
-  if (!isSuperAdminUser(activeUser)) {
-    alert("Only Super Admin can save ID updates.");
-    return;
-  }
-
-  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
-  let idx = viewingIdRecordIndex;
-  if (idx < 0 || !users[idx]) {
-    idx = users.findIndex(u => u.email.toLowerCase() === (activeUser.email || "").toLowerCase());
-  }
-
-  const base = idx >= 0 ? users[idx] : activeUser;
-  const updated = {
-    ...base,
-    officeId: document.getElementById("updOfficeId").value.trim(),
-    name: document.getElementById("updName").value.trim(),
-    designation: document.getElementById("updDesignation").value.trim(),
-    divisionField: document.getElementById("updDivisionField").value.trim() || "Textile",
-    department: document.getElementById("updDept").value.trim(),
-    section: document.getElementById("updSection").value.trim(),
-    joiningDate: document.getElementById("updJoining").value,
-    photo: updatedIdPhotoBase64 || base.photo || "",
-    presDiv: document.getElementById("updPresDiv").value,
-    presDist: document.getElementById("updPresDist").value,
-    presUpa: document.getElementById("updPresUpa").value,
-    presArea: document.getElementById("updPresArea").value.trim(),
-    permDiv: document.getElementById("updPermDiv").value,
-    permDist: document.getElementById("updPermDist").value,
-    permUpa: document.getElementById("updPermUpa").value,
-    permArea: document.getElementById("updPermArea").value.trim()
-  };
-
-  if (idx >= 0) {
-    users[idx] = updated;
-    localStorage.setItem("pn_users_db", JSON.stringify(users));
-  }
-  if ((updated.email || "").toLowerCase() === (activeUser.email || "").toLowerCase()) {
-    localStorage.setItem("pn_active_user", JSON.stringify(updated));
-  }
-
-  if (firebaseDb && updated.email) {
-    try {
-      await firebaseDb.collection("pn_employees").doc(updated.email.toLowerCase()).set({
-        ...updated, password: ""
-      }, { merge: true });
-    } catch (e) {}
-  }
-
-  populateAndOpenIdCard(updated, idx);
-  if (document.getElementById("view-admin").style.display === "block") {
-    renderAdminPanel();
-  }
-  alert("ID Card updated successfully!");
-}
-
-/* ================= DOWNLOAD BOTH SIDES OF ID CARD TOGETHER ================= */
-function drawFrontSideToCanvas(ctx, w, h, p, logoImg, photoImg) {
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, w, h);
-
-  ctx.fillStyle = "#144d29";
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.lineTo(w * 0.72, 0);
-  ctx.lineTo(w * 0.56, h * 0.22);
-  ctx.lineTo(0, h * 0.22);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 24px Inter, sans-serif";
-  ctx.fillText("PN. COMPOSITE LTD.", 22, 42);
-  ctx.font = "600 13px Inter, sans-serif";
-  ctx.fillStyle = "#dcfce7";
-  ctx.fillText("529, Ambag, Nilnagar, Konabari, Gazipur", 22, 64);
-
-  ctx.fillStyle = "#e86c1f";
-  ctx.fillRect(22, 76, 130, 22);
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 11px Inter, sans-serif";
-  ctx.fillText("OFFICIAL UTILITY ID", 30, 91);
-
-  if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
-    ctx.drawImage(logoImg, w - 115, 22, 90, 72);
-  }
-
-  const px = w / 2 - 64;
-  const py = 128;
-  ctx.fillStyle = "#144d29";
-  ctx.fillRect(px, py, 128, 148);
-  if (photoImg && photoImg.complete && photoImg.naturalWidth > 0) {
-    ctx.drawImage(photoImg, px + 3, py + 3, 122, 142);
-  } else {
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 16px Inter, sans-serif";
-    ctx.fillText("PHOTO", px + 36, py + 80);
-  }
-
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#0f172a";
-  ctx.font = "800 22px Inter, sans-serif";
-  ctx.fillText((p.name || "EMPLOYEE").toUpperCase(), w / 2, 306);
-
-  ctx.fillStyle = "#e86c1f";
-  ctx.font = "700 15px Inter, sans-serif";
-  ctx.fillText(p.designation || "Utility Engineer", w / 2, 330);
-
-  ctx.textAlign = "left";
-  ctx.fillStyle = "#f8fafc";
-  ctx.fillRect(24, 348, w - 48, 128);
-  ctx.strokeStyle = "#cbd5e1";
-  ctx.strokeRect(24, 348, w - 48, 128);
-
-  ctx.fillStyle = "#0f172a";
-  ctx.font = "600 14px Inter, sans-serif";
-  ctx.fillText(`ID: ${p.officeId || "-"}   |   Joining: ${p.joiningDate || "-"}`, 36, 374);
-  ctx.fillText(`Division: ${p.divisionField || "Textile"}`, 36, 400);
-  ctx.fillText(`Department: ${p.department || "-"}`, 36, 426);
-  ctx.fillText(`Section: ${p.section || "-"}`, 36, 452);
-
-  ctx.strokeStyle = "#475569";
-  ctx.beginPath();
-  ctx.moveTo(30, 534); ctx.lineTo(180, 534);
-  ctx.moveTo(w - 180, 534); ctx.lineTo(w - 30, 534);
-  ctx.stroke();
-
-  ctx.font = "700 13px Inter, sans-serif";
-  ctx.fillText("Holder sign", 62, 552);
-  ctx.fillText("Authorisation", w - 148, 552);
-
-  ctx.fillStyle = "#144d29";
-  ctx.fillRect(0, h - 12, w * 0.58, 12);
-  ctx.fillStyle = "#e86c1f";
-  ctx.fillRect(w * 0.58, h - 12, w * 0.42, 12);
-}
-
-function drawBackSideToCanvas(ctx, ox, w, h, p, logoImg) {
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(ox, 0, w, h);
-
-  if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
-    ctx.drawImage(logoImg, ox + 22, 22, 68, 54);
-  }
-  ctx.fillStyle = "#144d29";
-  ctx.font = "800 20px Inter, sans-serif";
-  ctx.fillText("PN. COMPOSITE LTD.", ox + 102, 44);
-  ctx.fillStyle = "#64748b";
-  ctx.font = "600 12px Inter, sans-serif";
-  ctx.fillText("529, Ambag, Nilnagar, Konabari, Gazipur", ox + 102, 64);
-
-  ctx.strokeStyle = "#144d29";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(ox + 22, 88); ctx.lineTo(ox + w - 22, 88);
-  ctx.stroke();
-
-  ctx.fillStyle = "#f8fafc";
-  ctx.fillRect(ox + 22, 106, w - 44, 146);
-  ctx.strokeStyle = "#cbd5e1";
-  ctx.lineWidth = 1;
-  ctx.strokeRect(ox + 22, 106, w - 44, 146);
-
-  ctx.fillStyle = "#144d29";
-  ctx.font = "800 15px Inter, sans-serif";
-  ctx.fillText("PRESENT ADDRESS", ox + 34, 130);
-  ctx.fillStyle = "#0f172a";
-  ctx.font = "600 13.5px Inter, sans-serif";
-  ctx.fillText(`Division: ${p.presDiv || "-"}`, ox + 34, 156);
-  ctx.fillText(`District: ${p.presDist || "-"}`, ox + 34, 180);
-  ctx.fillText(`Upazila: ${p.presUpa || "-"}`, ox + 34, 204);
-  ctx.fillText(`Area: ${p.presArea || "-"}`, ox + 34, 228);
-
-  ctx.fillStyle = "#f8fafc";
-  ctx.fillRect(ox + 22, 268, w - 44, 146);
-  ctx.strokeRect(ox + 22, 268, w - 44, 146);
-
-  ctx.fillStyle = "#144d29";
-  ctx.font = "800 15px Inter, sans-serif";
-  ctx.fillText("PERMANENT ADDRESS", ox + 34, 292);
-  ctx.fillStyle = "#0f172a";
-  ctx.font = "600 13.5px Inter, sans-serif";
-  ctx.fillText(`Division: ${p.permDiv || "-"}`, ox + 34, 318);
-  ctx.fillText(`District: ${p.permDist || "-"}`, ox + 34, 342);
-  ctx.fillText(`Upazila: ${p.permUpa || "-"}`, ox + 34, 366);
-  ctx.fillText(`Area: ${p.permArea || "-"}`, ox + 34, 390);
-
-  ctx.fillStyle = "#fff7ed";
-  ctx.fillRect(ox + 22, 428, w - 44, 48);
-  ctx.fillStyle = "#9a3412";
-  ctx.font = "600 11.5px Inter, sans-serif";
-  ctx.fillText("If found lost, please return to nearest police station or office.", ox + 34, 456);
-
-  const bx = ox + 22;
-  const by = 492;
-  const bw = w - 44;
-  const bh = 54;
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(bx, by, bw, bh);
-  ctx.strokeStyle = "#cbd5e1";
-  ctx.strokeRect(bx, by, bw, bh);
-
-  let curX = bx + 8;
-  let toggle = true;
-  while (curX < bx + bw - 10) {
-    const barW = toggle ? 3 : 6;
-    ctx.fillStyle = "#0f172a";
-    ctx.fillRect(curX, by + 6, barW, bh - 12);
-    curX += barW + 3;
-    toggle = !toggle;
-  }
-
-  ctx.fillStyle = "#144d29";
-  ctx.fillRect(ox, h - 12, w * 0.58, 12);
-  ctx.fillStyle = "#e86c1f";
-  ctx.fillRect(ox + w * 0.58, h - 12, w * 0.42, 12);
-}
-
-function downloadBothIdSides() {
-  const p = getTargetIdProfile();
-  const cardW = 420;
-  const cardH = 620;
-  const gap = 24;
-  const canvas = document.createElement("canvas");
-  canvas.width = cardW * 2 + gap;
-  canvas.height = cardH;
-  const ctx = canvas.getContext("2d");
-
-  const finishRender = (logoImg, photoImg) => {
-    drawFrontSideToCanvas(ctx, cardW, cardH, p, logoImg, photoImg);
-    drawBackSideToCanvas(ctx, cardW + gap, cardW, cardH, p, logoImg);
-
-    const link = document.createElement("a");
-    link.download = `PN_ID_Card_Both_Sides_${p.officeId || "Employee"}.png`;
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-  };
-
-  const logoImg = new Image();
-  logoImg.crossOrigin = "anonymous";
-  const photoImg = new Image();
-  photoImg.crossOrigin = "anonymous";
-
-  let loadedCount = 0;
-  const onAssetDone = () => {
-    loadedCount++;
-    if (loadedCount >= 2) finishRender(logoImg, photoImg);
-  };
-
-  logoImg.onload = onAssetDone;
-  logoImg.onerror = onAssetDone;
-  logoImg.src = getActiveSiteLogo();
-
-  photoImg.onload = onAssetDone;
-  photoImg.onerror = onAssetDone;
-  photoImg.src = p.photo || PN_EMPLOYEE_PHOTO_URL;
 }
 
 function closeIdCardAndEnterApp() {
@@ -2231,10 +1931,126 @@ function reopenMyIdCard() {
   closeSidebar();
   const saved = JSON.parse(localStorage.getItem("pn_active_user") || "null");
   if (saved) {
-    populateAndOpenIdCard(saved, -1);
+    populateAndOpenIdCard(saved);
   } else {
     alert("No active ID Card found.");
   }
+}
+
+function downloadBothSidesIdCard() {
+  const card = document.getElementById("pnIdCard3d");
+  if (!card) return;
+  card.classList.remove("is-flipped");
+  alert("Front & Back ID Card view ready — saving/printing both sides.");
+  window.print();
+}
+
+function openAdminIdUpdaterForCurrent() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (!isSuperAdminUser(activeUser)) {
+    alert("Only Super Admin (emontalukder380@gmail.com) can update ID Cards.");
+    return;
+  }
+  if (currentlyViewingIdProfile) {
+    openAdminIdUpdaterByEmail(currentlyViewingIdProfile.email);
+  }
+}
+
+function openAdminIdUpdaterByEmail(email) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (!isSuperAdminUser(activeUser)) {
+    alert("Only Super Admin (emontalukder380@gmail.com) can update ID Cards.");
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
+  const target = users.find(u => u.email.toLowerCase() === email.toLowerCase()) || activeUser;
+  if (!target) return;
+
+  adminEditPhotoBase64 = target.photo || "";
+  document.getElementById("editTargetEmail").value = target.email;
+  document.getElementById("editIdOfficeId").value = target.officeId || "";
+  document.getElementById("editIdName").value = target.name || "";
+  document.getElementById("editIdDesignation").value = target.designation || "";
+  document.getElementById("editIdDivisionTop").value = target.divisionTop || "Textile";
+  document.getElementById("editIdDepartment").value = target.department || "";
+  document.getElementById("editIdSection").value = target.section || "";
+  document.getElementById("editIdJoiningDate").value = target.joiningDate || "";
+
+  initDivisionDropdown("editPresDiv", "editPresDist", "editPresUpz", target.presentDivision || "", target.presentDistrict || "", target.presentUpazila || "");
+  document.getElementById("editPresArea").value = target.presentArea || "";
+
+  initDivisionDropdown("editPermDiv", "editPermDist", "editPermUpz", target.permanentDivision || "", target.permanentDistrict || "", target.permanentUpazila || "");
+  document.getElementById("editPermArea").value = target.permanentArea || "";
+
+  document.getElementById("admin-id-edit-modal").style.display = "flex";
+}
+
+function closeAdminIdUpdater() {
+  document.getElementById("admin-id-edit-modal").style.display = "none";
+}
+
+function handleAdminEditPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 500 * 1024) {
+    alert("Photo size must be under 500KB.");
+    event.target.value = "";
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    adminEditPhotoBase64 = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveAdminUpdatedIdCard() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (!isSuperAdminUser(activeUser)) {
+    alert("Only Super Admin (emontalukder380@gmail.com) can save ID Card updates.");
+    return;
+  }
+
+  const email = document.getElementById("editTargetEmail").value;
+  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
+  const idx = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+  const baseObj = idx >= 0 ? users[idx] : activeUser;
+
+  const updatedProfile = {
+    ...baseObj,
+    officeId: document.getElementById("editIdOfficeId").value.trim(),
+    name: document.getElementById("editIdName").value.trim(),
+    designation: document.getElementById("editIdDesignation").value.trim(),
+    divisionTop: document.getElementById("editIdDivisionTop").value.trim() || "Textile",
+    department: document.getElementById("editIdDepartment").value.trim(),
+    section: document.getElementById("editIdSection").value.trim(),
+    joiningDate: document.getElementById("editIdJoiningDate").value,
+    presentDivision: document.getElementById("editPresDiv").value,
+    presentDistrict: document.getElementById("editPresDist").value,
+    presentUpazila: document.getElementById("editPresUpz").value,
+    presentArea: document.getElementById("editPresArea").value.trim(),
+    permanentDivision: document.getElementById("editPermDiv").value,
+    permanentDistrict: document.getElementById("editPermDist").value,
+    permanentUpazila: document.getElementById("editPermUpz").value,
+    permanentArea: document.getElementById("editPermArea").value.trim(),
+    photo: adminEditPhotoBase64 || baseObj.photo || ""
+  };
+
+  if (idx >= 0) users[idx] = updatedProfile; else users.push(updatedProfile);
+  localStorage.setItem("pn_users_db", JSON.stringify(users));
+
+  if (activeUser && activeUser.email.toLowerCase() === email.toLowerCase()) {
+    localStorage.setItem("pn_active_user", JSON.stringify(updatedProfile));
+  }
+
+  await syncEmployeeToFirestore(updatedProfile);
+  closeAdminIdUpdater();
+  populateAndOpenIdCard(updatedProfile);
+  if (document.getElementById("view-admin").style.display === "block") {
+    renderAdminPanel();
+  }
+  alert("ID Card updated successfully.");
 }
 
 async function handleRegistrationConfirm() {
@@ -2247,26 +2063,25 @@ async function handleRegistrationConfirm() {
   const officeId = document.getElementById("regOfficeId").value.trim();
   const name = document.getElementById("regName").value.trim();
   const designation = document.getElementById("regDesignation").value.trim();
-  const divisionField = document.getElementById("regDivisionField").value.trim() || "Textile";
+  const divisionTop = document.getElementById("regDivisionTop").value.trim() || "Textile";
   const department = document.getElementById("regDepartment").value.trim();
   const section = document.getElementById("regSection").value.trim();
   const joiningDate = document.getElementById("regJoiningDate").value;
-  const dob = document.getElementById("regDob").value;
   const mobile = document.getElementById("regMobile").value.trim();
-  const gender = document.getElementById("regGender").value;
   const email = document.getElementById("regEmail").value.trim();
+
+  const presentDivision = document.getElementById("regPresDiv").value;
+  const presentDistrict = document.getElementById("regPresDist").value;
+  const presentUpazila = document.getElementById("regPresUpz").value;
+  const presentArea = document.getElementById("regPresArea").value.trim();
+
+  const permanentDivision = document.getElementById("regPermDiv").value;
+  const permanentDistrict = document.getElementById("regPermDist").value;
+  const permanentUpazila = document.getElementById("regPermUpz").value;
+  const permanentArea = document.getElementById("regPermArea").value.trim();
+
   const password = document.getElementById("regPassword").value;
   const confirmPassword = document.getElementById("regConfirmPassword").value;
-
-  const presDiv = document.getElementById("regPresDiv").value;
-  const presDist = document.getElementById("regPresDist").value;
-  const presUpa = document.getElementById("regPresUpa").value;
-  const presArea = document.getElementById("regPresArea").value.trim();
-
-  const permDiv = document.getElementById("regPermDiv").value;
-  const permDist = document.getElementById("regPermDist").value;
-  const permUpa = document.getElementById("regPermUpa").value;
-  const permArea = document.getElementById("regPermArea").value.trim();
 
   if (!name || !email || !password) {
     alert("Please enter Name, Email Address, and Set Password.");
@@ -2280,10 +2095,23 @@ async function handleRegistrationConfirm() {
   const isSuper = email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase();
   const profile = {
     officeId: officeId || ("PN-" + Date.now().toString().slice(-4)),
-    name, designation, divisionField, department, section, joiningDate, dob,
-    mobile, gender, email, password,
-    presDiv, presDist, presUpa, presArea,
-    permDiv, permDist, permUpa, permArea,
+    name,
+    designation,
+    divisionTop,
+    department,
+    section,
+    joiningDate,
+    mobile,
+    email,
+    presentDivision,
+    presentDistrict,
+    presentUpazila,
+    presentArea,
+    permanentDivision,
+    permanentDistrict,
+    permanentUpazila,
+    permanentArea,
+    password,
     photo: uploadedPhotoBase64,
     role: isSuper ? "super_admin" : "member",
     approved: isSuper ? true : false,
@@ -2296,18 +2124,11 @@ async function handleRegistrationConfirm() {
   if (idx >= 0) users[idx] = profile; else users.push(profile);
   localStorage.setItem("pn_users_db", JSON.stringify(users));
 
-  if (firebaseDb) {
-    try {
-      await firebaseDb.collection("pn_employees").doc(email.toLowerCase()).set({
-        ...profile,
-        password: ""
-      });
-    } catch (err) {}
-  }
+  await syncEmployeeToFirestore(profile);
 
   if (isSuper) {
     localStorage.setItem("pn_active_user", JSON.stringify(profile));
-    populateAndOpenIdCard(profile, idx >= 0 ? idx : 0);
+    populateAndOpenIdCard(profile);
   } else {
     alert(
       currentLang === "bn"
@@ -2343,19 +2164,23 @@ async function handleLogin() {
 
   if (normalizedEmail === SUPER_ADMIN_EMAIL.toLowerCase()) {
     const adminProfile = matched || {
-      officeId: "PN-ADMIN-01",
+      officeId: "83611",
       name: "Emon Talukder",
       designation: "Sub-Assistant Engineer",
-      divisionField: "Textile",
-      department: "Utility & Maintenance",
-      section: "Super Admin",
+      divisionTop: "Textile",
+      department: "Utility",
+      section: "Generator Section",
       joiningDate: "2020-08-20",
-      dob: "-",
-      mobile: "-",
-      gender: "Male",
-      presDiv: "Dhaka", presDist: "Gazipur", presUpa: "Gazipur Sadar", presArea: "Ambag, Konabari",
-      permDiv: "Sylhet", permDist: "Sunamganj", permUpa: "Bishwambarpur", permArea: "Badaghat",
+      mobile: "01878335098",
       email: SUPER_ADMIN_EMAIL,
+      presentDivision: "Dhaka",
+      presentDistrict: "Gazipur",
+      presentUpazila: "Gazipur Sadar",
+      presentArea: "529, Ambag, Nilnagar, Konabari",
+      permanentDivision: "Sylhet",
+      permanentDistrict: "Sunamganj",
+      permanentUpazila: "Bishwambarpur",
+      permanentArea: "Badaghat",
       password,
       photo: uploadedPhotoBase64,
       role: "super_admin",
@@ -2429,14 +2254,7 @@ async function approveMemberAccount(email) {
     target.approved = true;
     target.status = "approved";
     localStorage.setItem("pn_users_db", JSON.stringify(users));
-    if (firebaseDb) {
-      try {
-        await firebaseDb.collection("pn_employees").doc(email.toLowerCase()).set({
-          approved: true,
-          status: "approved"
-        }, { merge: true });
-      } catch (e) {}
-    }
+    await syncEmployeeToFirestore(target);
   }
   renderAdminPanel();
 }
@@ -2462,12 +2280,10 @@ async function rejectOrRemoveMemberAccount(email) {
   renderAdminPanel();
 }
 
-function openMemberIdInAdmin(email) {
+function previewMemberIdFromAdmin(email) {
   const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
-  const idx = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
-  if (idx >= 0) {
-    populateAndOpenIdCard(users[idx], idx);
-  }
+  const target = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  if (target) populateAndOpenIdCard(target);
 }
 
 function renderAdminPanel() {
@@ -2518,26 +2334,26 @@ function renderAdminPanel() {
     `).join("");
   }
 
-  html += `<h3 style="margin:16px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">Registered & Approved Accounts (ID Card Control)</h3>`;
+  html += `<h3 style="margin:16px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">Registered & Approved Accounts (ID Card Management)</h3>`;
   if (!approvedList.length) {
     html += `<div class="saved-record-item" style="font-size:12.5px; color:var(--slate-500);">No approved accounts yet.</div>`;
   } else {
     html += approvedList.map(u => {
       const isMainAdmin = u.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase();
+      const safeEmail = u.email.replace(/'/g, "\\'");
       return `
         <div class="admin-user-card">
           <div>
             <strong style="font-size:13px; color:var(--slate-900);">${u.name || "-"}</strong>
             <span class="status-pill-approved" style="margin-left:8px;">${isMainAdmin ? "Super Admin" : "Approved"}</span>
             <div style="font-size:11.5px; color:var(--slate-500); margin-top:3px;">
-              Email: <strong>${u.email}</strong> &bull; ID: ${u.officeId || "-"} &bull; Dept: ${u.department || "-"}
+              Email: <strong>${u.email}</strong> &bull; ID: ${u.officeId || "-"} &bull; Designation: ${u.designation || "-"} &bull; Dept: ${u.department || "-"}
             </div>
           </div>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-save" style="padding:6px 12px; font-size:12px;" onclick="openMemberIdInAdmin('${u.email.replace(/'/g, "\\'")}')">Manage ID Card</button>
-            ${!isMainAdmin ? `
-              <button type="button" class="btn btn-reset" style="padding:6px 12px; font-size:12px;" onclick="rejectOrRemoveMemberAccount('${u.email.replace(/'/g, "\\'")}')">Remove</button>
-            ` : ""}
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <button type="button" class="btn btn-save" style="padding:6px 12px; font-size:12px;" onclick="previewMemberIdFromAdmin('${safeEmail}')">View ID</button>
+            ${isSuper ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="openAdminIdUpdaterByEmail('${safeEmail}')">Update ID</button>` : ""}
+            ${!isMainAdmin && isSuper ? `<button type="button" class="btn btn-reset" style="padding:6px 12px; font-size:12px;" onclick="rejectOrRemoveMemberAccount('${safeEmail}')">Remove</button>` : ""}
           </div>
         </div>
       `;
@@ -2784,9 +2600,7 @@ async function deleteSingleSavedRecord(category, index) {
   const target = list[index];
   if (!target) return;
 
-  const confirmMsg = currentLang === "bn"
-    ? "এই সেভ করা ডাটাটি ডিলিট করতে চান?"
-    : "Delete this saved record?";
+  const confirmMsg = currentLang === "bn" ? "এই সেভ করা ডাটাটি ডিলিট করতে চান?" : "Delete this saved record?";
   if (!confirm(confirmMsg)) return;
 
   list.splice(index, 1);
@@ -2798,8 +2612,7 @@ async function deleteSingleSavedRecord(category, index) {
     } catch (e) {}
   }
 
-  const activeTab = document.getElementById(`stab-${category}`);
-  renderSavedCategory(category, activeTab);
+  renderSavedCategory(category, document.getElementById(`stab-${category}`));
 }
 
 async function deleteMarkedSavedRecords(category) {
@@ -2809,9 +2622,7 @@ async function deleteMarkedSavedRecords(category) {
     return;
   }
 
-  const confirmMsg = currentLang === "bn"
-    ? `মার্ক করা ${checkedBoxes.length}টি ডাটা ডিলিট করতে চান?`
-    : `Delete ${checkedBoxes.length} marked item(s)?`;
+  const confirmMsg = currentLang === "bn" ? `মার্ক করা ${checkedBoxes.length}টি ডাটা ডিলিট করতে চান?` : `Delete ${checkedBoxes.length} marked item(s)?`;
   if (!confirm(confirmMsg)) return;
 
   const indicesToRemove = new Set(checkedBoxes.map(cb => parseInt(cb.getAttribute("data-idx"), 10)));
@@ -2831,8 +2642,7 @@ async function deleteMarkedSavedRecords(category) {
     }
   }
 
-  const activeTab = document.getElementById(`stab-${category}`);
-  renderSavedCategory(category, activeTab);
+  renderSavedCategory(category, document.getElementById(`stab-${category}`));
 }
 
 function renderSavedCategory(category, btnEl = null) {
@@ -2856,9 +2666,7 @@ function renderSavedCategory(category, btnEl = null) {
         <span>Mark All</span>
         <span id="markedCount-${category}" style="background:#ffffff; color:var(--danger-red); border:1px solid #fca5a5; padding:2px 8px; border-radius:12px; font-size:11px;">0 Marked</span>
       </label>
-      <button type="button" class="btn btn-danger" style="padding:7px 14px; font-size:12px;" onclick="deleteMarkedSavedRecords('${category}')">
-        🗑 Delete Marked
-      </button>
+      <button type="button" class="btn btn-danger" style="padding:7px 14px; font-size:12px;" onclick="deleteMarkedSavedRecords('${category}')">🗑 Delete Marked</button>
     </div>
   `;
 
@@ -2950,12 +2758,10 @@ function viewSavedFullReport(category, index, autoPrint = false) {
   }
 
   viewer.scrollIntoView({ behavior: "smooth" });
-  if (autoPrint) {
-    setTimeout(() => window.print(), 250);
-  }
+  if (autoPrint) setTimeout(() => window.print(), 250);
 }
 
-/* ================= AUTO CLEAR '0' ON FOCUS ================= */
+/* ================= AUTO CLEAR '0' ON FOCUS & ENTER MOVE DOWN ================= */
 document.addEventListener('focusin', function(e) {
   if (e.target && e.target.tagName === 'INPUT' && e.target.type === 'number' && !e.target.readOnly) {
     if (e.target.value === '0' || e.target.value === '0.0' || e.target.value === '0.00') {
@@ -2972,7 +2778,6 @@ document.addEventListener('focusout', function(e) {
   }
 });
 
-/* ================= ENTER KEY MOVES DOWN TO NEXT ROW ================= */
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT' && e.target.type === 'number' && !e.target.readOnly) {
     const id = e.target.id || '';
@@ -3120,7 +2925,7 @@ function createCompReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     <div class="rep-header">
       <div class="rep-company">
         <h2>P.N. COMPOSITE LTD.</h2>
-        <p>529, Ambag, Nilnagar, Konabari, Gazipur.</p>
+        <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
         <h3>Air Compressor Hourly Production & Cost Analysis</h3>
@@ -3414,10 +3219,7 @@ function computeBoilerShift(shift, hours) {
     const ngCost = Math.round(ratio * totalNgCost);
     const lpgCost = Math.round(ratio * totalLpgCost);
     const stenterVal = dept === 'Finishing' ? stenter12h : 0;
-    return {
-      dept, shareVal, pct: (ratio * 100).toFixed(1),
-      steamShare, ngCost, lpgCost, stenterVal, totCost: ngCost + lpgCost
-    };
+    return { dept, shareVal, pct: (ratio * 100).toFixed(1), steamShare, ngCost, lpgCost, stenterVal, totCost: ngCost + lpgCost };
   });
 
   return {
@@ -3432,7 +3234,7 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     <div class="rep-header">
       <div class="rep-company">
         <h2>P.N. COMPOSITE LTD.</h2>
-        <p>529, Ambag, Nilnagar, Konabari, Gazipur.</p>
+        <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
         <h3>Boiler NG & LPG Steam Generation & Cost</h3>
@@ -3722,7 +3524,7 @@ function switchShift(shift, btn) {
   }
 }
 
-/* ================= ENHANCED CONTRAST PRE-PROCESS + SCANNER ================= */
+/* ================= SCANNER ================= */
 function closeScanModal() {
   document.getElementById('scan-modal').style.display = 'none';
   document.getElementById('cameraInput').value = '';
@@ -3767,8 +3569,7 @@ async function handleImageScan(event) {
       const result = await worker.recognize(processedDataUrl);
       await worker.terminate();
 
-      const rawText = result.data.text || "";
-      parseTextIntoHours(rawText, hours);
+      parseTextIntoHours(result.data.text || "", hours);
       renderParsedReviewTable();
       document.getElementById('scanStatusText').textContent = "Scan complete! Select section & click Auto-Fill Section.";
     } catch (err) {
@@ -3780,27 +3581,18 @@ async function handleImageScan(event) {
 
 function parseTextIntoHours(rawText, hours) {
   const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-
   lines.forEach(line => {
     const hourMatch = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/);
     if (!hourMatch) return;
-
     const hrNum = hourMatch[1];
     const matchedIdx = hours.findIndex(h => h.startsWith(hrNum + ":"));
     if (matchedIdx === -1) return;
-
     const cleaned = line
       .replace(/\b(am|pm|kw|ltrs?|m3|mbar)\b/gi, ' ')
       .replace(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/, ' ')
       .replace(/[—–-]/g, ' 0 ');
-
-    const extracted = (cleaned.match(/\d+(?:\.\d+)?/g) || [])
-      .map(n => parseFloat(n))
-      .filter(n => !isNaN(n));
-
-    if (extracted.length > 0) {
-      scannedRowsDraft[matchedIdx].nums = extracted;
-    }
+    const extracted = (cleaned.match(/\d+(?:\.\d+)?/g) || []).map(n => parseFloat(n)).filter(n => !isNaN(n));
+    if (extracted.length > 0) scannedRowsDraft[matchedIdx].nums = extracted;
   });
 }
 
@@ -3819,16 +3611,7 @@ function renderParsedReviewTable() {
     sectionSelect.dataset.bound = "1";
   }
   const colTitles = getScanColumnTitles();
-
-  let html = `<table class="parsed-table">
-    <thead>
-      <tr>
-        <th>Time</th>
-        ${colTitles.map(title => `<th>${title}</th>`).join('')}
-      </tr>
-    </thead>
-    <tbody>`;
-
+  let html = `<table class="parsed-table"><thead><tr><th>Time</th>${colTitles.map(title => `<th>${title}</th>`).join('')}</tr></thead><tbody>`;
   scannedRowsDraft.forEach((row, rIdx) => {
     html += `<tr><td><strong>${row.time}</strong></td>`;
     for (let c = 0; c < colTitles.length; c++) {
@@ -3837,7 +3620,6 @@ function renderParsedReviewTable() {
     }
     html += `</tr>`;
   });
-
   html += `</tbody></table>`;
   document.getElementById('parsedTableContainer').innerHTML = html;
 }
@@ -3849,7 +3631,6 @@ function updateDraftCell(rIdx, cIdx, val) {
 function applyScannedDataToShift() {
   const section = document.getElementById('scanTargetSection').value;
   const shift = currentActiveShift;
-
   scannedRowsDraft.forEach((row, i) => {
     const n = row.nums;
     if (section === 'gen') {
@@ -3863,15 +3644,12 @@ function applyScannedDataToShift() {
       recalcRow(shift, i);
     } else if (section === 'dept') {
       DEPARTMENTS.forEach((d, dIdx) => {
-        if (n[dIdx] !== undefined) {
-          document.getElementById(`${shift}_${d.key}_${i}`).value = n[dIdx];
-        }
+        if (n[dIdx] !== undefined) document.getElementById(`${shift}_${d.key}_${i}`).value = n[dIdx];
       });
     }
   });
-
   triggerAutoSave();
-  alert(`Auto-filled ${shift.toUpperCase()} shift (${section === 'gen' ? 'Generator & M-Bar' : 'Department Load'}).`);
+  alert(`Auto-filled ${shift.toUpperCase()} shift.`);
 }
 
 /* ================= EXCEL (.CSV) EXPORT ================= */
@@ -3879,13 +3657,13 @@ function downloadExcelSheet() {
   const dateVal = document.getElementById('reportDate').value;
   const dayData = computeShiftMetrics('day', DAY_HOURS);
   const nightData = computeShiftMetrics('night', NIGHT_HOURS);
+  const csvRows = [
+    ["P.N. COMPOSITE LTD. - 529, Ambag, Nilnagar, Konabari, Gazipur"],
+    ["Report Date", dateVal],
+    []
+  ];
 
-  const csvRows = [];
-  csvRows.push(["P.N. COMPOSITE LTD. - 529, Ambag, Nilnagar, Konabari, Gazipur"]);
-  csvRows.push(["Report Date", dateVal]);
-  csvRows.push([]);
-
-  function appendShiftCsv(label, hours, d) {
+  function appendShiftCsv(label, d) {
     csvRows.push([`${label} LOAD & CONSUMPTION`]);
     csvRows.push([
       "Time", "Header PSI", "NG M-Bar", "GG-1", "GG-2", "GG-3",
@@ -3910,8 +3688,8 @@ function downloadExcelSheet() {
     csvRows.push([]);
   }
 
-  appendShiftCsv("DAY SHIFT", DAY_HOURS, dayData);
-  appendShiftCsv("NIGHT SHIFT", NIGHT_HOURS, nightData);
+  appendShiftCsv("DAY SHIFT", dayData);
+  appendShiftCsv("NIGHT SHIFT", nightData);
 
   const csvContent = "\uFEFF" + csvRows.map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -3938,7 +3716,6 @@ function computeShiftMetrics(shift, hours) {
   let rows = [];
   let sumTLoad = 0, sumGGLoad = 0, sumDGLoad = 0;
   let sumGG1 = 0, sumGG2 = 0, sumGG3 = 0, sumDGEtp = 0, sumDGWash = 0, sumDGRent = 0;
-
   let deptSums = {};
   DEPARTMENTS.forEach(d => deptSums[d.key] = 0);
 
@@ -3958,7 +3735,6 @@ function computeShiftMetrics(shift, hours) {
     const ggLoad = gg1 + gg2 + gg3;
     const dgLoad = dgetp + dgwash + dgrent;
     const tLoad = ggLoad + dgLoad;
-
     sumGGLoad += ggLoad; sumDGLoad += dgLoad; sumTLoad += tLoad;
 
     let dVals = {};
@@ -3990,17 +3766,12 @@ function computeShiftMetrics(shift, hours) {
     const elecUse = Math.round(ratio * totalKwh);
     const ngCost = Math.round(ratio * totalNgCost);
     const dgCost = Math.round(ratio * totalDgCost);
-    return {
-      label: d.label, kwSum, pct: (ratio * 100).toFixed(2),
-      elecUse, ngCost, dgCost, totCost: ngCost + dgCost
-    };
+    return { label: d.label, kwSum, pct: (ratio * 100).toFixed(2), elecUse, ngCost, dgCost, totCost: ngCost + dgCost };
   });
 
   return {
-    rows,
-    sumGG1, sumGG2, sumGG3, sumDGEtp, sumDGWash, sumDGRent,
-    sumTLoad, totalDgCons, totalNgCons,
-    totalDgCost, totalNgCost, grandCost,
+    rows, sumGG1, sumGG2, sumGG3, sumDGEtp, sumDGWash, sumDGRent,
+    sumTLoad, totalDgCons, totalNgCons, totalDgCost, totalNgCost, grandCost,
     dgKwh, ggKwh, totalKwh, deptSums, totalDeptKw, deptSummary
   };
 }
@@ -4010,7 +3781,7 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     <div class="rep-header">
       <div class="rep-company">
         <h2>P.N. COMPOSITE LTD.</h2>
-        <p>529, Ambag, Nilnagar, Konabari, Gazipur.</p>
+        <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
         <h3>NG + DG Hourly Load & Cost Analysis</h3>
@@ -4052,7 +3823,6 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   for (let i = 0; i < 12; i++) {
     const r = data.rows[i];
     const ds = data.deptSummary[i];
-
     html += `<tr>
       <td class="col-highlight">${r.time}</td><td class="col-highlight">${r.psi}</td><td>${r.mbar}</td>
       <td>${r.gg1}</td><td>${r.gg2}</td><td>${r.gg3}</td>
@@ -4079,18 +3849,10 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   html += `
     <tr class="total-row">
       <td colspan="3" style="text-align:right; padding-right:5px;">TOTAL kWh:</td>
-      <td>${data.sumGG1.toLocaleString()}</td>
-      <td>${data.sumGG2.toLocaleString()}</td>
-      <td>${data.sumGG3.toLocaleString()}</td>
-      <td>${data.sumDGEtp.toLocaleString()}</td>
-      <td>${data.sumDGWash.toLocaleString()}</td>
-      <td>${data.sumDGRent.toLocaleString()}</td>
-      <td>${data.sumTLoad.toLocaleString()}</td>
-      <td>${data.totalDgCons.toLocaleString()}</td>
-      <td>${data.totalDgCost.toLocaleString()}</td>
-      <td>${data.totalNgCons.toLocaleString()}</td>
-      <td>${data.totalNgCost.toLocaleString()}</td>
-      <td>${data.grandCost.toLocaleString()}</td>
+      <td>${data.sumGG1.toLocaleString()}</td><td>${data.sumGG2.toLocaleString()}</td><td>${data.sumGG3.toLocaleString()}</td>
+      <td>${data.sumDGEtp.toLocaleString()}</td><td>${data.sumDGWash.toLocaleString()}</td><td>${data.sumDGRent.toLocaleString()}</td>
+      <td>${data.sumTLoad.toLocaleString()}</td><td>${data.totalDgCons.toLocaleString()}</td><td>${data.totalDgCost.toLocaleString()}</td>
+      <td>${data.totalNgCons.toLocaleString()}</td><td>${data.totalNgCost.toLocaleString()}</td><td>${data.grandCost.toLocaleString()}</td>
       ${DEPARTMENTS.map(d => `<td>${data.deptSums[d.key].toLocaleString()}</td>`).join('')}
       <td>TOTAL kW</td><td>${data.totalDeptKw.toLocaleString()}</td><td colspan="3"></td>
     </tr>
@@ -4103,18 +3865,46 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   </tbody></table>
 
   <div class="rep-charts">
-    <div class="rep-chart-card"><h4>Hourly Total Generation (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
-    <div class="rep-chart-card"><h4>Department-Wise Total Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Hourly Electricity Generation (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Department-Wise Electricity Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
   </div>
 
   <div class="rep-footer">
-    <div class="sig-line">Prepared By (Shift Engineer)</div>
+    <div class="sig-line">Prepared By (Utility Shift Engr.)</div>
     <div class="sig-line">Checked By (In-Charge)</div>
     <div class="sig-line">Approved By (Head of Utility)</div>
   </div>
   <div class="rep-creator-faint-left">Emon Talukder</div>`;
 
   return html;
+}
+
+function renderBarChart(canvasId, labels, values, barColor, isCompact = false) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: values, backgroundColor: barColor, borderRadius: isCompact ? 2 : 3, barPercentage: 0.55 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      layout: { padding: { top: isCompact ? 11 : 14, bottom: 0, left: 2, right: 2 } },
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          anchor: 'end', align: 'top', offset: isCompact ? 0 : 1, clamp: true,
+          color: '#1e293b', font: { size: isCompact ? 6.5 : 7.5, weight: '700' },
+          formatter: v => v > 0 ? v.toLocaleString() : ''
+        }
+      },
+      scales: {
+        y: { display: false, beginAtZero: true, grace: isCompact ? '32%' : '22%' },
+        x: { grid: { display: false }, ticks: { padding: 1, font: { size: isCompact ? 6 : 7.5, weight: '600' }, color: '#475569' } }
+      }
+    }
+  });
+  activeCharts.push(chart);
 }
 
 function buildFinalReport(mode = 'separate') {
@@ -4127,93 +3917,39 @@ function buildFinalReport(mode = 'separate') {
   const rawDate = document.getElementById('reportDate').value;
   const formattedDate = new Date(rawDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
-  const dayData = computeShiftMetrics('day', DAY_HOURS);
-  const nightData = computeShiftMetrics('night', NIGHT_HOURS);
+  const dayMetrics = computeShiftMetrics('day', DAY_HOURS);
+  const nightMetrics = computeShiftMetrics('night', NIGHT_HOURS);
 
   document.getElementById('report-output').innerHTML = `
-    <div class="report-page">${createReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, dayData, 'day')}</div>
+    <div class="report-page">${createReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, dayMetrics, 'day')}</div>
     <div class="page-break"></div>
-    <div class="report-page night-page-spacer">${createReportPageHtml('NIGHT SHIFT (9:00 PM - 8:00 AM)', formattedDate, nightData, 'night')}</div>
+    <div class="report-page night-page-spacer">${createReportPageHtml('NIGHT SHIFT (9:00 PM - 8:00 AM)', formattedDate, nightMetrics, 'night')}</div>
   `;
 
   document.getElementById('report-container').style.display = 'block';
 
   const isCompact = (mode === 'combined');
-  renderBarChart('day_gen', dayData.rows.map(r => r.time), dayData.rows.map(r => r.tLoad), '#14452f', isCompact);
-  renderBarChart('day_dept', dayData.deptSummary.map(d => d.label), dayData.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
-  renderBarChart('night_gen', nightData.rows.map(r => r.time), nightData.rows.map(r => r.tLoad), '#14452f', isCompact);
-  renderBarChart('night_dept', nightData.deptSummary.map(d => d.label), nightData.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
+  renderBarChart('day_gen', dayMetrics.rows.map(r => r.time), dayMetrics.rows.map(r => r.tLoad), '#14452f', isCompact);
+  renderBarChart('day_dept', dayMetrics.deptSummary.map(d => d.label), dayMetrics.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
+  renderBarChart('night_gen', nightMetrics.rows.map(r => r.time), nightMetrics.rows.map(r => r.tLoad), '#14452f', isCompact);
+  renderBarChart('night_dept', nightMetrics.deptSummary.map(d => d.label), nightMetrics.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
 
   saveCurrentSectionData('generator', true);
   document.getElementById('report-container').scrollIntoView({ behavior: 'smooth' });
 }
 
-function renderBarChart(canvasId, labels, values, colorHex, isCompact = false) {
-  const ctx = document.getElementById(canvasId).getContext('2d');
-  const chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: values,
-        backgroundColor: colorHex,
-        borderRadius: isCompact ? 1 : 3,
-        maxBarThickness: isCompact ? 14 : 26
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      layout: { padding: { top: isCompact ? 8 : 16, right: 4, left: 0, bottom: 0 } },
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          anchor: 'end', align: 'top', color: '#0f172a',
-          font: { size: isCompact ? 5.5 : 8, weight: 'bold' },
-          formatter: (v) => v > 0 ? v.toLocaleString() : ''
-        }
-      },
-      scales: {
-        x: {
-          grid: { display: false },
-          ticks: {
-            font: { size: isCompact ? 5.5 : 8, weight: '600' },
-            maxRotation: 0, autoSkip: false
-          }
-        },
-        y: {
-          beginAtZero: true,
-          ticks: { font: { size: isCompact ? 5.5 : 8 } },
-          grid: { color: '#f1f5f9' }
-        }
-      }
-    }
-  });
-  activeCharts.push(chart);
-}
-
-function printSeparatePages() {
-  buildFinalReport('separate');
+function triggerCleanPrint(mode) {
+  buildFinalReport(mode);
   requestAnimationFrame(() => {
     activeCharts.forEach(c => c.resize());
     setTimeout(() => { activeCharts.forEach(c => c.resize()); window.print(); }, 250);
   });
 }
 
-function printCombinedSinglePage() {
-  buildFinalReport('combined');
-  requestAnimationFrame(() => {
-    activeCharts.forEach(c => c.resize());
-    setTimeout(() => { activeCharts.forEach(c => c.resize()); window.print(); }, 250);
-  });
-}
+function printSeparatePages() { triggerCleanPrint('separate'); }
+function printCombinedSinglePage() { triggerCleanPrint('combined'); }
 
-window.addEventListener('beforeprint', () => {
-  activeCharts.forEach(c => c.resize());
-});
-
-/* ================= INITIALIZE GRIDS & SESSION RESTORE ================= */
+// Initialize grids & address cascades
 renderEntryGrid('day', DAY_HOURS);
 renderEntryGrid('night', NIGHT_HOURS);
 renderBoilerGrid('day', DAY_HOURS);
@@ -4221,33 +3957,41 @@ renderBoilerGrid('night', NIGHT_HOURS);
 renderCompGrid('day', DAY_HOURS);
 renderCompGrid('night', NIGHT_HOURS);
 
-(function initSessionAndDrafts() {
-  const genDraft = JSON.parse(localStorage.getItem("pn_latest_generator_draft") || "null");
-  if (genDraft) {
-    restoreInputsToMap(genDraft);
-    for (let i = 0; i < 12; i++) { recalcRow("day", i); recalcRow("night", i); }
-    updateTotalKwh("day"); updateTotalKwh("night");
-  }
-  const boilerDraft = JSON.parse(localStorage.getItem("pn_latest_boiler_draft") || "null");
-  if (boilerDraft) {
-    restoreInputsToMap(boilerDraft);
-    recalcBoilerShift("day"); recalcBoilerShift("night");
-  }
-  const compDraft = JSON.parse(localStorage.getItem("pn_latest_comp_draft") || "null");
-  if (compDraft) {
-    restoreInputsToMap(compDraft);
-    recalcCompShift("day"); recalcCompShift("night");
-  }
+initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz");
+initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz");
+applyLanguage("en");
 
+document.querySelectorAll("#view-generator input").forEach(inp => inp.addEventListener("change", triggerAutoSave));
+document.querySelectorAll("#view-boiler input").forEach(inp => inp.addEventListener("change", triggerBoilerAutoSave));
+document.querySelectorAll("#view-compressor input").forEach(inp => inp.addEventListener("change", triggerCompAutoSave));
+
+const latestGenDraft = JSON.parse(localStorage.getItem("pn_latest_generator_draft") || "null");
+if (latestGenDraft) {
+  restoreInputsToMap(latestGenDraft);
+  for (let i = 0; i < 12; i++) { recalcRow("day", i); recalcRow("night", i); }
+  updateTotalKwh("day"); updateTotalKwh("night");
+}
+
+const latestBoilerDraft = JSON.parse(localStorage.getItem("pn_latest_boiler_draft") || "null");
+if (latestBoilerDraft) {
+  restoreInputsToMap(latestBoilerDraft);
+  recalcBoilerShift("day"); recalcBoilerShift("night");
+}
+
+const latestCompDraft = JSON.parse(localStorage.getItem("pn_latest_comp_draft") || "null");
+if (latestCompDraft) {
+  restoreInputsToMap(latestCompDraft);
+  recalcCompShift("day"); recalcCompShift("night");
+}
+
+(function initSession() {
   const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
-  if (activeUser && activeUser.email) {
+  if (activeUser && (isSuperAdminUser(activeUser) || activeUser.approved === true || activeUser.status === "approved")) {
     document.getElementById("auth-wrapper").style.display = "none";
     document.getElementById("app-shell").style.display = "block";
     navigateSection("home");
   } else {
-    document.getElementById("auth-wrapper").style.display = "block";
-    document.getElementById("app-shell").style.display = "none";
-    showAuthPanel("login");
+    localStorage.removeItem("pn_active_user");
   }
 })();
 </script>
