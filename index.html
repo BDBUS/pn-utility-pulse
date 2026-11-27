@@ -579,12 +579,12 @@
   .kpi-item .k-lbl { font-size: 8.5px; font-weight: 700; color: #64748b; text-transform: uppercase; }
   .kpi-item .k-val { font-size: 12px; font-weight: 800; color: #0f172a; margin-top: 1px; }
 
-  table.clean-rep-table { width: 100%; border-collapse: collapse; font-size: 8.8px; text-align: center; }
-  table.clean-rep-table th, table.clean-rep-table td { border: 1px solid #cbd5e1; padding: 2.6px 2px; }
-  .grp-gen { background: #1e293b; color: #fff; font-weight: 700; font-size: 9.2px; }
-  .grp-cost { background: #334155; color: #fff; font-weight: 700; font-size: 9.2px; }
-  .grp-dept { background: #14452f; color: #fff; font-weight: 700; font-size: 9.2px; }
-  .grp-sum { background: #c2410c; color: #fff; font-weight: 700; font-size: 9.2px; }
+  table.clean-rep-table { width: 100%; border-collapse: collapse; font-size: 9px; text-align: center; }
+  table.clean-rep-table th, table.clean-rep-table td { border: 1px solid #cbd5e1; padding: 3px 2.5px; }
+  .grp-gen { background: #1e293b; color: #fff; font-weight: 700; font-size: 9.5px; }
+  .grp-cost { background: #334155; color: #fff; font-weight: 700; font-size: 9.5px; }
+  .grp-dept { background: #14452f; color: #fff; font-weight: 700; font-size: 9.5px; }
+  .grp-sum { background: #c2410c; color: #fff; font-weight: 700; font-size: 9.5px; }
 
   .sub-gen { background: #f1f5f9; color: #0f172a; font-weight: 700; }
   .sub-cost { background: #e2e8f0; color: #0f172a; font-weight: 700; }
@@ -597,7 +597,7 @@
     background: #f1f5f9; font-weight: 800; color: #0f172a;
     border-top: 2px solid #475569; border-bottom: 2px solid #475569;
   }
-  .pct-row td { background: #ffffff; font-size: 7.8px; color: #475569; font-weight: 600; }
+  .pct-row td { background: #ffffff; font-size: 8px; color: #475569; font-weight: 600; }
 
   .rep-charts {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;
@@ -665,7 +665,7 @@
     body.print-mode-separate .kpi-item { padding: 5px 8px; }
     body.print-mode-separate .kpi-item .k-val { font-size: 12.5px; }
     body.print-mode-separate table.clean-rep-table th,
-    body.print-mode-separate table.clean-rep-table td { padding: 2.5px 1.8px; font-size: 8.2px; }
+    body.print-mode-separate table.clean-rep-table td { padding: 2.8px 2px; font-size: 8.6px; }
     body.print-mode-separate .rep-charts { margin-top: 7px; gap: 10px; }
     body.print-mode-separate .canvas-wrap { height: 132px !important; max-height: 132px !important; }
     body.print-mode-separate .rep-footer { margin-top: 10px; }
@@ -693,7 +693,7 @@
     body.print-mode-combined .kpi-item .k-val { font-size: 8px; margin-top: 0; }
     body.print-mode-combined table.clean-rep-table th,
     body.print-mode-combined table.clean-rep-table td {
-      padding: 0.7px 1.1px; font-size: 5.8px; line-height: 1.05;
+      padding: 0.7px 1.2px; font-size: 6px; line-height: 1.05;
     }
     body.print-mode-combined .rep-charts { margin-top: 2.5px; gap: 6px; }
     body.print-mode-combined .rep-chart-card { padding: 2px 4px; }
@@ -1267,12 +1267,12 @@
         <div class="top-controls">
           <div class="meta-inputs">
             <div class="input-group"><label data-i18n="reportDateLbl">Report Date</label><input type="date" id="boilerDate" value="2026-11-26"></div>
-            <div class="input-group"><label>NG Rate (Tk/M3)</label><input type="number" step="0.01" id="boilerNgRate" value="27.00" oninput="recalcBoilerShift('day'); recalcBoilerShift('night'); triggerBoilerAutoSave();"></div>
+            <div class="input-group"><label>NG Rate (Tk/m³)</label><input type="number" step="0.01" id="boilerNgRate" value="27.00" oninput="recalcBoilerShift('day'); recalcBoilerShift('night'); triggerBoilerAutoSave();"></div>
             <div class="input-group"><label>LPG Rate (Tk/Kg)</label><input type="number" step="0.01" id="boilerLpgRate" value="120.00" oninput="recalcBoilerShift('day'); recalcBoilerShift('night'); triggerBoilerAutoSave();"></div>
           </div>
 
           <div class="shift-switcher">
-            <button type="button" class="shift-tab active" id="btab-day" onclick="switchBoilerShift('day', this)">Day Shift (9 AM – 8 PM)</button>
+            <button type="button" class="shift-tab active" id="btab-day" onclick="switchBoilerShift('day', this)">Day Shift (8 AM – 8 PM)</button>
             <button type="button" class="shift-tab" id="btab-night" onclick="switchBoilerShift('night', this)">Night Shift (9 PM – 8 AM)</button>
           </div>
         </div>
@@ -1308,32 +1308,30 @@
 
         <div id="bpanel-day">
           <div class="summary-grid">
-            <div class="metric-input-card"><label>NG Consumption (M3)</label><input type="number" step="any" id="b_day_ng_cons" value="0" oninput="recalcBoilerShift('day'); triggerBoilerAutoSave();"></div>
+            <div class="metric-input-card"><label>NG Consumption (m³)</label><input type="number" step="any" id="b_day_ng_cons" value="4320" oninput="recalcBoilerShift('day'); triggerBoilerAutoSave();"></div>
             <div class="metric-input-card"><label>LPG Consumption (Kg)</label><input type="number" step="any" id="b_day_lpg_cons" value="0" oninput="recalcBoilerShift('day'); triggerBoilerAutoSave();"></div>
             <div class="metric-input-card"><label>NG Steam (Ton) Auto</label><input type="number" id="b_day_ng_steam_auto" value="0.00" readonly></div>
             <div class="metric-input-card"><label>LPG Steam (Ton) Auto</label><input type="number" id="b_day_lpg_steam_auto" value="0.00" readonly></div>
             <div class="metric-input-card"><label>Total Steam (Ton) Auto</label><input type="number" id="b_day_tot_steam_auto" value="0.00" readonly></div>
-            <div class="metric-input-card"><label>Total Cost (BDT Auto)</label><input type="number" id="b_day_cost_auto" value="0" readonly></div>
           </div>
           <div class="table-wrapper" id="bgrid-day"></div>
           <div class="stenter-12h-box">
-            <label>Stenter (Finishing — Shift Single Entry):</label>
-            <input type="number" step="any" id="b_day_stenter_12h" value="0" oninput="recalcBoilerShift('day'); triggerBoilerAutoSave();">
+            <label>Stenter (Finishing Dept):</label>
+            <input type="number" step="any" id="b_day_stenter_12h" value="1724" oninput="recalcBoilerShift('day'); triggerBoilerAutoSave();">
           </div>
         </div>
 
         <div id="bpanel-night" style="display:none;">
           <div class="summary-grid">
-            <div class="metric-input-card"><label>NG Consumption (M3)</label><input type="number" step="any" id="b_night_ng_cons" value="0" oninput="recalcBoilerShift('night'); triggerBoilerAutoSave();"></div>
+            <div class="metric-input-card"><label>NG Consumption (m³)</label><input type="number" step="any" id="b_night_ng_cons" value="0" oninput="recalcBoilerShift('night'); triggerBoilerAutoSave();"></div>
             <div class="metric-input-card"><label>LPG Consumption (Kg)</label><input type="number" step="any" id="b_night_lpg_cons" value="0" oninput="recalcBoilerShift('night'); triggerBoilerAutoSave();"></div>
             <div class="metric-input-card"><label>NG Steam (Ton) Auto</label><input type="number" id="b_night_ng_steam_auto" value="0.00" readonly></div>
             <div class="metric-input-card"><label>LPG Steam (Ton) Auto</label><input type="number" id="b_night_lpg_steam_auto" value="0.00" readonly></div>
             <div class="metric-input-card"><label>Total Steam (Ton) Auto</label><input type="number" id="b_night_tot_steam_auto" value="0.00" readonly></div>
-            <div class="metric-input-card"><label>Total Cost (BDT Auto)</label><input type="number" id="b_night_cost_auto" value="0" readonly></div>
           </div>
           <div class="table-wrapper" id="bgrid-night"></div>
           <div class="stenter-12h-box">
-            <label>Stenter (Finishing — Shift Single Entry):</label>
+            <label>Stenter (Finishing Dept):</label>
             <input type="number" step="any" id="b_night_stenter_12h" value="0" oninput="recalcBoilerShift('night'); triggerBoilerAutoSave();">
           </div>
         </div>
@@ -2734,7 +2732,7 @@ function viewSavedFullReport(category, index, autoPrint = false) {
         <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Boiler Report — ${record.date}</strong>
         <button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>
       </div>
-      <div class="report-page">${createBoilerReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, record.dayBoiler, 'sboi_day_' + index)}</div>
+      <div class="report-page">${createBoilerReportPageHtml('DAY SHIFT (8:00 AM - 8:00 PM)', formattedDate, record.dayBoiler, 'sboi_day_' + index)}</div>
       <div class="night-page-spacer"></div>
       <div class="report-page">${createBoilerReportPageHtml('NIGHT SHIFT (9:00 PM - 8:00 AM)', formattedDate, record.nightBoiler, 'sboi_night_' + index)}</div>
     `;
@@ -3096,12 +3094,12 @@ function renderBoilerGrid(shift, hours) {
         <th>NG Pre<br>After (Mbar)</th>
         <th>Boiler<br>Run</th>
         <th>Fire %</th>
-        <th>Steam<br>Press (Bar)</th>
+        <th>Steam<br>Pressour</th>
         <th>NG Steam<br>(Ton)</th>
         <th class="lpg-th">Stop</th>
         <th class="lpg-th">Run</th>
-        <th class="lpg-th">LPG Fire %</th>
-        <th class="lpg-th">LPG Press</th>
+        <th class="lpg-th">LPG<br>Fire %</th>
+        <th class="lpg-th">LPG<br>Pressour</th>
         <th class="lpg-th">LPG Steam<br>(Ton)</th>
         <th class="dept-th">Total Steam<br>(Ton Auto)</th>
         ${BOILER_DEPTS.map(d => `<th class="dept-th">${d}<br>Share</th>`).join('')}
@@ -3114,13 +3112,13 @@ function renderBoilerGrid(shift, hours) {
       <td><strong>${time}</strong></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_preb_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_prea_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_brun_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_fire_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_brun_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_fire_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_spress_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_ngton_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_lstop_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_lrun_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_lfire_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_lfire_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_lpress_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_lpgton_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
       <td><input type="number" id="${p}_tsteam_${idx}" readonly value="0.00"></td>
@@ -3134,11 +3132,6 @@ function renderBoilerGrid(shift, hours) {
 
 function recalcBoilerShift(shift) {
   const p = `b_${shift}`;
-  const ngRate = parseFloat(document.getElementById('boilerNgRate').value) || 0;
-  const lpgRate = parseFloat(document.getElementById('boilerLpgRate').value) || 0;
-  const totalNgCons = parseFloat(document.getElementById(`${p}_ng_cons`).value) || 0;
-  const totalLpgCons = parseFloat(document.getElementById(`${p}_lpg_cons`).value) || 0;
-
   let sumNgTon = 0;
   let sumLpgTon = 0;
   for (let i = 0; i < 12; i++) {
@@ -3149,13 +3142,9 @@ function recalcBoilerShift(shift) {
     sumNgTon += ngT;
     sumLpgTon += lpgT;
   }
-  const totSteam = sumNgTon + sumLpgTon;
-  const totCost = Math.round(totalNgCons * ngRate) + Math.round(totalLpgCons * lpgRate);
-
   document.getElementById(`${p}_ng_steam_auto`).value = sumNgTon.toFixed(2);
   document.getElementById(`${p}_lpg_steam_auto`).value = sumLpgTon.toFixed(2);
-  document.getElementById(`${p}_tot_steam_auto`).value = totSteam.toFixed(2);
-  document.getElementById(`${p}_cost_auto`).value = totCost;
+  document.getElementById(`${p}_tot_steam_auto`).value = (sumNgTon + sumLpgTon).toFixed(2);
 }
 
 function switchBoilerShift(shift, btn) {
@@ -3172,11 +3161,11 @@ function computeBoilerShift(shift, hours) {
   const lpgRate = parseFloat(document.getElementById('boilerLpgRate').value) || 0;
   const totalNgCons = parseFloat(document.getElementById(`${p}_ng_cons`).value) || 0;
   const totalLpgCons = parseFloat(document.getElementById(`${p}_lpg_cons`).value) || 0;
-  const stenterValInput = parseFloat(document.getElementById(`${p}_stenter_12h`).value) || 0;
+  const stenter12h = parseFloat(document.getElementById(`${p}_stenter_12h`).value) || 0;
 
   let rows = [];
-  let sumPreB = 0, sumPreA = 0, sumBrun = 0, sumFire = 0, sumSpress = 0, sumNgTon = 0;
-  let sumLstop = 0, sumLrun = 0, sumLfire = 0, sumLpress = 0, sumLpgTon = 0, sumTotSteam = 0;
+  let sumPreb = 0, sumPrea = 0, sumBrun = 0, sumFire = 0, sumNgTon = 0;
+  let sumLstop = 0, sumLrun = 0, sumLfire = 0, sumLpgTon = 0, sumTotSteam = 0;
   let deptSums = {};
   BOILER_DEPTS.forEach(d => deptSums[d.toLowerCase()] = 0);
 
@@ -3187,26 +3176,21 @@ function computeBoilerShift(shift, hours) {
     const fire = parseFloat(document.getElementById(`${p}_fire_${idx}`).value) || 0;
     const spress = parseFloat(document.getElementById(`${p}_spress_${idx}`).value) || 0;
     const ngTon = parseFloat(document.getElementById(`${p}_ngton_${idx}`).value) || 0;
-
     const lstop = parseFloat(document.getElementById(`${p}_lstop_${idx}`).value) || 0;
     const lrun = parseFloat(document.getElementById(`${p}_lrun_${idx}`).value) || 0;
     const lfire = parseFloat(document.getElementById(`${p}_lfire_${idx}`).value) || 0;
     const lpress = parseFloat(document.getElementById(`${p}_lpress_${idx}`).value) || 0;
     const lpgTon = parseFloat(document.getElementById(`${p}_lpgton_${idx}`).value) || 0;
-
     const totSteam = ngTon + lpgTon;
 
-    sumPreB += preb;
-    sumPreA += prea;
+    sumPreb += preb;
+    sumPrea += prea;
     sumBrun += brun;
     sumFire += fire;
-    sumSpress += spress;
     sumNgTon += ngTon;
-
     sumLstop += lstop;
     sumLrun += lrun;
     sumLfire += lfire;
-    sumLpress += lpress;
     sumLpgTon += lpgTon;
     sumTotSteam += totSteam;
 
@@ -3226,10 +3210,10 @@ function computeBoilerShift(shift, hours) {
   const grandCost = totalNgCost + totalLpgCost;
 
   rows.forEach(r => {
-    r.ngRatioPct = sumNgTon > 0 ? ((r.ngTon / sumNgTon) * 100) : 0;
-    r.lpgRatioPct = sumLpgTon > 0 ? ((r.lpgTon / sumLpgTon) * 100) : 0;
+    r.firePct = sumFire > 0 ? ((r.fire / sumFire) * 100).toFixed(2) : "0.00";
+    r.lfirePct = sumLfire > 0 ? ((r.lfire / sumLfire) * 100).toFixed(2) : "0.00";
     r.ngCons = sumNgTon > 0 ? Math.round((r.ngTon / sumNgTon) * totalNgCons) : 0;
-    r.lpgCons = sumLpgTon > 0 ? Math.round((r.lpgTon / sumLpgTon) * totalLpgCons) : 0;
+    r.lpgCons = sumLpgTon > 0 ? (r.lpgTon / sumLpgTon) * totalLpgCons : 0;
     r.ngCost = Math.round(r.ngCons * ngRate);
     r.lpgCost = Math.round(r.lpgCons * lpgRate);
     r.totCost = r.ngCost + r.lpgCost;
@@ -3240,24 +3224,38 @@ function computeBoilerShift(shift, hours) {
     const k = dept.toLowerCase();
     const shareVal = deptSums[k];
     const ratio = totalDeptShare > 0 ? (shareVal / totalDeptShare) : 0;
-    const steamShare = (ratio * sumTotSteam);
+    const pctNum = ratio * 100;
+    const steamShareM3 = (ratio * sumTotSteam).toFixed(2);
     const ngConsShare = Math.round(ratio * totalNgCons);
     const lpgConsShare = Math.round(ratio * totalLpgCons);
-    const ngCost = Math.round(ratio * totalNgCost);
-    const lpgCost = Math.round(ratio * totalLpgCost);
-    const stenterVal = dept === 'Finishing' ? stenterValInput : 0;
+    const stenterVal = dept === 'Finishing' ? stenter12h : 0;
+    const priceNg = Math.round(ngConsShare * ngRate);
+    const priceLpg = Math.round(lpgConsShare * lpgRate);
     return {
-      dept, shareVal, pct: (ratio * 100).toFixed(1),
-      steamShare: steamShare.toFixed(2), ngConsShare, lpgConsShare,
-      stenterVal, ngCost, lpgCost, totCost: ngCost + lpgCost
+      dept,
+      shareVal,
+      steamShareM3,
+      pct: pctNum.toFixed(0),
+      ngConsShare,
+      lpgConsShare,
+      stenterVal,
+      priceNg,
+      priceLpg,
+      totCost: priceNg + priceLpg
     };
   });
 
+  const sumDeptPct = deptSummary.reduce((acc, item) => acc + (parseFloat(item.pct) || 0), 0);
+  const sumDeptPriceNg = deptSummary.reduce((acc, item) => acc + item.priceNg, 0);
+  const sumDeptPriceLpg = deptSummary.reduce((acc, item) => acc + item.priceLpg, 0);
+  const sumDeptTotCost = deptSummary.reduce((acc, item) => acc + item.totCost, 0);
+
   return {
-    rows, sumPreB, sumPreA, sumBrun, sumFire, sumSpress, sumNgTon,
-    sumLstop, sumLrun, sumLfire, sumLpress, sumLpgTon, sumTotSteam,
+    rows, sumPreb, sumPrea, sumBrun, sumFire, sumNgTon,
+    sumLstop, sumLrun, sumLfire, sumLpgTon, sumTotSteam,
     totalNgCons, totalLpgCons, totalNgCost, totalLpgCost, grandCost,
-    stenter12h: stenterValInput, deptSums, totalDeptShare, deptSummary
+    stenter12h, deptSums, totalDeptShare, deptSummary,
+    sumDeptPct, sumDeptPriceNg, sumDeptPriceLpg, sumDeptTotCost
   };
 }
 
@@ -3269,7 +3267,7 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
         <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
-        <h3>NG + LPG Boiler Steam Generation & Department Cost</h3>
+        <h3>Boiler NG & LPG Steam Generation & Department Cost</h3>
         <span>${shiftLabel} &bull; Date: ${dateStr}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
@@ -3280,44 +3278,44 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
       <div class="kpi-item"><div class="k-lbl">NG / LPG Steam</div><div class="k-val">${data.sumNgTon.toFixed(2)} / ${data.sumLpgTon.toFixed(2)} T</div></div>
       <div class="kpi-item"><div class="k-lbl">NG Consumption</div><div class="k-val">${data.totalNgCons.toLocaleString()} M3</div></div>
       <div class="kpi-item"><div class="k-lbl">LPG Consumption</div><div class="k-val">${data.totalLpgCons.toLocaleString()} Kg</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Total Boiler Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Stenter (Finishing)</div><div class="k-val">${data.stenter12h.toLocaleString()}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total NG Cost</div><div class="k-val">৳ ${data.totalNgCost.toLocaleString()}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total LPG Cost</div><div class="k-val">৳ ${data.totalLpgCost.toLocaleString()}</div></div>
     </div>
 
     <table class="clean-rep-table">
       <thead>
         <tr>
           <th colspan="9" class="grp-gen">NG Boiler</th>
-          <th colspan="7" class="grp-cost">LPG Boiler</th>
-          <th colspan="8" class="grp-sum">Department wise Cost</th>
+          <th colspan="6" class="grp-cost">LPG Boiler</th>
+          <th colspan="9" class="grp-dept">Department Wise Cost</th>
         </tr>
         <tr>
           <th class="sub-gen">Time</th>
-          <th class="sub-gen">NG Pre<br>Before</th>
-          <th class="sub-gen">NG Pre<br>After</th>
+          <th class="sub-gen">Boiler NG Pre:<br>Before Reg:</th>
+          <th class="sub-gen">Boiler NG Pre:<br>After Reg: Mbar</th>
           <th class="sub-gen">Boiler<br>Run</th>
           <th class="sub-gen">Fire<br>%</th>
-          <th class="sub-gen">NG<br>%</th>
-          <th class="sub-gen">Steam<br>Press</th>
-          <th class="sub-gen">NG Steam<br>(Ton)</th>
-          <th class="sub-gen">NG Cons<br>(M3)</th>
+          <th class="sub-gen">%</th>
+          <th class="sub-gen">Steam<br>Pressour</th>
+          <th class="sub-gen">Steam Generation<br>in Ton</th>
+          <th class="sub-gen">NG Consump<br>tion (M3)</th>
 
-          <th class="sub-cost">NG Cost<br>(BDT)</th>
           <th class="sub-cost">Stop</th>
           <th class="sub-cost">Run</th>
-          <th class="sub-cost">Fire %<br>/ Press</th>
-          <th class="sub-cost">LPG Steam<br>(Ton)</th>
-          <th class="sub-cost">LPG Cons<br>(Kg)</th>
+          <th class="sub-cost">Fire %</th>
+          <th class="sub-cost">Steam<br>Pressour</th>
+          <th class="sub-cost">Steam Generation<br>in Ton</th>
           <th class="sub-cost">Total<br>Steam</th>
 
-          <th class="sub-sum">Name of the<br>Department</th>
-          <th class="sub-sum">Steam<br>(Ton)</th>
-          <th class="sub-sum">Share<br>%</th>
-          <th class="sub-sum">NG Cons<br>(M3)</th>
-          <th class="sub-sum">LPG Cons<br>(Kg)</th>
-          <th class="sub-sum">Stenter</th>
-          <th class="sub-sum">Price NG<br>/ LPG</th>
-          <th class="sub-sum">Dept Wise<br>Total Cost</th>
+          <th class="sub-dept">Name of the<br>Department</th>
+          <th class="sub-dept">Steam NG<br>Consu: M3</th>
+          <th class="sub-dept">%</th>
+          <th class="sub-dept">NG<br>Consu: M3</th>
+          <th class="sub-dept">LPG<br>Consu: Kg</th>
+          <th class="sub-dept">Stenter</th>
+          <th class="sub-dept">Price NG</th>
+          <th class="sub-dept">Price LPG</th>
+          <th class="sub-sum">Dept: Wise<br>Total Cost</th>
         </tr>
       </thead>
       <tbody>`;
@@ -3328,38 +3326,33 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     html += `<tr>
       <td class="col-highlight">${r.time}</td>
       <td>${r.preb.toFixed(2)}</td>
-      <td>${r.prea}</td>
+      <td>${r.prea || ''}</td>
       <td>${r.brun}</td>
       <td>${r.fire}</td>
-      <td>${r.ngRatioPct.toFixed(2)}%</td>
+      <td>${r.firePct}</td>
       <td>${r.spress.toFixed(2)}</td>
       <td class="col-highlight">${r.ngTon.toFixed(2)}</td>
       <td>${r.ngCons.toLocaleString()}</td>
 
-      <td class="col-highlight">${r.ngCost.toLocaleString()}</td>
-      <td>${r.lstop ? '✓' : ''}</td>
-      <td>${r.lrun}</td>
-      <td>${r.lfire} / ${r.lpress.toFixed(2)}</td>
+      <td>${r.lstop ? '✓' : '✓'}</td>
+      <td>${r.lrun || ''}</td>
+      <td>${r.lfire}</td>
+      <td>${r.lpress.toFixed(2)}</td>
       <td>${r.lpgTon.toFixed(2)}</td>
-      <td>${r.lpgCons.toLocaleString()}</td>
       <td class="col-highlight">${r.totSteam.toFixed(2)}</td>
 
       ${ds ? `
-        <td class="col-sum-cell" style="text-align:left; padding-left:4px; font-weight:700;">${ds.dept}</td>
-        <td class="col-sum-cell">${ds.steamShare}</td>
-        <td class="col-sum-cell">${ds.pct}%</td>
+        <td class="col-sum-cell" style="text-align:left; padding-left:5px; font-weight:700;">${ds.dept}</td>
+        <td class="col-sum-cell">${ds.steamShareM3}</td>
+        <td class="col-sum-cell">${ds.pct}</td>
         <td class="col-sum-cell">${ds.ngConsShare.toLocaleString()}</td>
         <td class="col-sum-cell">${ds.lpgConsShare.toLocaleString()}</td>
-        <td class="col-sum-cell" style="${ds.stenterVal > 0 ? 'background:#fef3c7; font-weight:800;' : ''}">${ds.stenterVal > 0 ? ds.stenterVal.toLocaleString() : '0'}</td>
-        <td class="col-sum-cell">${ds.ngCost.toLocaleString()} / ${ds.lpgCost.toLocaleString()}</td>
+        <td class="col-sum-cell" style="${ds.dept === 'Finishing' ? 'background:#fef3c7; font-weight:800;' : ''}">${ds.stenterVal > 0 ? ds.stenterVal.toLocaleString() : '0'}</td>
+        <td class="col-sum-cell">${ds.priceNg.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.priceLpg.toLocaleString()}</td>
         <td class="col-sum-cell" style="font-weight:800; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
       ` : `
-        <td class="col-sum-cell" style="text-align:left; padding-left:4px; color:#64748b;">${i === 8 ? 'Dept Share Sum' : (i === 9 ? 'NG Total Steam' : (i === 10 ? 'NG Rate (Tk)' : 'NG Steam Sum'))}</td>
-        <td class="col-sum-cell" colspan="3">${i === 8 ? data.totalDeptShare.toFixed(2) : (i === 9 ? data.sumNgTon.toFixed(2) : (i === 10 ? (parseFloat(document.getElementById('boilerNgRate').value)||0).toFixed(2) : data.sumNgTon.toFixed(2)))}</td>
-        <td class="col-sum-cell">${i === 8 ? data.totalNgCons.toLocaleString() : ''}</td>
-        <td class="col-sum-cell">0</td>
-        <td class="col-sum-cell">${i === 8 ? data.totalNgCost.toLocaleString() : ''}</td>
-        <td class="col-sum-cell">${i === 8 ? data.totalNgCost.toLocaleString() : ''}</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
       `}
     </tr>`;
   }
@@ -3367,37 +3360,37 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   html += `
     <tr class="total-row">
       <td>TOTAL:</td>
-      <td>${data.sumPreB.toFixed(2)}</td>
-      <td>-</td>
+      <td>${data.sumPreb.toFixed(0)}</td>
+      <td></td>
       <td>${data.sumBrun}</td>
       <td>${data.sumFire}</td>
-      <td>100%</td>
-      <td>-</td>
-      <td>${data.sumNgTon.toFixed(2)}</td>
+      <td>100</td>
+      <td></td>
+      <td>${data.sumTotSteam.toFixed(2)}</td>
       <td>${data.totalNgCons.toLocaleString()}</td>
 
-      <td>${data.totalNgCost.toLocaleString()}</td>
-      <td>-</td>
+      <td></td>
       <td>${data.sumLrun}</td>
       <td>${data.sumLfire}</td>
+      <td></td>
       <td>${data.sumLpgTon.toFixed(2)}</td>
-      <td>${data.totalLpgCons.toLocaleString()}</td>
       <td>${data.sumTotSteam.toFixed(2)}</td>
 
       <td>TOTAL</td>
       <td>${data.sumTotSteam.toFixed(2)}</td>
-      <td>100%</td>
+      <td>${data.sumDeptPct}</td>
       <td>${data.totalNgCons.toLocaleString()}</td>
       <td>${data.totalLpgCons.toLocaleString()}</td>
       <td>${data.stenter12h.toLocaleString()}</td>
-      <td>৳ ${data.totalNgCost.toLocaleString()} / ৳ ${data.totalLpgCost.toLocaleString()}</td>
-      <td style="color:#9a3412;">৳ ${data.grandCost.toLocaleString()}</td>
+      <td>${data.sumDeptPriceNg.toLocaleString()}</td>
+      <td>${data.sumDeptPriceLpg.toLocaleString()}</td>
+      <td style="color:#9a3412;">${data.sumDeptTotCost.toLocaleString()}</td>
     </tr>
   </tbody></table>
 
   <div class="rep-charts">
     <div class="rep-chart-card"><h4>NG + LPG Hourly Steam Production (Ton)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
-    <div class="rep-chart-card"><h4>Department-Wise LPG & NG Steam Cost (BDT)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Department Wise LPG & NG Steam Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
   </div>
 
   <div class="rep-footer">
@@ -3424,7 +3417,7 @@ function buildBoilerReport(mode = 'separate') {
   const nightBoiler = computeBoilerShift('night', NIGHT_HOURS);
 
   document.getElementById('boiler-report-output').innerHTML = `
-    <div class="report-page">${createBoilerReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, dayBoiler, 'bday')}</div>
+    <div class="report-page">${createBoilerReportPageHtml('DAY SHIFT (8:00 AM - 8:00 PM)', formattedDate, dayBoiler, 'bday')}</div>
     <div class="page-break"></div>
     <div class="report-page night-page-spacer">${createBoilerReportPageHtml('NIGHT SHIFT (9:00 PM - 8:00 AM)', formattedDate, nightBoiler, 'bnight')}</div>
   `;
@@ -3464,8 +3457,8 @@ function downloadBoilerExcelSheet() {
   const rows = [
     ["P.N. COMPOSITE LTD. - Boiler NG & LPG Steam Generation & Cost"],
     ["Report Date", dateVal],
-    ["Day Shift Total Steam (Ton)", dayB.sumTotSteam.toFixed(2), "Day NG Cons (M3)", dayB.totalNgCons, "Day LPG Cons (Kg)", dayB.totalLpgCons, "Day Cost", dayB.grandCost, "Finishing Stenter", dayB.stenter12h],
-    ["Night Shift Total Steam (Ton)", nightB.sumTotSteam.toFixed(2), "Night NG Cons (M3)", nightB.totalNgCons, "Night LPG Cons (Kg)", nightB.totalLpgCons, "Night Cost", nightB.grandCost, "Finishing Stenter", nightB.stenter12h]
+    ["Day Shift Total Steam (Ton)", dayB.sumTotSteam.toFixed(2), "Day NG Cons (M3)", dayB.totalNgCons, "Day LPG Cons (Kg)", dayB.totalLpgCons, "Finishing Stenter", dayB.stenter12h],
+    ["Night Shift Total Steam (Ton)", nightB.sumTotSteam.toFixed(2), "Night NG Cons (M3)", nightB.totalNgCons, "Night LPG Cons (Kg)", nightB.totalLpgCons, "Finishing Stenter", nightB.stenter12h]
   ];
   const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -4043,9 +4036,44 @@ renderBoilerGrid('day', DAY_HOURS);
 renderBoilerGrid('night', NIGHT_HOURS);
 renderCompGrid('day', DAY_HOURS);
 renderCompGrid('night', NIGHT_HOURS);
-initDivisionDropdown('regPresDiv', 'regPresDist', 'regPresUpz');
-initDivisionDropdown('regPermDiv', 'regPermDist', 'regPermUpz');
+
+initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz");
+initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz");
 applyLanguage("en");
+
+document.querySelectorAll("#view-generator input").forEach(inp => inp.addEventListener("change", triggerAutoSave));
+document.querySelectorAll("#view-boiler input").forEach(inp => inp.addEventListener("change", triggerBoilerAutoSave));
+document.querySelectorAll("#view-compressor input").forEach(inp => inp.addEventListener("change", triggerCompAutoSave));
+
+const latestGenDraft = JSON.parse(localStorage.getItem("pn_latest_generator_draft") || "null");
+if (latestGenDraft) {
+  restoreInputsToMap(latestGenDraft);
+  for (let i = 0; i < 12; i++) { recalcRow("day", i); recalcRow("night", i); }
+  updateTotalKwh("day"); updateTotalKwh("night");
+}
+
+const latestBoilerDraft = JSON.parse(localStorage.getItem("pn_latest_boiler_draft") || "null");
+if (latestBoilerDraft) {
+  restoreInputsToMap(latestBoilerDraft);
+  recalcBoilerShift("day"); recalcBoilerShift("night");
+}
+
+const latestCompDraft = JSON.parse(localStorage.getItem("pn_latest_comp_draft") || "null");
+if (latestCompDraft) {
+  restoreInputsToMap(latestCompDraft);
+  recalcCompShift("day"); recalcCompShift("night");
+}
+
+const existingSession = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+if (existingSession) {
+  document.getElementById("auth-wrapper").style.display = "none";
+  document.getElementById("app-shell").style.display = "block";
+  navigateSection("home");
+} else {
+  document.getElementById("auth-wrapper").style.display = "block";
+  document.getElementById("app-shell").style.display = "none";
+  showAuthPanel("login");
+}
 </script>
 </body>
 </html>
