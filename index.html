@@ -29,20 +29,13 @@
   html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background: var(--bg-body); color: var(--slate-900); }
   body { padding: 14px; }
 
-  body.screenshot-shield-active {
+  body.screenshot-protected {
     -webkit-user-select: none;
     user-select: none;
-  }
-  body.screenshot-shield-blur #app-shell,
-  body.screenshot-shield-blur #id-card-modal,
-  body.screenshot-shield-blur #auth-wrapper {
-    filter: blur(10px);
-    transition: filter 0.12s ease;
   }
 
   .container { max-width: 1440px; width: 100%; margin: 0 auto; overflow-x: hidden; }
 
-  /* Subtle Creator Footer */
   .creator-faint-footer {
     text-align: center;
     font-size: 11px;
@@ -53,7 +46,6 @@
     user-select: none;
   }
 
-  /* Report Bottom-Left Faint Creator Mark */
   .rep-creator-faint-left {
     font-size: 9px;
     font-weight: 600;
@@ -64,7 +56,6 @@
     user-select: none;
   }
 
-  /* ================= TOP LANGUAGE & AUTO-SAVE BAR ================= */
   .top-lang-bar {
     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
     margin-bottom: 10px;
@@ -221,9 +212,7 @@
   .pn-info-row:last-child { border-bottom: none; }
   .pn-info-row strong { color: #0f172a; }
 
-  .pn-front-footer {
-    padding: 4px 16px 0 16px;
-  }
+  .pn-front-footer { padding: 4px 16px 0 16px; }
   .pn-sig-line-wrap {
     display: flex; justify-content: space-between; align-items: flex-end;
     font-size: 9px; font-weight: 700; color: #334155; padding-bottom: 8px;
@@ -279,7 +268,6 @@
   }
   .pn-extra-slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-  /* Admin ID Update Modal */
   #admin-id-edit-modal {
     display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
     z-index: 2200; padding: 16px; overflow-y: auto; align-items: center; justify-content: center;
@@ -337,7 +325,6 @@
   }
   .logout-red-btn:hover { background: #b91c1c; }
 
-  /* ================= TOP HEADER ================= */
   .company-header {
     background: #ffffff;
     border-radius: 14px;
@@ -365,7 +352,6 @@
   }
   .logo-box img { max-height: 56px; max-width: 95px; object-fit: contain; }
 
-  /* ================= CONTROLS & CAMERA BAR ================= */
   .control-card {
     background: #ffffff; border-radius: 14px; padding: 18px 20px;
     box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); margin-bottom: 18px;
@@ -547,15 +533,13 @@
     margin-bottom: 12px; background: #f8fafc;
   }
   .perm-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-    gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1;
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; padding-top: 10px;
+    border-top: 1px dashed #cbd5e1; font-size: 12px; font-weight: 600; color: var(--slate-700);
   }
-  .perm-toggle {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: #ffffff; border: 1px solid var(--slate-200); border-radius: 8px;
-    padding: 6px 9px; font-size: 11.5px; font-weight: 700; color: var(--slate-700); cursor: pointer;
+  .perm-grid label {
+    display: inline-flex; align-items: center; gap: 5px; cursor: pointer;
+    background: #ffffff; border: 1px solid var(--slate-200); border-radius: 7px; padding: 4px 8px;
   }
-  .perm-toggle input { accent-color: var(--brand-dark); cursor: pointer; }
   .status-pill-pending {
     background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;
     padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 800;
@@ -643,6 +627,7 @@
   .sig-line { border-top: 1px solid #94a3b8; width: 155px; text-align: center; padding-top: 3px; font-weight: 600; color: #334155; }
 
   @media print {
+    body.print-blocked { display: none !important; }
     @page { size: A4 landscape; margin: 3.5mm; }
     html, body {
       width: 100%; height: auto; background: #fff !important;
@@ -723,7 +708,6 @@
 </head>
 <body class="print-mode-separate">
 
-<!-- TOP BAR: AUTO-SAVE INDICATOR + LANGUAGE BUTTON (DEFAULT: EN) -->
 <div class="top-lang-bar no-print">
   <span class="autosave-badge" id="autoSaveStatus">
     <span class="autosave-dot"></span>
@@ -735,7 +719,7 @@
 </div>
 
 <!-- ========================================================================= -->
-<!-- AUTHENTICATION SCREEN (LOGIN & REGISTRATION)                              -->
+<!-- AUTHENTICATION SCREEN (STRICT EMAIL + PASSWORD + LIFETIME SESSION)        -->
 <!-- ========================================================================= -->
 <div id="auth-wrapper" class="no-print">
   <div class="auth-card">
@@ -747,7 +731,6 @@
       <div class="auth-logo-slot"></div>
     </div>
 
-    <!-- LOGIN PANEL -->
     <div id="login-panel">
       <h3 style="margin:0 0 14px 0; font-size:16px; font-weight:800; color:var(--slate-900);" data-i18n="loginNow">Login Now</h3>
 
@@ -776,7 +759,6 @@
       </div>
     </div>
 
-    <!-- REGISTRATION PANEL -->
     <div id="register-panel" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
         <h3 style="margin:0; font-size:16px; font-weight:800; color:var(--brand-dark);" data-i18n="regFormTitle">Employee Registration Form</h3>
@@ -839,7 +821,6 @@
         </div>
       </div>
 
-      <!-- PRESENT ADDRESS (DIVISION -> DISTRICT -> UPAZILA + AREA) -->
       <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:10px 12px; margin-bottom:12px;">
         <div style="font-size:12px; font-weight:800; color:var(--brand-dark); margin-bottom:8px;" data-i18n="presentAddrLbl">Present Address</div>
         <div class="form-grid-2">
@@ -864,7 +845,6 @@
         </div>
       </div>
 
-      <!-- PERMANENT ADDRESS (DIVISION -> DISTRICT -> UPAZILA + AREA) -->
       <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:10px 12px; margin-bottom:12px;">
         <div style="font-size:12px; font-weight:800; color:var(--brand-dark); margin-bottom:8px;" data-i18n="permAddrLbl">Permanent Address</div>
         <div class="form-grid-2">
@@ -931,7 +911,7 @@
 </div>
 
 <!-- ========================================================================= -->
-<!-- 3D VERTICAL ID CARD MODAL (FRONT & BACK + DOWNLOAD + ADMIN UPDATE)       -->
+<!-- 3D VERTICAL ID CARD MODAL                                                 -->
 <!-- ========================================================================= -->
 <div id="id-card-modal" class="no-print">
   <div class="id-modal-box">
@@ -945,7 +925,6 @@
 
     <div class="pn-3d-scene">
       <div class="pn-3d-card" id="pnIdCard3d">
-        <!-- FRONT FACE -->
         <div class="pn-card-face pn-card-front">
           <div>
             <div class="pn-front-top">
@@ -985,7 +964,6 @@
           </div>
         </div>
 
-        <!-- BACK FACE -->
         <div class="pn-card-face pn-card-back">
           <div>
             <div class="pn-back-top-stripe"></div>
@@ -1036,7 +1014,7 @@
 </div>
 
 <!-- ========================================================================= -->
-<!-- ADMIN ID CARD UPDATER MODAL (SUPER ADMIN ONLY)                            -->
+<!-- ADMIN ID CARD UPDATER MODAL                                               -->
 <!-- ========================================================================= -->
 <div id="admin-id-edit-modal" class="no-print">
   <div class="admin-id-edit-box">
@@ -1048,94 +1026,43 @@
     <input type="hidden" id="editTargetEmail">
 
     <div class="form-grid-2">
-      <div class="field-box">
-        <label>ID</label>
-        <input type="text" id="editIdOfficeId">
-      </div>
-      <div class="field-box">
-        <label>Name</label>
-        <input type="text" id="editIdName">
-      </div>
+      <div class="field-box"><label>ID</label><input type="text" id="editIdOfficeId"></div>
+      <div class="field-box"><label>Name</label><input type="text" id="editIdName"></div>
     </div>
-
     <div class="form-grid-2">
-      <div class="field-box">
-        <label>Designation</label>
-        <input type="text" id="editIdDesignation">
-      </div>
-      <div class="field-box">
-        <label>Division</label>
-        <input type="text" id="editIdDivisionTop" value="Textile">
-      </div>
+      <div class="field-box"><label>Designation</label><input type="text" id="editIdDesignation"></div>
+      <div class="field-box"><label>Division</label><input type="text" id="editIdDivisionTop" value="Textile"></div>
     </div>
-
     <div class="form-grid-2">
-      <div class="field-box">
-        <label>Department</label>
-        <input type="text" id="editIdDepartment">
-      </div>
-      <div class="field-box">
-        <label>Section</label>
-        <input type="text" id="editIdSection">
-      </div>
+      <div class="field-box"><label>Department</label><input type="text" id="editIdDepartment"></div>
+      <div class="field-box"><label>Section</label><input type="text" id="editIdSection"></div>
     </div>
-
     <div class="form-grid-2">
-      <div class="field-box">
-        <label>Joining Date</label>
-        <input type="date" id="editIdJoiningDate">
-      </div>
-      <div class="field-box">
-        <label>Passport Photo (Max 500KB)</label>
-        <input type="file" id="editIdPhotoFile" accept="image/*" onchange="handleAdminEditPhoto(event)">
-      </div>
+      <div class="field-box"><label>Joining Date</label><input type="date" id="editIdJoiningDate"></div>
+      <div class="field-box"><label>Passport Photo (Max 500KB)</label><input type="file" id="editIdPhotoFile" accept="image/*" onchange="handleAdminEditPhoto(event)"></div>
     </div>
 
     <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:10px; margin-bottom:10px;">
       <div style="font-size:11.5px; font-weight:800; color:var(--brand-dark); margin-bottom:6px;">Present Address</div>
       <div class="form-grid-2">
-        <div class="field-box" style="margin-bottom:6px;">
-          <label>Division</label>
-          <select id="editPresDiv" onchange="populateDistricts('editPresDiv', 'editPresDist', 'editPresUpz')"></select>
-        </div>
-        <div class="field-box" style="margin-bottom:6px;">
-          <label>District</label>
-          <select id="editPresDist" onchange="populateUpazilas('editPresDiv', 'editPresDist', 'editPresUpz')"></select>
-        </div>
+        <div class="field-box" style="margin-bottom:6px;"><label>Division</label><select id="editPresDiv" onchange="populateDistricts('editPresDiv', 'editPresDist', 'editPresUpz')"></select></div>
+        <div class="field-box" style="margin-bottom:6px;"><label>District</label><select id="editPresDist" onchange="populateUpazilas('editPresDiv', 'editPresDist', 'editPresUpz')"></select></div>
       </div>
       <div class="form-grid-2">
-        <div class="field-box" style="margin-bottom:2px;">
-          <label>Upazila</label>
-          <select id="editPresUpz"></select>
-        </div>
-        <div class="field-box" style="margin-bottom:2px;">
-          <label>Area</label>
-          <input type="text" id="editPresArea">
-        </div>
+        <div class="field-box" style="margin-bottom:2px;"><label>Upazila</label><select id="editPresUpz"></select></div>
+        <div class="field-box" style="margin-bottom:2px;"><label>Area</label><input type="text" id="editPresArea"></div>
       </div>
     </div>
 
     <div style="background:#f8fafc; border:1px solid var(--slate-200); border-radius:10px; padding:10px; margin-bottom:12px;">
       <div style="font-size:11.5px; font-weight:800; color:var(--brand-dark); margin-bottom:6px;">Permanent Address</div>
       <div class="form-grid-2">
-        <div class="field-box" style="margin-bottom:6px;">
-          <label>Division</label>
-          <select id="editPermDiv" onchange="populateDistricts('editPermDiv', 'editPermDist', 'editPermUpz')"></select>
-        </div>
-        <div class="field-box" style="margin-bottom:6px;">
-          <label>District</label>
-          <select id="editPermDist" onchange="populateUpazilas('editPermDiv', 'editPermDist', 'editPermUpz')"></select>
-        </div>
+        <div class="field-box" style="margin-bottom:6px;"><label>Division</label><select id="editPermDiv" onchange="populateDistricts('editPermDiv', 'editPermDist', 'editPermUpz')"></select></div>
+        <div class="field-box" style="margin-bottom:6px;"><label>District</label><select id="editPermDist" onchange="populateUpazilas('editPermDiv', 'editPermDist', 'editPermUpz')"></select></div>
       </div>
       <div class="form-grid-2">
-        <div class="field-box" style="margin-bottom:2px;">
-          <label>Upazila</label>
-          <select id="editPermUpz"></select>
-        </div>
-        <div class="field-box" style="margin-bottom:2px;">
-          <label>Area</label>
-          <input type="text" id="editPermArea">
-        </div>
+        <div class="field-box" style="margin-bottom:2px;"><label>Upazila</label><select id="editPermUpz"></select></div>
+        <div class="field-box" style="margin-bottom:2px;"><label>Area</label><input type="text" id="editPermArea"></div>
       </div>
     </div>
 
@@ -1147,7 +1074,6 @@
 <!-- MAIN APPLICATION SHELL                                                    -->
 <!-- ========================================================================= -->
 <div id="app-shell">
-  <!-- LEFT SIDEBAR DRAWER -->
   <div class="sidebar-backdrop no-print" id="sidebarBackdrop" onclick="closeSidebar()"></div>
   <aside class="side-drawer no-print" id="sideDrawer">
     <div class="drawer-top">
@@ -1170,7 +1096,6 @@
   </aside>
 
   <div class="container">
-    <!-- ================= TOP HEADER ================= -->
     <div class="company-header no-print">
       <div class="header-left-group">
         <button type="button" class="menu-trigger-btn" onclick="openSidebar()">☰ <span data-i18n="menuBtn">Menu</span></button>
@@ -1183,28 +1108,26 @@
       <div class="logo-box header-logo-slot"></div>
     </div>
 
-    <!-- ================= HOME VIEW ================= -->
     <div id="view-home" class="no-print" style="display:none;">
       <div class="control-card">
         <h2 style="margin:0 0 6px 0; font-size:18px; font-weight:800; color:var(--brand-dark);" data-i18n="homeTitle">Utility Control Home</h2>
-        <p style="margin:0 0 14px 0; font-size:13px; color:var(--slate-500);" data-i18n="homeSub">Select a section from the sidebar menu or below.</p>
+        <p style="margin:0 0 14px 0; font-size:13px; color:var(--slate-500);" data-i18n="homeSub">Select your assigned section or open Saved Data.</p>
         <div style="display:flex; flex-wrap:wrap; gap:10px;">
-          <button type="button" class="btn btn-primary" id="home-btn-generator" onclick="navigateSection('generator')" data-i18n="navGenerator">Generator</button>
-          <button type="button" class="btn btn-accent" id="home-btn-boiler" onclick="navigateSection('boiler')" data-i18n="navBoiler">Boiler</button>
-          <button type="button" class="btn btn-combined" id="home-btn-compressor" onclick="navigateSection('compressor')" data-i18n="navCompressor">Air Compressor</button>
-          <button type="button" class="btn btn-save" id="home-btn-saved" onclick="navigateSection('saved')" data-i18n="navSaved">Saved Data</button>
-          <button type="button" class="btn btn-excel" id="home-btn-admin" onclick="navigateSection('admin')" data-i18n="navAdmin">Admin Panel</button>
+          <button type="button" class="btn btn-primary" id="homeBtnGenerator" onclick="navigateSection('generator')" data-i18n="navGenerator">Generator</button>
+          <button type="button" class="btn btn-accent" id="homeBtnBoiler" onclick="navigateSection('boiler')" data-i18n="navBoiler">Boiler</button>
+          <button type="button" class="btn btn-combined" id="homeBtnCompressor" onclick="navigateSection('compressor')" data-i18n="navCompressor">Air Compressor</button>
+          <button type="button" class="btn btn-save" id="homeBtnSaved" onclick="navigateSection('saved')" data-i18n="navSaved">Saved Data</button>
+          <button type="button" class="btn btn-excel" id="homeBtnAdmin" onclick="navigateSection('admin')" data-i18n="navAdmin">Admin Panel</button>
         </div>
       </div>
     </div>
 
-    <!-- ================= ADMIN PANEL VIEW ================= -->
     <div id="view-admin" class="no-print" style="display:none;">
       <div class="control-card">
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px;">
           <div>
             <h2 style="margin:0; font-size:18px; font-weight:800; color:var(--brand-dark);" data-i18n="navAdmin">Admin Panel</h2>
-            <p style="margin:3px 0 0 0; font-size:12.5px; color:var(--slate-500);">Super Admin: <strong>emontalukder380@gmail.com</strong> — Real-Time Firestore Member, Section & Button Permission Control</p>
+            <p style="margin:3px 0 0 0; font-size:12.5px; color:var(--slate-500);">Super Admin: <strong>emontalukder380@gmail.com</strong> — Real-Time Firestore Members, Section Assignment & Button Permissions</p>
           </div>
           <span class="company-badge" id="adminRoleBadge">Super Admin Control</span>
         </div>
@@ -1219,7 +1142,7 @@
           <div class="meta-inputs">
             <div class="input-group">
               <label data-i18n="reportDateLbl">Report Date</label>
-              <input type="date" id="compDate" value="2026-11-27" onchange="onDateOrShiftChange('compressor')">
+              <input type="date" id="compDate" value="2026-11-27" onchange="loadDateFromFirestore('compressor', this.value); triggerCompAutoSave();">
             </div>
             <div class="input-group">
               <label>Electricity Rate (Tk/kWh)</label>
@@ -1256,23 +1179,22 @@
         </div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-reset perm-btn-reset" onclick="resetSectionEntries('compressor')">↺ Reset Entry</button>
-          <button type="button" class="btn btn-save perm-btn-save" onclick="saveCurrentSectionData('compressor', false)" data-i18n="saveBtn">Save Data</button>
-          <button type="button" class="btn btn-excel perm-btn-download" onclick="downloadCompExcelSheet()">Download Excel Sheet</button>
-          <button type="button" class="btn btn-primary perm-btn-submit" onclick="buildCompReport('separate')">Submit & Generate Report</button>
-          <button type="button" class="btn btn-accent perm-btn-download" onclick="printCompSeparatePages()">Download / Print PDF</button>
-          <button type="button" class="btn btn-combined perm-btn-download" onclick="printCompCombinedSinglePage()">Day & Night Download / Print PDF</button>
+          <button type="button" class="btn btn-reset perm-reset" onclick="resetSectionEntries('compressor')">↺ Reset Entry</button>
+          <button type="button" class="btn btn-save perm-save" onclick="saveCurrentSectionData('compressor', false)" data-i18n="saveBtn">Save Data</button>
+          <button type="button" class="btn btn-excel perm-excel" onclick="downloadCompExcelSheet()">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary perm-report" onclick="buildCompReport('separate')">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent perm-pdf" onclick="printCompSeparatePages()">Download / Print PDF</button>
+          <button type="button" class="btn btn-combined perm-pdf" onclick="printCompCombinedSinglePage()">Day & Night Download / Print PDF</button>
         </div>
       </div>
     </div>
 
-    <!-- ================= COMPRESSOR REPORT SECTION ================= -->
     <div id="comp-report-container">
       <div class="no-print" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
         <span style="font-weight:700; color:var(--brand-dark); font-size:13px;">Air Compressor Report Preview Ready</span>
-        <div class="perm-btn-download" style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn btn-accent" style="padding:8px 14px; font-size:12px;" onclick="printCompSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
-          <button type="button" class="btn btn-combined" style="padding:8px 14px; font-size:12px;" onclick="printCompCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn btn-accent perm-pdf" style="padding:8px 14px; font-size:12px;" onclick="printCompSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
+          <button type="button" class="btn btn-combined perm-pdf" style="padding:8px 14px; font-size:12px;" onclick="printCompCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
         </div>
       </div>
       <div id="comp-report-output"></div>
@@ -1283,7 +1205,7 @@
       <div class="control-card no-print">
         <div class="top-controls">
           <div class="meta-inputs">
-            <div class="input-group"><label data-i18n="reportDateLbl">Report Date</label><input type="date" id="boilerDate" value="2026-11-27" onchange="onDateOrShiftChange('boiler')"></div>
+            <div class="input-group"><label data-i18n="reportDateLbl">Report Date</label><input type="date" id="boilerDate" value="2026-11-27" onchange="loadDateFromFirestore('boiler', this.value); triggerBoilerAutoSave();"></div>
             <div class="input-group"><label>NG Rate (Tk/m³)</label><input type="number" step="0.01" id="boilerNgRate" value="27.00"></div>
             <div class="input-group"><label>LPG Rate (Tk/Kg)</label><input type="number" step="0.01" id="boilerLpgRate" value="120.00"></div>
           </div>
@@ -1354,23 +1276,22 @@
         </div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-reset perm-btn-reset" onclick="resetSectionEntries('boiler')">↺ Reset Entry</button>
-          <button type="button" class="btn btn-save perm-btn-save" onclick="saveCurrentSectionData('boiler', false)" data-i18n="saveBtn">Save Data</button>
-          <button type="button" class="btn btn-excel perm-btn-download" onclick="downloadBoilerExcelSheet()">Download Excel Sheet</button>
-          <button type="button" class="btn btn-primary perm-btn-submit" onclick="buildBoilerReport('separate')">Submit & Generate Report</button>
-          <button type="button" class="btn btn-accent perm-btn-download" onclick="printBoilerSeparatePages()">Download / Print PDF</button>
-          <button type="button" class="btn btn-combined perm-btn-download" onclick="printBoilerCombinedSinglePage()">Day & Night Download / Print PDF</button>
+          <button type="button" class="btn btn-reset perm-reset" onclick="resetSectionEntries('boiler')">↺ Reset Entry</button>
+          <button type="button" class="btn btn-save perm-save" onclick="saveCurrentSectionData('boiler', false)" data-i18n="saveBtn">Save Data</button>
+          <button type="button" class="btn btn-excel perm-excel" onclick="downloadBoilerExcelSheet()">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary perm-report" onclick="buildBoilerReport('separate')">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent perm-pdf" onclick="printBoilerSeparatePages()">Download / Print PDF</button>
+          <button type="button" class="btn btn-combined perm-pdf" onclick="printBoilerCombinedSinglePage()">Day & Night Download / Print PDF</button>
         </div>
       </div>
     </div>
 
-    <!-- ================= BOILER REPORT SECTION ================= -->
     <div id="boiler-report-container">
       <div class="no-print" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
         <span style="font-weight:700; color:var(--brand-dark); font-size:13px;">Boiler Report Preview Ready</span>
-        <div class="perm-btn-download" style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn btn-accent" style="padding:8px 14px; font-size:12px;" onclick="printBoilerSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
-          <button type="button" class="btn btn-combined" style="padding:8px 14px; font-size:12px;" onclick="printBoilerCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn btn-accent perm-pdf" style="padding:8px 14px; font-size:12px;" onclick="printBoilerSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
+          <button type="button" class="btn btn-combined perm-pdf" style="padding:8px 14px; font-size:12px;" onclick="printBoilerCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
         </div>
       </div>
       <div id="boiler-report-output"></div>
@@ -1395,7 +1316,7 @@
       <div class="control-card no-print">
         <div class="top-controls">
           <div class="meta-inputs">
-            <div class="input-group"><label data-i18n="reportDateLbl">Report Date</label><input type="date" id="reportDate" value="2026-11-27" onchange="onDateOrShiftChange('generator')"></div>
+            <div class="input-group"><label data-i18n="reportDateLbl">Report Date</label><input type="date" id="reportDate" value="2026-11-27" onchange="loadDateFromFirestore('generator', this.value); triggerAutoSave();"></div>
             <div class="input-group"><label>Natural Gas Rate (Tk/m³)</label><input type="number" step="0.01" id="ngRate" value="27.00"></div>
             <div class="input-group"><label>Diesel Rate (Tk/Ltr)</label><input type="number" step="0.01" id="dgRate" value="109.00"></div>
           </div>
@@ -1466,23 +1387,22 @@
         </div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-reset perm-btn-reset" onclick="resetSectionEntries('generator')">↺ Reset Entry</button>
-          <button type="button" class="btn btn-save perm-btn-save" onclick="saveCurrentSectionData('generator', false)" data-i18n="saveBtn">Save Data</button>
-          <button type="button" class="btn btn-excel perm-btn-download" onclick="downloadExcelSheet()">Download Excel Sheet</button>
-          <button type="button" class="btn btn-primary perm-btn-submit" onclick="buildFinalReport('separate')">Submit & Generate Report</button>
-          <button type="button" class="btn btn-accent perm-btn-download" onclick="printSeparatePages()">Download / Print PDF</button>
-          <button type="button" class="btn btn-combined perm-btn-download" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF</button>
+          <button type="button" class="btn btn-reset perm-reset" onclick="resetSectionEntries('generator')">↺ Reset Entry</button>
+          <button type="button" class="btn btn-save perm-save" onclick="saveCurrentSectionData('generator', false)" data-i18n="saveBtn">Save Data</button>
+          <button type="button" class="btn btn-excel perm-excel" onclick="downloadExcelSheet()">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary perm-report" onclick="buildFinalReport('separate')">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent perm-pdf" onclick="printSeparatePages()">Download / Print PDF</button>
+          <button type="button" class="btn btn-combined perm-pdf" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF</button>
         </div>
       </div>
     </div>
 
-    <!-- ================= GENERATOR REPORT SECTION ================= -->
     <div id="report-container">
       <div class="no-print" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
         <span style="font-weight:700; color:var(--brand-dark); font-size:13px;">Report Preview Ready</span>
-        <div class="perm-btn-download" style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn btn-accent" style="padding:8px 14px; font-size:12px;" onclick="printSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
-          <button type="button" class="btn btn-combined" style="padding:8px 14px; font-size:12px;" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn btn-accent perm-pdf" style="padding:8px 14px; font-size:12px;" onclick="printSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
+          <button type="button" class="btn btn-combined perm-pdf" style="padding:8px 14px; font-size:12px;" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
         </div>
       </div>
       <div id="report-output"></div>
@@ -1521,9 +1441,9 @@ function getActiveLogoSrc() {
   return pnIsValidUrl(PN_LOGO_URL) ? PN_LOGO_URL.trim() : pnDefaultLogo;
 }
 
-function getLogoHtml(cssClass = "") {
+function getLogoHtml() {
   if (pnIsValidUrl(PN_LOGO_URL)) {
-    return `<img src="${PN_LOGO_URL.trim()}" alt="PN LOGO" class="${cssClass}">`;
+    return `<img src="${PN_LOGO_URL.trim()}" alt="PN LOGO">`;
   }
   return `<div style="font-weight:800; color:#14452f; font-size:10.5px; border:1.5px dashed #14452f; padding:5px 7px; border-radius:7px; text-align:center; background:#ffffff;">PN LOGO</div>`;
 }
@@ -1555,168 +1475,8 @@ function refreshAllLogos() {
 
 function pnFlipIdCard() {
   const card = document.getElementById("pnIdCard3d");
-  if (card) {
-    card.classList.toggle("is-flipped");
-  }
+  if (card) card.classList.toggle("is-flipped");
 }
-
-/* ================= IN-MEMORY & FIRESTORE REAL-TIME STATE (NO LOCALSTORAGE) ================= */
-let currentSessionUser = null;
-let firestoreUsersCache = [];
-let firestoreLogsCache = {
-  generator: [],
-  compressor: [],
-  boiler: []
-};
-let unsubscribeUsersListener = null;
-let unsubscribeLogsListener = null;
-
-function getDefaultMemberPermissions() {
-  return {
-    assignedSection: "generator", // "generator" | "boiler" | "compressor" | "all"
-    allowReset: true,
-    allowSave: true,
-    allowSubmitReport: true,
-    allowDownload: false,
-    allowViewSaved: true,
-    allowEditSaved: true,
-    allowDeleteSaved: false,
-    allowViewAllMembersData: true,
-    allowScreenshot: false
-  };
-}
-
-function isSuperAdminUser(user) {
-  return !!(user && user.email && user.email.trim().toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase());
-}
-
-function getEffectivePermissions(user) {
-  if (!user) {
-    return {
-      assignedSection: "none",
-      allowReset: false,
-      allowSave: false,
-      allowSubmitReport: false,
-      allowDownload: false,
-      allowViewSaved: false,
-      allowEditSaved: false,
-      allowDeleteSaved: false,
-      allowViewAllMembersData: false,
-      allowScreenshot: false
-    };
-  }
-  if (isSuperAdminUser(user)) {
-    return {
-      assignedSection: "all",
-      allowReset: true,
-      allowSave: true,
-      allowSubmitReport: true,
-      allowDownload: true,
-      allowViewSaved: true,
-      allowEditSaved: true,
-      allowDeleteSaved: true,
-      allowViewAllMembersData: true,
-      allowScreenshot: true
-    };
-  }
-  return { ...getDefaultMemberPermissions(), ...(user.permissions || {}) };
-}
-
-/* ================= SCREENSHOT & DOWNLOAD SHIELD FOR RESTRICTED MEMBERS ================= */
-function applyScreenshotAndPermissionShield() {
-  const perms = getEffectivePermissions(currentSessionUser);
-  const canTakeScreenshot = !!perms.allowScreenshot;
-
-  document.body.classList.toggle("screenshot-shield-active", !canTakeScreenshot);
-  if (canTakeScreenshot) {
-    document.body.classList.remove("screenshot-shield-blur");
-  }
-
-  // Toggle Download/Print buttons
-  document.querySelectorAll(".perm-btn-download").forEach(el => {
-    el.style.display = perms.allowDownload ? "" : "none";
-  });
-  const idDlBtn = document.getElementById("idModalDownloadBtn");
-  if (idDlBtn) idDlBtn.style.display = perms.allowDownload ? "inline-flex" : "none";
-
-  // Toggle Reset / Save / Submit buttons
-  document.querySelectorAll(".perm-btn-reset").forEach(el => {
-    el.style.display = perms.allowReset ? "" : "none";
-  });
-  document.querySelectorAll(".perm-btn-save").forEach(el => {
-    el.style.display = perms.allowSave ? "" : "none";
-  });
-  document.querySelectorAll(".perm-btn-submit").forEach(el => {
-    el.style.display = perms.allowSubmitReport ? "" : "none";
-  });
-
-  // Toggle Admin menu for non-super admins (or allow read-only if desired; keep hidden for non-super admins)
-  const isSuper = isSuperAdminUser(currentSessionUser);
-  const navAdmin = document.getElementById("nav-admin");
-  const homeAdmin = document.getElementById("home-btn-admin");
-  if (navAdmin) navAdmin.style.display = isSuper ? "" : "none";
-  if (homeAdmin) homeAdmin.style.display = isSuper ? "" : "none";
-
-  // Toggle section access in sidebar & home
-  const secList = ["generator", "boiler", "compressor"];
-  secList.forEach(sec => {
-    const allowedSec = perms.assignedSection === "all" || perms.assignedSection === sec;
-    const navEl = document.getElementById(`nav-${sec}`);
-    const homeEl = document.getElementById(`home-btn-${sec}`);
-    if (navEl) navEl.style.display = allowedSec ? "" : "none";
-    if (homeEl) homeEl.style.display = allowedSec ? "" : "none";
-  });
-
-  const navSaved = document.getElementById("nav-saved");
-  const homeSaved = document.getElementById("home-btn-saved");
-  if (navSaved) navSaved.style.display = perms.allowViewSaved ? "" : "none";
-  if (homeSaved) homeSaved.style.display = perms.allowViewSaved ? "" : "none";
-
-  if (currentSessionUser) {
-    const roleBadge = document.getElementById("activeUserRoleBadge");
-    if (roleBadge) {
-      roleBadge.textContent = isSuper
-        ? `Super Admin: ${currentSessionUser.name || currentSessionUser.email}`
-        : `Member: ${currentSessionUser.name || currentSessionUser.email} • Section: ${(perms.assignedSection || "generator").toUpperCase()}`;
-    }
-  }
-}
-
-document.addEventListener("keydown", function(e) {
-  if (!currentSessionUser) return;
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (perms.allowScreenshot) return;
-
-  const isPrintScreen = e.key === "PrintScreen" || e.code === "PrintScreen";
-  const isMacShot = e.metaKey && e.shiftKey && ["3", "4", "5"].includes(e.key);
-  const isWinSnip = e.metaKey && e.shiftKey && e.key && e.key.toLowerCase() === "s";
-  const isSaveOrPrint = (e.ctrlKey || e.metaKey) && ["p", "s"].includes(e.key.toLowerCase());
-
-  if (isPrintScreen || isMacShot || isWinSnip || isSaveOrPrint) {
-    e.preventDefault();
-    document.body.classList.add("screenshot-shield-blur");
-    alert("Screenshot & Download are restricted for your account. Contact Super Admin for permission.");
-    setTimeout(() => document.body.classList.remove("screenshot-shield-blur"), 1500);
-  }
-});
-
-document.addEventListener("contextmenu", function(e) {
-  if (!currentSessionUser) return;
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowScreenshot) {
-    e.preventDefault();
-  }
-});
-
-document.addEventListener("visibilitychange", function() {
-  if (!currentSessionUser) return;
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowScreenshot && document.hidden) {
-    document.body.classList.add("screenshot-shield-blur");
-  } else {
-    document.body.classList.remove("screenshot-shield-blur");
-  }
-});
 
 /* ================= BANGLADESH DIVISION -> DISTRICT -> UPAZILA CASCADE ================= */
 const BD_LOCATIONS = {
@@ -1809,7 +1569,7 @@ function renderLongQrCode(seedText = "PN-COMPOSITE") {
   box.innerHTML = `<svg viewBox="0 0 228 32" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">${bars}</svg>`;
 }
 
-/* ================= FIREBASE CONFIG & REAL-TIME LISTENERS ================= */
+/* ================= FIREBASE CONFIG & REAL-TIME FIRESTORE STORE (NO LOCALSTORAGE) ================= */
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBqrEtn-oWVZP3Z_LTdTLd_m6wAt0wsb8s",
   authDomain: "pn-composite-utility-6a495.firebaseapp.com",
@@ -1821,111 +1581,197 @@ const FIREBASE_CONFIG = {
 
 let firebaseDb = null;
 let firebaseAuth = null;
+let rtUsersDb = [];
+let rtLogsByCat = { generator: [], compressor: [], boiler: [] };
+let activeUserProfile = null;
+let isSigningOut = false;
+
+const DEFAULT_MEMBER_PERMS = {
+  assignedSection: "generator", // "generator" | "boiler" | "compressor" | "all"
+  reset: true,
+  save: true,
+  report: true,
+  editSaved: true,
+  downloadPdf: false,
+  downloadExcel: false,
+  viewAllLogs: false
+};
+
 try {
   if (FIREBASE_CONFIG.apiKey && typeof firebase !== "undefined") {
     const app = !firebase.apps.length ? firebase.initializeApp(FIREBASE_CONFIG) : firebase.app();
     firebaseAuth = firebase.auth();
+    firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
     firebaseDb = firebase.firestore();
   }
 } catch (e) {}
 
-function startFirestoreRealtimeListeners() {
+function getUserPermissions(user) {
+  if (!user) return { ...DEFAULT_MEMBER_PERMS, assignedSection: "none", reset: false, save: false, report: false, editSaved: false };
+  if (user.email && user.email.trim().toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()) {
+    return {
+      assignedSection: "all",
+      reset: true,
+      save: true,
+      report: true,
+      editSaved: true,
+      downloadPdf: true,
+      downloadExcel: true,
+      viewAllLogs: true
+    };
+  }
+  return { ...DEFAULT_MEMBER_PERMS, ...(user.permissions || {}) };
+}
+
+function isSuperAdminUser(user) {
+  return !!(user && user.email && user.email.trim().toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase());
+}
+
+function canAccessSection(sectionKey) {
+  if (!activeUserProfile) return false;
+  if (isSuperAdminUser(activeUserProfile)) return true;
+  const perms = getUserPermissions(activeUserProfile);
+  if (perms.assignedSection === "all") return true;
+  return perms.assignedSection === sectionKey;
+}
+
+function applyRoleAndPermissionRestrictions() {
+  const perms = getUserPermissions(activeUserProfile);
+  const isSuper = isSuperAdminUser(activeUserProfile);
+
+  // Screenshot / Copy / Print protection if member does not have downloadPdf permission
+  const protectScreen = !isSuper && !perms.downloadPdf;
+  document.body.classList.toggle("screenshot-protected", protectScreen);
+  document.body.classList.toggle("print-blocked", protectScreen);
+
+  const badge = document.getElementById("activeUserRoleBadge");
+  if (badge && activeUserProfile) {
+    badge.textContent = isSuper
+      ? "SUPER ADMIN • FULL CONTROL"
+      : `${activeUserProfile.name || "Member"} • Section: ${(perms.assignedSection || "generator").toUpperCase()}`;
+  }
+
+  // Sidebar & Home section access
+  const navGen = document.getElementById("nav-generator");
+  const navBoi = document.getElementById("nav-boiler");
+  const navComp = document.getElementById("nav-compressor");
+  const navAdmin = document.getElementById("nav-admin");
+
+  if (navGen) navGen.style.display = canAccessSection("generator") ? "flex" : "none";
+  if (navBoi) navBoi.style.display = canAccessSection("boiler") ? "flex" : "none";
+  if (navComp) navComp.style.display = canAccessSection("compressor") ? "flex" : "none";
+  if (navAdmin) navAdmin.style.display = isSuper ? "flex" : "none";
+
+  const hGen = document.getElementById("homeBtnGenerator");
+  const hBoi = document.getElementById("homeBtnBoiler");
+  const hComp = document.getElementById("homeBtnCompressor");
+  const hAdm = document.getElementById("homeBtnAdmin");
+  if (hGen) hGen.style.display = canAccessSection("generator") ? "inline-flex" : "none";
+  if (hBoi) hBoi.style.display = canAccessSection("boiler") ? "inline-flex" : "none";
+  if (hComp) hComp.style.display = canAccessSection("compressor") ? "inline-flex" : "none";
+  if (hAdm) hAdm.style.display = isSuper ? "inline-flex" : "none";
+
+  // Button permissions
+  document.querySelectorAll(".perm-reset").forEach(el => { el.style.display = perms.reset ? "inline-flex" : "none"; });
+  document.querySelectorAll(".perm-save").forEach(el => { el.style.display = perms.save ? "inline-flex" : "none"; });
+  document.querySelectorAll(".perm-report").forEach(el => { el.style.display = perms.report ? "inline-flex" : "none"; });
+  document.querySelectorAll(".perm-pdf").forEach(el => { el.style.display = perms.downloadPdf ? "inline-flex" : "none"; });
+  document.querySelectorAll(".perm-excel").forEach(el => { el.style.display = perms.downloadExcel ? "inline-flex" : "none"; });
+
+  const idDlBtn = document.getElementById("idModalDownloadBtn");
+  const idUpdBtn = document.getElementById("idModalUpdateBtn");
+  if (idDlBtn) idDlBtn.style.display = (isSuper || perms.downloadPdf) ? "inline-flex" : "none";
+  if (idUpdBtn) idUpdBtn.style.display = isSuper ? "inline-flex" : "none";
+}
+
+// Block Copy / Context Menu / Print Shortcut when downloadPdf is not granted
+document.addEventListener("contextmenu", function(e) {
+  const perms = getUserPermissions(activeUserProfile);
+  if (activeUserProfile && !isSuperAdminUser(activeUserProfile) && !perms.downloadPdf) {
+    e.preventDefault();
+  }
+});
+document.addEventListener("keydown", function(e) {
+  const perms = getUserPermissions(activeUserProfile);
+  if (activeUserProfile && !isSuperAdminUser(activeUserProfile) && !perms.downloadPdf) {
+    if ((e.ctrlKey || e.metaKey) && ["p", "s", "u", "c"].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+    }
+  }
+});
+
+/* ================= FIRESTORE REAL-TIME LISTENERS ================= */
+function startRealtimeFirestoreListeners() {
   if (!firebaseDb) return;
 
-  if (unsubscribeUsersListener) unsubscribeUsersListener();
-  unsubscribeUsersListener = firebaseDb.collection("pn_employees").onSnapshot((snap) => {
+  firebaseDb.collection("pn_employees").onSnapshot((snap) => {
     const list = [];
-    snap.forEach(doc => {
-      const data = doc.data();
-      if (data) list.push({ ...data, email: data.email || doc.id });
-    });
-    firestoreUsersCache = list;
+    snap.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+    rtUsersDb = list;
 
-    if (currentSessionUser) {
-      const updatedSelf = list.find(u => u.email.toLowerCase() === currentSessionUser.email.toLowerCase());
-      if (updatedSelf) {
-        currentSessionUser = { ...currentSessionUser, ...updatedSelf };
-        applyScreenshotAndPermissionShield();
+    if (activeUserProfile && !isSuperAdminUser(activeUserProfile)) {
+      const freshMe = list.find(u => (u.email || "").toLowerCase() === activeUserProfile.email.toLowerCase());
+      if (freshMe) {
+        activeUserProfile = { ...activeUserProfile, ...freshMe };
+        applyRoleAndPermissionRestrictions();
       }
     }
 
     if (document.getElementById("view-admin").style.display === "block") {
       renderAdminPanel();
     }
-  });
+  }, () => {});
 
-  if (unsubscribeLogsListener) unsubscribeLogsListener();
-  unsubscribeLogsListener = firebaseDb.collection("pn_utility_logs").onSnapshot((snap) => {
+  firebaseDb.collection("pn_utility_logs").onSnapshot((snap) => {
     const byCat = { generator: [], compressor: [], boiler: [] };
     snap.forEach(doc => {
-      const item = doc.data();
-      if (!item || !item.category) return;
-      if (byCat[item.category]) {
-        byCat[item.category].push({ ...item, _docId: doc.id });
+      const d = doc.data();
+      if (d && d.category && byCat[d.category]) {
+        byCat[d.category].push(d);
       }
     });
-
     ["generator", "compressor", "boiler"].forEach(cat => {
       byCat[cat].sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
     });
-
-    firestoreLogsCache = byCat;
-    updateSyncBadge(`Live Firestore (${new Date().toLocaleTimeString()})`);
+    rtLogsByCat = byCat;
 
     if (document.getElementById("view-saved").style.display === "block") {
-      const activeCatTab = document.querySelector("#view-saved .shift-tab.active");
-      const activeCat = activeCatTab ? activeCatTab.id.replace("stab-", "") : "generator";
-      renderSavedCategory(activeCat, activeCatTab, false);
+      const activeTab = document.querySelector("#view-saved .shift-tab.active") || document.getElementById("stab-generator");
+      const cat = activeTab ? activeTab.id.replace("stab-", "") : "generator";
+      renderSavedCategory(cat, activeTab);
     }
-  });
+  }, () => {});
 }
 
-function updateSyncBadge(text) {
-  const badge = document.getElementById("autoSaveStatus");
-  if (badge) {
-    badge.innerHTML = `<span class="autosave-dot"></span><span>${text}</span>`;
-  }
-}
+async function loadDateFromFirestore(category, dateStr) {
+  if (!firebaseDb || !dateStr) return;
+  try {
+    const docId = `${category}_${dateStr}`;
+    const snap = await firebaseDb.collection("pn_utility_logs").doc(docId).get();
+    if (!snap.exists) return;
+    const rec = snap.data();
+    if (!rec || !rec.snapshot) return;
 
-async function syncRecordToFirestore(category, entry) {
-  if (!firebaseDb || !entry || !entry.date) return;
-  const docId = `${category}_${entry.date}`;
-  const payload = {
-    ...entry,
-    id: docId,
-    category,
-    updatedBy: currentSessionUser ? currentSessionUser.email : "system",
-    updatedByName: currentSessionUser ? (currentSessionUser.name || currentSessionUser.email) : "system",
-    updatedAt: new Date().toISOString()
-  };
-
-  // Replace existing record for the exact same date in cache & Firestore
-  const idx = firestoreLogsCache[category].findIndex(r => r.date === entry.date || r._docId === docId);
-  if (idx >= 0) firestoreLogsCache[category][idx] = { ...payload, _docId: docId };
-  else firestoreLogsCache[category].unshift({ ...payload, _docId: docId });
-  firestoreLogsCache[category].sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
-
-  await firebaseDb.collection("pn_utility_logs").doc(docId).set(payload);
-  updateSyncBadge(`Replaced/Saved ${entry.date} (${new Date().toLocaleTimeString()})`);
-}
-
-async function syncEmployeeToFirestore(profile) {
-  if (!firebaseDb || !profile || !profile.email) return;
-  const safeCopy = { ...profile };
-  delete safeCopy.password;
-  const docId = profile.email.trim().toLowerCase();
-  const idx = firestoreUsersCache.findIndex(u => u.email.toLowerCase() === docId);
-  if (idx >= 0) firestoreUsersCache[idx] = { ...firestoreUsersCache[idx], ...safeCopy };
-  else firestoreUsersCache.push(safeCopy);
-
-  await firebaseDb.collection("pn_employees").doc(docId).set(safeCopy, { merge: true });
+    restoreInputsToMap(rec.snapshot);
+    if (category === "generator") {
+      for (let i = 0; i < 12; i++) { recalcRow("day", i); recalcRow("night", i); }
+      updateTotalKwh("day");
+      updateTotalKwh("night");
+    } else if (category === "boiler") {
+      recalcBoilerShift("day");
+      recalcBoilerShift("night");
+    } else if (category === "compressor") {
+      recalcCompShift("day");
+      recalcCompShift("night");
+    }
+  } catch (e) {}
 }
 
 /* ================= LANGUAGE (DEFAULT: EN) ================= */
 let currentLang = "en";
 const I18N_DICT = {
   bn: {
-    autoSaveOn: "ফায়ারস্টোর রিয়েল-টাইম সিঙ্ক চালু আছে",
+    autoSaveOn: "ফায়ারস্টোর রিয়েল-টাইম সিংক চালু",
     portalSub: "৫২৯, আমবাগ, নীলনগর, কোনাবাড়ী, গাজীপুর • ইউটিলিটি ও পাওয়ার ম্যানেজমেন্ট পোর্টাল",
     loginNow: "লগইন করুন",
     regNow: "রেজিস্ট্রেশন করুন",
@@ -1970,7 +1816,7 @@ const I18N_DICT = {
     myIdCard: "আমার আইডি কার্ড",
     logoutBtn: "লগআউট",
     homeTitle: "ইউটিলিটি কন্ট্রোল হোম",
-    homeSub: "বাম পাশের মেনুবার বা নিচের বাটন থেকে সেকশন নির্বাচন করুন।",
+    homeSub: "আপনার নির্ধারিত সেকশন বা Saved Data নির্বাচন করুন।",
     reportDateLbl: "রিপোর্টের তারিখ",
     scanInfo: "📷 ক্যামেরা বা ছবি আপলোড করে স্ক্যান করুন — নির্দিষ্ট ফ্রেমে প্রিভিউ ও সেকশন অনুযায়ী অটো-ফিল হবে।",
     saveBtn: "ডাটা সেভ"
@@ -2021,7 +1867,7 @@ const I18N_DICT = {
     myIdCard: "My ID Card",
     logoutBtn: "Logout",
     homeTitle: "Utility Control Home",
-    homeSub: "Select a section from the sidebar menu or below.",
+    homeSub: "Select your assigned section or open Saved Data.",
     reportDateLbl: "Report Date",
     scanInfo: "📷 Scan logsheet via Camera or Upload Photo — preview stays locked in frame and auto-fills selected section.",
     saveBtn: "Save Data"
@@ -2138,58 +1984,47 @@ function populateAndOpenIdCard(profile) {
   document.getElementById("pnBackLogo").src = activeLogo;
 
   const empPhoto = document.getElementById("pnEmployeePhoto");
-  empPhoto.src = profile.photo ? profile.photo : PN_EMPLOYEE_PHOTO_URL;
+  empPhoto.src = profile.photo || PN_EMPLOYEE_PHOTO_URL;
 
   renderLongQrCode(`${profile.officeId || "PN"}-${profile.name || "EMP"}`);
-
-  const isSuper = isSuperAdminUser(currentSessionUser);
-  const perms = getEffectivePermissions(currentSessionUser);
-  const updateBtn = document.getElementById("idModalUpdateBtn");
-  const dlBtn = document.getElementById("idModalDownloadBtn");
-  if (updateBtn) updateBtn.style.display = isSuper ? "inline-flex" : "none";
-  if (dlBtn) dlBtn.style.display = perms.allowDownload ? "inline-flex" : "none";
-
+  applyRoleAndPermissionRestrictions();
   refreshAllLogos();
   document.getElementById("id-card-modal").style.display = "flex";
 }
 
 function closeIdCardAndEnterApp() {
   document.getElementById("id-card-modal").style.display = "none";
-  if (!currentSessionUser) {
+  if (!activeUserProfile) {
     document.getElementById("auth-wrapper").style.display = "block";
     showAuthPanel("login");
     return;
   }
   document.getElementById("auth-wrapper").style.display = "none";
   document.getElementById("app-shell").style.display = "block";
-  applyScreenshotAndPermissionShield();
   navigateSection("home");
 }
 
 function reopenMyIdCard() {
   closeSidebar();
-  if (currentSessionUser) {
-    populateAndOpenIdCard(currentSessionUser);
-  } else {
-    alert("No active ID Card found.");
+  if (activeUserProfile) {
+    populateAndOpenIdCard(activeUserProfile);
   }
 }
 
 function downloadBothSidesIdCard() {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowDownload) {
-    alert("Download permission is not enabled for your account.");
+  const perms = getUserPermissions(activeUserProfile);
+  if (!isSuperAdminUser(activeUserProfile) && !perms.downloadPdf) {
+    alert("You do not have permission to download ID Card.");
     return;
   }
   const card = document.getElementById("pnIdCard3d");
   if (!card) return;
   card.classList.remove("is-flipped");
-  alert("Front & Back ID Card view ready — saving/printing both sides.");
   window.print();
 }
 
 function openAdminIdUpdaterForCurrent() {
-  if (!isSuperAdminUser(currentSessionUser)) {
+  if (!isSuperAdminUser(activeUserProfile)) {
     alert("Only Super Admin (emontalukder380@gmail.com) can update ID Cards.");
     return;
   }
@@ -2199,12 +2034,12 @@ function openAdminIdUpdaterForCurrent() {
 }
 
 function openAdminIdUpdaterByEmail(email) {
-  if (!isSuperAdminUser(currentSessionUser)) {
+  if (!isSuperAdminUser(activeUserProfile)) {
     alert("Only Super Admin (emontalukder380@gmail.com) can update ID Cards.");
     return;
   }
 
-  const target = firestoreUsersCache.find(u => u.email.toLowerCase() === email.toLowerCase()) || currentSessionUser;
+  const target = rtUsersDb.find(u => (u.email || "").toLowerCase() === email.toLowerCase()) || activeUserProfile;
   if (!target) return;
 
   adminEditPhotoBase64 = target.photo || "";
@@ -2239,20 +2074,18 @@ function handleAdminEditPhoto(event) {
     return;
   }
   const reader = new FileReader();
-  reader.onload = function(e) {
-    adminEditPhotoBase64 = e.target.result;
-  };
+  reader.onload = function(e) { adminEditPhotoBase64 = e.target.result; };
   reader.readAsDataURL(file);
 }
 
 async function saveAdminUpdatedIdCard() {
-  if (!isSuperAdminUser(currentSessionUser)) {
+  if (!isSuperAdminUser(activeUserProfile)) {
     alert("Only Super Admin (emontalukder380@gmail.com) can save ID Card updates.");
     return;
   }
 
-  const email = document.getElementById("editTargetEmail").value;
-  const baseObj = firestoreUsersCache.find(u => u.email.toLowerCase() === email.toLowerCase()) || currentSessionUser;
+  const email = document.getElementById("editTargetEmail").value.trim().toLowerCase();
+  const baseObj = rtUsersDb.find(u => (u.email || "").toLowerCase() === email) || activeUserProfile;
 
   const updatedProfile = {
     ...baseObj,
@@ -2271,25 +2104,24 @@ async function saveAdminUpdatedIdCard() {
     permanentDistrict: document.getElementById("editPermDist").value,
     permanentUpazila: document.getElementById("editPermUpz").value,
     permanentArea: document.getElementById("editPermArea").value.trim(),
-    photo: adminEditPhotoBase64 || baseObj.photo || ""
+    photo: adminEditPhotoBase64 || baseObj.photo || "",
+    updatedAt: new Date().toISOString()
   };
 
-  await syncEmployeeToFirestore(updatedProfile);
-  if (currentSessionUser && currentSessionUser.email.toLowerCase() === email.toLowerCase()) {
-    currentSessionUser = { ...currentSessionUser, ...updatedProfile };
+  if (firebaseDb) {
+    await firebaseDb.collection("pn_employees").doc(email).set(updatedProfile, { merge: true });
+  }
+  if (activeUserProfile && activeUserProfile.email.toLowerCase() === email) {
+    activeUserProfile = updatedProfile;
   }
 
   closeAdminIdUpdater();
   populateAndOpenIdCard(updatedProfile);
-  if (document.getElementById("view-admin").style.display === "block") {
-    renderAdminPanel();
-  }
   alert("ID Card updated in Firestore.");
 }
 
 async function handleRegistrationConfirm() {
-  const checked = document.getElementById("regDeclarationCheck").checked;
-  if (!checked) {
+  if (!document.getElementById("regDeclarationCheck").checked) {
     alert("Please check 'All data is correct declaration check.'");
     return;
   }
@@ -2302,7 +2134,7 @@ async function handleRegistrationConfirm() {
   const section = document.getElementById("regSection").value.trim();
   const joiningDate = document.getElementById("regJoiningDate").value;
   const mobile = document.getElementById("regMobile").value.trim();
-  const email = document.getElementById("regEmail").value.trim();
+  const email = document.getElementById("regEmail").value.trim().toLowerCase();
 
   const presentDivision = document.getElementById("regPresDiv").value;
   const presentDistrict = document.getElementById("regPresDist").value;
@@ -2317,8 +2149,8 @@ async function handleRegistrationConfirm() {
   const password = document.getElementById("regPassword").value;
   const confirmPassword = document.getElementById("regConfirmPassword").value;
 
-  if (!name || !email || !password) {
-    alert("Please enter Name, Email Address, and Set Password.");
+  if (!name || !email || !password || password.length < 6) {
+    alert("Please enter Name, valid Email, and Password (at least 6 characters).");
     return;
   }
   if (password !== confirmPassword) {
@@ -2326,7 +2158,7 @@ async function handleRegistrationConfirm() {
     return;
   }
 
-  const isSuper = email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase();
+  const isSuper = email === SUPER_ADMIN_EMAIL.toLowerCase();
   const profile = {
     officeId: officeId || ("PN-" + Date.now().toString().slice(-4)),
     name,
@@ -2345,226 +2177,189 @@ async function handleRegistrationConfirm() {
     permanentDistrict,
     permanentUpazila,
     permanentArea,
-    passwordCode: btoa(unescape(encodeURIComponent(password))),
     photo: uploadedPhotoBase64,
     role: isSuper ? "super_admin" : "member",
     approved: isSuper ? true : false,
     status: isSuper ? "approved" : "pending",
-    permissions: isSuper ? getEffectivePermissions({ email: SUPER_ADMIN_EMAIL }) : getDefaultMemberPermissions(),
+    permissions: { ...DEFAULT_MEMBER_PERMS },
     createdAt: new Date().toISOString()
   };
 
-  await syncEmployeeToFirestore(profile);
+  try {
+    if (firebaseAuth) {
+      try {
+        await firebaseAuth.createUserWithEmailAndPassword(email, password);
+      } catch (authErr) {
+        if (authErr.code !== "auth/email-already-in-use") {
+          alert(authErr.message);
+          return;
+        }
+      }
+    }
+    if (firebaseDb) {
+      await firebaseDb.collection("pn_employees").doc(email).set(profile, { merge: true });
+    }
 
-  if (isSuper) {
-    currentSessionUser = profile;
-    startFirestoreRealtimeListeners();
-    populateAndOpenIdCard(profile);
-  } else {
-    alert(
-      currentLang === "bn"
-        ? "আপনার রেজিস্ট্রেশন ফায়ারস্টোরে জমা হয়েছে। Super Admin (emontalukder380@gmail.com) অনুমোদন করার পর আপনি লগইন করতে পারবেন।"
-        : "Registration submitted to Firestore! You can log in after Super Admin (emontalukder380@gmail.com) approves your account."
-    );
-    showAuthPanel("login");
+    if (isSuper) {
+      activeUserProfile = profile;
+      populateAndOpenIdCard(profile);
+    } else {
+      if (firebaseAuth) await firebaseAuth.signOut();
+      alert(
+        currentLang === "bn"
+          ? "আপনার রেজিস্ট্রেশন Firestore-এ জমা হয়েছে। Super Admin অনুমোদন করার পর সঠিক ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করতে পারবেন।"
+          : "Registration submitted to Firestore! Log in with your email & password after Super Admin approves."
+      );
+      showAuthPanel("login");
+    }
+  } catch (err) {
+    alert("Registration failed: " + err.message);
   }
 }
 
 async function handleLogin() {
-  const email = document.getElementById("loginEmail").value.trim();
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
   const password = document.getElementById("loginPassword").value;
 
   if (!email || !password) {
-    alert("Please enter Email Address and Password.");
+    alert("Please enter both Email Address and Password.");
+    return;
+  }
+  if (!firebaseAuth || !firebaseDb) {
+    alert("Firebase connection is not ready.");
     return;
   }
 
-  const normalizedEmail = email.toLowerCase();
-  let matched = firestoreUsersCache.find(u => u.email.toLowerCase() === normalizedEmail);
+  try {
+    const cred = await firebaseAuth.signInWithEmailAndPassword(email, password);
+    const signedEmail = (cred.user.email || email).toLowerCase();
+    const docSnap = await firebaseDb.collection("pn_employees").doc(signedEmail).get();
 
-  if (firebaseDb && !matched) {
-    try {
-      const docSnap = await firebaseDb.collection("pn_employees").doc(normalizedEmail).get();
-      if (docSnap.exists) matched = docSnap.data();
-    } catch (err) {}
-  }
-
-  if (normalizedEmail === SUPER_ADMIN_EMAIL.toLowerCase()) {
-    const adminProfile = {
-      officeId: "83611",
-      name: "Emon Talukder",
-      designation: "Sub-Assistant Engineer",
-      divisionTop: "Textile",
-      department: "Utility",
-      section: "Generator Section",
-      joiningDate: "2020-08-20",
-      mobile: "01878335098",
-      email: SUPER_ADMIN_EMAIL,
-      presentDivision: "Dhaka",
-      presentDistrict: "Gazipur",
-      presentUpazila: "Gazipur Sadar",
-      presentArea: "529, Ambag, Nilnagar, Konabari",
-      permanentDivision: "Sylhet",
-      permanentDistrict: "Sunamganj",
-      permanentUpazila: "Bishwambarpur",
-      permanentArea: "Badaghat",
-      photo: uploadedPhotoBase64,
-      role: "super_admin",
-      approved: true,
-      status: "approved",
-      permissions: getEffectivePermissions({ email: SUPER_ADMIN_EMAIL }),
-      ...(matched || {})
-    };
-    adminProfile.role = "super_admin";
-    adminProfile.approved = true;
-    adminProfile.status = "approved";
-    adminProfile.permissions = getEffectivePermissions({ email: SUPER_ADMIN_EMAIL });
-
-    currentSessionUser = adminProfile;
-    startFirestoreRealtimeListeners();
-    document.getElementById("auth-wrapper").style.display = "none";
-    document.getElementById("app-shell").style.display = "block";
-    applyScreenshotAndPermissionShield();
-    navigateSection("home");
-    return;
-  }
-
-  if (!matched) {
-    alert(
-      currentLang === "bn"
-        ? "এই ইমেইলে কোনো রেজিস্টার্ড অ্যাকাউন্ট পাওয়া যায়নি। আগে রেজিস্ট্রেশন করুন এবং অ্যাডমিন অনুমোদনের জন্য অপেক্ষা করুন।"
-        : "No registered account found for this email. Please register and wait for Admin approval."
-    );
-    return;
-  }
-
-  if (matched.passwordCode) {
-    const decoded = decodeURIComponent(escape(atob(matched.passwordCode)));
-    if (decoded !== password) {
-      alert(currentLang === "bn" ? "পাসওয়ার্ড সঠিক নয়।" : "Incorrect password.");
+    if (signedEmail === SUPER_ADMIN_EMAIL.toLowerCase()) {
+      const adminData = docSnap.exists ? docSnap.data() : {};
+      const adminProfile = {
+        officeId: "83611",
+        name: "Emon Talukder",
+        designation: "Sub-Assistant Engineer",
+        divisionTop: "Textile",
+        department: "Utility",
+        section: "Generator Section",
+        joiningDate: "2020-08-20",
+        mobile: "01878335098",
+        email: SUPER_ADMIN_EMAIL,
+        ...adminData,
+        role: "super_admin",
+        approved: true,
+        status: "approved"
+      };
+      await firebaseDb.collection("pn_employees").doc(signedEmail).set(adminProfile, { merge: true });
+      activeUserProfile = adminProfile;
+      activateAuthenticatedSession(adminProfile);
       return;
     }
-  }
 
-  const isApproved = matched.approved === true || matched.status === "approved";
-  if (!isApproved) {
-    alert(
-      currentLang === "bn"
-        ? "আপনার রেজিস্ট্রেশন এখনো Super Admin দ্বারা অনুমোদিত হয়নি। অনুমোদন পেলে লগইন করতে পারবেন।"
-        : "Your registration is pending Super Admin approval. You cannot log in until approved."
-    );
-    return;
-  }
+    if (!docSnap.exists) {
+      await firebaseAuth.signOut();
+      alert("No employee profile found in Firestore for this account.");
+      return;
+    }
 
-  currentSessionUser = { ...matched, permissions: { ...getDefaultMemberPermissions(), ...(matched.permissions || {}) } };
-  startFirestoreRealtimeListeners();
+    const memberData = docSnap.data();
+    const isApproved = memberData.approved === true || memberData.status === "approved";
+    if (!isApproved) {
+      await firebaseAuth.signOut();
+      alert(
+        currentLang === "bn"
+          ? "আপনার অ্যাকাউন্ট এখনো Super Admin দ্বারা অনুমোদিত হয়নি।"
+          : "Your account is pending Super Admin approval."
+      );
+      return;
+    }
+
+    activeUserProfile = memberData;
+    activateAuthenticatedSession(memberData);
+  } catch (err) {
+    alert("Invalid email or password.");
+  }
+}
+
+function activateAuthenticatedSession(profile) {
+  activeUserProfile = profile;
+  applyRoleAndPermissionRestrictions();
+  startRealtimeFirestoreListeners();
   document.getElementById("auth-wrapper").style.display = "none";
   document.getElementById("app-shell").style.display = "block";
-  applyScreenshotAndPermissionShield();
 
-  const defaultSec = currentSessionUser.permissions.assignedSection;
-  if (defaultSec && defaultSec !== "all") {
-    navigateSection(defaultSec);
+  const perms = getUserPermissions(profile);
+  if (!isSuperAdminUser(profile) && perms.assignedSection && perms.assignedSection !== "all") {
+    navigateSection(perms.assignedSection);
   } else {
     navigateSection("home");
   }
 }
 
-function handleLogout() {
+async function handleLogout() {
+  isSigningOut = true;
   closeSidebar();
-  if (unsubscribeUsersListener) { unsubscribeUsersListener(); unsubscribeUsersListener = null; }
-  if (unsubscribeLogsListener) { unsubscribeLogsListener(); unsubscribeLogsListener = null; }
-  if (firebaseAuth) firebaseAuth.signOut().catch(() => {});
-
-  currentSessionUser = null;
-  document.body.classList.remove("screenshot-shield-active", "screenshot-shield-blur");
+  activeUserProfile = null;
+  if (firebaseAuth) {
+    try { await firebaseAuth.signOut(); } catch (e) {}
+  }
   document.getElementById("app-shell").style.display = "none";
   document.getElementById("report-container").style.display = "none";
   document.getElementById("boiler-report-container").style.display = "none";
   document.getElementById("comp-report-container").style.display = "none";
+  document.getElementById("id-card-modal").style.display = "none";
   document.getElementById("auth-wrapper").style.display = "block";
   showAuthPanel("login");
+  setTimeout(() => { isSigningOut = false; }, 400);
 }
 
-/* ================= ADMIN PANEL FUNCTIONS (REAL-TIME FIRESTORE + PERMISSIONS) ================= */
+/* ================= ADMIN PANEL: REAL-TIME MEMBERS, SECTION & BUTTON PERMISSIONS ================= */
 async function approveMemberAccount(email) {
-  if (!isSuperAdminUser(currentSessionUser)) {
-    alert("Only Super Admin (emontalukder380@gmail.com) can approve registrations.");
-    return;
-  }
-  const target = firestoreUsersCache.find(u => u.email.toLowerCase() === email.toLowerCase());
-  if (target) {
-    const updated = {
-      ...target,
-      approved: true,
-      status: "approved",
-      permissions: { ...getDefaultMemberPermissions(), ...(target.permissions || {}) }
-    };
-    await syncEmployeeToFirestore(updated);
-  }
-  renderAdminPanel();
+  if (!isSuperAdminUser(activeUserProfile) || !firebaseDb) return;
+  const cleanEmail = email.trim().toLowerCase();
+  const existing = rtUsersDb.find(u => (u.email || "").toLowerCase() === cleanEmail) || {};
+  await firebaseDb.collection("pn_employees").doc(cleanEmail).set({
+    approved: true,
+    status: "approved",
+    permissions: { ...DEFAULT_MEMBER_PERMS, ...(existing.permissions || {}) }
+  }, { merge: true });
 }
 
 async function rejectOrRemoveMemberAccount(email) {
-  if (!isSuperAdminUser(currentSessionUser)) {
-    alert("Only Super Admin (emontalukder380@gmail.com) can manage registrations.");
-    return;
-  }
-  if (email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()) {
-    alert("Super Admin account cannot be removed.");
-    return;
-  }
-  firestoreUsersCache = firestoreUsersCache.filter(u => u.email.toLowerCase() !== email.toLowerCase());
-  if (firebaseDb) {
-    try {
-      await firebaseDb.collection("pn_employees").doc(email.toLowerCase()).delete();
-    } catch (e) {}
-  }
-  renderAdminPanel();
+  if (!isSuperAdminUser(activeUserProfile) || !firebaseDb) return;
+  const cleanEmail = email.trim().toLowerCase();
+  if (cleanEmail === SUPER_ADMIN_EMAIL.toLowerCase()) return;
+  await firebaseDb.collection("pn_employees").doc(cleanEmail).delete();
 }
 
-async function updateMemberPermissionField(email, field, value) {
-  if (!isSuperAdminUser(currentSessionUser)) {
-    alert("Only Super Admin can change member permissions.");
-    return;
-  }
-  const target = firestoreUsersCache.find(u => u.email.toLowerCase() === email.toLowerCase());
-  if (!target) return;
-
-  const nextPerms = { ...getDefaultMemberPermissions(), ...(target.permissions || {}), [field]: value };
-  const updated = { ...target, permissions: nextPerms };
-  await syncEmployeeToFirestore(updated);
-  renderAdminPanel();
+async function updateMemberPermissionField(email, key, value) {
+  if (!isSuperAdminUser(activeUserProfile) || !firebaseDb) return;
+  const cleanEmail = email.trim().toLowerCase();
+  const target = rtUsersDb.find(u => (u.email || "").toLowerCase() === cleanEmail) || {};
+  const nextPerms = { ...DEFAULT_MEMBER_PERMS, ...(target.permissions || {}), [key]: value };
+  await firebaseDb.collection("pn_employees").doc(cleanEmail).set({ permissions: nextPerms }, { merge: true });
 }
 
 function previewMemberIdFromAdmin(email) {
-  const target = firestoreUsersCache.find(u => u.email.toLowerCase() === email.toLowerCase());
+  const target = rtUsersDb.find(u => (u.email || "").toLowerCase() === email.toLowerCase());
   if (target) populateAndOpenIdCard(target);
 }
 
 function renderAdminPanel() {
-  const isSuper = isSuperAdminUser(currentSessionUser);
+  const isSuper = isSuperAdminUser(activeUserProfile);
   const badge = document.getElementById("adminRoleBadge");
   if (badge) {
-    badge.textContent = isSuper ? "Super Admin Access Granted" : "Restricted Member View";
+    badge.textContent = isSuper ? "Super Admin Access Granted" : "Restricted View";
   }
 
-  if (!isSuper) {
-    document.getElementById("adminPanelContent").innerHTML = `
-      <div class="saved-record-item" style="font-size:13px; color:var(--danger-red); font-weight:700;">
-        Only Super Admin (emontalukder380@gmail.com) can access member approvals and permission controls.
-      </div>
-    `;
-    return;
-  }
+  const pendingList = rtUsersDb.filter(u => (u.email || "").toLowerCase() !== SUPER_ADMIN_EMAIL.toLowerCase() && !(u.approved === true || u.status === "approved"));
+  const approvedList = rtUsersDb.filter(u => (u.email || "").toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() || u.approved === true || u.status === "approved");
 
-  const users = firestoreUsersCache;
-  const pendingList = users.filter(u => u.email.toLowerCase() !== SUPER_ADMIN_EMAIL.toLowerCase() && !(u.approved === true || u.status === "approved"));
-  const approvedList = users.filter(u => u.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() || u.approved === true || u.status === "approved");
-
-  const genCount = firestoreLogsCache.generator.length;
-  const compCount = firestoreLogsCache.compressor.length;
-  const boilerCount = firestoreLogsCache.boiler.length;
+  const genCount = rtLogsByCat.generator.length;
+  const compCount = rtLogsByCat.compressor.length;
+  const boilerCount = rtLogsByCat.boiler.length;
 
   let html = `
     <div class="summary-grid" style="margin-top:0;">
@@ -2575,22 +2370,22 @@ function renderAdminPanel() {
       <div class="metric-input-card"><label>Firestore Boiler Logs</label><input type="text" readonly value="${boilerCount}"></div>
     </div>
 
-    <h3 style="margin:14px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">Pending Registration Requests</h3>
+    <h3 style="margin:14px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">Pending Registration Requests (Real-Time Firestore)</h3>
   `;
 
   if (!pendingList.length) {
-    html += `<div class="saved-record-item" style="font-size:12.5px; color:var(--slate-500);">No pending registration requests in Firestore.</div>`;
+    html += `<div class="saved-record-item" style="font-size:12.5px; color:var(--slate-500);">No pending registration requests right now.</div>`;
   } else {
     html += pendingList.map(u => {
-      const safeEmail = u.email.replace(/'/g, "\\'");
+      const safeEmail = (u.email || "").replace(/'/g, "\\'");
       return `
         <div class="admin-user-card">
           <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px;">
             <div>
               <strong style="font-size:13px; color:var(--slate-900);">${u.name || "-"}</strong>
-              <span class="status-pill-pending" style="margin-left:8px;">Pending Approval</span>
+              <span class="status-pill-pending" style="margin-left:8px;">Pending</span>
               <div style="font-size:11.5px; color:var(--slate-500); margin-top:3px;">
-                Email: <strong>${u.email}</strong> &bull; ID: ${u.officeId || "-"} &bull; Dept: ${u.department || "-"} &bull; Mobile: ${u.mobile || "-"}
+                Email: <strong>${u.email}</strong> &bull; ID: ${u.officeId || "-"} &bull; Dept: ${u.department || "-"} &bull; Section: ${u.section || "-"}
               </div>
             </div>
             <div style="display:flex; gap:8px;">
@@ -2603,102 +2398,58 @@ function renderAdminPanel() {
     }).join("");
   }
 
-  html += `<h3 style="margin:16px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">Member Section & Button Permissions (Firestore Live)</h3>`;
-  if (!approvedList.length) {
-    html += `<div class="saved-record-item" style="font-size:12.5px; color:var(--slate-500);">No approved accounts yet.</div>`;
-  } else {
-    html += approvedList.map(u => {
-      const isMainAdmin = u.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase();
-      const safeEmail = u.email.replace(/'/g, "\\'");
-      const p = { ...getDefaultMemberPermissions(), ...(u.permissions || {}) };
+  html += `<h3 style="margin:16px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">Approved Members — Section Duty & Button Permissions</h3>`;
+  html += approvedList.map(u => {
+    const isMainAdmin = (u.email || "").toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase();
+    const safeEmail = (u.email || "").replace(/'/g, "\\'");
+    const perms = getUserPermissions(u);
 
-      return `
-        <div class="admin-user-card">
-          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px;">
-            <div>
-              <strong style="font-size:13px; color:var(--slate-900);">${u.name || "-"}</strong>
-              <span class="status-pill-approved" style="margin-left:8px;">${isMainAdmin ? "Super Admin" : "Approved"}</span>
-              <div style="font-size:11.5px; color:var(--slate-500); margin-top:3px;">
-                Email: <strong>${u.email}</strong> &bull; ID: ${u.officeId || "-"} &bull; Designation: ${u.designation || "-"}
-              </div>
-            </div>
-            <div style="display:flex; flex-wrap:wrap; gap:8px;">
-              <button type="button" class="btn btn-save" style="padding:6px 12px; font-size:12px;" onclick="previewMemberIdFromAdmin('${safeEmail}')">View ID</button>
-              <button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="openAdminIdUpdaterByEmail('${safeEmail}')">Update ID</button>
-              ${!isMainAdmin ? `<button type="button" class="btn btn-reset" style="padding:6px 12px; font-size:12px;" onclick="rejectOrRemoveMemberAccount('${safeEmail}')">Remove</button>` : ""}
+    return `
+      <div class="admin-user-card">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px;">
+          <div>
+            <strong style="font-size:13px; color:var(--slate-900);">${u.name || "-"}</strong>
+            <span class="status-pill-approved" style="margin-left:8px;">${isMainAdmin ? "Super Admin" : "Approved Member"}</span>
+            <div style="font-size:11.5px; color:var(--slate-500); margin-top:3px;">
+              Email: <strong>${u.email}</strong> &bull; ID: ${u.officeId || "-"} &bull; Designation: ${u.designation || "-"}
             </div>
           </div>
-
-          ${!isMainAdmin ? `
-            <div class="perm-grid">
-              <label class="perm-toggle">
-                <span>Section:</span>
-                <select style="padding:3px 6px; border-radius:5px; border:1px solid #cbd5e1; font-size:11px; font-weight:700;"
-                  onchange="updateMemberPermissionField('${safeEmail}', 'assignedSection', this.value)">
-                  <option value="generator" ${p.assignedSection === "generator" ? "selected" : ""}>Generator</option>
-                  <option value="boiler" ${p.assignedSection === "boiler" ? "selected" : ""}>Boiler</option>
-                  <option value="compressor" ${p.assignedSection === "compressor" ? "selected" : ""}>Air Compressor</option>
-                  <option value="all" ${p.assignedSection === "all" ? "selected" : ""}>All Sections</option>
-                </select>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowReset ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowReset', this.checked)">
-                <span>Reset Btn</span>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowSave ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowSave', this.checked)">
-                <span>Save Btn</span>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowSubmitReport ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowSubmitReport', this.checked)">
-                <span>Submit & Report</span>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowDownload ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowDownload', this.checked)">
-                <span>Download / Print</span>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowViewSaved ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowViewSaved', this.checked)">
-                <span>View Saved Data</span>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowEditSaved ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowEditSaved', this.checked)">
-                <span>Edit Saved Data</span>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowDeleteSaved ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowDeleteSaved', this.checked)">
-                <span>Delete Saved Data</span>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowViewAllMembersData ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowViewAllMembersData', this.checked)">
-                <span>View All Members Data</span>
-              </label>
-
-              <label class="perm-toggle">
-                <input type="checkbox" ${p.allowScreenshot ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'allowScreenshot', this.checked)">
-                <span>Allow Screenshot</span>
-              </label>
-            </div>
-          ` : `<div style="font-size:11px; color:var(--brand-dark); font-weight:700; margin-top:8px;">Super Admin has unrestricted access to all sections, reports, downloads & member controls.</div>`}
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <button type="button" class="btn btn-save" style="padding:6px 12px; font-size:12px;" onclick="previewMemberIdFromAdmin('${safeEmail}')">View ID</button>
+            ${isSuper ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="openAdminIdUpdaterByEmail('${safeEmail}')">Update ID</button>` : ""}
+            ${!isMainAdmin && isSuper ? `<button type="button" class="btn btn-reset" style="padding:6px 12px; font-size:12px;" onclick="rejectOrRemoveMemberAccount('${safeEmail}')">Remove</button>` : ""}
+          </div>
         </div>
-      `;
-    }).join("");
-  }
+
+        ${!isMainAdmin && isSuper ? `
+          <div class="perm-grid">
+            <label>
+              <span>Assigned Section:</span>
+              <select onchange="updateMemberPermissionField('${safeEmail}', 'assignedSection', this.value)" style="padding:3px 6px; border-radius:5px; border:1px solid #cbd5e1; font-size:11.5px; font-weight:700;">
+                <option value="generator" ${perms.assignedSection === "generator" ? "selected" : ""}>Generator Only</option>
+                <option value="boiler" ${perms.assignedSection === "boiler" ? "selected" : ""}>Boiler Only</option>
+                <option value="compressor" ${perms.assignedSection === "compressor" ? "selected" : ""}>Air Compressor Only</option>
+                <option value="all" ${perms.assignedSection === "all" ? "selected" : ""}>All Sections</option>
+              </select>
+            </label>
+            <label><input type="checkbox" ${perms.reset ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'reset', this.checked)"> Reset</label>
+            <label><input type="checkbox" ${perms.save ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'save', this.checked)"> Save</label>
+            <label><input type="checkbox" ${perms.report ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'report', this.checked)"> Submit & Report</label>
+            <label><input type="checkbox" ${perms.editSaved ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'editSaved', this.checked)"> Saved Edit</label>
+            <label><input type="checkbox" ${perms.downloadPdf ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'downloadPdf', this.checked)"> Download / Print PDF</label>
+            <label><input type="checkbox" ${perms.downloadExcel ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'downloadExcel', this.checked)"> Download Excel</label>
+            <label><input type="checkbox" ${perms.viewAllLogs ? "checked" : ""} onchange="updateMemberPermissionField('${safeEmail}', 'viewAllLogs', this.checked)"> View All Members' Logs</label>
+          </div>
+        ` : ""}
+      </div>
+    `;
+  }).join("");
 
   document.getElementById("adminPanelContent").innerHTML = html;
 }
 
 /* ================= SIDEBAR & SECTION NAVIGATION ================= */
 function openSidebar() {
-  applyScreenshotAndPermissionShield();
   document.getElementById("sideDrawer").classList.add("open");
   document.getElementById("sidebarBackdrop").classList.add("open");
 }
@@ -2710,21 +2461,14 @@ function closeSidebar() {
 
 function navigateSection(section, btnEl = null) {
   closeSidebar();
-  const perms = getEffectivePermissions(currentSessionUser);
-  const isSuper = isSuperAdminUser(currentSessionUser);
+  if (!activeUserProfile) return;
 
-  if (section === "admin" && !isSuper) {
-    alert("Only Super Admin can open Admin Panel.");
+  if (section === "admin" && !isSuperAdminUser(activeUserProfile)) {
+    alert("Admin Panel is restricted to Super Admin.");
     return;
   }
-  if (["generator", "boiler", "compressor"].includes(section)) {
-    if (perms.assignedSection !== "all" && perms.assignedSection !== section) {
-      alert(`You are assigned to ${perms.assignedSection.toUpperCase()} section only.`);
-      return;
-    }
-  }
-  if (section === "saved" && !perms.allowViewSaved) {
-    alert("Saved Data permission is disabled for your account.");
+  if (["generator", "boiler", "compressor"].includes(section) && !canAccessSection(section)) {
+    alert(`You are only assigned to ${getUserPermissions(activeUserProfile).assignedSection.toUpperCase()} section.`);
     return;
   }
 
@@ -2743,64 +2487,27 @@ function navigateSection(section, btnEl = null) {
   if (section !== "boiler") document.getElementById("boiler-report-container").style.display = "none";
   if (section !== "compressor") document.getElementById("comp-report-container").style.display = "none";
 
-  if (section === "generator") loadDateRecordIntoForm("generator", document.getElementById("reportDate").value);
-  if (section === "boiler") loadDateRecordIntoForm("boiler", document.getElementById("boilerDate").value);
-  if (section === "compressor") loadDateRecordIntoForm("compressor", document.getElementById("compDate").value);
-
-  if (section === "saved") {
+  if (section === "generator") {
+    loadDateFromFirestore("generator", document.getElementById("reportDate").value);
+  } else if (section === "boiler") {
+    loadDateFromFirestore("boiler", document.getElementById("boilerDate").value);
+  } else if (section === "compressor") {
+    loadDateFromFirestore("compressor", document.getElementById("compDate").value);
+  } else if (section === "saved") {
     const activeTab = document.querySelector("#view-saved .shift-tab.active") || document.getElementById("stab-generator");
-    const cat = activeTab ? activeTab.id.replace("stab-", "") : "generator";
-    renderSavedCategory(cat, activeTab);
-  }
-  if (section === "admin") {
+    renderSavedCategory("generator", activeTab);
+  } else if (section === "admin") {
     renderAdminPanel();
-  }
-  applyScreenshotAndPermissionShield();
-}
-
-function onDateOrShiftChange(category) {
-  if (category === "generator") {
-    loadDateRecordIntoForm("generator", document.getElementById("reportDate").value);
-    triggerAutoSave();
-  } else if (category === "boiler") {
-    loadDateRecordIntoForm("boiler", document.getElementById("boilerDate").value);
-    triggerBoilerAutoSave();
-  } else if (category === "compressor") {
-    loadDateRecordIntoForm("compressor", document.getElementById("compDate").value);
-    triggerCompAutoSave();
-  }
-}
-
-function loadDateRecordIntoForm(category, dateStr) {
-  if (!dateStr) return;
-  const existing = firestoreLogsCache[category].find(r => r.date === dateStr);
-  if (!existing || !existing.snapshot) return;
-
-  restoreInputsToMap(existing.snapshot);
-  if (category === "generator") {
-    for (let i = 0; i < 12; i++) {
-      recalcRow("day", i);
-      recalcRow("night", i);
-    }
-    updateTotalKwh("day");
-    updateTotalKwh("night");
-  } else if (category === "boiler") {
-    recalcBoilerShift("day");
-    recalcBoilerShift("night");
-  } else if (category === "compressor") {
-    recalcCompShift("day");
-    recalcCompShift("night");
   }
 }
 
 /* ================= RESET OLD ENTRIES IN DATA ENTRY PAGES ================= */
 function resetSectionEntries(category) {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowReset) {
-    alert("Reset permission is disabled for your account.");
+  const perms = getUserPermissions(activeUserProfile);
+  if (!perms.reset) {
+    alert("Reset permission is not enabled for your account.");
     return;
   }
-
   const msg = currentLang === "bn"
     ? "আগের সব পুরোনো এন্ট্রি রিসেট করে শূন্য করতে চান?"
     : "Reset all previous entries in this section to 0?";
@@ -2812,12 +2519,8 @@ function resetSectionEntries(category) {
       else if (inp.id === "dgRate") inp.value = "109.00";
       else inp.value = "0";
     });
-    for (let i = 0; i < 12; i++) {
-      recalcRow("day", i);
-      recalcRow("night", i);
-    }
-    updateTotalKwh("day");
-    updateTotalKwh("night");
+    for (let i = 0; i < 12; i++) { recalcRow("day", i); recalcRow("night", i); }
+    updateTotalKwh("day"); updateTotalKwh("night");
     document.getElementById("report-container").style.display = "none";
   } else if (category === "boiler") {
     document.querySelectorAll("#view-boiler input[type='number']:not([readonly])").forEach(inp => {
@@ -2825,23 +2528,19 @@ function resetSectionEntries(category) {
       else if (inp.id === "boilerLpgRate") inp.value = "120.00";
       else inp.value = "0";
     });
-    recalcBoilerShift("day");
-    recalcBoilerShift("night");
+    recalcBoilerShift("day"); recalcBoilerShift("night");
     document.getElementById("boiler-report-container").style.display = "none";
   } else if (category === "compressor") {
     document.querySelectorAll("#view-compressor input[type='number']:not([readonly])").forEach(inp => {
       if (inp.id === "compElecRate") inp.value = "11.50";
       else inp.value = "0";
     });
-    recalcCompShift("day");
-    recalcCompShift("night");
+    recalcCompShift("day"); recalcCompShift("night");
     document.getElementById("comp-report-container").style.display = "none";
   }
-
-  alert(currentLang === "bn" ? "এন্ট্রি রিসেট সম্পন্ন হয়েছে।" : "Entries reset successfully.");
 }
 
-/* ================= FIRESTORE REPLACE-SAVE (SAME DATE REPLACES) ================= */
+/* ================= FIRESTORE SAME-DATE REPLACE SAVE & SAVED DATA ================= */
 let autoSaveTimer = null;
 
 function collectInputsFromSelector(selector) {
@@ -2861,19 +2560,20 @@ function restoreInputsToMap(inputs) {
 }
 
 async function saveCurrentSectionData(category, silent = false) {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!silent && !perms.allowSave) {
-    alert("Save permission is disabled for your account.");
+  const perms = getUserPermissions(activeUserProfile);
+  if (!perms.save && !silent) {
+    alert("Save permission is not enabled for your account.");
     return;
   }
+  if (!firebaseDb || !activeUserProfile) return;
 
-  const docIdPrefix = `${category}_`;
   let dateVal = "";
   let entry = {
     savedAt: new Date().toLocaleString(),
-    category,
-    ownerEmail: currentSessionUser ? currentSessionUser.email : "anonymous",
-    ownerName: currentSessionUser ? (currentSessionUser.name || currentSessionUser.email) : "Anonymous"
+    updatedAt: new Date().toISOString(),
+    savedByEmail: (activeUserProfile.email || "").toLowerCase(),
+    savedByName: activeUserProfile.name || activeUserProfile.email,
+    category
   };
 
   if (category === "generator") {
@@ -2882,7 +2582,6 @@ async function saveCurrentSectionData(category, silent = false) {
     const dayMetrics = computeShiftMetrics("day", DAY_HOURS);
     const nightMetrics = computeShiftMetrics("night", NIGHT_HOURS);
     entry.date = dateVal;
-    entry.id = docIdPrefix + dateVal;
     entry.snapshot = snapshot;
     entry.dayMetrics = dayMetrics;
     entry.nightMetrics = nightMetrics;
@@ -2893,7 +2592,6 @@ async function saveCurrentSectionData(category, silent = false) {
     const dayBoiler = computeBoilerShift("day", DAY_HOURS);
     const nightBoiler = computeBoilerShift("night", NIGHT_HOURS);
     entry.date = dateVal;
-    entry.id = docIdPrefix + dateVal;
     entry.snapshot = snapshot;
     entry.dayBoiler = dayBoiler;
     entry.nightBoiler = nightBoiler;
@@ -2904,79 +2602,73 @@ async function saveCurrentSectionData(category, silent = false) {
     const dayComp = computeCompShift("day", DAY_HOURS);
     const nightComp = computeCompShift("night", NIGHT_HOURS);
     entry.date = dateVal;
-    entry.id = docIdPrefix + dateVal;
     entry.snapshot = snapshot;
     entry.dayComp = dayComp;
     entry.nightComp = nightComp;
     entry.summary = `Date: ${dateVal} | Air: ${(dayComp.totalProdAir + nightComp.totalProdAir).toLocaleString()} Kg | kWh: ${(dayComp.kwh + nightComp.kwh).toLocaleString()}`;
   }
 
-  await syncRecordToFirestore(category, entry);
-
-  if (!silent) {
-    alert(
-      currentLang === "bn"
-        ? `${dateVal} তারিখের রিপোর্ট ফায়ারস্টোরে রিপ্লেস/সেভ হয়েছে (একই তারিখে ডুপ্লিকেট হয় না)।`
-        : `Report for ${dateVal} replaced/saved in Firestore (same date never duplicates).`
-    );
+  // Same-date replace using deterministic document ID `${category}_${dateVal}`
+  const docId = `${category}_${dateVal}`;
+  try {
+    await firebaseDb.collection("pn_utility_logs").doc(docId).set(entry, { merge: true });
+    const badge = document.getElementById("autoSaveStatus");
+    if (badge) {
+      badge.innerHTML = `<span class="autosave-dot"></span><span>${currentLang === "bn" ? "ফায়ারস্টোরে সেভ/রিপ্লেস সম্পন্ন" : "Synced to Firestore"} (${new Date().toLocaleTimeString()})</span>`;
+    }
+    if (!silent) {
+      alert(currentLang === "bn" ? `${dateVal} তারিখের রিপোর্ট ফায়ারস্টোরে সেভ/রিপ্লেস হয়েছে।` : `Report for ${dateVal} saved/replaced in Firestore.`);
+    }
+  } catch (err) {
+    if (!silent) alert("Firestore save error: " + err.message);
   }
 }
 
 function triggerAutoSave() {
-  if (!currentSessionUser) return;
   clearTimeout(autoSaveTimer);
-  autoSaveTimer = setTimeout(() => saveCurrentSectionData("generator", true), 450);
+  autoSaveTimer = setTimeout(() => saveCurrentSectionData("generator", true), 500);
 }
-
 function triggerBoilerAutoSave() {
-  if (!currentSessionUser) return;
   clearTimeout(autoSaveTimer);
-  autoSaveTimer = setTimeout(() => saveCurrentSectionData("boiler", true), 450);
+  autoSaveTimer = setTimeout(() => saveCurrentSectionData("boiler", true), 500);
+}
+function triggerCompAutoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => saveCurrentSectionData("compressor", true), 500);
 }
 
-function triggerCompAutoSave() {
-  if (!currentSessionUser) return;
-  clearTimeout(autoSaveTimer);
-  autoSaveTimer = setTimeout(() => saveCurrentSectionData("compressor", true), 450);
+function getVisibleSavedRecordsForCategory(category) {
+  const allCat = rtLogsByCat[category] || [];
+  const perms = getUserPermissions(activeUserProfile);
+  if (isSuperAdminUser(activeUserProfile) || perms.viewAllLogs) {
+    return allCat;
+  }
+  const myEmail = (activeUserProfile?.email || "").toLowerCase();
+  return allCat.filter(r => (r.savedByEmail || "").toLowerCase() === myEmail);
 }
 
 function editSavedRecord(category, index) {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowEditSaved) {
-    alert("Edit permission for Saved Data is disabled for your account.");
+  const perms = getUserPermissions(activeUserProfile);
+  if (!perms.editSaved) {
+    alert("Saved Data edit permission is not enabled for your account.");
     return;
   }
-
-  const list = getVisibleSavedList(category);
+  const list = getVisibleSavedRecordsForCategory(category);
   const record = list[index];
   if (!record || !record.snapshot) return;
 
   restoreInputsToMap(record.snapshot);
-
   if (category === "generator") {
-    for (let i = 0; i < 12; i++) {
-      recalcRow("day", i);
-      recalcRow("night", i);
-    }
-    updateTotalKwh("day");
-    updateTotalKwh("night");
+    for (let i = 0; i < 12; i++) { recalcRow("day", i); recalcRow("night", i); }
+    updateTotalKwh("day"); updateTotalKwh("night");
     navigateSection("generator");
   } else if (category === "boiler") {
-    recalcBoilerShift("day");
-    recalcBoilerShift("night");
+    recalcBoilerShift("day"); recalcBoilerShift("night");
     navigateSection("boiler");
   } else if (category === "compressor") {
-    recalcCompShift("day");
-    recalcCompShift("night");
+    recalcCompShift("day"); recalcCompShift("night");
     navigateSection("compressor");
   }
-}
-
-function getVisibleSavedList(category) {
-  const perms = getEffectivePermissions(currentSessionUser);
-  const all = firestoreLogsCache[category] || [];
-  if (perms.allowViewAllMembersData || !currentSessionUser) return all;
-  return all.filter(r => !r.ownerEmail || r.ownerEmail.toLowerCase() === currentSessionUser.email.toLowerCase());
 }
 
 function toggleMarkSavedItem(category, index, checked) {
@@ -3002,85 +2694,57 @@ function updateMarkedDeleteCount(category) {
 }
 
 async function deleteSingleSavedRecord(category, index) {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowDeleteSaved) {
-    alert("Delete permission is not enabled for your account.");
+  if (!isSuperAdminUser(activeUserProfile)) {
+    alert("Only Super Admin can delete saved records.");
     return;
   }
-
-  const list = getVisibleSavedList(category);
+  const list = getVisibleSavedRecordsForCategory(category);
   const target = list[index];
-  if (!target) return;
+  if (!target || !firebaseDb) return;
+  if (!confirm(currentLang === "bn" ? "এই সেভ করা ডাটাটি ডিলিট করতে চান?" : "Delete this saved record from Firestore?")) return;
 
-  const confirmMsg = currentLang === "bn" ? "এই সেভ করা ডাটাটি ডিলিট করতে চান?" : "Delete this saved record?";
-  if (!confirm(confirmMsg)) return;
-
-  const docId = target._docId || `${category}_${target.date}`;
-  firestoreLogsCache[category] = firestoreLogsCache[category].filter(r => (r._docId || `${category}_${r.date}`) !== docId);
-
-  if (firebaseDb && docId) {
-    try { await firebaseDb.collection("pn_utility_logs").doc(docId).delete(); } catch (e) {}
-  }
-
-  renderSavedCategory(category, document.getElementById(`stab-${category}`));
+  await firebaseDb.collection("pn_utility_logs").doc(`${category}_${target.date}`).delete();
 }
 
 async function deleteMarkedSavedRecords(category) {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowDeleteSaved) {
-    alert("Delete permission is not enabled for your account.");
+  if (!isSuperAdminUser(activeUserProfile)) {
+    alert("Only Super Admin can delete saved records.");
     return;
   }
-
   const checkedBoxes = Array.from(document.querySelectorAll(`.saved-mark-cb-${category}:checked`));
   if (!checkedBoxes.length) {
-    alert(currentLang === "bn" ? "আগে ডিলিট করার জন্য ডাটা মার্ক (টিক) করুন।" : "Please mark at least one item to delete.");
+    alert("Please mark at least one item to delete.");
     return;
   }
+  if (!confirm(`Delete ${checkedBoxes.length} marked item(s) from Firestore?`)) return;
 
-  const confirmMsg = currentLang === "bn" ? `মার্ক করা ${checkedBoxes.length}টি ডাটা ডিলিট করতে চান?` : `Delete ${checkedBoxes.length} marked item(s)?`;
-  if (!confirm(confirmMsg)) return;
-
-  const list = getVisibleSavedList(category);
-  const indicesToRemove = new Set(checkedBoxes.map(cb => parseInt(cb.getAttribute("data-idx"), 10)));
-  const removedItems = list.filter((_, idx) => indicesToRemove.has(idx));
-  const removedDocIds = new Set(removedItems.map(item => item._docId || `${category}_${item.date}`));
-
-  firestoreLogsCache[category] = firestoreLogsCache[category].filter(r => !removedDocIds.has(r._docId || `${category}_${r.date}`));
-
-  if (firebaseDb) {
-    for (const id of removedDocIds) {
-      try { await firebaseDb.collection("pn_utility_logs").doc(id).delete(); } catch (e) {}
+  const list = getVisibleSavedRecordsForCategory(category);
+  for (const cb of checkedBoxes) {
+    const idx = parseInt(cb.getAttribute("data-idx"), 10);
+    const item = list[idx];
+    if (item && item.date && firebaseDb) {
+      await firebaseDb.collection("pn_utility_logs").doc(`${category}_${item.date}`).delete();
     }
   }
-
-  renderSavedCategory(category, document.getElementById(`stab-${category}`));
 }
 
-function renderSavedCategory(category, btnEl = null, hideViewer = true) {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowViewSaved) {
-    document.getElementById("savedDataListContainer").innerHTML = `<div class="upcoming-card" style="padding:24px;"><p>Saved Data access is restricted.</p></div>`;
-    return;
-  }
-
+function renderSavedCategory(category, btnEl = null) {
   if (btnEl) {
     document.querySelectorAll("#view-saved .shift-tab").forEach(b => b.classList.remove("active"));
     btnEl.classList.add("active");
   }
-  if (hideViewer) {
-    document.getElementById("savedFullReportViewer").style.display = "none";
-  }
-
-  const list = getVisibleSavedList(category);
+  document.getElementById("savedFullReportViewer").style.display = "none";
+  const list = getVisibleSavedRecordsForCategory(category);
+  const perms = getUserPermissions(activeUserProfile);
+  const isSuper = isSuperAdminUser(activeUserProfile);
   const container = document.getElementById("savedDataListContainer");
 
   if (!list.length) {
-    container.innerHTML = `<div class="upcoming-card" style="padding:24px;"><p>No ${category} records found in Firestore.</p></div>`;
+    container.innerHTML = `<div class="upcoming-card" style="padding:24px;"><p>No saved ${category} records in Firestore.</p></div>`;
     return;
   }
 
-  const toolbarHtml = perms.allowDeleteSaved ? `
+  const toolbarHtml = isSuper ? `
     <div class="saved-bulk-toolbar">
       <label class="saved-mark-label" style="color:var(--slate-700);">
         <input type="checkbox" onchange="toggleSelectAllSaved('${category}', this.checked)">
@@ -3101,21 +2765,17 @@ function renderSavedCategory(category, btnEl = null, hideViewer = true) {
       <div class="saved-record-item" id="saved-card-${category}-${idx}">
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px;">
           <div style="display:flex; align-items:flex-start; gap:10px;">
-            ${perms.allowDeleteSaved ? `<input type="checkbox" class="saved-mark-cb-${category}" data-idx="${idx}"
-              style="width:17px; height:17px; margin-top:2px; accent-color:var(--danger-red); cursor:pointer;"
-              onchange="toggleMarkSavedItem('${category}', ${idx}, this.checked)" title="Mark to delete">` : ""}
+            ${isSuper ? `<input type="checkbox" class="saved-mark-cb-${category}" data-idx="${idx}" style="width:17px; height:17px; margin-top:2px; accent-color:var(--danger-red); cursor:pointer;" onchange="toggleMarkSavedItem('${category}', ${idx}, this.checked)">` : ""}
             <div>
               <strong style="color:var(--brand-dark); font-size:13px;">#${idx + 1} &bull; ${item.summary}</strong>
-              <div style="font-size:11px; color:var(--slate-500); margin-top:2px;">
-                Updated: ${item.savedAt || item.updatedAt || "-"} ${item.updatedByName ? `• By: ${item.updatedByName}` : ""}
-              </div>
+              <div style="font-size:11px; color:var(--slate-500); margin-top:2px;">Updated: ${item.savedAt} &bull; By: ${item.savedByName || item.savedByEmail || "-"}</div>
             </div>
           </div>
           <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
-            ${perms.allowEditSaved && canView ? `<button type="button" class="btn btn-save" style="padding:6px 12px; font-size:12px;" onclick="editSavedRecord('${category}', ${idx})">Edit</button>` : ""}
-            ${canView ? `<button type="button" class="btn btn-primary" style="padding:6px 12px; font-size:12px;" onclick="viewSavedFullReport('${category}', ${idx}, false)">View Full Report</button>` : ""}
-            ${perms.allowDownload && canView ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="viewSavedFullReport('${category}', ${idx}, true)">Download PDF</button>` : ""}
-            ${perms.allowDeleteSaved ? `<button type="button" class="btn btn-reset" style="padding:6px 10px; font-size:12px;" onclick="deleteSingleSavedRecord('${category}', ${idx})" title="Delete">🗑</button>` : ""}
+            ${perms.editSaved ? `<button type="button" class="btn btn-save" style="padding:6px 12px; font-size:12px;" onclick="editSavedRecord('${category}', ${idx})">Edit</button>` : ""}
+            ${canView && perms.report ? `<button type="button" class="btn btn-primary" style="padding:6px 12px; font-size:12px;" onclick="viewSavedFullReport('${category}', ${idx}, false)">View Full Report</button>` : ""}
+            ${canView && perms.downloadPdf ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="viewSavedFullReport('${category}', ${idx}, true)">Download PDF</button>` : ""}
+            ${isSuper ? `<button type="button" class="btn btn-reset" style="padding:6px 10px; font-size:12px;" onclick="deleteSingleSavedRecord('${category}', ${idx})">🗑</button>` : ""}
           </div>
         </div>
       </div>
@@ -3126,13 +2786,17 @@ function renderSavedCategory(category, btnEl = null, hideViewer = true) {
 }
 
 function viewSavedFullReport(category, index, autoPrint = false) {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (autoPrint && !perms.allowDownload) {
-    alert("Download permission is disabled for your account.");
+  const perms = getUserPermissions(activeUserProfile);
+  if (!perms.report) {
+    alert("Report view permission is not enabled.");
+    return;
+  }
+  if (autoPrint && !perms.downloadPdf) {
+    alert("Download permission is not enabled for your account.");
     return;
   }
 
-  const list = getVisibleSavedList(category);
+  const list = getVisibleSavedRecordsForCategory(category);
   const record = list[index];
   if (!record) return;
 
@@ -3140,15 +2804,11 @@ function viewSavedFullReport(category, index, autoPrint = false) {
   const viewer = document.getElementById("savedFullReportViewer");
   viewer.style.display = "block";
 
-  const dlBtnHtml = perms.allowDownload
-    ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>`
-    : "";
-
   if (category === "generator" && record.dayMetrics && record.nightMetrics) {
     viewer.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Generator Report — ${record.date}</strong>
-        ${dlBtnHtml}
+        ${perms.downloadPdf ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>` : ""}
       </div>
       <div class="report-page">${createReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, record.dayMetrics, 'sgen_day_' + index)}</div>
       <div class="night-page-spacer"></div>
@@ -3162,7 +2822,7 @@ function viewSavedFullReport(category, index, autoPrint = false) {
     viewer.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Boiler Report — ${record.date}</strong>
-        ${dlBtnHtml}
+        ${perms.downloadPdf ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>` : ""}
       </div>
       <div class="report-page">${createBoilerReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, record.dayBoiler, 'sboi_day_' + index)}</div>
       <div class="night-page-spacer"></div>
@@ -3176,7 +2836,7 @@ function viewSavedFullReport(category, index, autoPrint = false) {
     viewer.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Air Compressor Report — ${record.date}</strong>
-        ${dlBtnHtml}
+        ${perms.downloadPdf ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>` : ""}
       </div>
       <div class="report-page">${createCompReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, record.dayComp, 'scmp_day_' + index)}</div>
       <div class="night-page-spacer"></div>
@@ -3189,7 +2849,7 @@ function viewSavedFullReport(category, index, autoPrint = false) {
   }
 
   viewer.scrollIntoView({ behavior: "smooth" });
-  if (autoPrint && perms.allowDownload) setTimeout(() => window.print(), 250);
+  if (autoPrint && perms.downloadPdf) setTimeout(() => window.print(), 250);
 }
 
 /* ================= AUTO CLEAR '0' ON FOCUS & ENTER MOVE DOWN ================= */
@@ -3447,12 +3107,10 @@ function createCompReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
 }
 
 function buildCompReport(mode = 'separate') {
-  const perms = getEffectivePermissions(currentSessionUser);
-  if (!perms.allowSubmitReport) {
-    alert("Report generation permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).report) {
+    alert("Report generation permission is not enabled.");
     return;
   }
-
   document.body.classList.remove('print-mode-separate', 'print-mode-combined');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
@@ -3480,13 +3138,12 @@ function buildCompReport(mode = 'separate') {
   renderBarChart('cnight_dept', nightComp.secSummary.map(s => s.sec), nightComp.secSummary.map(s => s.airKg), '#e86c1f', isCompact);
 
   saveCurrentSectionData('compressor', true);
-  applyScreenshotAndPermissionShield();
   document.getElementById('comp-report-container').scrollIntoView({ behavior: 'smooth' });
 }
 
 function printCompSeparatePages() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download/Print permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadPdf) {
+    alert("Download permission is not enabled.");
     return;
   }
   buildCompReport('separate');
@@ -3497,8 +3154,8 @@ function printCompSeparatePages() {
 }
 
 function printCompCombinedSinglePage() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download/Print permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadPdf) {
+    alert("Download permission is not enabled.");
     return;
   }
   buildCompReport('combined');
@@ -3509,8 +3166,8 @@ function printCompCombinedSinglePage() {
 }
 
 function downloadCompExcelSheet() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadExcel) {
+    alert("Excel download permission is not enabled.");
     return;
   }
   const dateVal = document.getElementById('compDate').value;
@@ -3774,11 +3431,10 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
 }
 
 function buildBoilerReport(mode = 'separate') {
-  if (!getEffectivePermissions(currentSessionUser).allowSubmitReport) {
-    alert("Report generation permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).report) {
+    alert("Report generation permission is not enabled.");
     return;
   }
-
   document.body.classList.remove('print-mode-separate', 'print-mode-combined');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
@@ -3806,13 +3462,12 @@ function buildBoilerReport(mode = 'separate') {
   renderBarChart('bnight_dept', nightBoiler.deptSummary.map(d => d.dept), nightBoiler.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
 
   saveCurrentSectionData('boiler', true);
-  applyScreenshotAndPermissionShield();
   document.getElementById('boiler-report-container').scrollIntoView({ behavior: 'smooth' });
 }
 
 function printBoilerSeparatePages() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download/Print permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadPdf) {
+    alert("Download permission is not enabled.");
     return;
   }
   buildBoilerReport('separate');
@@ -3823,8 +3478,8 @@ function printBoilerSeparatePages() {
 }
 
 function printBoilerCombinedSinglePage() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download/Print permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadPdf) {
+    alert("Download permission is not enabled.");
     return;
   }
   buildBoilerReport('combined');
@@ -3835,8 +3490,8 @@ function printBoilerCombinedSinglePage() {
 }
 
 function downloadBoilerExcelSheet() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadExcel) {
+    alert("Excel download permission is not enabled.");
     return;
   }
   const dateVal = document.getElementById('boilerDate').value;
@@ -4122,8 +3777,8 @@ function applyScannedDataToShift() {
 
 /* ================= EXCEL (.CSV) EXPORT ================= */
 function downloadExcelSheet() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadExcel) {
+    alert("Excel download permission is not enabled.");
     return;
   }
   const dateVal = document.getElementById('reportDate').value;
@@ -4201,13 +3856,13 @@ function computeShiftMetrics(shift, hours) {
     const dgwash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
     const dgrent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
 
-    const ggHr = gg1 + gg2 + gg3;
-    const dgHr = dgetp + dgwash + dgrent;
-    const tLoad = ggHr + dgHr;
-
-    sumTLoad += tLoad; sumGGLoad += ggHr; sumDGLoad += dgHr;
     sumGG1 += gg1; sumGG2 += gg2; sumGG3 += gg3;
     sumDGEtp += dgetp; sumDGWash += dgwash; sumDGRent += dgrent;
+
+    const ggLoad = gg1 + gg2 + gg3;
+    const dgLoad = dgetp + dgwash + dgrent;
+    const tLoad = ggLoad + dgLoad;
+    sumGGLoad += ggLoad; sumDGLoad += dgLoad; sumTLoad += tLoad;
 
     let dVals = {};
     DEPARTMENTS.forEach(d => {
@@ -4216,46 +3871,35 @@ function computeShiftMetrics(shift, hours) {
       deptSums[d.key] += val;
     });
 
-    rows.push({ time, mbar, psi, gg1, gg2, gg3, dgetp, dgwash, dgrent, ggHr, dgHr, tLoad, dVals });
+    rows.push({ time, psi, mbar, gg1, gg2, gg3, dgetp, dgwash, dgrent, ggLoad, dgLoad, tLoad, dVals });
   });
-
-  const totalDgCost = Math.round(totalDgCons * dgRate);
-  const totalNgCost = Math.round(totalNgCons * ngRate);
-  const grandCost = totalDgCost + totalNgCost;
 
   rows.forEach(r => {
-    r.dgCons = sumDGLoad > 0 ? Math.round((r.dgHr / sumDGLoad) * totalDgCons) : 0;
-    r.ngCons = sumGGLoad > 0 ? Math.round((r.ggHr / sumGGLoad) * totalNgCons) : 0;
-    r.dgCost = Math.round(r.dgCons * dgRate);
+    r.ngCons = sumGGLoad > 0 ? Math.round((r.ggLoad / sumGGLoad) * totalNgCons) : 0;
+    r.dgCons = sumDGLoad > 0 ? Math.round((r.dgLoad / sumDGLoad) * totalDgCons) : 0;
     r.ngCost = Math.round(r.ngCons * ngRate);
-    r.totCost = r.dgCost + r.ngCost;
+    r.dgCost = Math.round(r.dgCons * dgRate);
+    r.totCost = r.ngCost + r.dgCost;
   });
 
-  const totalDeptLoad = Object.values(deptSums).reduce((a, b) => a + b, 0);
+  const totalDeptKw = Object.values(deptSums).reduce((a, b) => a + b, 0);
+  const totalNgCost = Math.round(totalNgCons * ngRate);
+  const totalDgCost = Math.round(totalDgCons * dgRate);
+  const grandCost = totalNgCost + totalDgCost;
+
   const deptSummary = DEPARTMENTS.map(d => {
-    const loadVal = deptSums[d.key];
-    const ratio = totalDeptLoad > 0 ? (loadVal / totalDeptLoad) : 0;
-    const dgCost = Math.round(ratio * totalDgCost);
+    const kwSum = deptSums[d.key];
+    const ratio = totalDeptKw > 0 ? (kwSum / totalDeptKw) : 0;
+    const elecUse = Math.round(ratio * totalKwh);
     const ngCost = Math.round(ratio * totalNgCost);
-    return {
-      key: d.key, label: d.label, loadVal,
-      pct: (ratio * 100).toFixed(1),
-      kwhShare: Math.round(ratio * totalKwh),
-      dgCost, ngCost, totCost: dgCost + ngCost
-    };
+    const dgCost = Math.round(ratio * totalDgCost);
+    return { label: d.label, kwSum, pct: (ratio * 100).toFixed(2), elecUse, ngCost, dgCost, totCost: ngCost + dgCost };
   });
-
-  const genShares = [
-    { name: 'GG-1', val: sumGG1 }, { name: 'GG-2', val: sumGG2 }, { name: 'GG-3', val: sumGG3 },
-    { name: 'DG-ETP', val: sumDGEtp }, { name: 'DG-Wash', val: sumDGWash }, { name: 'DG-Rent', val: sumDGRent }
-  ].map(g => ({ ...g, pct: sumTLoad > 0 ? ((g.val / sumTLoad) * 100).toFixed(1) : '0.0' }));
 
   return {
-    rows, sumTLoad, sumGGLoad, sumDGLoad,
-    sumGG1, sumGG2, sumGG3, sumDGEtp, sumDGWash, sumDGRent,
-    totalDgCons, totalNgCons, dgKwh, ggKwh, totalKwh,
-    totalDgCost, totalNgCost, grandCost,
-    deptSums, totalDeptLoad, deptSummary, genShares
+    rows, sumGG1, sumGG2, sumGG3, sumDGEtp, sumDGWash, sumDGRent,
+    sumTLoad, totalDgCons, totalNgCons, totalDgCost, totalNgCost, grandCost,
+    dgKwh, ggKwh, totalKwh, deptSums, totalDeptKw, deptSummary
   };
 }
 
@@ -4267,15 +3911,15 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
         <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
-        <h3>Hourly Power Generation & Cost Analysis</h3>
+        <h3>NG + DG Hourly Load & Cost Analysis</h3>
         <span>${shiftLabel} &bull; Date: ${dateStr}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
     </div>
 
     <div class="kpi-strip">
-      <div class="kpi-item"><div class="k-lbl">Total Shift kWh</div><div class="k-val">${data.totalKwh.toLocaleString()} kWh</div></div>
-      <div class="kpi-item"><div class="k-lbl">GG / DG kWh</div><div class="k-val">${data.ggKwh.toLocaleString()} / ${data.dgKwh.toLocaleString()}</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Generation</div><div class="k-val">${data.totalKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">Gas Gen / Diesel Gen</div><div class="k-val">${data.ggKwh.toLocaleString()} / ${data.dgKwh.toLocaleString()} kWh</div></div>
       <div class="kpi-item"><div class="k-lbl">NG Consumption</div><div class="k-val">${data.totalNgCons.toLocaleString()} m³</div></div>
       <div class="kpi-item"><div class="k-lbl">Diesel Consumption</div><div class="k-val">${data.totalDgCons.toLocaleString()} Ltr</div></div>
       <div class="kpi-item orange"><div class="k-lbl">Total Shift Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
@@ -4285,18 +3929,20 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     <table class="clean-rep-table">
       <thead>
         <tr>
-          <th colspan="9" class="grp-gen">Generator Load (kW) & Gas Pressure</th>
-          <th colspan="5" class="grp-cost">Hourly Consumption & Cost (Tk)</th>
-          <th colspan="10" class="grp-dept">Department-Wise Hourly Load (kW)</th>
-          <th colspan="5" class="grp-sum">Department-Wise Cost Summary</th>
+          <th colspan="10" class="grp-gen">GG & DG Power Generation (kW)</th>
+          <th colspan="5" class="grp-cost">Fuel Consumption & Cost (Tk)</th>
+          <th colspan="${DEPARTMENTS.length}" class="grp-dept">Department-Wise Hourly Load Distribution (kW)</th>
+          <th colspan="5" class="grp-sum">Department-Wise Shift Cost Summary</th>
         </tr>
         <tr>
-          <th class="sub-gen">Time</th><th class="sub-gen">PSI</th><th class="sub-gen">M-Bar</th>
+          <th class="sub-gen">Time</th><th class="sub-gen">Header<br>PSI</th><th class="sub-gen">NG<br>M-Bar</th>
           <th class="sub-gen">GG-1</th><th class="sub-gen">GG-2</th><th class="sub-gen">GG-3</th>
-          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wsh</th><th class="sub-gen">DG-Rnt</th>
-          <th class="sub-cost">DG Ltr</th><th class="sub-cost">DG Cost</th><th class="sub-cost">NG m³</th><th class="sub-cost">NG Cost</th><th class="sub-cost">Tot Cost</th>
+          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wash</th><th class="sub-gen">DG-Rent</th><th class="sub-gen">Total kW</th>
+          <th class="sub-cost">DG<br>(Ltr)</th><th class="sub-cost">DG Cost</th><th class="sub-cost">NG<br>(m³)</th>
+          <th class="sub-cost">NG Cost</th><th class="sub-cost">Total Cost</th>
           ${DEPARTMENTS.map(d => `<th class="sub-dept">${d.label}</th>`).join('')}
-          <th class="sub-sum">Dept</th><th class="sub-sum">kWh</th><th class="sub-sum">DG Cost</th><th class="sub-sum">NG Cost</th><th class="sub-sum">Total</th>
+          <th class="sub-sum">Department</th><th class="sub-sum">kWh<br>Share</th>
+          <th class="sub-sum">NG Cost</th><th class="sub-sum">DG Cost</th><th class="sub-sum">Total Cost</th>
         </tr>
       </thead>
       <tbody>`;
@@ -4305,19 +3951,25 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     const r = data.rows[i];
     const ds = data.deptSummary[i];
     html += `<tr>
-      <td class="col-highlight">${r.time}</td><td>${r.psi}</td><td>${r.mbar}</td>
+      <td class="col-highlight">${r.time}</td><td class="col-highlight">${r.psi}</td><td>${r.mbar}</td>
       <td>${r.gg1}</td><td>${r.gg2}</td><td>${r.gg3}</td>
-      <td>${r.dgetp}</td><td>${r.dgwash}</td><td>${r.dgrent}</td>
-      <td>${r.dgCons}</td><td>${r.dgCost.toLocaleString()}</td><td>${r.ngCons}</td><td>${r.ngCost.toLocaleString()}</td>
-      <td class="col-highlight">${r.totCost.toLocaleString()}</td>
+      <td>${r.dgetp}</td><td>${r.dgwash}</td><td>${r.dgrent}</td><td class="col-highlight">${r.tLoad}</td>
+      <td>${r.dgCons}</td><td>${r.dgCost.toLocaleString()}</td><td>${r.ngCons}</td>
+      <td>${r.ngCost.toLocaleString()}</td><td class="col-highlight">${r.totCost.toLocaleString()}</td>
       ${DEPARTMENTS.map(d => `<td>${r.dVals[d.key]}</td>`).join('')}
       ${ds ? `
-        <td class="col-sum-cell" style="text-align:left; padding-left:4px;">${ds.label}</td>
-        <td class="col-sum-cell">${ds.kwhShare.toLocaleString()}</td>
-        <td class="col-sum-cell">${ds.dgCost.toLocaleString()}</td>
+        <td class="col-sum-cell" style="text-align:left; padding-left:5px;">${ds.label}</td>
+        <td class="col-sum-cell">${ds.elecUse.toLocaleString()}</td>
         <td class="col-sum-cell">${ds.ngCost.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.dgCost.toLocaleString()}</td>
         <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
-      ` : `<td></td><td></td><td></td><td></td><td></td>`}
+      ` : `
+        <td></td>
+        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalKwh.toLocaleString() : ''}</td>
+        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalNgCost.toLocaleString() : ''}</td>
+        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalDgCost.toLocaleString() : ''}</td>
+        <td class="col-highlight" style="color:#9a3412;">${i === DEPARTMENTS.length ? data.grandCost.toLocaleString() : ''}</td>
+      `}
     </tr>`;
   }
 
@@ -4326,32 +3978,34 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
       <td colspan="3" style="text-align:right; padding-right:5px;">TOTAL kWh:</td>
       <td>${data.sumGG1.toLocaleString()}</td><td>${data.sumGG2.toLocaleString()}</td><td>${data.sumGG3.toLocaleString()}</td>
       <td>${data.sumDGEtp.toLocaleString()}</td><td>${data.sumDGWash.toLocaleString()}</td><td>${data.sumDGRent.toLocaleString()}</td>
-      <td>${data.totalDgCons.toLocaleString()}</td><td>${data.totalDgCost.toLocaleString()}</td>
-      <td>${data.totalNgCons.toLocaleString()}</td><td>${data.totalNgCost.toLocaleString()}</td>
-      <td>${data.grandCost.toLocaleString()}</td>
+      <td>${data.sumTLoad.toLocaleString()}</td><td>${data.totalDgCons.toLocaleString()}</td><td>${data.totalDgCost.toLocaleString()}</td>
+      <td>${data.totalNgCons.toLocaleString()}</td><td>${data.totalNgCost.toLocaleString()}</td><td>${data.grandCost.toLocaleString()}</td>
       ${DEPARTMENTS.map(d => `<td>${data.deptSums[d.key].toLocaleString()}</td>`).join('')}
-      <td>TOTAL</td>
-      <td>${data.totalKwh.toLocaleString()}</td>
-      <td>${data.totalDgCost.toLocaleString()}</td>
-      <td>${data.totalNgCost.toLocaleString()}</td>
+      <td>TOTAL</td><td>${data.totalKwh.toLocaleString()}</td>
+      <td>${data.totalNgCost.toLocaleString()}</td><td>${data.totalDgCost.toLocaleString()}</td>
       <td style="color:#9a3412;">৳ ${data.grandCost.toLocaleString()}</td>
     </tr>
     <tr class="pct-row">
-      <td colspan="3" style="text-align:right; padding-right:5px;">SHARE %:</td>
-      ${data.genShares.map(g => `<td>${g.pct}%</td>`).join('')}
-      <td colspan="5"></td>
+      <td colspan="3" style="text-align:right; padding-right:5px;">GEN / LOAD %:</td>
+      <td>${data.sumTLoad > 0 ? ((data.sumGG1/data.sumTLoad)*100).toFixed(1) : '0.0'}%</td>
+      <td>${data.sumTLoad > 0 ? ((data.sumGG2/data.sumTLoad)*100).toFixed(1) : '0.0'}%</td>
+      <td>${data.sumTLoad > 0 ? ((data.sumGG3/data.sumTLoad)*100).toFixed(1) : '0.0'}%</td>
+      <td>${data.sumTLoad > 0 ? ((data.sumDGEtp/data.sumTLoad)*100).toFixed(1) : '0.0'}%</td>
+      <td>${data.sumTLoad > 0 ? ((data.sumDGWash/data.sumTLoad)*100).toFixed(1) : '0.0'}%</td>
+      <td>${data.sumTLoad > 0 ? ((data.sumDGRent/data.sumTLoad)*100).toFixed(1) : '0.0'}%</td>
+      <td>100%</td><td colspan="5"></td>
       ${data.deptSummary.map(ds => `<td>${ds.pct}%</td>`).join('')}
-      <td>SHARE</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td>
+      <td>100%</td><td>100%</td><td colspan="3"></td>
     </tr>
   </tbody></table>
 
   <div class="rep-charts">
-    <div class="rep-chart-card"><h4>Hourly Generator Load (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Hourly Total Generation (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
     <div class="rep-chart-card"><h4>Department-Wise Total Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
   </div>
 
   <div class="rep-footer">
-    <div class="sig-line">Prepared By (Shift Engr.)</div>
+    <div class="sig-line">Prepared By (Shift Engineer)</div>
     <div class="sig-line">Checked By (In-Charge)</div>
     <div class="sig-line">Approved By (Head of Utility)</div>
   </div>
@@ -4360,42 +4014,32 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   return html;
 }
 
-function renderBarChart(canvasId, labels, values, color, compact = false) {
-  const ctx = document.getElementById(canvasId);
-  if (!ctx) return;
+function renderBarChart(canvasId, labels, values, barColor, isCompact = false) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
-      datasets: [{
-        data: values,
-        backgroundColor: color,
-        borderRadius: compact ? 2 : 4,
-        maxBarThickness: compact ? 14 : 26
-      }]
+      datasets: [{ data: values, backgroundColor: barColor, borderRadius: 3, maxBarThickness: isCompact ? 14 : 26 }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
-      layout: { padding: { top: compact ? 8 : 14, right: 4, left: 0, bottom: 0 } },
+      layout: { padding: { top: isCompact ? 8 : 14, right: 6, left: 4, bottom: 0 } },
       plugins: {
         legend: { display: false },
         datalabels: {
-          anchor: 'end',
-          align: 'top',
-          offset: compact ? 1 : 2,
-          color: '#0f172a',
-          font: { size: compact ? 6 : 8, weight: 'bold' },
-          formatter: function(val) {
-            if (!val) return '';
-            return val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val;
-          }
+          anchor: 'end', align: 'top', color: '#0f172a',
+          font: { weight: 'bold', size: isCompact ? 6.5 : 8.5 },
+          formatter: v => v > 0 ? v.toLocaleString() : ''
         }
       },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: compact ? 6 : 8 }, maxRotation: 0, autoSkip: false } },
-        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: compact ? 6 : 8 }, maxTicksLimit: compact ? 3 : 5 } }
+        x: { grid: { display: false }, ticks: { font: { size: isCompact ? 6.5 : 8 }, maxRotation: 0, autoSkip: false } },
+        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { size: isCompact ? 6.5 : 8 }, maxTicksLimit: 4 } }
       }
     }
   });
@@ -4403,11 +4047,10 @@ function renderBarChart(canvasId, labels, values, color, compact = false) {
 }
 
 function buildFinalReport(mode = 'separate') {
-  if (!getEffectivePermissions(currentSessionUser).allowSubmitReport) {
-    alert("Report generation permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).report) {
+    alert("Report generation permission is not enabled.");
     return;
   }
-
   document.body.classList.remove('print-mode-separate', 'print-mode-combined');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
@@ -4435,13 +4078,12 @@ function buildFinalReport(mode = 'separate') {
   renderBarChart('night_dept', nightData.deptSummary.map(d => d.label), nightData.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
 
   saveCurrentSectionData('generator', true);
-  applyScreenshotAndPermissionShield();
   document.getElementById('report-container').scrollIntoView({ behavior: 'smooth' });
 }
 
 function printSeparatePages() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download/Print permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadPdf) {
+    alert("Download permission is not enabled.");
     return;
   }
   buildFinalReport('separate');
@@ -4452,8 +4094,8 @@ function printSeparatePages() {
 }
 
 function printCombinedSinglePage() {
-  if (!getEffectivePermissions(currentSessionUser).allowDownload) {
-    alert("Download/Print permission is disabled for your account.");
+  if (!getUserPermissions(activeUserProfile).downloadPdf) {
+    alert("Download permission is not enabled.");
     return;
   }
   buildFinalReport('combined');
@@ -4463,17 +4105,58 @@ function printCombinedSinglePage() {
   });
 }
 
+/* ================= INITIALIZE GRIDS & LIFETIME AUTH SESSION ================= */
 renderEntryGrid('day', DAY_HOURS);
 renderEntryGrid('night', NIGHT_HOURS);
 renderBoilerGrid('day', DAY_HOURS);
 renderBoilerGrid('night', NIGHT_HOURS);
 renderCompGrid('day', DAY_HOURS);
 renderCompGrid('night', NIGHT_HOURS);
+initDivisionDropdown('regPresDiv', 'regPresDist', 'regPresUpz');
+initDivisionDropdown('regPermDiv', 'regPermDist', 'regPermUpz');
+applyLanguage('en');
 
-initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz");
-initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz");
-applyLanguage("en");
-refreshAllLogos();
+if (firebaseAuth && firebaseDb) {
+  firebaseAuth.onAuthStateChanged(async (user) => {
+    if (isSigningOut) return;
+    if (user && user.email) {
+      const email = user.email.trim().toLowerCase();
+      try {
+        const snap = await firebaseDb.collection("pn_employees").doc(email).get();
+        if (email === SUPER_ADMIN_EMAIL.toLowerCase()) {
+          const adminData = snap.exists ? snap.data() : {};
+          const adminProfile = {
+            officeId: "83611",
+            name: "Emon Talukder",
+            designation: "Sub-Assistant Engineer",
+            divisionTop: "Textile",
+            department: "Utility",
+            section: "Generator Section",
+            joiningDate: "2020-08-20",
+            mobile: "01878335098",
+            email: SUPER_ADMIN_EMAIL,
+            ...adminData,
+            role: "super_admin",
+            approved: true,
+            status: "approved"
+          };
+          activateAuthenticatedSession(adminProfile);
+          return;
+        }
+        if (snap.exists) {
+          const data = snap.data();
+          if (data.approved === true || data.status === "approved") {
+            activateAuthenticatedSession(data);
+            return;
+          }
+        }
+      } catch (e) {}
+    }
+    document.getElementById("app-shell").style.display = "none";
+    document.getElementById("auth-wrapper").style.display = "block";
+    showAuthPanel("login");
+  });
+}
 </script>
 </body>
 </html>
