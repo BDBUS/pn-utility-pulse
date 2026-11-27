@@ -29,6 +29,11 @@
   html, body { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background: var(--bg-body); color: var(--slate-900); }
   body { padding: 14px; }
 
+  body.member-no-screenshot {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   .container { max-width: 1440px; width: 100%; margin: 0 auto; overflow-x: hidden; }
 
   /* Subtle Creator Footer */
@@ -195,7 +200,6 @@
   .pn-front-body {
     padding: 5px 15px 6px 15px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center;
   }
-  /* Slightly larger photo */
   .pn-photo-square {
     width: 98px; height: 114px; margin: 0 auto 6px auto;
     border-radius: 10px; border: 2px solid #144d29; background: #144d29;
@@ -550,6 +554,21 @@
     margin-bottom: 10px; background: #f8fafc;
     display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
   }
+  .perm-matrix-box {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;
+    padding-top: 10px; border-top: 1px dashed #cbd5e1; width: 100%; align-items: center;
+  }
+  .perm-check-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #ffffff; border: 1px solid #cbd5e1; border-radius: 7px;
+    padding: 4px 8px; font-size: 11px; font-weight: 700; color: var(--slate-700); cursor: pointer;
+  }
+  .perm-check-chip input { accent-color: var(--brand-dark); cursor: pointer; }
+  .perm-sec-select {
+    padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 7px;
+    font-size: 11px; font-weight: 700; color: var(--brand-dark); background: #ffffff;
+  }
+
   .status-pill-pending {
     background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;
     padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 800;
@@ -638,6 +657,10 @@
 
   /* ================= PRINT MODES ================= */
   @media print {
+    body.member-no-print * {
+      display: none !important;
+    }
+
     @page { size: A4 landscape; margin: 3.5mm; }
     html, body {
       width: 100%; height: auto; background: #fff !important;
@@ -737,7 +760,7 @@
     <div class="auth-top-brand">
       <div>
         <h2>PN. COMPOSITE LTD.</h2>
-        <p data-i18n="portalSub">529, Ambag, Nilnagar, Konabari, Gazipur &bull; Utility & Power Management Portal</p>
+        <p data-i18n="portalSub">529, Ambag, Nilnagar, Gazipur Sadar, Gazipur &bull; Utility & Power Management Portal</p>
       </div>
       <div class="auth-logo-slot"></div>
     </div>
@@ -1057,7 +1080,7 @@
     </div>
 
     <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;">
-      <button type="button" class="btn btn-primary" style="flex:1; justify-content:center; padding:9px;" onclick="downloadBothSidesIdCard()" data-i18n="downloadBtn">Download</button>
+      <button type="button" class="btn btn-primary" id="idModalDownloadBtn" style="flex:1; justify-content:center; padding:9px;" onclick="downloadBothSidesIdCard()" data-i18n="downloadBtn">Download</button>
       <button type="button" class="btn btn-accent" id="idModalUpdateBtn" style="flex:1; justify-content:center; padding:9px;" onclick="openAdminIdUpdaterForCurrent()" data-i18n="updateNowBtn">Update Now</button>
     </div>
   </div>
@@ -1225,7 +1248,7 @@
         <div class="company-info">
           <h1>P.N. COMPOSITE LTD.</h1>
           <p data-i18n="factoryAddrLine">529, Ambag, Nilnagar, Gazipur Sadar, Gazipur.</p>
-          <span class="company-badge" data-i18n="portalBadge">Utility & Power Distribution Management Portal</span>
+          <span class="company-badge" id="activeUserRoleBadge" data-i18n="portalBadge">Utility & Power Distribution Management Portal</span>
         </div>
       </div>
       <div class="logo-box header-logo-slot"></div>
@@ -1237,11 +1260,11 @@
         <h2 style="margin:0 0 6px 0; font-size:18px; font-weight:800; color:var(--brand-dark);" data-i18n="homeTitle">Utility Control Home</h2>
         <p style="margin:0 0 14px 0; font-size:13px; color:var(--slate-500);" data-i18n="homeSub">Select a section from the sidebar menu or below.</p>
         <div style="display:flex; flex-wrap:wrap; gap:10px;">
-          <button type="button" class="btn btn-primary" onclick="navigateSection('generator')" data-i18n="navGenerator">Generator</button>
-          <button type="button" class="btn btn-accent" onclick="navigateSection('boiler')" data-i18n="navBoiler">Boiler</button>
-          <button type="button" class="btn btn-combined" onclick="navigateSection('compressor')" data-i18n="navCompressor">Air Compressor</button>
-          <button type="button" class="btn btn-save" onclick="navigateSection('saved')" data-i18n="navSaved">Saved Data</button>
-          <button type="button" class="btn btn-excel" onclick="navigateSection('admin')" data-i18n="navAdmin">Admin Panel</button>
+          <button type="button" class="btn btn-primary" id="home-btn-generator" onclick="navigateSection('generator')" data-i18n="navGenerator">Generator</button>
+          <button type="button" class="btn btn-accent" id="home-btn-boiler" onclick="navigateSection('boiler')" data-i18n="navBoiler">Boiler</button>
+          <button type="button" class="btn btn-combined" id="home-btn-compressor" onclick="navigateSection('compressor')" data-i18n="navCompressor">Air Compressor</button>
+          <button type="button" class="btn btn-save" id="home-btn-saved" onclick="navigateSection('saved')" data-i18n="navSaved">Saved Data</button>
+          <button type="button" class="btn btn-excel" id="home-btn-admin" onclick="navigateSection('admin')" data-i18n="navAdmin">Admin Panel</button>
         </div>
       </div>
     </div>
@@ -1252,7 +1275,7 @@
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px;">
           <div>
             <h2 style="margin:0; font-size:18px; font-weight:800; color:var(--brand-dark);" data-i18n="navAdmin">Admin Panel</h2>
-            <p style="margin:3px 0 0 0; font-size:12.5px; color:var(--slate-500);">Super Admin: <strong>emontalukder380@gmail.com</strong> — Full Website, Member Approval & ID Card Update Control</p>
+            <p style="margin:3px 0 0 0; font-size:12.5px; color:var(--slate-500);">Super Admin: <strong>emontalukder380@gmail.com</strong> — Full Website, Member Approval, Section Assignment & Individual Button Permissions</p>
           </div>
           <span class="company-badge" id="adminRoleBadge">Super Admin Control</span>
         </div>
@@ -1304,12 +1327,12 @@
         </div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-reset" onclick="resetSectionEntries('compressor')">↺ Reset Entry</button>
-          <button type="button" class="btn btn-save" onclick="saveCurrentSectionData('compressor', false)" data-i18n="saveBtn">Save Data</button>
-          <button type="button" class="btn btn-excel" onclick="downloadCompExcelSheet()">Download Excel Sheet</button>
-          <button type="button" class="btn btn-primary" onclick="buildCompReport('separate')">Submit & Generate Report</button>
-          <button type="button" class="btn btn-accent" onclick="printCompSeparatePages()">Download / Print PDF</button>
-          <button type="button" class="btn btn-combined" onclick="printCompCombinedSinglePage()">Day & Night Download / Print PDF</button>
+          <button type="button" class="btn btn-reset" data-perm="reset" onclick="resetSectionEntries('compressor')">↺ Reset Entry</button>
+          <button type="button" class="btn btn-save" data-perm="save" onclick="saveCurrentSectionData('compressor', false)" data-i18n="saveBtn">Save Data</button>
+          <button type="button" class="btn btn-excel" data-perm="download" onclick="downloadCompExcelSheet()">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary" data-perm="submit" onclick="buildCompReport('separate')">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent" data-perm="download" onclick="printCompSeparatePages()">Download / Print PDF</button>
+          <button type="button" class="btn btn-combined" data-perm="download" onclick="printCompCombinedSinglePage()">Day & Night Download / Print PDF</button>
         </div>
       </div>
     </div>
@@ -1319,8 +1342,8 @@
       <div class="no-print" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
         <span style="font-weight:700; color:var(--brand-dark); font-size:13px;">Air Compressor Report Preview Ready</span>
         <div style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn btn-accent" style="padding:8px 14px; font-size:12px;" onclick="printCompSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
-          <button type="button" class="btn btn-combined" style="padding:8px 14px; font-size:12px;" onclick="printCompCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
+          <button type="button" class="btn btn-accent" data-perm="download" style="padding:8px 14px; font-size:12px;" onclick="printCompSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
+          <button type="button" class="btn btn-combined" data-perm="download" style="padding:8px 14px; font-size:12px;" onclick="printCompCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
         </div>
       </div>
       <div id="comp-report-output"></div>
@@ -1347,8 +1370,8 @@
           <div class="camera-actions">
             <input type="file" id="boilerCameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handleBoilerImageScan(event)">
             <input type="file" id="boilerGalleryInput" accept="image/*" style="display:none;" onchange="handleBoilerImageScan(event)">
-            <button type="button" class="cam-btn" onclick="document.getElementById('boilerCameraInput').click()">Open Camera & Scan</button>
-            <button type="button" class="cam-btn secondary" onclick="document.getElementById('boilerGalleryInput').click()">Upload Photo</button>
+            <button type="button" class="cam-btn" data-perm="entry" onclick="document.getElementById('boilerCameraInput').click()">Open Camera & Scan</button>
+            <button type="button" class="cam-btn secondary" data-perm="entry" onclick="document.getElementById('boilerGalleryInput').click()">Upload Photo</button>
           </div>
         </div>
 
@@ -1365,7 +1388,7 @@
             <div>
               <div id="boilerParsedTableContainer" class="parsed-table-wrap"></div>
               <div style="margin-top:10px;">
-                <button type="button" class="btn btn-primary" style="padding:7px 13px; font-size:12px;" onclick="applyBoilerScannedRows()">Auto-Fill Boiler Shift</button>
+                <button type="button" class="btn btn-primary" data-perm="entry" style="padding:7px 13px; font-size:12px;" onclick="applyBoilerScannedRows()">Auto-Fill Boiler Shift</button>
               </div>
             </div>
           </div>
@@ -1402,12 +1425,12 @@
         </div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-reset" onclick="resetSectionEntries('boiler')">↺ Reset Entry</button>
-          <button type="button" class="btn btn-save" onclick="saveCurrentSectionData('boiler', false)" data-i18n="saveBtn">Save Data</button>
-          <button type="button" class="btn btn-excel" onclick="downloadBoilerExcelSheet()">Download Excel Sheet</button>
-          <button type="button" class="btn btn-primary" onclick="buildBoilerReport('separate')">Submit & Generate Report</button>
-          <button type="button" class="btn btn-accent" onclick="printBoilerSeparatePages()">Download / Print PDF</button>
-          <button type="button" class="btn btn-combined" onclick="printBoilerCombinedSinglePage()">Day & Night Download / Print PDF</button>
+          <button type="button" class="btn btn-reset" data-perm="reset" onclick="resetSectionEntries('boiler')">↺ Reset Entry</button>
+          <button type="button" class="btn btn-save" data-perm="save" onclick="saveCurrentSectionData('boiler', false)" data-i18n="saveBtn">Save Data</button>
+          <button type="button" class="btn btn-excel" data-perm="download" onclick="downloadBoilerExcelSheet()">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary" data-perm="submit" onclick="buildBoilerReport('separate')">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent" data-perm="download" onclick="printBoilerSeparatePages()">Download / Print PDF</button>
+          <button type="button" class="btn btn-combined" data-perm="download" onclick="printBoilerCombinedSinglePage()">Day & Night Download / Print PDF</button>
         </div>
       </div>
     </div>
@@ -1417,8 +1440,8 @@
       <div class="no-print" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
         <span style="font-weight:700; color:var(--brand-dark); font-size:13px;">Boiler Report Preview Ready</span>
         <div style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn btn-accent" style="padding:8px 14px; font-size:12px;" onclick="printBoilerSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
-          <button type="button" class="btn btn-combined" style="padding:8px 14px; font-size:12px;" onclick="printBoilerCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
+          <button type="button" class="btn btn-accent" data-perm="download" style="padding:8px 14px; font-size:12px;" onclick="printBoilerSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
+          <button type="button" class="btn btn-combined" data-perm="download" style="padding:8px 14px; font-size:12px;" onclick="printBoilerCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
         </div>
       </div>
       <div id="boiler-report-output"></div>
@@ -1459,8 +1482,8 @@
           <div class="camera-actions">
             <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handleImageScan(event)">
             <input type="file" id="galleryInput" accept="image/*" style="display:none;" onchange="handleImageScan(event)">
-            <button type="button" class="cam-btn" onclick="document.getElementById('cameraInput').click()">Open Camera & Scan</button>
-            <button type="button" class="cam-btn secondary" onclick="document.getElementById('galleryInput').click()">Upload Photo</button>
+            <button type="button" class="cam-btn" data-perm="entry" onclick="document.getElementById('cameraInput').click()">Open Camera & Scan</button>
+            <button type="button" class="cam-btn secondary" data-perm="entry" onclick="document.getElementById('galleryInput').click()">Upload Photo</button>
           </div>
         </div>
 
@@ -1484,7 +1507,7 @@
                   <option value="gen">Generator & M-Bar (M-Bar → PSI Auto, GG-1..3, DG)</option>
                   <option value="dept">Department Load (RMG..Other Loads)</option>
                 </select>
-                <button type="button" class="btn btn-primary" style="padding:7px 13px; font-size:12px;" onclick="applyScannedDataToShift()">Auto-Fill Section</button>
+                <button type="button" class="btn btn-primary" data-perm="entry" style="padding:7px 13px; font-size:12px;" onclick="applyScannedDataToShift()">Auto-Fill Section</button>
               </div>
               <div class="parsed-table-wrap" id="parsedTableContainer"></div>
             </div>
@@ -1514,12 +1537,12 @@
         </div>
 
         <div class="btn-bar">
-          <button type="button" class="btn btn-reset" onclick="resetSectionEntries('generator')">↺ Reset Entry</button>
-          <button type="button" class="btn btn-save" onclick="saveCurrentSectionData('generator', false)" data-i18n="saveBtn">Save Data</button>
-          <button type="button" class="btn btn-excel" onclick="downloadExcelSheet()">Download Excel Sheet</button>
-          <button type="button" class="btn btn-primary" onclick="buildFinalReport('separate')">Submit & Generate Report</button>
-          <button type="button" class="btn btn-accent" onclick="printSeparatePages()">Download / Print PDF</button>
-          <button type="button" class="btn btn-combined" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF</button>
+          <button type="button" class="btn btn-reset" data-perm="reset" onclick="resetSectionEntries('generator')">↺ Reset Entry</button>
+          <button type="button" class="btn btn-save" data-perm="save" onclick="saveCurrentSectionData('generator', false)" data-i18n="saveBtn">Save Data</button>
+          <button type="button" class="btn btn-excel" data-perm="download" onclick="downloadExcelSheet()">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary" data-perm="submit" onclick="buildFinalReport('separate')">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent" data-perm="download" onclick="printSeparatePages()">Download / Print PDF</button>
+          <button type="button" class="btn btn-combined" data-perm="download" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF</button>
         </div>
       </div>
     </div>
@@ -1529,8 +1552,8 @@
       <div class="no-print" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
         <span style="font-weight:700; color:var(--brand-dark); font-size:13px;">Report Preview Ready</span>
         <div style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn btn-accent" style="padding:8px 14px; font-size:12px;" onclick="printSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
-          <button type="button" class="btn btn-combined" style="padding:8px 14px; font-size:12px;" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
+          <button type="button" class="btn btn-accent" data-perm="download" style="padding:8px 14px; font-size:12px;" onclick="printSeparatePages()">Download / Print PDF (Day & Night Separate Pages)</button>
+          <button type="button" class="btn btn-combined" data-perm="download" style="padding:8px 14px; font-size:12px;" onclick="printCombinedSinglePage()">Day & Night Download / Print PDF (1 Page)</button>
         </div>
       </div>
       <div id="report-output"></div>
@@ -1912,6 +1935,148 @@ function isSuperAdminUser(user) {
   return !!(user && user.email && user.email.trim().toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase());
 }
 
+function getDefaultMemberPermissions() {
+  return {
+    assignedSection: "generator",
+    canSave: true,
+    canSubmit: true,
+    canDownload: false,
+    canReset: false,
+    canViewSaved: false,
+    canScreenshot: false
+  };
+}
+
+function getEffectivePermissions(user) {
+  if (!user) {
+    return {
+      isSuperAdmin: false,
+      assignedSection: "none",
+      canSave: false,
+      canSubmit: false,
+      canDownload: false,
+      canReset: false,
+      canViewSaved: false,
+      canScreenshot: false
+    };
+  }
+  if (isSuperAdminUser(user)) {
+    return {
+      isSuperAdmin: true,
+      assignedSection: "all",
+      canSave: true,
+      canSubmit: true,
+      canDownload: true,
+      canReset: true,
+      canViewSaved: true,
+      canScreenshot: true
+    };
+  }
+  const defs = getDefaultMemberPermissions();
+  const p = user.permissions || {};
+  return {
+    isSuperAdmin: false,
+    assignedSection: p.assignedSection || defs.assignedSection,
+    canSave: p.canSave !== undefined ? !!p.canSave : defs.canSave,
+    canSubmit: p.canSubmit !== undefined ? !!p.canSubmit : defs.canSubmit,
+    canDownload: !!p.canDownload,
+    canReset: !!p.canReset,
+    canViewSaved: !!p.canViewSaved,
+    canScreenshot: !!p.canScreenshot
+  };
+}
+
+function enforceMemberRestrictions() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+
+  // Screenshot & Print CSS guard
+  document.body.classList.toggle("member-no-screenshot", !perms.isSuperAdmin && !perms.canScreenshot);
+  document.body.classList.toggle("member-no-print", !perms.isSuperAdmin && !perms.canDownload);
+
+  const badge = document.getElementById("activeUserRoleBadge");
+  if (badge && activeUser) {
+    if (perms.isSuperAdmin) {
+      badge.textContent = "Super Admin • Full Access";
+    } else {
+      badge.textContent = `Member • Assigned: ${perms.assignedSection.toUpperCase()}`;
+    }
+  }
+
+  // Sidebar Admin menu visibility
+  const navAdmin = document.getElementById("nav-admin");
+  if (navAdmin) navAdmin.style.display = perms.isSuperAdmin ? "flex" : "none";
+  const homeAdminBtn = document.getElementById("home-btn-admin");
+  if (homeAdminBtn) homeAdminBtn.style.display = perms.isSuperAdmin ? "inline-flex" : "none";
+
+  // Saved Data visibility
+  const navSaved = document.getElementById("nav-saved");
+  if (navSaved) navSaved.style.display = (perms.isSuperAdmin || perms.canViewSaved) ? "flex" : "none";
+  const homeSavedBtn = document.getElementById("home-btn-saved");
+  if (homeSavedBtn) homeSavedBtn.style.display = (perms.isSuperAdmin || perms.canViewSaved) ? "inline-flex" : "none";
+
+  // Section tabs & Home section buttons by assigned section
+  const sections = ["generator", "boiler", "compressor"];
+  sections.forEach(sec => {
+    const allowedSec = perms.isSuperAdmin || perms.assignedSection === "all" || perms.assignedSection === sec;
+    const navBtn = document.getElementById(`nav-${sec}`);
+    if (navBtn) navBtn.style.display = allowedSec ? "flex" : "none";
+    const homeBtn = document.getElementById(`home-btn-${sec}`);
+    if (homeBtn) homeBtn.style.display = allowedSec ? "inline-flex" : "none";
+  });
+
+  // Action buttons visibility (Save, Submit & Generate Report, Download, Reset)
+  document.querySelectorAll("[data-perm]").forEach(btn => {
+    const kind = btn.getAttribute("data-perm");
+    let allow = perms.isSuperAdmin;
+    if (!perms.isSuperAdmin) {
+      if (kind === "save") allow = perms.canSave;
+      else if (kind === "submit") allow = perms.canSubmit;
+      else if (kind === "download") allow = perms.canDownload;
+      else if (kind === "reset") allow = perms.canReset;
+      else if (kind === "entry") allow = true;
+    }
+    btn.style.display = allow ? "inline-flex" : "none";
+  });
+
+  // ID Card Download & Update buttons
+  const idDlBtn = document.getElementById("idModalDownloadBtn");
+  if (idDlBtn) idDlBtn.style.display = (perms.isSuperAdmin || perms.canDownload) ? "inline-flex" : "none";
+  const idUpdBtn = document.getElementById("idModalUpdateBtn");
+  if (idUpdBtn) idUpdBtn.style.display = perms.isSuperAdmin ? "inline-flex" : "none";
+}
+
+// Block screenshot shortcuts & print when not permitted
+document.addEventListener("keydown", function(e) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (!activeUser) return;
+  const perms = getEffectivePermissions(activeUser);
+  if (perms.isSuperAdmin) return;
+
+  const isPrintShortcut = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p";
+  const isSnipShortcut = (e.ctrlKey || e.metaKey) && e.shiftKey && ["s", "i"].includes(e.key.toLowerCase());
+  const isPrintScreen = e.key === "PrintScreen";
+
+  if ((isPrintShortcut && !perms.canDownload) || ((isSnipShortcut || isPrintScreen) && !perms.canScreenshot)) {
+    e.preventDefault();
+    e.stopPropagation();
+    alert(
+      currentLang === "bn"
+        ? "আপনার এই কাজের পারমিশন নেই। অ্যাডমিন প্যানেল থেকে পারমিশন নিতে হবে।"
+        : "You do not have permission for this action. Contact Super Admin."
+    );
+  }
+});
+
+document.addEventListener("contextmenu", function(e) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (!activeUser) return;
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canScreenshot) {
+    e.preventDefault();
+  }
+});
+
 /* ================= AUTH & ID CARD DISPLAY + ADMIN UPDATE ================= */
 function showAuthPanel(panel) {
   document.getElementById("login-panel").style.display = panel === "login" ? "block" : "none";
@@ -1989,9 +2154,14 @@ function populateAndOpenIdCard(profile) {
   renderLongQrCode(`${profile.officeId || "PN"}-${profile.name || "EMP"}`);
 
   const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
   const updateBtn = document.getElementById("idModalUpdateBtn");
   if (updateBtn) {
-    updateBtn.style.display = isSuperAdminUser(activeUser) ? "inline-flex" : "none";
+    updateBtn.style.display = perms.isSuperAdmin ? "inline-flex" : "none";
+  }
+  const dlBtn = document.getElementById("idModalDownloadBtn");
+  if (dlBtn) {
+    dlBtn.style.display = (perms.isSuperAdmin || perms.canDownload) ? "inline-flex" : "none";
   }
 
   refreshAllLogos();
@@ -2008,6 +2178,7 @@ function closeIdCardAndEnterApp() {
   }
   document.getElementById("auth-wrapper").style.display = "none";
   document.getElementById("app-shell").style.display = "block";
+  enforceMemberRestrictions();
   navigateSection("home");
 }
 
@@ -2022,6 +2193,12 @@ function reopenMyIdCard() {
 }
 
 function downloadBothSidesIdCard() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download permission is not enabled for your account.");
+    return;
+  }
   const card = document.getElementById("pnIdCard3d");
   if (!card) return;
   card.classList.remove("is-flipped");
@@ -2196,6 +2373,9 @@ async function handleRegistrationConfirm() {
   }
 
   const isSuper = email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase();
+  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
+  const existing = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
   const profile = {
     officeId: officeId || ("PN-" + Date.now().toString().slice(-4)),
     name,
@@ -2221,14 +2401,14 @@ async function handleRegistrationConfirm() {
     bloodGroup: presentBloodGroup || permanentBloodGroup,
     nidNumber: presentNid || permanentNid,
     password,
-    photo: uploadedPhotoBase64,
+    photo: uploadedPhotoBase64 || (existing && existing.photo) || "",
     role: isSuper ? "super_admin" : "member",
-    approved: isSuper ? true : false,
-    status: isSuper ? "approved" : "pending",
+    approved: isSuper ? true : (existing ? existing.approved : false),
+    status: isSuper ? "approved" : (existing ? existing.status : "pending"),
+    permissions: existing && existing.permissions ? existing.permissions : getDefaultMemberPermissions(),
     createdAt: new Date().toISOString()
   };
 
-  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
   const idx = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
   if (idx >= 0) users[idx] = profile; else users.push(profile);
   localStorage.setItem("pn_users_db", JSON.stringify(users));
@@ -2266,65 +2446,36 @@ async function handleLogin() {
       const docSnap = await firebaseDb.collection("pn_employees").doc(normalizedEmail).get();
       if (docSnap.exists) {
         const cloudData = docSnap.data();
-        matched = { ...(matched || {}), ...cloudData, password: (matched && matched.password) || password };
+        matched = {
+          ...(matched || {}),
+          ...cloudData,
+          password: (matched && matched.password) || cloudData.password || ""
+        };
       }
     } catch (err) {}
-  }
-
-  if (normalizedEmail === SUPER_ADMIN_EMAIL.toLowerCase()) {
-    const adminProfile = matched || {
-      officeId: "83611",
-      name: "Emon Talukder",
-      designation: "Sub-Assistant Engineer",
-      divisionTop: "Textile",
-      department: "Utility",
-      section: "Generator Section",
-      joiningDate: "2020-08-20",
-      mobile: "01878335098",
-      email: SUPER_ADMIN_EMAIL,
-      presentDivision: "Dhaka",
-      presentDistrict: "Gazipur",
-      presentUpazila: "Gazipur Sadar",
-      presentArea: "529, Ambag, Nilnagar, Konabari",
-      presentBloodGroup: "O+",
-      presentNid: "-",
-      permanentDivision: "Sylhet",
-      permanentDistrict: "Sunamganj",
-      permanentUpazila: "Bishwambarpur",
-      permanentArea: "Badaghat",
-      permanentBloodGroup: "O+",
-      permanentNid: "-",
-      password,
-      photo: uploadedPhotoBase64,
-      role: "super_admin",
-      approved: true,
-      status: "approved"
-    };
-    adminProfile.role = "super_admin";
-    adminProfile.approved = true;
-    adminProfile.status = "approved";
-    localStorage.setItem("pn_active_user", JSON.stringify(adminProfile));
-    document.getElementById("auth-wrapper").style.display = "none";
-    document.getElementById("app-shell").style.display = "block";
-    navigateSection("home");
-    return;
   }
 
   if (!matched) {
     alert(
       currentLang === "bn"
-        ? "এই ইমেইলে কোনো অনুমোদিত অ্যাকাউন্ট পাওয়া যায়নি। আগে রেজিস্ট্রেশন করুন এবং অ্যাডমিন অনুমোদনের জন্য অপেক্ষা করুন।"
-        : "No registered account found for this email. Please register and wait for Admin approval."
+        ? "এই ইমেইলে কোনো রেজিস্টার্ড অ্যাকাউন্ট পাওয়া যায়নি। আগে রেজিস্ট্রেশন করুন।"
+        : "No registered account found for this email. Please register first."
     );
     return;
   }
 
-  if (matched.password && matched.password !== password) {
-    alert(currentLang === "bn" ? "পাসওয়ার্ড সঠিক নয়।" : "Incorrect password.");
+  // Strict password verification for all accounts
+  if (!matched.password || matched.password !== password) {
+    alert(
+      currentLang === "bn"
+        ? "পাসওয়ার্ড ভুল হয়েছে! সঠিক পাসওয়ার্ড দিন।"
+        : "Incorrect password! Please enter the exact password."
+    );
     return;
   }
 
-  const isApproved = matched.approved === true || matched.status === "approved";
+  const isMainAdmin = normalizedEmail === SUPER_ADMIN_EMAIL.toLowerCase();
+  const isApproved = isMainAdmin || matched.approved === true || matched.status === "approved";
   if (!isApproved) {
     alert(
       currentLang === "bn"
@@ -2334,9 +2485,18 @@ async function handleLogin() {
     return;
   }
 
-  localStorage.setItem("pn_active_user", JSON.stringify(matched));
+  const activeProfile = {
+    ...matched,
+    role: isMainAdmin ? "super_admin" : "member",
+    approved: true,
+    status: "approved",
+    permissions: isMainAdmin ? getEffectivePermissions({ email: SUPER_ADMIN_EMAIL }) : (matched.permissions || getDefaultMemberPermissions())
+  };
+
+  localStorage.setItem("pn_active_user", JSON.stringify(activeProfile));
   document.getElementById("auth-wrapper").style.display = "none";
   document.getElementById("app-shell").style.display = "block";
+  enforceMemberRestrictions();
   navigateSection("home");
 }
 
@@ -2346,6 +2506,7 @@ function handleLogout() {
     firebaseAuth.signOut().catch(() => {});
   }
   localStorage.removeItem("pn_active_user");
+  document.body.classList.remove("member-no-screenshot", "member-no-print");
   document.getElementById("app-shell").style.display = "none";
   document.getElementById("report-container").style.display = "none";
   document.getElementById("boiler-report-container").style.display = "none";
@@ -2354,7 +2515,7 @@ function handleLogout() {
   showAuthPanel("login");
 }
 
-/* ================= ADMIN PANEL FUNCTIONS ================= */
+/* ================= ADMIN PANEL FUNCTIONS + INDIVIDUAL PERMISSIONS ================= */
 async function approveMemberAccount(email) {
   const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
   if (!isSuperAdminUser(activeUser)) {
@@ -2366,6 +2527,7 @@ async function approveMemberAccount(email) {
   if (target) {
     target.approved = true;
     target.status = "approved";
+    if (!target.permissions) target.permissions = getDefaultMemberPermissions();
     localStorage.setItem("pn_users_db", JSON.stringify(users));
     await syncEmployeeToFirestore(target);
   }
@@ -2390,6 +2552,28 @@ async function rejectOrRemoveMemberAccount(email) {
       await firebaseDb.collection("pn_employees").doc(email.toLowerCase()).delete();
     } catch (e) {}
   }
+  renderAdminPanel();
+}
+
+async function updateMemberPermission(email, key, value) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (!isSuperAdminUser(activeUser)) {
+    alert("Only Super Admin can change member permissions.");
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
+  const target = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  if (!target) return;
+
+  target.permissions = {
+    ...getDefaultMemberPermissions(),
+    ...(target.permissions || {}),
+    [key]: value
+  };
+
+  localStorage.setItem("pn_users_db", JSON.stringify(users));
+  await syncEmployeeToFirestore(target);
   renderAdminPanel();
 }
 
@@ -2447,13 +2631,15 @@ function renderAdminPanel() {
     `).join("");
   }
 
-  html += `<h3 style="margin:16px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">Registered & Approved Accounts (ID Card Management)</h3>`;
+  html += `<h3 style="margin:16px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">Registered & Approved Accounts (Section & Button Permissions)</h3>`;
   if (!approvedList.length) {
     html += `<div class="saved-record-item" style="font-size:12.5px; color:var(--slate-500);">No approved accounts yet.</div>`;
   } else {
     html += approvedList.map(u => {
       const isMainAdmin = u.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase();
       const safeEmail = u.email.replace(/'/g, "\\'");
+      const p = { ...getDefaultMemberPermissions(), ...(u.permissions || {}) };
+
       return `
         <div class="admin-user-card">
           <div>
@@ -2468,6 +2654,43 @@ function renderAdminPanel() {
             ${isSuper ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="openAdminIdUpdaterByEmail('${safeEmail}')">Update ID</button>` : ""}
             ${!isMainAdmin && isSuper ? `<button type="button" class="btn btn-reset" style="padding:6px 12px; font-size:12px;" onclick="rejectOrRemoveMemberAccount('${safeEmail}')">Remove</button>` : ""}
           </div>
+
+          ${!isMainAdmin && isSuper ? `
+            <div class="perm-matrix-box">
+              <span style="font-size:11px; font-weight:800; color:var(--brand-dark);">Section:</span>
+              <select class="perm-sec-select" onchange="updateMemberPermission('${safeEmail}', 'assignedSection', this.value)">
+                <option value="generator" ${p.assignedSection === "generator" ? "selected" : ""}>Generator</option>
+                <option value="boiler" ${p.assignedSection === "boiler" ? "selected" : ""}>Boiler</option>
+                <option value="compressor" ${p.assignedSection === "compressor" ? "selected" : ""}>Air Compressor</option>
+                <option value="all" ${p.assignedSection === "all" ? "selected" : ""}>All Sections</option>
+              </select>
+
+              <label class="perm-check-chip">
+                <input type="checkbox" ${p.canSave ? "checked" : ""} onchange="updateMemberPermission('${safeEmail}', 'canSave', this.checked)">
+                <span>Save Data</span>
+              </label>
+              <label class="perm-check-chip">
+                <input type="checkbox" ${p.canSubmit ? "checked" : ""} onchange="updateMemberPermission('${safeEmail}', 'canSubmit', this.checked)">
+                <span>Submit & Generate Report</span>
+              </label>
+              <label class="perm-check-chip">
+                <input type="checkbox" ${p.canDownload ? "checked" : ""} onchange="updateMemberPermission('${safeEmail}', 'canDownload', this.checked)">
+                <span>Download / Print</span>
+              </label>
+              <label class="perm-check-chip">
+                <input type="checkbox" ${p.canReset ? "checked" : ""} onchange="updateMemberPermission('${safeEmail}', 'canReset', this.checked)">
+                <span>Reset Entry</span>
+              </label>
+              <label class="perm-check-chip">
+                <input type="checkbox" ${p.canViewSaved ? "checked" : ""} onchange="updateMemberPermission('${safeEmail}', 'canViewSaved', this.checked)">
+                <span>View Saved Data</span>
+              </label>
+              <label class="perm-check-chip">
+                <input type="checkbox" ${p.canScreenshot ? "checked" : ""} onchange="updateMemberPermission('${safeEmail}', 'canScreenshot', this.checked)">
+                <span>Allow Screenshot</span>
+              </label>
+            </div>
+          ` : ""}
         </div>
       `;
     }).join("");
@@ -2489,6 +2712,23 @@ function closeSidebar() {
 
 function navigateSection(section, btnEl = null) {
   closeSidebar();
+
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+
+  if (!perms.isSuperAdmin) {
+    if (section === "admin") {
+      section = perms.assignedSection && perms.assignedSection !== "all" ? perms.assignedSection : "generator";
+    }
+    if (section === "saved" && !perms.canViewSaved) {
+      alert("Saved Data access is disabled for your account.");
+      return;
+    }
+    if (["generator", "boiler", "compressor"].includes(section) && perms.assignedSection !== "all" && perms.assignedSection !== section) {
+      alert(`You are only assigned to ${perms.assignedSection.toUpperCase()} section.`);
+      section = perms.assignedSection;
+    }
+  }
 
   document.querySelectorAll(".drawer-item").forEach(el => el.classList.remove("active"));
   const targetNav = btnEl || document.getElementById(`nav-${section}`);
@@ -2512,10 +2752,18 @@ function navigateSection(section, btnEl = null) {
   if (section === "admin") {
     renderAdminPanel();
   }
+  enforceMemberRestrictions();
 }
 
 /* ================= RESET OLD ENTRIES IN DATA ENTRY PAGES ================= */
 function resetSectionEntries(category) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canReset) {
+    alert("Reset Entry permission is disabled for your account.");
+    return;
+  }
+
   const msg = currentLang === "bn"
     ? "আগের সব পুরোনো এন্ট্রি রিসেট করে শূন্য করতে চান?"
     : "Reset all previous entries in this section to 0?";
@@ -2579,6 +2827,13 @@ function restoreInputsToMap(inputs) {
 }
 
 function saveCurrentSectionData(category, silent = false) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!silent && !perms.isSuperAdmin && !perms.canSave) {
+    alert("Save Data permission is disabled for your account.");
+    return;
+  }
+
   const storeKey = `pn_saved_${category}`;
   const existing = JSON.parse(localStorage.getItem(storeKey) || "[]");
 
@@ -2641,7 +2896,7 @@ function saveCurrentSectionData(category, silent = false) {
   }
 
   if (!silent) {
-    alert(currentLang === "bn" ? "ডাটা সেভ হয়েছে! Saved Data পেজ থেকে পুরো রিপোর্ট দেখতে ও এডিট করতে পারবেন।" : "Data saved! View full report or Edit anytime in Saved Data.");
+    alert(currentLang === "bn" ? "ডাটা সেভ হয়েছে!" : "Data saved!");
   }
 }
 
@@ -2661,6 +2916,10 @@ function triggerCompAutoSave() {
 }
 
 function editSavedRecord(category, index) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canViewSaved) return;
+
   const list = JSON.parse(localStorage.getItem(`pn_saved_${category}`) || "[]");
   const record = list[index];
   if (!record || !record.snapshot) return;
@@ -2709,6 +2968,13 @@ function updateMarkedDeleteCount(category) {
 }
 
 async function deleteSingleSavedRecord(category, index) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canReset) {
+    alert("Delete permission is restricted to Super Admin.");
+    return;
+  }
+
   const list = JSON.parse(localStorage.getItem(`pn_saved_${category}`) || "[]");
   const target = list[index];
   if (!target) return;
@@ -2729,6 +2995,13 @@ async function deleteSingleSavedRecord(category, index) {
 }
 
 async function deleteMarkedSavedRecords(category) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canReset) {
+    alert("Delete permission is restricted to Super Admin.");
+    return;
+  }
+
   const checkedBoxes = Array.from(document.querySelectorAll(`.saved-mark-cb-${category}:checked`));
   if (!checkedBoxes.length) {
     alert(currentLang === "bn" ? "আগে ডিলিট করার জন্য ডাটা মার্ক (টিক) করুন।" : "Please mark at least one item to delete.");
@@ -2759,6 +3032,10 @@ async function deleteMarkedSavedRecords(category) {
 }
 
 function renderSavedCategory(category, btnEl = null) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canViewSaved) return;
+
   if (btnEl) {
     document.querySelectorAll("#view-saved .shift-tab").forEach(b => b.classList.remove("active"));
     btnEl.classList.add("active");
@@ -2772,7 +3049,7 @@ function renderSavedCategory(category, btnEl = null) {
     return;
   }
 
-  const toolbarHtml = `
+  const toolbarHtml = perms.isSuperAdmin ? `
     <div class="saved-bulk-toolbar">
       <label class="saved-mark-label" style="color:var(--slate-700);">
         <input type="checkbox" onchange="toggleSelectAllSaved('${category}', this.checked)">
@@ -2781,7 +3058,7 @@ function renderSavedCategory(category, btnEl = null) {
       </label>
       <button type="button" class="btn btn-danger" style="padding:7px 14px; font-size:12px;" onclick="deleteMarkedSavedRecords('${category}')">🗑 Delete Marked</button>
     </div>
-  `;
+  ` : "";
 
   const itemsHtml = list.map((item, idx) => {
     const canView =
@@ -2793,9 +3070,9 @@ function renderSavedCategory(category, btnEl = null) {
       <div class="saved-record-item" id="saved-card-${category}-${idx}">
         <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px;">
           <div style="display:flex; align-items:flex-start; gap:10px;">
-            <input type="checkbox" class="saved-mark-cb-${category}" data-idx="${idx}"
+            ${perms.isSuperAdmin ? `<input type="checkbox" class="saved-mark-cb-${category}" data-idx="${idx}"
               style="width:17px; height:17px; margin-top:2px; accent-color:var(--danger-red); cursor:pointer;"
-              onchange="toggleMarkSavedItem('${category}', ${idx}, this.checked)" title="Mark to delete">
+              onchange="toggleMarkSavedItem('${category}', ${idx}, this.checked)" title="Mark to delete">` : ""}
             <div>
               <strong style="color:var(--brand-dark); font-size:13px;">#${idx + 1} &bull; ${item.summary}</strong>
               <div style="font-size:11px; color:var(--slate-500); margin-top:2px;">Saved: ${item.savedAt}</div>
@@ -2805,9 +3082,9 @@ function renderSavedCategory(category, btnEl = null) {
             ${canView ? `
               <button type="button" class="btn btn-save" style="padding:6px 12px; font-size:12px;" onclick="editSavedRecord('${category}', ${idx})">Edit</button>
               <button type="button" class="btn btn-primary" style="padding:6px 12px; font-size:12px;" onclick="viewSavedFullReport('${category}', ${idx}, false)">View Full Report</button>
-              <button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="viewSavedFullReport('${category}', ${idx}, true)">Download PDF</button>
+              ${(perms.isSuperAdmin || perms.canDownload) ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="viewSavedFullReport('${category}', ${idx}, true)">Download PDF</button>` : ""}
             ` : `<span class="upcoming-pill">Upcoming</span>`}
-            <button type="button" class="btn btn-reset" style="padding:6px 10px; font-size:12px;" onclick="deleteSingleSavedRecord('${category}', ${idx})" title="Delete">🗑</button>
+            ${perms.isSuperAdmin ? `<button type="button" class="btn btn-reset" style="padding:6px 10px; font-size:12px;" onclick="deleteSingleSavedRecord('${category}', ${idx})" title="Delete">🗑</button>` : ""}
           </div>
         </div>
       </div>
@@ -2818,6 +3095,14 @@ function renderSavedCategory(category, btnEl = null) {
 }
 
 function viewSavedFullReport(category, index, autoPrint = false) {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canViewSaved) return;
+  if (autoPrint && !perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download permission is not enabled for your account.");
+    return;
+  }
+
   const list = JSON.parse(localStorage.getItem(`pn_saved_${category}`) || "[]");
   const record = list[index];
   if (!record) return;
@@ -2830,7 +3115,7 @@ function viewSavedFullReport(category, index, autoPrint = false) {
     viewer.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Generator Report — ${record.date}</strong>
-        <button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>
+        ${(perms.isSuperAdmin || perms.canDownload) ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>` : ""}
       </div>
       <div class="report-page">${createReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, record.dayMetrics, 'sgen_day_' + index)}</div>
       <div class="night-page-spacer"></div>
@@ -2844,7 +3129,7 @@ function viewSavedFullReport(category, index, autoPrint = false) {
     viewer.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Boiler Report — ${record.date}</strong>
-        <button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>
+        ${(perms.isSuperAdmin || perms.canDownload) ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>` : ""}
       </div>
       <div class="report-page">${createBoilerReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, record.dayBoiler, 'sboi_day_' + index)}</div>
       <div class="night-page-spacer"></div>
@@ -2858,7 +3143,7 @@ function viewSavedFullReport(category, index, autoPrint = false) {
     viewer.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Air Compressor Report — ${record.date}</strong>
-        <button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>
+        ${(perms.isSuperAdmin || perms.canDownload) ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>` : ""}
       </div>
       <div class="report-page">${createCompReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, record.dayComp, 'scmp_day_' + index)}</div>
       <div class="night-page-spacer"></div>
@@ -3129,6 +3414,13 @@ function createCompReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
 }
 
 function buildCompReport(mode = 'separate') {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canSubmit) {
+    alert("Submit & Generate Report permission is disabled for your account.");
+    return;
+  }
+
   document.body.classList.remove('print-mode-separate', 'print-mode-combined');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
@@ -3156,10 +3448,17 @@ function buildCompReport(mode = 'separate') {
   renderBarChart('cnight_dept', nightComp.secSummary.map(s => s.sec), nightComp.secSummary.map(s => s.airKg), '#e86c1f', isCompact);
 
   saveCurrentSectionData('compressor', true);
+  enforceMemberRestrictions();
   document.getElementById('comp-report-container').scrollIntoView({ behavior: 'smooth' });
 }
 
 function printCompSeparatePages() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download / Print permission is disabled for your account.");
+    return;
+  }
   buildCompReport('separate');
   requestAnimationFrame(() => {
     activeCharts.forEach(c => c.resize());
@@ -3168,6 +3467,12 @@ function printCompSeparatePages() {
 }
 
 function printCompCombinedSinglePage() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download / Print permission is disabled for your account.");
+    return;
+  }
   buildCompReport('combined');
   requestAnimationFrame(() => {
     activeCharts.forEach(c => c.resize());
@@ -3176,6 +3481,12 @@ function printCompCombinedSinglePage() {
 }
 
 function downloadCompExcelSheet() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download permission is disabled for your account.");
+    return;
+  }
   const dateVal = document.getElementById('compDate').value;
   const dayC = computeCompShift('day', DAY_HOURS);
   const nightC = computeCompShift('night', NIGHT_HOURS);
@@ -3437,6 +3748,13 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
 }
 
 function buildBoilerReport(mode = 'separate') {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canSubmit) {
+    alert("Submit & Generate Report permission is disabled for your account.");
+    return;
+  }
+
   document.body.classList.remove('print-mode-separate', 'print-mode-combined');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
@@ -3464,10 +3782,17 @@ function buildBoilerReport(mode = 'separate') {
   renderBarChart('bnight_dept', nightBoiler.deptSummary.map(d => d.dept), nightBoiler.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
 
   saveCurrentSectionData('boiler', true);
+  enforceMemberRestrictions();
   document.getElementById('boiler-report-container').scrollIntoView({ behavior: 'smooth' });
 }
 
 function printBoilerSeparatePages() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download / Print permission is disabled for your account.");
+    return;
+  }
   buildBoilerReport('separate');
   requestAnimationFrame(() => {
     activeCharts.forEach(c => c.resize());
@@ -3476,6 +3801,12 @@ function printBoilerSeparatePages() {
 }
 
 function printBoilerCombinedSinglePage() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download / Print permission is disabled for your account.");
+    return;
+  }
   buildBoilerReport('combined');
   requestAnimationFrame(() => {
     activeCharts.forEach(c => c.resize());
@@ -3484,6 +3815,12 @@ function printBoilerCombinedSinglePage() {
 }
 
 function downloadBoilerExcelSheet() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download permission is disabled for your account.");
+    return;
+  }
   const dateVal = document.getElementById('boilerDate').value;
   const dayB = computeBoilerShift('day', DAY_HOURS);
   const nightB = computeBoilerShift('night', NIGHT_HOURS);
@@ -3754,83 +4091,37 @@ function applyScannedDataToShift() {
       if (n[4] !== undefined) document.getElementById(`${shift}_dgetp_${i}`).value = n[4];
       if (n[5] !== undefined) document.getElementById(`${shift}_dgwash_${i}`).value = n[5];
       if (n[6] !== undefined) document.getElementById(`${shift}_dgrent_${i}`).value = n[6];
-      recalcRow(shift, i);
     } else if (section === 'dept') {
       DEPARTMENTS.forEach((d, dIdx) => {
         if (n[dIdx] !== undefined) document.getElementById(`${shift}_${d.key}_${i}`).value = n[dIdx];
       });
     }
+    recalcRow(shift, i);
   });
   triggerAutoSave();
-  alert(`Auto-filled ${shift.toUpperCase()} shift.`);
+  alert(`Auto-filled ${shift.toUpperCase()} shift (${section.toUpperCase()})!`);
 }
 
-/* ================= EXCEL (.CSV) EXPORT ================= */
-function downloadExcelSheet() {
-  const dateVal = document.getElementById('reportDate').value;
-  const dayData = computeShiftMetrics('day', DAY_HOURS);
-  const nightData = computeShiftMetrics('night', NIGHT_HOURS);
-  const csvRows = [
-    ["P.N. COMPOSITE LTD. - 529, Ambag, Nilnagar, Gazipur Sadar, Gazipur."],
-    ["Report Date", dateVal],
-    []
-  ];
-
-  function appendShiftCsv(label, d) {
-    csvRows.push([`${label} LOAD & CONSUMPTION`]);
-    csvRows.push([
-      "Time", "Header PSI", "NG M-Bar", "GG-1", "GG-2", "GG-3",
-      "DG-ETP", "DG-Wash", "DG-Rent", "Total kW",
-      "DG (Ltr)", "DG Cost", "NG (m3)", "NG Cost", "Total Cost",
-      ...DEPARTMENTS.map(x => `${x.label} Load`)
-    ]);
-    d.rows.forEach(r => {
-      csvRows.push([
-        r.time, r.psi, r.mbar, r.gg1, r.gg2, r.gg3,
-        r.dgetp, r.dgwash, r.dgrent, r.tLoad,
-        r.dgCons, r.dgCost, r.ngCons, r.ngCost, r.totCost,
-        ...DEPARTMENTS.map(x => r.dVals[x.key])
-      ]);
-    });
-    csvRows.push([
-      "TOTAL kWh", "", "", d.sumGG1, d.sumGG2, d.sumGG3,
-      d.sumDGEtp, d.sumDGWash, d.sumDGRent, d.sumTLoad,
-      d.totalDgCons, d.totalDgCost, d.totalNgCons, d.totalNgCost, d.grandCost,
-      ...DEPARTMENTS.map(x => d.deptSums[x.key])
-    ]);
-    csvRows.push([]);
-  }
-
-  appendShiftCsv("DAY SHIFT", dayData);
-  appendShiftCsv("NIGHT SHIFT", nightData);
-
-  const csvContent = "\uFEFF" + csvRows.map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `PN_Composite_Power_Report_${dateVal}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-/* ================= COMPUTE & RENDER GENERATOR REPORT ================= */
+/* ================= COMPUTATION & REPORT ================= */
 function computeShiftMetrics(shift, hours) {
   const ngRate = parseFloat(document.getElementById('ngRate').value) || 0;
   const dgRate = parseFloat(document.getElementById('dgRate').value) || 0;
-  const totalDgCons = parseFloat(document.getElementById(`${shift}_dg_cons`).value) || 0;
-  const totalNgCons = parseFloat(document.getElementById(`${shift}_ng_cons`).value) || 0;
+  const dgCons = parseFloat(document.getElementById(`${shift}_dg_cons`).value) || 0;
+  const ngCons = parseFloat(document.getElementById(`${shift}_ng_cons`).value) || 0;
   const dgKwh = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
   const ggKwh = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
   const totalKwh = dgKwh + ggKwh;
 
+  const totalNgCost = Math.round(ngCons * ngRate);
+  const totalDgCost = Math.round(dgCons * dgRate);
+  const grandCost = totalNgCost + totalDgCost;
+
   let rows = [];
-  let sumTLoad = 0, sumGGLoad = 0, sumDGLoad = 0;
-  let sumGG1 = 0, sumGG2 = 0, sumGG3 = 0, sumDGEtp = 0, sumDGWash = 0, sumDGRent = 0;
-  let deptSums = {};
-  DEPARTMENTS.forEach(d => deptSums[d.key] = 0);
+  let sumGg1 = 0, sumGg2 = 0, sumGg3 = 0, sumGgTot = 0;
+  let sumDgEtp = 0, sumDgWash = 0, sumDgRent = 0, sumDgTot = 0;
+  let sumTLoad = 0, sumNgCost = 0, sumDgCost = 0, sumTotCost = 0;
+  let deptTotals = {};
+  DEPARTMENTS.forEach(d => deptTotals[d.key] = 0);
 
   hours.forEach((time, idx) => {
     const mbar = parseFloat(document.getElementById(`${shift}_mbar_${idx}`).value) || 0;
@@ -3838,54 +4129,55 @@ function computeShiftMetrics(shift, hours) {
     const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
     const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
     const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
-    const dgetp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
-    const dgwash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
-    const dgrent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
+    const ggTot = gg1 + gg2 + gg3;
 
-    sumGG1 += gg1; sumGG2 += gg2; sumGG3 += gg3;
-    sumDGEtp += dgetp; sumDGWash += dgwash; sumDGRent += dgrent;
-
-    const ggLoad = gg1 + gg2 + gg3;
-    const dgLoad = dgetp + dgwash + dgrent;
-    const tLoad = ggLoad + dgLoad;
-    sumGGLoad += ggLoad; sumDGLoad += dgLoad; sumTLoad += tLoad;
+    const dgEtp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
+    const dgWash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
+    const dgRent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
+    const dgTot = dgEtp + dgWash + dgRent;
+    const tLoad = ggTot + dgTot;
 
     let dVals = {};
     DEPARTMENTS.forEach(d => {
       const val = parseFloat(document.getElementById(`${shift}_${d.key}_${idx}`).value) || 0;
       dVals[d.key] = val;
-      deptSums[d.key] += val;
+      deptTotals[d.key] += val;
     });
 
-    rows.push({ time, psi, mbar, gg1, gg2, gg3, dgetp, dgwash, dgrent, ggLoad, dgLoad, tLoad, dVals });
+    sumGg1 += gg1; sumGg2 += gg2; sumGg3 += gg3; sumGgTot += ggTot;
+    sumDgEtp += dgEtp; sumDgWash += dgWash; sumDgRent += dgRent; sumDgTot += dgTot;
+    sumTLoad += tLoad;
+
+    rows.push({ time, mbar, psi, gg1, gg2, gg3, ggTot, dgEtp, dgWash, dgRent, dgTot, tLoad, dVals });
   });
 
   rows.forEach(r => {
-    r.ngCons = sumGGLoad > 0 ? Math.round((r.ggLoad / sumGGLoad) * totalNgCons) : 0;
-    r.dgCons = sumDGLoad > 0 ? Math.round((r.dgLoad / sumDGLoad) * totalDgCons) : 0;
-    r.ngCost = Math.round(r.ngCons * ngRate);
-    r.dgCost = Math.round(r.dgCons * dgRate);
+    r.ngCost = sumGgTot > 0 ? Math.round((r.ggTot / sumGgTot) * totalNgCost) : 0;
+    r.dgCost = sumDgTot > 0 ? Math.round((r.dgTot / sumDgTot) * totalDgCost) : 0;
     r.totCost = r.ngCost + r.dgCost;
+    sumNgCost += r.ngCost;
+    sumDgCost += r.dgCost;
+    sumTotCost += r.totCost;
   });
 
-  const totalDeptKw = Object.values(deptSums).reduce((a, b) => a + b, 0);
-  const totalNgCost = Math.round(totalNgCons * ngRate);
-  const totalDgCost = Math.round(totalDgCons * dgRate);
-  const grandCost = totalNgCost + totalDgCost;
-
+  const totalDeptLoad = Object.values(deptTotals).reduce((a, b) => a + b, 0);
   const deptSummary = DEPARTMENTS.map(d => {
-    const kwSum = deptSums[d.key];
-    const ratio = totalDeptKw > 0 ? (kwSum / totalDeptKw) : 0;
-    const elecUse = Math.round(ratio * totalKwh);
+    const loadKw = deptTotals[d.key];
+    const ratio = totalDeptLoad > 0 ? (loadKw / totalDeptLoad) : 0;
+    const pct = (ratio * 100).toFixed(1);
+    const kwhVal = Math.round(ratio * totalKwh);
     const ngCost = Math.round(ratio * totalNgCost);
     const dgCost = Math.round(ratio * totalDgCost);
-    return { label: d.label, kwSum, pct: (ratio * 100).toFixed(2), elecUse, ngCost, dgCost, totCost: ngCost + dgCost };
+    return { label: d.label, loadKw, pct, kwhVal, ngCost, dgCost, totCost: ngCost + dgCost };
   });
 
   return {
-    rows, sumGG1, sumGG2, sumGG3, sumDGEtp, sumDGWash, sumDGRent,
-    sumTLoad, totalDgCons, totalNgCons, totalDgCost, totalNgCost, grandCost,
-    dgKwh, ggKwh, totalKwh, deptSums, totalDeptKw, deptSummary
+    rows, sumGg1, sumGg2, sumGg3, sumGgTot,
+    sumDgEtp, sumDgWash, sumDgRent, sumDgTot, sumTLoad,
+    sumNgCost, sumDgCost, sumTotCost,
+    deptTotals, totalDeptLoad, deptSummary,
+    dgCons, ngCons, dgKwh, ggKwh, totalKwh,
+    totalNgCost, totalDgCost, grandCost
   };
 }
 
@@ -3897,17 +4189,17 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
         <p>529, Ambag, Nilnagar, Gazipur Sadar, Gazipur.</p>
       </div>
       <div class="rep-title-box">
-        <h3>NG + DG Hourly Load & Cost Analysis</h3>
+        <h3>Generator Load & Cost Distribution Analysis</h3>
         <span>${shiftLabel} &bull; Date: ${dateStr}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
     </div>
 
     <div class="kpi-strip">
-      <div class="kpi-item"><div class="k-lbl">Total Generation</div><div class="k-val">${data.totalKwh.toLocaleString()} kWh</div></div>
-      <div class="kpi-item"><div class="k-lbl">Gas Gen / Diesel Gen</div><div class="k-val">${data.ggKwh.toLocaleString()} / ${data.dgKwh.toLocaleString()} kWh</div></div>
-      <div class="kpi-item"><div class="k-lbl">NG Consumption</div><div class="k-val">${data.totalNgCons.toLocaleString()} m³</div></div>
-      <div class="kpi-item"><div class="k-lbl">Diesel Consumption</div><div class="k-val">${data.totalDgCons.toLocaleString()} Ltr</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Energy</div><div class="k-val">${data.totalKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">Gas / Diesel kWh</div><div class="k-val">${data.ggKwh.toLocaleString()} / ${data.dgKwh.toLocaleString()}</div></div>
+      <div class="kpi-item"><div class="k-lbl">NG / Diesel Cons.</div><div class="k-val">${data.ngCons.toLocaleString()} m³ / ${data.dgCons.toLocaleString()} L</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Load Sum</div><div class="k-val">${data.sumTLoad.toLocaleString()} kW</div></div>
       <div class="kpi-item orange"><div class="k-lbl">Total Shift Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
       <div class="kpi-item orange"><div class="k-lbl">Avg. Cost / kWh</div><div class="k-val">৳ ${data.totalKwh > 0 ? (data.grandCost / data.totalKwh).toFixed(2) : '0.00'}</div></div>
     </div>
@@ -3915,20 +4207,18 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     <table class="clean-rep-table">
       <thead>
         <tr>
-          <th colspan="10" class="grp-gen">GG & DG Power Generation (kW)</th>
-          <th colspan="5" class="grp-cost">Fuel Consumption & Cost (Tk)</th>
-          <th colspan="${DEPARTMENTS.length}" class="grp-dept">Department-Wise Hourly Load Distribution (kW)</th>
-          <th colspan="5" class="grp-sum">Department-Wise Shift Cost Summary</th>
+          <th colspan="8" class="grp-gen">Generator Load (kW) & Gas Pressure</th>
+          <th colspan="3" class="grp-cost">Hourly Cost (Tk)</th>
+          <th colspan="10" class="grp-dept">Department Load (kW)</th>
+          <th colspan="5" class="grp-sum">Department-Wise Summary</th>
         </tr>
         <tr>
-          <th class="sub-gen">Time</th><th class="sub-gen">Header<br>PSI</th><th class="sub-gen">NG<br>M-Bar</th>
+          <th class="sub-gen">Time</th><th class="sub-gen">M-Bar</th><th class="sub-gen">PSI</th>
           <th class="sub-gen">GG-1</th><th class="sub-gen">GG-2</th><th class="sub-gen">GG-3</th>
-          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wash</th><th class="sub-gen">DG-Rent</th><th class="sub-gen">Total kW</th>
-          <th class="sub-cost">DG<br>(Ltr)</th><th class="sub-cost">DG Cost</th><th class="sub-cost">NG<br>(m³)</th>
-          <th class="sub-cost">NG Cost</th><th class="sub-cost">Total Cost</th>
+          <th class="sub-gen">DG All</th><th class="sub-gen">Tot kW</th>
+          <th class="sub-cost">NG Cost</th><th class="sub-cost">DG Cost</th><th class="sub-cost">Tot Cost</th>
           ${DEPARTMENTS.map(d => `<th class="sub-dept">${d.label}</th>`).join('')}
-          <th class="sub-sum">Department</th><th class="sub-sum">kWh<br>Share</th>
-          <th class="sub-sum">NG Cost</th><th class="sub-sum">DG Cost</th><th class="sub-sum">Total Cost</th>
+          <th class="sub-sum">Dept</th><th class="sub-sum">Load</th><th class="sub-sum">kWh</th><th class="sub-sum">NG/DG</th><th class="sub-sum">Cost</th>
         </tr>
       </thead>
       <tbody>`;
@@ -3937,53 +4227,49 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     const r = data.rows[i];
     const ds = data.deptSummary[i];
     html += `<tr>
-      <td class="col-highlight">${r.time}</td><td class="col-highlight">${r.psi}</td><td>${r.mbar}</td>
-      <td>${r.gg1}</td><td>${r.gg2}</td><td>${r.gg3}</td>
-      <td>${r.dgetp}</td><td>${r.dgwash}</td><td>${r.dgrent}</td><td class="col-highlight">${r.tLoad}</td>
-      <td>${r.dgCons}</td><td>${r.dgCost.toLocaleString()}</td><td>${r.ngCons}</td>
-      <td>${r.ngCost.toLocaleString()}</td><td class="col-highlight">${r.totCost.toLocaleString()}</td>
+      <td class="col-highlight">${r.time}</td><td>${r.mbar}</td><td>${r.psi}</td>
+      <td>${r.gg1}</td><td>${r.gg2}</td><td>${r.gg3}</td><td>${r.dgTot}</td>
+      <td class="col-highlight">${r.tLoad}</td>
+      <td>${r.ngCost.toLocaleString()}</td><td>${r.dgCost.toLocaleString()}</td>
+      <td class="col-highlight">${r.totCost.toLocaleString()}</td>
       ${DEPARTMENTS.map(d => `<td>${r.dVals[d.key]}</td>`).join('')}
       ${ds ? `
-        <td class="col-sum-cell" style="text-align:left; padding-left:5px;">${ds.label}</td>
-        <td class="col-sum-cell">${ds.elecUse.toLocaleString()}</td>
-        <td class="col-sum-cell">${ds.ngCost.toLocaleString()}</td>
-        <td class="col-sum-cell">${ds.dgCost.toLocaleString()}</td>
+        <td class="col-sum-cell" style="text-align:left; padding-left:4px;">${ds.label}</td>
+        <td class="col-sum-cell">${ds.loadKw.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.kwhVal.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.ngCost.toLocaleString()}/${ds.dgCost.toLocaleString()}</td>
         <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
-      ` : `
-        <td></td>
-        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalKwh.toLocaleString() : ''}</td>
-        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalNgCost.toLocaleString() : ''}</td>
-        <td class="col-highlight">${i === DEPARTMENTS.length ? data.totalDgCost.toLocaleString() : ''}</td>
-        <td class="col-highlight" style="color:#9a3412;">${i === DEPARTMENTS.length ? data.grandCost.toLocaleString() : ''}</td>
-      `}
+      ` : `<td></td><td></td><td></td><td></td><td></td>`}
     </tr>`;
   }
 
   html += `
     <tr class="total-row">
-      <td colspan="3" style="text-align:right; padding-right:5px;">TOTAL kWh:</td>
-      <td>${data.sumGG1.toLocaleString()}</td><td>${data.sumGG2.toLocaleString()}</td><td>${data.sumGG3.toLocaleString()}</td>
-      <td>${data.sumDGEtp.toLocaleString()}</td><td>${data.sumDGWash.toLocaleString()}</td><td>${data.sumDGRent.toLocaleString()}</td>
-      <td>${data.sumTLoad.toLocaleString()}</td><td>${data.totalDgCons.toLocaleString()}</td><td>${data.totalDgCost.toLocaleString()}</td>
-      <td>${data.totalNgCons.toLocaleString()}</td><td>${data.totalNgCost.toLocaleString()}</td><td>${data.grandCost.toLocaleString()}</td>
-      ${DEPARTMENTS.map(d => `<td>${data.deptSums[d.key].toLocaleString()}</td>`).join('')}
-      <td>TOTAL kW</td><td>${data.totalDeptKw.toLocaleString()}</td><td colspan="3"></td>
+      <td colspan="3" style="text-align:right; padding-right:5px;">TOTAL SHIFT:</td>
+      <td>${data.sumGg1.toLocaleString()}</td><td>${data.sumGg2.toLocaleString()}</td><td>${data.sumGg3.toLocaleString()}</td>
+      <td>${data.sumDgTot.toLocaleString()}</td><td>${data.sumTLoad.toLocaleString()}</td>
+      <td>${data.sumNgCost.toLocaleString()}</td><td>${data.sumDgCost.toLocaleString()}</td>
+      <td>${data.sumTotCost.toLocaleString()}</td>
+      ${DEPARTMENTS.map(d => `<td>${data.deptTotals[d.key].toLocaleString()}</td>`).join('')}
+      <td>TOTAL</td><td>${data.totalDeptLoad.toLocaleString()}</td><td>${data.totalKwh.toLocaleString()}</td>
+      <td colspan="2" style="color:#9a3412;">৳ ${data.grandCost.toLocaleString()}</td>
     </tr>
     <tr class="pct-row">
-      <td colspan="9" style="text-align:right; padding-right:8px;">LOAD SHARE (%):</td>
-      <td>100%</td><td colspan="5"></td>
+      <td colspan="3" style="text-align:right; padding-right:5px;">SHARE %:</td>
+      <td colspan="4">GG: ${data.sumTLoad > 0 ? ((data.sumGgTot / data.sumTLoad)*100).toFixed(1) : 0}% | DG: ${data.sumTLoad > 0 ? ((data.sumDgTot / data.sumTLoad)*100).toFixed(1) : 0}%</td>
+      <td>100%</td><td colspan="3">Cost Split</td>
       ${data.deptSummary.map(ds => `<td>${ds.pct}%</td>`).join('')}
-      <td>SHARE</td><td>100%</td><td colspan="3"></td>
+      <td colspan="5">100% Allocated</td>
     </tr>
   </tbody></table>
 
   <div class="rep-charts">
-    <div class="rep-chart-card"><h4>Hourly Electricity Generation (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
-    <div class="rep-chart-card"><h4>Department-Wise Electricity Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Hourly Total Generation Load (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Department-Wise Total Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
   </div>
 
   <div class="rep-footer">
-    <div class="sig-line">Prepared By (Utility Shift Engr.)</div>
+    <div class="sig-line">Prepared By (Shift Engr.)</div>
     <div class="sig-line">Checked By (In-Charge)</div>
     <div class="sig-line">Approved By (Head of Utility)</div>
   </div>
@@ -3992,35 +4278,63 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   return html;
 }
 
-function renderBarChart(canvasId, labels, values, barColor, isCompact = false) {
-  const ctx = document.getElementById(canvasId).getContext('2d');
+function renderBarChart(canvasId, labels, values, colorHex, isCompact) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels,
-      datasets: [{ data: values, backgroundColor: barColor, borderRadius: isCompact ? 2 : 3, barPercentage: 0.55 }]
+      labels: labels,
+      datasets: [{
+        data: values,
+        backgroundColor: colorHex,
+        borderRadius: 3,
+        maxBarThickness: isCompact ? 14 : 24
+      }]
     },
     options: {
-      responsive: true, maintainAspectRatio: false, animation: false,
-      layout: { padding: { top: isCompact ? 11 : 14, bottom: 0, left: 2, right: 2 } },
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: { padding: { top: isCompact ? 8 : 16, right: 4, left: 0, bottom: 0 } },
       plugins: {
         legend: { display: false },
         datalabels: {
-          anchor: 'end', align: 'top', offset: isCompact ? 0 : 1, clamp: true,
-          color: '#1e293b', font: { size: isCompact ? 6.5 : 7.5, weight: '700' },
-          formatter: v => v > 0 ? v.toLocaleString() : ''
+          anchor: 'end',
+          align: 'top',
+          offset: 1,
+          color: '#0f172a',
+          font: { size: isCompact ? 6.5 : 8.5, weight: 'bold' },
+          formatter: (val) => val > 0 ? Number(val).toLocaleString() : ''
         }
       },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: isCompact ? 6.5 : 7.5, weight: '600' }, color: '#334155', maxRotation: 0, autoSkip: false } },
-        y: { display: false, beginAtZero: true }
+        x: {
+          ticks: { font: { size: isCompact ? 6 : 8 }, maxRotation: 35, minRotation: 0 },
+          grid: { display: false }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { font: { size: isCompact ? 6 : 8 }, maxTicksLimit: isCompact ? 3 : 5 },
+          grid: { color: '#f1f5f9' }
+        }
       }
     }
   });
+
   activeCharts.push(chart);
 }
 
 function buildFinalReport(mode = 'separate') {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canSubmit) {
+    alert("Submit & Generate Report permission is disabled for your account.");
+    return;
+  }
+
   document.body.classList.remove('print-mode-separate', 'print-mode-combined');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
@@ -4030,28 +4344,35 @@ function buildFinalReport(mode = 'separate') {
   const rawDate = document.getElementById('reportDate').value;
   const formattedDate = new Date(rawDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
-  const dayMetrics = computeShiftMetrics('day', DAY_HOURS);
-  const nightMetrics = computeShiftMetrics('night', NIGHT_HOURS);
+  const dayData = computeShiftMetrics('day', DAY_HOURS);
+  const nightData = computeShiftMetrics('night', NIGHT_HOURS);
 
   document.getElementById('report-output').innerHTML = `
-    <div class="report-page">${createReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, dayMetrics, 'day')}</div>
+    <div class="report-page">${createReportPageHtml('DAY SHIFT (9:00 AM - 8:00 PM)', formattedDate, dayData, 'day')}</div>
     <div class="page-break"></div>
-    <div class="report-page night-page-spacer">${createReportPageHtml('NIGHT SHIFT (9:00 PM - 8:00 AM)', formattedDate, nightMetrics, 'night')}</div>
+    <div class="report-page night-page-spacer">${createReportPageHtml('NIGHT SHIFT (9:00 PM - 8:00 AM)', formattedDate, nightData, 'night')}</div>
   `;
 
   document.getElementById('report-container').style.display = 'block';
 
   const isCompact = (mode === 'combined');
-  renderBarChart('day_gen', dayMetrics.rows.map(r => r.time), dayMetrics.rows.map(r => r.tLoad), '#14452f', isCompact);
-  renderBarChart('day_dept', dayMetrics.deptSummary.map(d => d.label), dayMetrics.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
-  renderBarChart('night_gen', nightMetrics.rows.map(r => r.time), nightMetrics.rows.map(r => r.tLoad), '#14452f', isCompact);
-  renderBarChart('night_dept', nightMetrics.deptSummary.map(d => d.label), nightMetrics.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
+  renderBarChart('day_gen', dayData.rows.map(r => r.time), dayData.rows.map(r => r.tLoad), '#14452f', isCompact);
+  renderBarChart('day_dept', dayData.deptSummary.map(d => d.label), dayData.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
+  renderBarChart('night_gen', nightData.rows.map(r => r.time), nightData.rows.map(r => r.tLoad), '#14452f', isCompact);
+  renderBarChart('night_dept', nightData.deptSummary.map(d => d.label), nightData.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
 
   saveCurrentSectionData('generator', true);
+  enforceMemberRestrictions();
   document.getElementById('report-container').scrollIntoView({ behavior: 'smooth' });
 }
 
 function printSeparatePages() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download / Print permission is disabled for your account.");
+    return;
+  }
   buildFinalReport('separate');
   requestAnimationFrame(() => {
     activeCharts.forEach(c => c.resize());
@@ -4060,6 +4381,12 @@ function printSeparatePages() {
 }
 
 function printCombinedSinglePage() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download / Print permission is disabled for your account.");
+    return;
+  }
   buildFinalReport('combined');
   requestAnimationFrame(() => {
     activeCharts.forEach(c => c.resize());
@@ -4067,54 +4394,106 @@ function printCombinedSinglePage() {
   });
 }
 
-window.addEventListener('beforeprint', () => {
-  activeCharts.forEach(c => c.resize());
-});
+function downloadExcelSheet() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  const perms = getEffectivePermissions(activeUser);
+  if (!perms.isSuperAdmin && !perms.canDownload) {
+    alert("Download permission is disabled for your account.");
+    return;
+  }
+  const dateVal = document.getElementById('reportDate').value;
+  const ngRate = document.getElementById('ngRate').value;
+  const dgRate = document.getElementById('dgRate').value;
+  const dayData = computeShiftMetrics('day', DAY_HOURS);
+  const nightData = computeShiftMetrics('night', NIGHT_HOURS);
 
-window.addEventListener('afterprint', () => {
-  document.body.classList.remove('print-mode-combined');
-  document.body.classList.add('print-mode-separate');
-  activeCharts.forEach(c => c.resize());
-});
+  const csvRows = [
+    ["P.N. COMPOSITE LTD. - Generator Load & Cost Distribution Analysis"],
+    ["Report Date", dateVal, "NG Rate", ngRate, "DG Rate", dgRate],
+    [],
+    ["DAY SHIFT SUMMARY"],
+    ["Total kWh", dayData.totalKwh, "Gas kWh", dayData.ggKwh, "Diesel kWh", dayData.dgKwh, "NG Cons (m3)", dayData.ngCons, "DG Cons (L)", dayData.dgCons, "Total Cost (Tk)", dayData.grandCost],
+    ["Time", "M-Bar", "PSI", "GG-1", "GG-2", "GG-3", "DG All", "Total kW", "NG Cost", "DG Cost", "Total Cost", ...DEPARTMENTS.map(d => d.label)],
+    ...dayData.rows.map(r => [r.time, r.mbar, r.psi, r.gg1, r.gg2, r.gg3, r.dgTot, r.tLoad, r.ngCost, r.dgCost, r.totCost, ...DEPARTMENTS.map(d => r.dVals[d.key])]),
+    [],
+    ["NIGHT SHIFT SUMMARY"],
+    ["Total kWh", nightData.totalKwh, "Gas kWh", nightData.ggKwh, "Diesel kWh", nightData.dgKwh, "NG Cons (m3)", nightData.ngCons, "DG Cons (L)", nightData.dgCons, "Total Cost (Tk)", nightData.grandCost],
+    ["Time", "M-Bar", "PSI", "GG-1", "GG-2", "GG-3", "DG All", "Total kW", "NG Cost", "DG Cost", "Total Cost", ...DEPARTMENTS.map(d => d.label)],
+    ...nightData.rows.map(r => [r.time, r.mbar, r.psi, r.gg1, r.gg2, r.gg3, r.dgTot, r.tLoad, r.ngCost, r.dgCost, r.totCost, ...DEPARTMENTS.map(d => r.dVals[d.key])])
+  ];
 
-/* ================= INITIALIZE ================= */
+  const csvContent = "\uFEFF" + csvRows.map(row =>
+    row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(",")
+  ).join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `PN_Composite_Utility_Report_${dateVal}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+/* ================= INITIALIZATION ================= */
 renderEntryGrid('day', DAY_HOURS);
 renderEntryGrid('night', NIGHT_HOURS);
 renderBoilerGrid('day', DAY_HOURS);
 renderBoilerGrid('night', NIGHT_HOURS);
 renderCompGrid('day', DAY_HOURS);
 renderCompGrid('night', NIGHT_HOURS);
-
 initDivisionDropdown('regPresDiv', 'regPresDist', 'regPresUpz');
 initDivisionDropdown('regPermDiv', 'regPermDist', 'regPermUpz');
 applyLanguage("en");
+refreshAllLogos();
 
-// Restore latest drafts if available
-const latestGenDraft = JSON.parse(localStorage.getItem("pn_latest_generator_draft") || "null");
-if (latestGenDraft) {
-  restoreInputsToMap(latestGenDraft);
-  for (let i = 0; i < 12; i++) { recalcRow("day", i); recalcRow("night", i); }
-  updateTotalKwh("day");
-  updateTotalKwh("night");
-}
-const latestBoilerDraft = JSON.parse(localStorage.getItem("pn_latest_boiler_draft") || "null");
-if (latestBoilerDraft) {
-  restoreInputsToMap(latestBoilerDraft);
-  recalcBoilerShift("day");
-  recalcBoilerShift("night");
-}
-const latestCompDraft = JSON.parse(localStorage.getItem("pn_latest_comp_draft") || "null");
-if (latestCompDraft) {
-  restoreInputsToMap(latestCompDraft);
-  recalcCompShift("day");
-  recalcCompShift("night");
-}
+(function restoreLatestDraftsOnLoad() {
+  const genDraft = JSON.parse(localStorage.getItem("pn_latest_generator_draft") || "null");
+  if (genDraft) {
+    restoreInputsToMap(genDraft);
+    for (let i = 0; i < 12; i++) {
+      recalcRow("day", i);
+      recalcRow("night", i);
+    }
+    updateTotalKwh("day");
+    updateTotalKwh("night");
+  }
 
-// Always start at Login screen on fresh load unless logged in
-localStorage.removeItem("pn_active_user");
-document.getElementById("auth-wrapper").style.display = "block";
-document.getElementById("app-shell").style.display = "none";
-showAuthPanel("login");
+  const boilerDraft = JSON.parse(localStorage.getItem("pn_latest_boiler_draft") || "null");
+  if (boilerDraft) {
+    restoreInputsToMap(boilerDraft);
+    recalcBoilerShift("day");
+    recalcBoilerShift("night");
+  }
+
+  const compDraft = JSON.parse(localStorage.getItem("pn_latest_comp_draft") || "null");
+  if (compDraft) {
+    restoreInputsToMap(compDraft);
+    recalcCompShift("day");
+    recalcCompShift("night");
+  }
+})();
+
+(function initAuthState() {
+  const activeUser = JSON.parse(localStorage.getItem("pn_active_user") || "null");
+  if (activeUser && activeUser.email) {
+    const users = JSON.parse(localStorage.getItem("pn_users_db") || "[]");
+    const fresh = users.find(u => u.email.toLowerCase() === activeUser.email.toLowerCase());
+    if (fresh) {
+      localStorage.setItem("pn_active_user", JSON.stringify(fresh));
+    }
+    document.getElementById("auth-wrapper").style.display = "none";
+    document.getElementById("app-shell").style.display = "block";
+    enforceMemberRestrictions();
+    navigateSection("home");
+  } else {
+    document.getElementById("auth-wrapper").style.display = "block";
+    document.getElementById("app-shell").style.display = "none";
+    showAuthPanel("login");
+  }
+})();
 </script>
 </body>
 </html>
