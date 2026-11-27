@@ -1838,18 +1838,26 @@ async function persistLifetimeSessionInFirestore(userProfile, sectionOverride = 
   if (!userProfile || !userProfile.email) return;
   const emailLower = userProfile.email.trim().toLowerCase();
   const secToSave = sectionOverride || activeCurrentSection || "home";
-  writeTabState({ email: emailLower, activeSection: secToSave, lang: currentLang });
+  activeCurrentSection = secToSave;
+
+  // Instant tab-level state (no localStorage)
+  writeTabState({
+    email: emailLower,
+    activeSection: secToSave,
+    lang: currentLang
+  });
 
   if (!firebaseDb) return;
-  try {
-    await firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).set({
-      email: emailLower,
-      activeSection: secToSave,
-      lang: currentLang,
-      updatedAt: new Date().toISOString()
-    }, { merge: true });
-  } catch (e) {}
+
+  // Background Firestore sync (does not block UI)
+  firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).set({
+    email: emailLower,
+    activeSection: secToSave,
+    lang: currentLang,
+    updatedAt: new Date().toISOString()
+  }, { merge: true }).catch(() => {});
 }
+
 
 async function clearLifetimeSessionInFirestore() {
   clearTabState();
@@ -4342,7 +4350,14 @@ function downloadExcelSheet() {
   URL.revokeObjectURL(url);
 }
 
-/* ================= INITIALIZE ON PAGE LOAD (LIFETIME SESSION & SECTION RESTORE) ================= */
+/* ================= INITIALIZE ON PAGE LOAD (INSTANT MILLISECOND RESTORE) ================= */
+(function preHideAuthIfSessionExists() {
+  const tabState = readTabState();
+  if (tabState && tabState.email) {
+    document.write(`<style>#auth-wrapper{display:none!important;}#app-shell{display:block!important;}</style>`);
+  }
+})();
+
 window.addEventListener("DOMContentLoaded", async function() {
   initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz");
   initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz");
@@ -4357,44 +4372,53 @@ window.addEventListener("DOMContentLoaded", async function() {
   refreshAllLogos();
 
   const tabState = readTabState();
-  if (tabState.lang) {
-    applyLanguage(tabState.lang);
+  applyLanguage(tabState.lang || "en");
+
+  // 1) Instant millisecond restore from window.name (no 2-3s login flash)
+  if (tabState && tabState.email) {
+    const emailLower = tabState.email.trim().toLowerCase();
+    const restoredSection = tabState.activeSection || "home";
+    const isSuper = emailLower === SUPER_ADMIN_EMAIL.toLowerCase();
+
+    currentActiveUser = {
+      email: emailLower,
+      name: isSuper ? "Emon Talukder" : emailLower.split("@")[0],
+      role: isSuper ? "super_admin" : "member",
+      approved: true,
+      status: "approved",
+      permissions: isSuper ? getEffectivePermissions({ email: SUPER_ADMIN_EMAIL }) : { ...DEFAULT_MEMBER_PERMISSIONS }
+    };
+    activeCurrentSection = restoredSection;
+
+    document.getElementById("auth-wrapper").style.display = "none";
+    document.getElementById("app-shell").style.display = "block";
+    applyRoleAndPermissionRestrictions();
+    navigateSection(restoredSection);
   } else {
-    applyLanguage("en");
+    document.getElementById("auth-wrapper").style.display = "block";
+    document.getElementById("app-shell").style.display = "none";
   }
 
+  // 2) Background Firestore listener & profile/session sync
   if (firestoreReady) {
     startRealtimeFirestoreListeners();
     try {
-      const sessionDoc = await firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).get();
-      let restoredEmail = tabState.email || "";
-      let restoredSection = tabState.activeSection || "home";
-
-      if (sessionDoc.exists) {
-        const sData = sessionDoc.data();
-        if (sData.email) restoredEmail = sData.email;
-        if (sData.activeSection) restoredSection = sData.activeSection;
-        if (sData.lang && !tabState.lang) applyLanguage(sData.lang);
-      }
-
-      if (restoredEmail) {
-        const empDoc = await firebaseDb.collection("pn_employees").doc(restoredEmail.toLowerCase()).get();
+      const targetEmail = (tabState && tabState.email) ? tabState.email.trim().toLowerCase() : "";
+      if (targetEmail) {
+        const empDoc = await firebaseDb.collection("pn_employees").doc(targetEmail).get();
         if (empDoc.exists) {
           const userObj = empDoc.data();
           if (userObj.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() || userObj.approved === true || userObj.status === "approved") {
             currentActiveUser = userObj;
-            activeCurrentSection = restoredSection;
-            writeTabState({ email: userObj.email.toLowerCase(), activeSection: restoredSection, lang: currentLang });
-            document.getElementById("auth-wrapper").style.display = "none";
-            document.getElementById("app-shell").style.display = "block";
             applyRoleAndPermissionRestrictions();
-            navigateSection(restoredSection);
-            return;
+            if (activeCurrentSection === "admin") renderAdminPanel();
+            if (activeCurrentSection === "saved") renderSavedCategory(currentSavedCategory, document.getElementById(`stab-${currentSavedCategory}`));
           }
         }
       }
     } catch (e) {}
   }
+});
 
   document.getElementById("auth-wrapper").style.display = "block";
   document.getElementById("app-shell").style.display = "none";
