@@ -1338,7 +1338,7 @@
           <div class="meta-inputs">
             <div class="input-group"><label data-i18n="reportDateLbl">Report Date</label><input type="date" id="reportDate" value="2026-11-27"></div>
             <div class="input-group"><label data-i18n="natGasRateLbl">Natural Gas Rate (Tk/m³)</label><input type="number" step="0.01" id="ngRate" value="27.00"></div>
-            <div class="input-group"><label data-i18n="dieselRateLbl">Diesel Rate (Tk/Ltr)</label><input type="number" step="0.01" id="dgRate" value="109.00"></div>
+            <div class="input-group"><label data-i18n="dieselRateLbl">Diesel Rate (Tk/Ltr)</label><input type="number" step="0.01" id="dgRate" value="135.00"></div>
           </div>
 
           <div class="shift-switcher">
@@ -3956,6 +3956,7 @@ function renderEntryGrid(shift, hours) {
         <th>DG-Wash</th>
         <th>DG-Rental</th>
         <th>Total kW</th>
+        <th>Gen Hr<br>(kWh Auto)</th>
         ${DEPARTMENTS.map(d => `<th class="dept-th">${d.label} Load</th>`).join('')}
       </tr>
     </thead>
@@ -3973,6 +3974,7 @@ function renderEntryGrid(shift, hours) {
       <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgwash_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgrent_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
       <td><input type="number" id="${shift}_tload_${idx}" readonly value="0"></td>
+      <td><input type="number" id="${shift}_hrkwh_${idx}" readonly value="0"></td>
       ${DEPARTMENTS.map(d => `<td><input type="number" inputmode="decimal" step="any" id="${shift}_${d.key}_${idx}" oninput="triggerAutoSave();" value="0"></td>`).join('')}
     </tr>`;
   });
@@ -3992,14 +3994,16 @@ function recalcRow(shift, idx) {
   const dw = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
   const dr = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
 
-  document.getElementById(`${shift}_tload_${idx}`).value = g1 + g2 + g3 + de + dw + dr;
+  const tLoad = g1 + g2 + g3 + de + dw + dr;
+  document.getElementById(`${shift}_tload_${idx}`).value = tLoad;
+  const hrKwhEl = document.getElementById(`${shift}_hrkwh_${idx}`);
+  if (hrKwhEl) hrKwhEl.value = tLoad;
 }
 
 function updateTotalKwh(shift) {
   const dg = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
   const gg = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
   document.getElementById(`${shift}_total_kwh`).value = dg + gg;
-  triggerAutoSave();
 }
 
 function switchShift(shift, btn) {
@@ -4010,11 +4014,7 @@ function switchShift(shift, btn) {
   document.getElementById('panel-night').style.display = shift === 'night' ? 'block' : 'none';
 }
 
-/* ================= IMAGE SCANNING & AUTO-FILL ================= */
-function closeScanModal() {
-  document.getElementById('scan-modal').style.display = 'none';
-}
-
+/* ================= IMAGE SCANNER ================= */
 async function handleImageScan(event) {
   const perms = getEffectivePermissions(currentActiveUser);
   if (event.target.id === "cameraInput" && !perms.canOpenCamera) {
@@ -4028,13 +4028,11 @@ async function handleImageScan(event) {
 
   const file = event.target.files[0];
   if (!file) return;
-
   const imgUrl = URL.createObjectURL(file);
   const imgEl = document.getElementById('scannedImgPreview');
   imgEl.src = imgUrl;
   document.getElementById('scan-modal').style.display = 'block';
-  document.getElementById('scanStatusText').textContent = "Scanning image via OCR...";
-
+  document.getElementById('scanStatusText').textContent = "Scanning image...";
   const hours = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
   scannedRowsDraft = hours.map(t => ({ time: t, nums: [] }));
   renderParsedTable();
@@ -4044,178 +4042,172 @@ async function handleImageScan(event) {
       const worker = await Tesseract.createWorker("eng");
       const ret = await worker.recognize(imgEl);
       await worker.terminate();
-
-      const rawText = ret.data.text || "";
-      parseOcrTextToRows(rawText, hours);
-
-      const consMatches = rawText.match(/(?:diesel|ng|gas|kwh)[^\d\n]{0,15}(\d+(?:\.\d+)?)/gi) || [];
-      consMatches.forEach(m => {
-        const val = parseFloat((m.match(/\d+(?:\.\d+)?/) || [0])[0]);
-        if (/diesel/i.test(m)) document.getElementById(`${currentActiveShift}_dg_cons`).value = val;
-        else if (/ng|gas/i.test(m)) document.getElementById(`${currentActiveShift}_ng_cons`).value = val;
+      const lines = (ret.data.text || "").split(/\r?\n/).filter(Boolean);
+      lines.forEach(line => {
+        const tm = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/);
+        if (!tm) return;
+        const idx = hours.findIndex(h => h.startsWith(tm[1] + ":"));
+        if (idx === -1) return;
+        const nums = (line.replace(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/, ' ').match(/\d+(?:\.\d+)?/g) || []).map(Number);
+        if (nums.length) scannedRowsDraft[idx].nums = nums;
       });
-
-      document.getElementById('scanStatusText').textContent = "Scan complete! Verify values & click Auto-Fill Section.";
+      renderParsedTable();
+      document.getElementById('scanStatusText').textContent = "Scan complete! Select Section & click Auto-Fill Section.";
     } catch (err) {
-      document.getElementById('scanStatusText').textContent = "OCR finished with partial text — edit any cell & click Auto-Fill Section.";
+      document.getElementById('scanStatusText').textContent = "Edit values if needed & click Auto-Fill Section.";
     }
   };
 }
 
-function parseOcrTextToRows(text, hours) {
-  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-  lines.forEach(line => {
-    const timeMatch = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/);
-    if (!timeMatch) return;
-    const hrNum = parseInt(timeMatch[1], 10);
-    const rowIdx = hours.findIndex(h => parseInt(h.split(':')[0], 10) === hrNum);
-    if (rowIdx === -1) return;
-
-    const cleanedLine = line.replace(/\b(1[0-2]|[1-9])\s*[:.]\s*00\s*(?:AM|PM)?\b/gi, ' ');
-    const nums = (cleanedLine.match(/\d+(?:\.\d+)?/g) || []).map(Number);
-    if (nums.length > 0) {
-      scannedRowsDraft[rowIdx].nums = nums;
-    }
-  });
-  renderParsedTable();
-}
+function closeScanModal() { document.getElementById('scan-modal').style.display = 'none'; }
 
 function renderParsedTable() {
-  const maxCols = 10;
-  let html = `<table class="parsed-table"><thead><tr><th>Time</th>`;
-  for (let c = 0; c < maxCols; c++) html += `<th>Col ${c + 1}</th>`;
-  html += `</tr></thead><tbody>`;
+  const sec = document.getElementById('scanTargetSection').value;
+  const cols = sec === 'gen'
+    ? ["M-Bar", "GG-1", "GG-2", "GG-3", "DG-ETP", "DG-Wash", "DG-Rental"]
+    : DEPARTMENTS.map(d => d.label);
 
-  scannedRowsDraft.forEach((r, rIdx) => {
-    html += `<tr><td><strong>${r.time}</strong></td>`;
-    for (let c = 0; c < maxCols; c++) {
-      const val = r.nums[c] !== undefined ? r.nums[c] : 0;
-      html += `<td><input type="number" step="any" value="${val}" onchange="updateDraftNum(${rIdx}, ${c}, this.value)"></td>`;
+  let html = `<table class="parsed-table"><thead><tr><th>Time</th>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>`;
+  scannedRowsDraft.forEach((row, rIdx) => {
+    html += `<tr><td><strong>${row.time}</strong></td>`;
+    for (let c = 0; c < cols.length; c++) {
+      const v = row.nums[c] !== undefined ? row.nums[c] : 0;
+      html += `<td><input type="number" step="any" value="${v}" onchange="scannedRowsDraft[${rIdx}].nums[${c}]=parseFloat(this.value)||0"></td>`;
     }
     html += `</tr>`;
   });
-
   html += `</tbody></table>`;
   document.getElementById('parsedTableContainer').innerHTML = html;
 }
-
-function updateDraftNum(rIdx, cIdx, val) {
-  if (!scannedRowsDraft[rIdx]) return;
-  scannedRowsDraft[rIdx].nums[cIdx] = parseFloat(val) || 0;
-}
+document.getElementById('scanTargetSection').addEventListener('change', renderParsedTable);
 
 function applyScannedDataToShift() {
-  const section = document.getElementById('scanTargetSection').value;
-  const shift = currentActiveShift;
-
-  scannedRowsDraft.forEach((row, idx) => {
+  const sec = document.getElementById('scanTargetSection').value;
+  const s = currentActiveShift;
+  scannedRowsDraft.forEach((row, i) => {
     const n = row.nums || [];
-    if (section === 'gen') {
-      if (n[0] !== undefined) document.getElementById(`${shift}_mbar_${idx}`).value = n[0];
-      if (n[1] !== undefined) document.getElementById(`${shift}_gg1_${idx}`).value = n[1];
-      if (n[2] !== undefined) document.getElementById(`${shift}_gg2_${idx}`).value = n[2];
-      if (n[3] !== undefined) document.getElementById(`${shift}_gg3_${idx}`).value = n[3];
-      if (n[4] !== undefined) document.getElementById(`${shift}_dgetp_${idx}`).value = n[4];
-      if (n[5] !== undefined) document.getElementById(`${shift}_dgwash_${idx}`).value = n[5];
-      if (n[6] !== undefined) document.getElementById(`${shift}_dgrent_${idx}`).value = n[6];
-      recalcRow(shift, idx);
+    if (sec === 'gen') {
+      if (n[0] !== undefined) document.getElementById(`${s}_mbar_${i}`).value = n[0];
+      if (n[1] !== undefined) document.getElementById(`${s}_gg1_${i}`).value = n[1];
+      if (n[2] !== undefined) document.getElementById(`${s}_gg2_${i}`).value = n[2];
+      if (n[3] !== undefined) document.getElementById(`${s}_gg3_${i}`).value = n[3];
+      if (n[4] !== undefined) document.getElementById(`${s}_dgetp_${i}`).value = n[4];
+      if (n[5] !== undefined) document.getElementById(`${s}_dgwash_${i}`).value = n[5];
+      if (n[6] !== undefined) document.getElementById(`${s}_dgrent_${i}`).value = n[6];
+      recalcRow(s, i);
     } else {
       DEPARTMENTS.forEach((d, dIdx) => {
-        if (n[dIdx] !== undefined) {
-          document.getElementById(`${shift}_${d.key}_${idx}`).value = n[dIdx];
-        }
+        if (n[dIdx] !== undefined) document.getElementById(`${s}_${d.key}_${i}`).value = n[dIdx];
       });
     }
   });
-
   broadcastLiveEntry('generator');
   triggerAutoSave();
-  alert(`Auto-filled ${shift.toUpperCase()} shift (${section === 'gen' ? 'Generator & M-Bar' : 'Department Load'}) from scanned data!`);
+  alert(`Auto-filled ${s.toUpperCase()} shift (${sec === 'gen' ? 'Generator & M-Bar' : 'Department Load'}).`);
 }
 
-/* ================= REPORT COMPUTATION & RENDERING ================= */
+/* ================= GENERATOR METRICS & REPORT ================= */
 function computeShiftMetrics(shift, hours) {
-  const ngRate = parseFloat(document.getElementById('ngRate').value) || 0;
   const dgRate = parseFloat(document.getElementById('dgRate').value) || 0;
+  const ngRate = parseFloat(document.getElementById('ngRate').value) || 0;
 
-  const dgCons = parseFloat(document.getElementById(`${shift}_dg_cons`).value) || 0;
-  const ngCons = parseFloat(document.getElementById(`${shift}_ng_cons`).value) || 0;
-  const dgKwh = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
-  const ggKwh = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
-  const totalShiftKwh = dgKwh + ggKwh;
+  const dgConsTotal = parseFloat(document.getElementById(`${shift}_dg_cons`).value) || 0;
+  const ngConsTotal = parseFloat(document.getElementById(`${shift}_ng_cons`).value) || 0;
 
-  const totalDgCost = Math.round(dgCons * dgRate);
-  const totalNgCost = Math.round(ngCons * ngRate);
-  const grandCost = totalDgCost + totalNgCost;
+  const dgKwhInput = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
+  const ggKwhInput = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
+
+  const totalDieselCost = Math.round(dgConsTotal * dgRate);
+  const totalGasCost = Math.round(ngConsTotal * ngRate);
+  const grandCost = totalDieselCost + totalGasCost;
 
   let rows = [];
-  let sumMbar = 0, sumPsi = 0, sumGg1 = 0, sumGg2 = 0, sumGg3 = 0;
-  let sumDgEtp = 0, sumDgWash = 0, sumDgRent = 0, sumTLoad = 0;
+  let sumMbar = 0, sumPsi = 0;
+  let sumG1 = 0, sumG2 = 0, sumG3 = 0, sumDe = 0, sumDw = 0, sumDr = 0;
+  let sumTLoad = 0;
+  let sumHrKwh = 0;
   let deptSums = {};
   DEPARTMENTS.forEach(d => deptSums[d.key] = 0);
 
   hours.forEach((time, idx) => {
     const mbar = parseFloat(document.getElementById(`${shift}_mbar_${idx}`).value) || 0;
     const psi = parseFloat((mbar * 0.0145).toFixed(1));
-    const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
-    const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
-    const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
-    const dgEtp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
-    const dgWash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
-    const dgRent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
+    const g1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
+    const g2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
+    const g3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
+    const de = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
+    const dw = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
+    const dr = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
 
-    const ggLoad = gg1 + gg2 + gg3;
-    const dgLoad = dgEtp + dgWash + dgRent;
-    const tLoad = ggLoad + dgLoad;
+    const ggHr = g1 + g2 + g3;
+    const dgHr = de + dw + dr;
+    const tLoad = ggHr + dgHr;
+    const hrKwh = tLoad;
 
     sumMbar += mbar; sumPsi += psi;
-    sumGg1 += gg1; sumGg2 += gg2; sumGg3 += gg3;
-    sumDgEtp += dgEtp; sumDgWash += dgWash; sumDgRent += dgRent;
+    sumG1 += g1; sumG2 += g2; sumG3 += g3;
+    sumDe += de; sumDw += dw; sumDr += dr;
     sumTLoad += tLoad;
+    sumHrKwh += hrKwh;
 
     let dVals = {};
+    let hrDeptSum = 0;
     DEPARTMENTS.forEach(d => {
       const val = parseFloat(document.getElementById(`${shift}_${d.key}_${idx}`).value) || 0;
       dVals[d.key] = val;
       deptSums[d.key] += val;
+      hrDeptSum += val;
     });
 
-    rows.push({ time, mbar, psi, gg1, gg2, gg3, dgEtp, dgWash, dgRent, ggLoad, dgLoad, tLoad, dVals });
+    rows.push({ time, mbar, psi, g1, g2, g3, de, dw, dr, ggHr, dgHr, tLoad, hrKwh, dVals, hrDeptSum });
   });
 
-  const totalGgLoad = sumGg1 + sumGg2 + sumGg3;
-  const totalDgLoad = sumDgEtp + sumDgWash + sumDgRent;
+  const totalKwh = (dgKwhInput + ggKwhInput) > 0 ? (dgKwhInput + ggKwhInput) : sumHrKwh;
+  const effectiveDgKwh = dgKwhInput > 0 ? dgKwhInput : sumDr + sumDe + sumDw;
+  const effectiveGgKwh = ggKwhInput > 0 ? ggKwhInput : sumG1 + sumG2 + sumG3;
+
+  const avgDgCostPerKwh = effectiveDgKwh > 0 ? (totalDieselCost / effectiveDgKwh) : 0;
+  const avgGgCostPerKwh = effectiveGgKwh > 0 ? (totalGasCost / effectiveGgKwh) : 0;
+  const overallAvgCostPerKwh = totalKwh > 0 ? (grandCost / totalKwh) : 0;
 
   rows.forEach(r => {
-    r.ggCost = totalGgLoad > 0 ? Math.round((r.ggLoad / totalGgLoad) * totalNgCost) : 0;
-    r.dgCost = totalDgLoad > 0 ? Math.round((r.dgLoad / totalDgLoad) * totalDgCost) : 0;
-    r.totCost = r.ggCost + r.dgCost;
+    const dgUnit = r.dgHr * avgDgCostPerKwh;
+    const ggUnit = r.ggHr * avgGgCostPerKwh;
+    r.dgCost = Math.round(dgUnit);
+    r.ggCost = Math.round(ggUnit);
+    r.totCost = Math.round(dgUnit + ggUnit);
   });
 
-  const totalAllDeptLoad = Object.values(deptSums).reduce((a, b) => a + b, 0);
+  const totalDeptLoadSum = Object.values(deptSums).reduce((a, b) => a + b, 0);
+
   const deptSummary = DEPARTMENTS.map(d => {
     const loadVal = deptSums[d.key];
-    const ratio = totalAllDeptLoad > 0 ? (loadVal / totalAllDeptLoad) : 0;
-    const kwhVal = Math.round(ratio * totalShiftKwh);
-    const dgCost = Math.round(ratio * totalDgCost);
-    const ngCost = Math.round(ratio * totalNgCost);
-    return {
-      key: d.key, label: d.label, loadKw: loadVal,
-      pct: (ratio * 100).toFixed(1), kwh: kwhVal,
-      dgCost, ngCost, totCost: dgCost + ngCost
-    };
+    const ratio = totalDeptLoadSum > 0 ? (loadVal / totalDeptLoadSum) : 0;
+    const pct = (ratio * 100).toFixed(1);
+    const kwhVal = Math.round(ratio * totalKwh);
+    const dgCost = Math.round(ratio * totalDieselCost);
+    const ggCost = Math.round(ratio * totalGasCost);
+    const totCost = dgCost + ggCost;
+    return { key: d.key, label: d.label, loadVal, pct, kwhVal, dgCost, ggCost, totCost };
   });
 
-  const avgPsi = (sumPsi / 12).toFixed(1);
-  const totalHrCost = rows.reduce((a, b) => a + b.totCost, 0);
+  // Share % calculation for generators and Total kW
+  const genTotals = { g1: sumG1, g2: sumG2, g3: sumG3, de: sumDe, dw: sumDw, dr: sumDr, tLoad: sumTLoad };
+  const genSharePct = {
+    g1: sumTLoad > 0 ? ((sumG1 / sumTLoad) * 100).toFixed(1) : '0.0',
+    g2: sumTLoad > 0 ? ((sumG2 / sumTLoad) * 100).toFixed(1) : '0.0',
+    g3: sumTLoad > 0 ? ((sumG3 / sumTLoad) * 100).toFixed(1) : '0.0',
+    de: sumTLoad > 0 ? ((sumDe / sumTLoad) * 100).toFixed(1) : '0.0',
+    dw: sumTLoad > 0 ? ((sumDw / sumTLoad) * 100).toFixed(1) : '0.0',
+    dr: sumTLoad > 0 ? ((sumDr / sumTLoad) * 100).toFixed(1) : '0.0',
+    tLoad: sumTLoad > 0 ? '100.0' : '0.0'
+  };
 
   return {
-    rows, sumMbar, sumPsi, avgPsi, sumGg1, sumGg2, sumGg3,
-    sumDgEtp, sumDgWash, sumDgRent, sumTLoad,
-    totalGgLoad, totalDgLoad, totalAllDeptLoad,
-    dgCons, ngCons, dgKwh, ggKwh, totalShiftKwh,
-    totalDgCost, totalNgCost, grandCost, totalHrCost,
-    deptSums, deptSummary
+    rows, sumMbar, sumPsi, sumG1, sumG2, sumG3, sumDe, sumDw, sumDr, sumTLoad, sumHrKwh,
+    dgConsTotal, ngConsTotal, totalDieselCost, totalGasCost, grandCost,
+    effectiveDgKwh, effectiveGgKwh, totalKwh, overallAvgCostPerKwh,
+    deptSums, totalDeptLoadSum, deptSummary, genTotals, genSharePct
   };
 }
 
@@ -4227,36 +4219,36 @@ function createReportPageHtml(shiftLabel, dateStr, m, chartIdPrefix) {
         <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
-        <h3>Generator & Power Distribution Cost Analysis</h3>
+        <h3>Generator Power Generation & Dept Cost Analysis</h3>
         <span>${shiftLabel} &bull; Date: ${dateStr}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
     </div>
 
     <div class="kpi-strip">
-      <div class="kpi-item"><div class="k-lbl">Total Shift kWh (12H)</div><div class="k-val">${m.totalShiftKwh.toLocaleString()} kWh</div></div>
-      <div class="kpi-item"><div class="k-lbl">GG / DG kWh</div><div class="k-val">${m.ggKwh.toLocaleString()} / ${m.dgKwh.toLocaleString()}</div></div>
-      <div class="kpi-item"><div class="k-lbl">NG Consumption</div><div class="k-val">${m.ngCons.toLocaleString()} m³</div></div>
-      <div class="kpi-item"><div class="k-lbl">Diesel Consumption</div><div class="k-val">${m.dgCons.toLocaleString()} Ltr</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Shift kWh</div><div class="k-val">${m.totalKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">GG / DG kWh</div><div class="k-val">${m.effectiveGgKwh.toLocaleString()} / ${m.effectiveDgKwh.toLocaleString()}</div></div>
+      <div class="kpi-item"><div class="k-lbl">Gas Cons.</div><div class="k-val">${m.ngConsTotal.toLocaleString()} m³</div></div>
+      <div class="kpi-item"><div class="k-lbl">Diesel Cons.</div><div class="k-val">${m.dgConsTotal.toLocaleString()} Ltr</div></div>
       <div class="kpi-item orange"><div class="k-lbl">Total Shift Cost</div><div class="k-val">৳ ${m.grandCost.toLocaleString()}</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Avg. Cost / kWh</div><div class="k-val">৳ ${m.totalShiftKwh > 0 ? (m.grandCost / m.totalShiftKwh).toFixed(2) : '0.00'}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Avg. Cost / kWh</div><div class="k-val">৳ ${m.overallAvgCostPerKwh.toFixed(2)}</div></div>
     </div>
 
     <table class="clean-rep-table">
       <thead>
         <tr>
-          <th colspan="9" class="grp-gen">Generator Load (kW) & Gas Pressure</th>
+          <th colspan="9" class="grp-gen">Generator Load & Gas Pressure</th>
           <th colspan="3" class="grp-cost">Hourly Cost (Tk)</th>
-          <th colspan="10" class="grp-dept">Department Load Distribution (kW)</th>
-          <th colspan="5" class="grp-sum">Department-Wise 12H Summary</th>
+          <th colspan="10" class="grp-dept">Department Load (kW)</th>
+          <th colspan="5" class="grp-sum">Department-Wise Cost Summary</th>
         </tr>
         <tr>
           <th class="sub-gen">Time</th><th class="sub-gen">M-Bar</th><th class="sub-gen">PSI</th>
           <th class="sub-gen">GG-1</th><th class="sub-gen">GG-2</th><th class="sub-gen">GG-3</th>
-          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wsh</th><th class="sub-gen">DG-Rnt</th>
-          <th class="sub-cost">GG Cost</th><th class="sub-cost">DG Cost</th><th class="sub-cost">Tot Cost</th>
+          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wsh</th><th class="sub-gen">DG-Rn</th>
+          <th class="sub-cost">DG Cost</th><th class="sub-cost">GG Cost</th><th class="sub-cost">Total kW</th>
           ${DEPARTMENTS.map(d => `<th class="sub-dept">${d.label}</th>`).join('')}
-          <th class="sub-sum">Dept</th><th class="sub-sum">Load kW</th><th class="sub-sum">12H kWh</th><th class="sub-sum">DG/NG</th><th class="sub-sum">Total Tk</th>
+          <th class="sub-sum">Dept</th><th class="sub-sum">Share %</th><th class="sub-sum">kWh</th><th class="sub-sum">DG/GG</th><th class="sub-sum">Total Cost</th>
         </tr>
       </thead>
       <tbody>`;
@@ -4265,18 +4257,16 @@ function createReportPageHtml(shiftLabel, dateStr, m, chartIdPrefix) {
     const r = m.rows[i];
     const ds = m.deptSummary[i];
     html += `<tr>
-      <td class="col-highlight">${r.time}</td>
-      <td>${r.mbar}</td><td>${r.psi}</td>
-      <td>${r.gg1}</td><td>${r.gg2}</td><td>${r.gg3}</td>
-      <td>${r.dgEtp}</td><td>${r.dgWash}</td><td>${r.dgRent}</td>
-      <td>${r.ggCost.toLocaleString()}</td><td>${r.dgCost.toLocaleString()}</td>
-      <td class="col-highlight">${r.totCost.toLocaleString()}</td>
+      <td class="col-highlight">${r.time}</td><td>${r.mbar}</td><td>${r.psi.toFixed(1)}</td>
+      <td>${r.g1}</td><td>${r.g2}</td><td>${r.g3}</td>
+      <td>${r.de}</td><td>${r.dw}</td><td>${r.dr}</td>
+      <td>${r.dgCost.toLocaleString()}</td><td>${r.ggCost.toLocaleString()}</td><td class="col-highlight">${r.tLoad.toLocaleString()}</td>
       ${DEPARTMENTS.map(d => `<td>${r.dVals[d.key]}</td>`).join('')}
       ${ds ? `
         <td class="col-sum-cell" style="text-align:left; padding-left:4px;">${ds.label}</td>
-        <td class="col-sum-cell">${ds.loadKw.toLocaleString()}</td>
-        <td class="col-sum-cell">${ds.kwh.toLocaleString()}</td>
-        <td class="col-sum-cell">${ds.dgCost.toLocaleString()}/${ds.ngCost.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.pct}%</td>
+        <td class="col-sum-cell">${ds.kwhVal.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.dgCost.toLocaleString()}/${ds.ggCost.toLocaleString()}</td>
         <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
       ` : `<td></td><td></td><td></td><td></td><td></td>`}
     </tr>`;
@@ -4285,32 +4275,39 @@ function createReportPageHtml(shiftLabel, dateStr, m, chartIdPrefix) {
   html += `
     <tr class="total-row">
       <td>TOTAL:</td>
-      <td>-</td><td>-</td>
-      <td>${m.sumGg1.toLocaleString()}</td><td>${m.sumGg2.toLocaleString()}</td><td>${m.sumGg3.toLocaleString()}</td>
-      <td>${m.sumDgEtp.toLocaleString()}</td><td>${m.sumDgWash.toLocaleString()}</td><td>${m.sumDgRent.toLocaleString()}</td>
-      <td>${m.totalNgCost.toLocaleString()}</td><td>${m.totalDgCost.toLocaleString()}</td>
-      <td>${m.grandCost.toLocaleString()}</td>
+      <td>-</td>
+      <td>-</td>
+      <td>${m.genTotals.g1.toLocaleString()}</td>
+      <td>${m.genTotals.g2.toLocaleString()}</td>
+      <td>${m.genTotals.g3.toLocaleString()}</td>
+      <td>${m.genTotals.de.toLocaleString()}</td>
+      <td>${m.genTotals.dw.toLocaleString()}</td>
+      <td>${m.genTotals.dr.toLocaleString()}</td>
+      <td>${m.totalDieselCost.toLocaleString()}</td>
+      <td>${m.totalGasCost.toLocaleString()}</td>
+      <td>${m.genTotals.tLoad.toLocaleString()}</td>
       ${DEPARTMENTS.map(d => `<td>${m.deptSums[d.key].toLocaleString()}</td>`).join('')}
       <td>TOTAL</td>
-      <td>${m.totalAllDeptLoad.toLocaleString()}</td>
-      <td>${m.totalShiftKwh.toLocaleString()}</td>
-      <td>${m.totalDgCost.toLocaleString()}/${m.totalNgCost.toLocaleString()}</td>
+      <td>100%</td>
+      <td>${m.totalKwh.toLocaleString()}</td>
+      <td>${m.totalDieselCost.toLocaleString()}/${m.totalGasCost.toLocaleString()}</td>
       <td style="color:#9a3412;">৳ ${m.grandCost.toLocaleString()}</td>
     </tr>
     <tr class="pct-row">
       <td>SHARE %:</td>
-      <td>-</td><td>-</td>
-      <td>${m.totalGgLoad > 0 ? ((m.sumGg1 / m.totalGgLoad) * 100).toFixed(1) : '0.0'}%</td>
-      <td>${m.totalGgLoad > 0 ? ((m.sumGg2 / m.totalGgLoad) * 100).toFixed(1) : '0.0'}%</td>
-      <td>${m.totalGgLoad > 0 ? ((m.sumGg3 / m.totalGgLoad) * 100).toFixed(1) : '0.0'}%</td>
-      <td>${m.totalDgLoad > 0 ? ((m.sumDgEtp / m.totalDgLoad) * 100).toFixed(1) : '0.0'}%</td>
-      <td>${m.totalDgLoad > 0 ? ((m.sumDgWash / m.totalDgLoad) * 100).toFixed(1) : '0.0'}%</td>
-      <td>${m.totalDgLoad > 0 ? ((m.sumDgRent / m.totalDgLoad) * 100).toFixed(1) : '0.0'}%</td>
-      <td>${m.grandCost > 0 ? ((m.totalNgCost / m.grandCost) * 100).toFixed(1) : '0.0'}%</td>
-      <td>${m.grandCost > 0 ? ((m.totalDgCost / m.grandCost) * 100).toFixed(1) : '0.0'}%</td>
-      <td>100%</td>
+      <td>-</td>
+      <td>-</td>
+      <td>${m.genSharePct.g1}%</td>
+      <td>${m.genSharePct.g2}%</td>
+      <td>${m.genSharePct.g3}%</td>
+      <td>${m.genSharePct.de}%</td>
+      <td>${m.genSharePct.dw}%</td>
+      <td>${m.genSharePct.dr}%</td>
+      <td>-</td>
+      <td>-</td>
+      <td>${m.genSharePct.tLoad}%</td>
       ${m.deptSummary.map(ds => `<td>${ds.pct}%</td>`).join('')}
-      <td>SHARE %</td>
+      <td>SHARE</td>
       <td>100%</td>
       <td>100%</td>
       <td>100%</td>
@@ -4319,8 +4316,8 @@ function createReportPageHtml(shiftLabel, dateStr, m, chartIdPrefix) {
   </tbody></table>
 
   <div class="rep-charts">
-    <div class="rep-chart-card"><h4>Hourly Total Generator Load (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
-    <div class="rep-chart-card"><h4>Department-Wise 12H Power Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Hourly Generator Load (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Department-Wise Total Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
   </div>
 
   <div class="rep-footer">
@@ -4333,64 +4330,30 @@ function createReportPageHtml(shiftLabel, dateStr, m, chartIdPrefix) {
   return html;
 }
 
-function renderBarChart(canvasId, labels, data, color, isCompact = false) {
+function renderBarChart(canvasId, labels, values, barColor, isCompact = false) {
   const ctx = document.getElementById(canvasId);
   if (!ctx) return;
-
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: labels,
-      datasets: [{
-        data: data,
-        backgroundColor: color,
-        borderRadius: isCompact ? 2 : 4,
-        maxBarThickness: isCompact ? 14 : 26
-      }]
+      labels,
+      datasets: [{ data: values, backgroundColor: barColor, borderRadius: 3, maxBarThickness: isCompact ? 14 : 24 }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       animation: false,
-      layout: {
-        padding: {
-          top: isCompact ? 10 : 18,
-          right: 4,
-          left: 2,
-          bottom: 0
-        }
-      },
+      layout: { padding: { top: isCompact ? 8 : 14, right: 4, left: 0, bottom: 0 } },
       plugins: {
         legend: { display: false },
         datalabels: {
-          anchor: 'end',
-          align: 'top',
-          offset: 1,
-          color: '#0f172a',
-          font: {
-            size: isCompact ? 6.5 : 8.5,
-            weight: 'bold'
-          },
-          formatter: (val) => val > 0 ? Number(val).toLocaleString() : ''
+          anchor: 'end', align: 'end', offset: 1,
+          color: '#0f172a', font: { size: isCompact ? 6.5 : 8.5, weight: 'bold' },
+          formatter: v => v > 0 ? (v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v) : ''
         }
       },
       scales: {
-        x: {
-          grid: { display: false },
-          ticks: {
-            font: { size: isCompact ? 6.5 : 8.5 },
-            maxRotation: 0,
-            autoSkip: false
-          }
-        },
-        y: {
-          beginAtZero: true,
-          grid: { color: '#f1f5f9' },
-          ticks: {
-            font: { size: isCompact ? 6.5 : 8.5 },
-            maxTicksLimit: isCompact ? 3 : 5
-          }
-        }
+        x: { ticks: { font: { size: isCompact ? 6 : 8 }, maxRotation: 0, autoSkip: false }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { font: { size: isCompact ? 6 : 8 }, maxTicksLimit: isCompact ? 3 : 5 }, grid: { color: '#f1f5f9' } }
       }
     }
   });
@@ -4451,99 +4414,81 @@ function downloadExcelSheet() {
   const dateVal = document.getElementById('reportDate').value;
   const dayM = computeShiftMetrics('day', DAY_HOURS);
   const nightM = computeShiftMetrics('night', NIGHT_HOURS);
-  const rows = [
-    ["P.N. COMPOSITE LTD. - Generator & Power Distribution Cost Analysis"],
+
+  const csvRows = [
+    ["P.N. COMPOSITE LTD. - Generator Power Generation & Dept Cost Analysis"],
     ["Report Date", dateVal],
-    ["Day Shift Total kWh (12H)", dayM.totalShiftKwh, "Day Total Cost", dayM.grandCost, "Day NG Cost", dayM.totalNgCost, "Day DG Cost", dayM.totalDgCost],
-    ["Night Shift Total kWh (12H)", nightM.totalShiftKwh, "Night Total Cost", nightM.grandCost, "Night NG Cost", nightM.totalNgCost, "Night DG Cost", nightM.totalDgCost]
+    [],
+    ["DAY SHIFT SUMMARY"],
+    ["Total kWh", dayM.totalKwh, "GG kWh", dayM.effectiveGgKwh, "DG kWh", dayM.effectiveDgKwh, "Total Cost", dayM.grandCost],
+    ["Time", "M-Bar", "PSI", "GG-1", "GG-2", "GG-3", "DG-ETP", "DG-Wash", "DG-Rental", "Total kW", "DG Cost", "GG Cost", ...DEPARTMENTS.map(d => d.label)],
+    ...dayM.rows.map(r => [r.time, r.mbar, r.psi, r.g1, r.g2, r.g3, r.de, r.dw, r.dr, r.tLoad, r.dgCost, r.ggCost, ...DEPARTMENTS.map(d => r.dVals[d.key])]),
+    [],
+    ["NIGHT SHIFT SUMMARY"],
+    ["Total kWh", nightM.totalKwh, "GG kWh", nightM.effectiveGgKwh, "DG kWh", nightM.effectiveDgKwh, "Total Cost", nightM.grandCost],
+    ["Time", "M-Bar", "PSI", "GG-1", "GG-2", "GG-3", "DG-ETP", "DG-Wash", "DG-Rental", "Total kW", "DG Cost", "GG Cost", ...DEPARTMENTS.map(d => d.label)],
+    ...nightM.rows.map(r => [r.time, r.mbar, r.psi, r.g1, r.g2, r.g3, r.de, r.dw, r.dr, r.tLoad, r.dgCost, r.ggCost, ...DEPARTMENTS.map(d => r.dVals[d.key])])
   ];
-  const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+  const csvContent = "\uFEFF" + csvRows.map(e => e.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `PN_Composite_Utility_Report_${dateVal}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `PN_Composite_Generator_Report_${dateVal}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
 
-/* ================= INITIALIZE ================= */
+/* ================= INITIALIZE ON LOAD ================= */
 renderEntryGrid('day', DAY_HOURS);
 renderEntryGrid('night', NIGHT_HOURS);
 renderBoilerGrid('day', DAY_HOURS);
 renderBoilerGrid('night', NIGHT_HOURS);
 renderCompGrid('day', DAY_HOURS);
 renderCompGrid('night', NIGHT_HOURS);
-initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz");
-initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz");
-refreshAllLogos();
+initDivisionDropdown('regPresDiv', 'regPresDist', 'regPresUpz');
+initDivisionDropdown('regPermDiv', 'regPermDist', 'regPermUpz');
+startRealtimeFirestoreListeners();
 
-(async function restoreSessionOnBoot() {
-  const tabSaved = readTabState();
-  const initialLang = tabSaved.lang || "en";
+(async function restoreSessionOnPageLoad() {
+  const tab = readTabState();
+  const initialLang = tab.lang || "en";
   applyLanguage(initialLang);
 
+  let savedSession = null;
   if (firebaseDb) {
-    startRealtimeFirestoreListeners();
     try {
-      const snap = await firebaseDb.collection("pn_employees").get();
-      const list = [];
-      snap.forEach(d => list.push(d.data()));
-      if (list.length) liveUsersList = list;
+      const snap = await firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).get();
+      if (snap.exists) savedSession = snap.data();
     } catch (e) {}
+  }
 
-    try {
-      const logSnap = await firebaseDb.collection("pn_utility_logs").get();
-      const grouped = { generator: [], compressor: [], boiler: [] };
-      logSnap.forEach(d => {
-        const data = d.data();
-        if (data && data.category && grouped[data.category]) grouped[data.category].push(data);
-      });
-      ["generator", "compressor", "boiler"].forEach(cat => {
-        grouped[cat].sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
-      });
-      liveSavedLogs = grouped;
-    } catch (e) {}
+  const activeEmail = (savedSession && savedSession.email) || tab.email || "";
+  if (activeEmail) {
+    let matchedUser = liveUsersList.find(u => u.email.toLowerCase() === activeEmail.toLowerCase());
+    if (!matchedUser && firebaseDb) {
+      try {
+        const uSnap = await firebaseDb.collection("pn_employees").doc(activeEmail.toLowerCase()).get();
+        if (uSnap.exists) matchedUser = uSnap.data();
+      } catch (e) {}
+    }
+    if (!matchedUser && tab.userProfile && tab.userProfile.email && tab.userProfile.email.toLowerCase() === activeEmail.toLowerCase()) {
+      matchedUser = tab.userProfile;
+    }
 
-    try {
-      const liveSnap = await firebaseDb.collection("pn_live_entries").get();
-      liveSnap.forEach(d => {
-        const data = d.data();
-        if (data && data.category) {
-          latestLiveDocs[data.category] = data;
-        }
-      });
-    } catch (e) {}
-
-    let sessionDoc = null;
-    try {
-      const sSnap = await firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).get();
-      if (sSnap.exists) sessionDoc = sSnap.data();
-    } catch (e) {}
-
-    const activeEmail = (sessionDoc && sessionDoc.email) || tabSaved.email || "";
-    const activeSec = (sessionDoc && sessionDoc.activeSection) || tabSaved.activeSection || "home";
-    const savedLang = (sessionDoc && sessionDoc.lang) || tabSaved.lang || initialLang;
-    if (savedLang !== currentLang) applyLanguage(savedLang);
-
-    if (activeEmail) {
-      let profile = liveUsersList.find(u => u.email.toLowerCase() === activeEmail.toLowerCase()) || tabSaved.userProfile || null;
-      if (!profile) {
-        try {
-          const uSnap = await firebaseDb.collection("pn_employees").doc(activeEmail.toLowerCase()).get();
-          if (uSnap.exists) profile = uSnap.data();
-        } catch (e) {}
-      }
-      if (profile && (profile.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() || profile.approved === true || profile.status === "approved")) {
-        currentActiveUser = profile;
-        activeCurrentSection = activeSec;
+    if (matchedUser) {
+      const isApproved = matchedUser.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase() || matchedUser.approved === true || matchedUser.status === "approved";
+      if (isApproved) {
+        currentActiveUser = matchedUser;
+        activeCurrentSection = (savedSession && savedSession.activeSection) || tab.activeSection || "home";
         document.getElementById("auth-wrapper").style.display = "none";
         document.getElementById("app-shell").style.display = "block";
         applyRoleAndPermissionRestrictions();
         hydrateLiveEntriesOnEnter();
-        navigateSection(activeSec);
+        navigateSection(activeCurrentSection);
         return;
       }
     }
