@@ -3,759 +3,634 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gas Consumption Log System - PN Composite Limited</title>
+  <title>PN Composite Limited - Gas Consumption</title>
+  <!-- Optional PDF library (jsPDF + AutoTable) for direct PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
   <style>
-    /* Safe, isolated styles that do not override existing page themes */
-    .gc-nav-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 10px 14px;
-      background: #f4f6f9;
-      border-bottom: 1px solid #d9e0e7;
-      font-family: Arial, sans-serif;
-    }
-    .gc-btn {
-      padding: 8px 14px;
-      border: 1px solid #1e3a5f;
-      background: #1e3a5f;
-      color: #ffffff;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .gc-btn:hover {
-      background: #152943;
-    }
-    .gc-btn-secondary {
-      background: #ffffff;
-      color: #1e3a5f;
-    }
-    .gc-btn-secondary:hover {
-      background: #eef3f8;
-    }
-    .gc-btn-success {
-      background: #196f3d;
-      border-color: #196f3d;
-    }
-    .gc-btn-success:hover {
-      background: #145a32;
+    /* Scoped styles for the Gas Consumption module without altering global site theme */
+    #gas-consumption-module {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+      margin-top: 16px;
     }
 
-    #gasConsumptionSection {
-      display: none;
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 18px;
+    #gas-consumption-module .gc-card {
       background: #ffffff;
-      border: 1px solid #dce3ea;
-      border-radius: 8px;
-      font-family: Arial, sans-serif;
-      color: #111827;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
-    .gc-header-bar {
+
+    #gas-consumption-module .gc-header-row {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
       gap: 12px;
-      border-bottom: 2px solid #1e3a5f;
+      border-bottom: 1px solid #e5e7eb;
       padding-bottom: 12px;
       margin-bottom: 16px;
     }
-    .gc-brand {
+
+    #gas-consumption-module .gc-title-group {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .gc-logo-box {
-      width: 52px;
-      height: 52px;
+
+    #gas-consumption-module .gc-logo-box {
+      width: 48px;
+      height: 48px;
       border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       background: #f8fafc;
       font-weight: bold;
-      font-size: 13px;
-      color: #1e3a5f;
+      font-size: 12px;
     }
-    .gc-logo-box img {
-      max-width: 100%;
-      max-height: 100%;
+
+    #gas-consumption-module .gc-logo-box img {
+      width: 100%;
+      height: 100%;
       object-fit: contain;
     }
-    .gc-form-grid {
+
+    #gas-consumption-module .gc-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       gap: 12px;
-      background: #f8fafc;
-      padding: 14px;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    .gc-field label {
+
+    #gas-consumption-module .gc-field label {
       display: block;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 600;
       margin-bottom: 4px;
-      color: #334155;
+      color: #374151;
     }
-    .gc-field input {
+
+    #gas-consumption-module .gc-field input,
+    #gas-consumption-module .gc-field select {
       width: 100%;
       box-sizing: border-box;
-      padding: 7px 9px;
+      padding: 8px 10px;
       border: 1px solid #cbd5e1;
       border-radius: 4px;
       font-size: 14px;
-      background: #ffffff;
+      background: #fff;
     }
-    .gc-field input[readonly] {
-      background: #eef2f6;
+
+    #gas-consumption-module .gc-field input[readonly] {
+      background-color: #f3f4f6;
       font-weight: 600;
     }
 
-    .gc-summary-strip {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .gc-summary-card {
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      padding: 10px 12px;
-      background: #fbfdff;
-    }
-    .gc-summary-card label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: #1e3a5f;
-      margin-bottom: 4px;
-    }
-    .gc-summary-card input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 6px 8px;
-      border: 1px solid #94a3b8;
-      border-radius: 4px;
-      font-size: 14px;
-      font-weight: 700;
+    #gas-consumption-module .gc-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
     }
 
-    .gc-table-wrap {
+    #gas-consumption-module .gc-btn {
+      padding: 8px 14px;
+      border: 1px solid #374151;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      background: #111827;
+      color: #ffffff;
+    }
+
+    #gas-consumption-module .gc-btn-secondary {
+      background: #ffffff;
+      color: #111827;
+    }
+
+    #gas-consumption-module .gc-btn-pdf {
+      background: #0f766e;
+      border-color: #0f766e;
+      color: #ffffff;
+    }
+
+    #gas-consumption-module .gc-summary-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin: 14px 0;
+      padding: 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+    }
+
+    #gas-consumption-module .gc-table-wrap {
       overflow-x: auto;
     }
-    table.gc-table {
+
+    #gas-consumption-module table {
       width: 100%;
       border-collapse: collapse;
       font-size: 13px;
     }
-    table.gc-table th,
-    table.gc-table td {
-      border: 1px solid #334155;
+
+    #gas-consumption-module th,
+    #gas-consumption-module td {
+      border: 1px solid #cbd5e1;
       padding: 7px 8px;
       text-align: center;
+      white-space: nowrap;
     }
-    table.gc-table th {
-      background: #e2e8f0;
-      color: #0f172a;
+
+    #gas-consumption-module th {
+      background: #f1f5f9;
       font-weight: 700;
     }
-    .gc-actions-cell button {
-      padding: 4px 8px;
-      font-size: 12px;
-      margin: 0 2px;
-      cursor: pointer;
+
+    #gas-consumption-module .gc-hidden {
+      display: none !important;
     }
 
-    /* Printable / PDF Report Container (English) */
-    #gcPrintableReport {
-      display: none;
-    }
-
+    /* Printable / PDF styling in English */
     @media print {
       body * {
         visibility: hidden;
       }
-      #gcPrintableReport,
-      #gcPrintableReport * {
+      #gc-printable-report,
+      #gc-printable-report * {
         visibility: visible;
       }
-      #gcPrintableReport {
-        display: block !important;
+      #gc-printable-report {
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
-        padding: 10px;
-        font-family: Arial, sans-serif;
-        color: #000000;
-        background: #ffffff;
       }
-      .gc-print-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 2px solid #000;
-        padding-bottom: 8px;
-        margin-bottom: 10px;
-      }
-      .gc-print-title {
-        text-align: center;
-        flex: 1;
-      }
-      .gc-print-title h2 {
-        margin: 0;
-        font-size: 18px;
-        text-transform: uppercase;
-      }
-      .gc-print-title p {
-        margin: 2px 0;
-        font-size: 11px;
-      }
-      .gc-print-meta {
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 8px;
-      }
-      .gc-print-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 11px;
-        margin-bottom: 10px;
-      }
-      .gc-print-table th,
-      .gc-print-table td {
-        border: 1px solid #000;
-        padding: 4px 6px;
-        text-align: center;
-      }
-      .gc-print-totals {
-        width: 55%;
-        border-collapse: collapse;
-        font-size: 12px;
-        font-weight: bold;
-      }
-      .gc-print-totals td {
-        border: 1px solid #000;
-        padding: 5px 8px;
+      .no-print {
+        display: none !important;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Example Navigation Bar & Admin Panel Trigger (Keep your existing navbar/admin links as-is and add the button) -->
-  <nav class="gc-nav-bar" aria-label="Main Menu">
-    <button type="button" class="gc-btn" data-open-gas-consumption>Gas Consumption</button>
-  </nav>
+  <!--
+    HOW TO ATTACH TO YOUR EXISTING NAVBAR & ADMIN PANEL WITHOUT CHANGING EXISTING DESIGN:
+    1. In your existing Navigation Bar, add:
+       <button type="button" class="nav-gas-btn" onclick="openGasConsumptionPage()">Gas consumption</button>
+    2. In your existing Admin Panel menu/sidebar, add:
+       <button type="button" class="admin-gas-btn" onclick="openGasConsumptionPage()">Gas consumption</button>
+    3. Make sure your existing company logo element (e.g. <img id="existing-company-logo" src="...">)
+       keeps its ID or source so the script automatically reuses it.
+  -->
 
-  <!-- Example Admin Panel Hook (Add data-open-gas-consumption to your existing Admin Panel button) -->
-  <div id="adminPanelExample" style="display:none; padding:10px;" data-admin-panel>
-    <button type="button" class="gc-btn gc-btn-secondary" data-open-gas-consumption>Gas Consumption</button>
+  <div class="no-print" style="padding: 10px; border-bottom: 1px solid #e5e7eb; display: flex; gap: 10px; flex-wrap: wrap;">
+    <!-- Example Menu Bar Button -->
+    <button type="button" class="nav-gas-btn" onclick="openGasConsumptionPage()">Gas consumption</button>
+    <!-- Example Admin Panel Button -->
+    <button type="button" class="admin-gas-btn" onclick="openGasConsumptionPage()">Admin: Gas consumption</button>
   </div>
 
-  <!-- Main Gas Consumption Page / Section -->
-  <section id="gasConsumptionSection">
-    <div class="gc-header-bar">
-      <div class="gc-brand">
-        <!-- Replace src with your existing company logo path if needed -->
-        <div class="gc-logo-box" id="gcCompanyLogoBox">
-          <img id="gcCompanyLogoImg" src="" alt="PN Composite Logo" style="display:none;" onerror="this.style.display='none'; document.getElementById('gcLogoFallback').style.display='block';" />
-          <span id="gcLogoFallback">PNCL</span>
+  <!-- Gas Consumption Page / View -->
+  <section id="gas-consumption-module" class="gc-hidden" aria-label="Gas Consumption">
+    <div id="gc-printable-report" class="gc-card">
+      <div class="gc-header-row">
+        <div class="gc-title-group">
+          <div class="gc-logo-box" id="gc-logo-container">
+            <span id="gc-logo-fallback">LOGO</span>
+          </div>
+          <div>
+            <h2 id="gc-company-name" style="margin: 0; font-size: 18px; text-transform: uppercase;">
+              PN COMPOSITE LIMITED
+            </h2>
+            <div id="gc-company-address" style="font-size: 12px; color: #4b5563;">
+              AMBAG, KONABARI, GAZIPUR
+            </div>
+            <div style="font-size: 13px; font-weight: 700; margin-top: 2px;">
+              GAS CONSUMPTION LOG SHEET
+            </div>
+          </div>
         </div>
-        <div>
-          <h2 style="margin:0; font-size:20px;">PN COMPOSITE LIMITED</h2>
-          <div style="font-size:12px; color:#475569;">AMBAG, KONABARI, GAZIPUR — GAS CONSUMPTION LOG SHEET</div>
+
+        <div class="no-print" style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <label style="font-size: 12px; font-weight: 600;">
+            Select Report Date:
+            <input type="date" id="gc-report-date" onchange="handleReportDateChange()" style="padding: 5px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+          </label>
+          <button type="button" class="gc-btn gc-btn-pdf" onclick="downloadGasReportPDF()">Download PDF</button>
+          <button type="button" class="gc-btn gc-btn-secondary" onclick="closeGasConsumptionPage()">Close</button>
         </div>
       </div>
 
-      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-        <label style="font-size:12px; font-weight:700;">
-          Select Date for PDF:
-          <input type="date" id="gcPdfDateSelect" style="padding:5px; border:1px solid #cbd5e1; border-radius:4px;" />
-        </label>
-        <button type="button" class="gc-btn gc-btn-success" id="gcDownloadPdfBtn">Download PDF</button>
-        <button type="button" class="gc-btn gc-btn-secondary" id="gcCloseSectionBtn">Close</button>
-      </div>
-    </div>
+      <!-- Entry Form -->
+      <form id="gc-entry-form" class="no-print" onsubmit="saveGasEntry(event)">
+        <div class="gc-grid">
+          <div class="gc-field">
+            <label for="gc-date">Date</label>
+            <input type="date" id="gc-date" required onchange="syncPreviousReadingFromDate()" />
+          </div>
 
-    <!-- Daily Entry Form (Default Time: 09:00 AM) -->
-    <form id="gcEntryForm" class="gc-form-grid">
-      <div class="gc-field">
-        <label for="gcDate">Date</label>
-        <input type="date" id="gcDate" required />
+          <div class="gc-field">
+            <label for="gc-time">Time (Default 09:00 AM)</label>
+            <input type="time" id="gc-time" value="09:00" required />
+          </div>
+
+          <div class="gc-field">
+            <label for="gc-prev-reading">Previous Meter Reading (M³)</label>
+            <input type="number" step="0.01" id="gc-prev-reading" required oninput="calculateDailyAndMonthly()" />
+          </div>
+
+          <div class="gc-field">
+            <label for="gc-present-reading">Present Meter Reading (M³)</label>
+            <input type="number" step="0.01" id="gc-present-reading" required oninput="calculateDailyAndMonthly()" />
+          </div>
+
+          <div class="gc-field">
+            <label for="gc-daily-consumption">Daily Consumption (M³)</label>
+            <input type="number" step="0.01" id="gc-daily-consumption" readonly />
+          </div>
+
+          <div class="gc-field">
+            <label for="gc-monthly-consumption">Monthly Consumption (M³)</label>
+            <input type="number" step="0.01" id="gc-monthly-consumption" readonly />
+          </div>
+
+          <div class="gc-field" style="grid-column: span 2;">
+            <label for="gc-remarks">Remarks</label>
+            <input type="text" id="gc-remarks" placeholder="Enter remarks (in English)" />
+          </div>
+        </div>
+
+        <div class="gc-actions">
+          <button type="submit" class="gc-btn">Save Entry</button>
+          <button type="button" class="gc-btn gc-btn-secondary" onclick="clearEntryForm()">Clear</button>
+        </div>
+      </form>
+
+      <!-- Monthly Summary & Production/Cost Inputs -->
+      <div class="gc-summary-bar">
+        <div class="gc-field">
+          <label for="gc-total-gas">Total Gas Consumption (M³)</label>
+          <input type="number" step="0.01" id="gc-total-gas" readonly />
+        </div>
+
+        <div class="gc-field">
+          <label for="gc-total-production-mwh">Total Production (MWH)</label>
+          <input type="number" step="0.01" id="gc-total-production-mwh" placeholder="Enter monthly MWH" oninput="calculateCostPerKwh()" />
+        </div>
+
+        <div class="gc-field">
+          <label for="gc-cost-kwh">Cost / kWh</label>
+          <input type="number" step="0.0001" id="gc-cost-kwh" placeholder="Auto or manual value" oninput="saveMonthlySummaryMeta()" />
+        </div>
+
+        <div class="gc-field">
+          <label for="gc-month-label">Selected Month &amp; Year</label>
+          <input type="text" id="gc-month-label" readonly />
+        </div>
       </div>
 
-      <div class="gc-field">
-        <label for="gcTime">Time (Default 09:00 AM)</label>
-        <input type="time" id="gcTime" value="09:00" required />
+      <!-- Log Table -->
+      <div class="gc-table-wrap">
+        <table id="gc-log-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Previous Meter Reading (M³)</th>
+              <th>Present Meter Reading (M³)</th>
+              <th>Daily Consumption (M³)</th>
+              <th>Monthly Consumption (M³)</th>
+              <th>Remarks</th>
+              <th class="no-print">Action</th>
+            </tr>
+          </thead>
+          <tbody id="gc-log-tbody"></tbody>
+        </table>
       </div>
-
-      <div class="gc-field">
-        <label for="gcPrevReading">Previous Meter Reading (M³)</label>
-        <input type="number" step="any" id="gcPrevReading" placeholder="Previous reading" required />
-      </div>
-
-      <div class="gc-field">
-        <label for="gcPresentReading">Present Meter Reading (M³)</label>
-        <input type="number" step="any" id="gcPresentReading" placeholder="Present reading" required />
-      </div>
-
-      <div class="gc-field">
-        <label for="gcDailyConsumption">Daily Consumption (M³)</label>
-        <input type="number" step="any" id="gcDailyConsumption" readonly placeholder="Auto calculated" />
-      </div>
-
-      <div class="gc-field">
-        <label for="gcRemarks">Remarks</label>
-        <input type="text" id="gcRemarks" placeholder="Optional remarks" />
-      </div>
-
-      <div class="gc-field" style="grid-column: 1 / -1; display:flex; gap:10px; align-items:center;">
-        <button type="submit" class="gc-btn">Save Reading</button>
-        <button type="button" class="gc-btn gc-btn-secondary" id="gcClearFormBtn">Clear</button>
-      </div>
-    </form>
-
-    <!-- Single Monthly Consumption Box + Total Gas Consumption + Production MWH + Cost KWH -->
-    <div class="gc-summary-strip">
-      <div class="gc-summary-card">
-        <label for="gcMonthlyConsumptionAuto">Monthly Consumption (M³) — Auto Total</label>
-        <input type="text" id="gcMonthlyConsumptionAuto" readonly value="0.00" />
-      </div>
-
-      <div class="gc-summary-card">
-        <label for="gcTotalGasAuto">Total Gas Consumption (M³) — Auto</label>
-        <input type="text" id="gcTotalGasAuto" readonly value="0.00" />
-      </div>
-
-      <div class="gc-summary-card">
-        <label for="gcTotalProductionMwh">Total Production (MWH) — Monthly Entry</label>
-        <input type="number" step="any" id="gcTotalProductionMwh" placeholder="Enter monthly MWH" />
-      </div>
-
-      <div class="gc-summary-card">
-        <label for="gcCostKwh">Cost (KWH) — Monthly Entry</label>
-        <input type="number" step="any" id="gcCostKwh" placeholder="Enter cost per KWH / total cost" />
-      </div>
-    </div>
-
-    <!-- Logs Table (No per-row Monthly Consumption column, as requested) -->
-    <div class="gc-table-wrap">
-      <table class="gc-table" id="gcLogsTable">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Previous Meter Reading (M³)</th>
-            <th>Present Meter Reading (M³)</th>
-            <th>Daily Consumption (M³)</th>
-            <th>Remarks</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="gcLogsTbody"></tbody>
-      </table>
     </div>
   </section>
 
-  <!-- English PDF / Print Template -->
-  <div id="gcPrintableReport">
-    <div class="gc-print-header">
-      <div class="gc-logo-box">
-        <img id="gcPrintLogoImg" src="" alt="Logo" style="display:none;" />
-        <span id="gcPrintLogoFallback">PNCL</span>
-      </div>
-      <div class="gc-print-title">
-        <h2>PN COMPOSITE LIMITED</h2>
-        <p>AMBAG, KONABARI, GAZIPUR</p>
-        <p style="font-weight:bold; margin-top:4px;">GAS CONSUMPTION LOG SHEET</p>
-      </div>
-      <div style="width:52px;"></div>
-    </div>
-
-    <div class="gc-print-meta">
-      <span id="gcPrintMonthYear">MONTH: - | YEAR: -</span>
-      <span id="gcPrintSelectedDate">SELECTED DATE: -</span>
-    </div>
-
-    <table class="gc-print-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Previous Meter Reading (M³)</th>
-          <th>Present Meter Reading (M³)</th>
-          <th>Daily Consumption (M³)</th>
-          <th>Remarks</th>
-        </tr>
-      </thead>
-      <tbody id="gcPrintTbody"></tbody>
-    </table>
-
-    <table class="gc-print-totals">
-      <tr>
-        <td>Total Gas Consumption (M³)</td>
-        <td id="gcPrintTotalGas">0.00</td>
-      </tr>
-      <tr>
-        <td>Total Production (MWH)</td>
-        <td id="gcPrintProdMwh">0.00</td>
-      </tr>
-      <tr>
-        <td>Cost (KWH)</td>
-        <td id="gcPrintCostKwh">0.00</td>
-      </tr>
-    </table>
-  </div>
-
   <script>
-    (function () {
-      const STORAGE_KEY_LOGS = "pncl_gas_consumption_logs_v1";
-      const STORAGE_KEY_MONTHLY = "pncl_gas_monthly_meta_v1";
+    const GC_STORAGE_KEY = "pn_composite_gas_consumption_v1";
+    const GC_META_KEY = "pn_composite_gas_meta_v1";
 
-      const sectionEl = document.getElementById("gasConsumptionSection");
-      const dateInput = document.getElementById("gcDate");
-      const timeInput = document.getElementById("gcTime");
-      const prevInput = document.getElementById("gcPrevReading");
-      const presentInput = document.getElementById("gcPresentReading");
-      const dailyInput = document.getElementById("gcDailyConsumption");
-      const remarksInput = document.getElementById("gcRemarks");
-      const entryForm = document.getElementById("gcEntryForm");
-      const tbodyEl = document.getElementById("gcLogsTbody");
+    function openGasConsumptionPage() {
+      const moduleEl = document.getElementById("gas-consumption-module");
+      moduleEl.classList.remove("gc-hidden");
+      syncExistingCompanyBranding();
+      initializeDefaultDates();
+      renderGasTable();
+    }
 
-      const monthlyAutoEl = document.getElementById("gcMonthlyConsumptionAuto");
-      const totalGasAutoEl = document.getElementById("gcTotalGasAuto");
-      const prodMwhInput = document.getElementById("gcTotalProductionMwh");
-      const costKwhInput = document.getElementById("gcCostKwh");
+    function closeGasConsumptionPage() {
+      document.getElementById("gas-consumption-module").classList.add("gc-hidden");
+    }
 
-      const pdfDateInput = document.getElementById("gcPdfDateSelect");
-      const downloadPdfBtn = document.getElementById("gcDownloadPdfBtn");
-      const closeBtn = document.getElementById("gcCloseSectionBtn");
-      const clearBtn = document.getElementById("gcClearFormBtn");
+    // Reuses existing logo & company name if present on the host page
+    function syncExistingCompanyBranding() {
+      const existingLogoImg =
+        document.querySelector('img[alt*="logo" i]') ||
+        document.querySelector(".navbar-brand img") ||
+        document.querySelector(".logo img");
 
-      // Optional: If your page already has an <img> logo on the page, auto-sync it into the header & PDF
-      function syncExistingLogoIfPresent() {
-        const existingImg = document.querySelector("header img, nav img, .navbar img, .logo img");
-        if (existingImg && existingImg.src) {
-          const headerLogo = document.getElementById("gcCompanyLogoImg");
-          const printLogo = document.getElementById("gcPrintLogoImg");
-          const fb1 = document.getElementById("gcLogoFallback");
-          const fb2 = document.getElementById("gcPrintLogoFallback");
-
-          headerLogo.src = existingImg.src;
-          headerLogo.style.display = "block";
-          if (fb1) fb1.style.display = "none";
-
-          printLogo.src = existingImg.src;
-          printLogo.style.display = "block";
-          if (fb2) fb2.style.display = "none";
-        }
+      const logoContainer = document.getElementById("gc-logo-container");
+      if (existingLogoImg && existingLogoImg.src) {
+        logoContainer.innerHTML = `<img src="${existingLogoImg.src}" alt="Company Logo" />`;
       }
+    }
 
-      function getLogs() {
-        try {
-          return JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS)) || [];
-        } catch (e) {
-          return [];
-        }
+    function initializeDefaultDates() {
+      const dateInput = document.getElementById("gc-date");
+      const timeInput = document.getElementById("gc-time");
+      const reportDateInput = document.getElementById("gc-report-date");
+
+      const todayStr = new Date().toISOString().split("T")[0];
+      if (!dateInput.value) dateInput.value = todayStr;
+      if (!timeInput.value) timeInput.value = "09:00";
+      if (!reportDateInput.value) reportDateInput.value = dateInput.value;
+
+      updateMonthLabel(reportDateInput.value);
+      syncPreviousReadingFromDate();
+      loadMonthlySummaryMeta();
+    }
+
+    function handleReportDateChange() {
+      const reportDate = document.getElementById("gc-report-date").value;
+      if (reportDate) {
+        document.getElementById("gc-date").value = reportDate;
+        updateMonthLabel(reportDate);
+        loadMonthlySummaryMeta();
+        renderGasTable();
+        syncPreviousReadingFromDate();
       }
+    }
 
-      function saveLogs(logs) {
-        localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify(logs));
+    function updateMonthLabel(dateStr) {
+      const d = new Date(dateStr + "T00:00:00");
+      if (isNaN(d.getTime())) return;
+      const monthName = d.toLocaleString("en-US", { month: "long" }).toUpperCase();
+      const yearNum = d.getFullYear();
+      document.getElementById("gc-month-label").value = `${monthName} ${yearNum}`;
+    }
+
+    function getAllEntries() {
+      try {
+        return JSON.parse(localStorage.getItem(GC_STORAGE_KEY) || "[]");
+      } catch (e) {
+        return [];
       }
+    }
 
-      function getMonthlyMeta() {
-        try {
-          return JSON.parse(localStorage.getItem(STORAGE_KEY_MONTHLY)) || {};
-        } catch (e) {
-          return {};
-        }
+    function saveAllEntries(entries) {
+      localStorage.setItem(GC_STORAGE_KEY, JSON.stringify(entries));
+    }
+
+    // Automatically pulls previous day's present meter reading as Previous Meter Reading
+    function syncPreviousReadingFromDate() {
+      const selectedDate = document.getElementById("gc-date").value;
+      if (!selectedDate) return;
+
+      const entries = getAllEntries()
+        .filter((item) => item.date < selectedDate)
+        .sort((a, b) => b.date.localeCompare(a.date));
+
+      const prevInput = document.getElementById("gc-prev-reading");
+      if (entries.length > 0 && entries[0].presentReading !== "") {
+        prevInput.value = entries[0].presentReading;
       }
+      calculateDailyAndMonthly();
+    }
 
-      function saveMonthlyMeta(meta) {
-        localStorage.setItem(STORAGE_KEY_MONTHLY, JSON.stringify(meta));
-      }
+    function formatTime12h(time24) {
+      if (!time24) return "09:00 AM";
+      const [hh, mm] = time24.split(":").map(Number);
+      const period = hh >= 12 ? "PM" : "AM";
+      const hour12 = hh % 12 === 0 ? 12 : hh % 12;
+      return `${String(hour12).padStart(2, "0")}:${String(mm).padStart(2, "0")} ${period}`;
+    }
 
-      function getMonthKey(dateStr) {
-        if (!dateStr || dateStr.length < 7) return "default";
-        return dateStr.slice(0, 7); // YYYY-MM
-      }
+    function calculateDailyAndMonthly() {
+      const prev = parseFloat(document.getElementById("gc-prev-reading").value);
+      const present = parseFloat(document.getElementById("gc-present-reading").value);
+      const selectedDate = document.getElementById("gc-date").value || new Date().toISOString().split("T")[0];
+      const monthKey = selectedDate.slice(0, 7);
 
-      function formatTime12h(time24) {
-        if (!time24) return "09:00 AM";
-        const parts = time24.split(":");
-        let hour = parseInt(parts[0], 10);
-        const min = parts[1] || "00";
-        const ampm = hour >= 12 ? "PM" : "AM";
-        hour = hour % 12;
-        if (hour === 0) hour = 12;
-        return String(hour).padStart(2, "0") + ":" + min + " " + ampm;
-      }
+      const daily = !isNaN(prev) && !isNaN(present) ? Number((present - prev).toFixed(2)) : 0;
+      document.getElementById("gc-daily-consumption").value = !isNaN(prev) && !isNaN(present) ? daily : "";
 
-      function computeDailyConsumption() {
-        const prev = parseFloat(prevInput.value);
-        const present = parseFloat(presentInput.value);
-        if (!isNaN(prev) && !isNaN(present)) {
-          const diff = present - prev;
-          dailyInput.value = diff.toFixed(2);
-          return diff;
-        }
-        dailyInput.value = "";
-        return 0;
-      }
+      const monthEntries = getAllEntries().filter(
+        (item) => item.date.startsWith(monthKey) && item.date !== selectedDate
+      );
+      const priorMonthTotal = monthEntries.reduce((sum, item) => sum + (Number(item.dailyConsumption) || 0), 0);
+      const monthlyTotal = Number((priorMonthTotal + (!isNaN(prev) && !isNaN(present) ? daily : 0)).toFixed(2));
 
-      prevInput.addEventListener("input", computeDailyConsumption);
-      presentInput.addEventListener("input", computeDailyConsumption);
+      document.getElementById("gc-monthly-consumption").value = monthlyTotal;
+      document.getElementById("gc-total-gas").value = monthlyTotal;
+      calculateCostPerKwh();
+    }
 
-      function suggestPreviousReadingForDate(targetDate) {
-        const logs = getLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
-        const earlier = logs.filter((item) => item.date < targetDate);
-        if (earlier.length > 0) {
-          const last = earlier[earlier.length - 1];
-          prevInput.value = last.presentReading;
-          computeDailyConsumption();
-        }
-      }
+    function saveGasEntry(event) {
+      event.preventDefault();
+      const date = document.getElementById("gc-date").value;
+      const time24 = document.getElementById("gc-time").value || "09:00";
+      const timeFormatted = formatTime12h(time24);
+      const prevReading = parseFloat(document.getElementById("gc-prev-reading").value);
+      const presentReading = parseFloat(document.getElementById("gc-present-reading").value);
+      const remarks = document.getElementById("gc-remarks").value.trim();
 
-      dateInput.addEventListener("change", () => {
-        if (!prevInput.value) {
-          suggestPreviousReadingForDate(dateInput.value);
-        }
-        loadMonthlyFieldsForActiveMonth();
-        renderAll();
+      if (isNaN(prevReading) || isNaN(presentReading)) return;
+
+      const dailyConsumption = Number((presentReading - prevReading).toFixed(2));
+      let entries = getAllEntries().filter((item) => item.date !== date);
+
+      entries.push({
+        date,
+        time24,
+        timeFormatted,
+        prevReading,
+        presentReading,
+        dailyConsumption,
+        remarks
       });
 
-      function getActiveMonthKey() {
-        return getMonthKey(pdfDateInput.value || dateInput.value);
-      }
+      entries.sort((a, b) => a.date.localeCompare(b.date));
+      saveAllEntries(entries);
+      saveMonthlySummaryMeta();
+      renderGasTable();
+    }
 
-      function loadMonthlyFieldsForActiveMonth() {
-        const mKey = getActiveMonthKey();
-        const metaAll = getMonthlyMeta();
-        const mData = metaAll[mKey] || { productionMwh: "", costKwh: "" };
-        prodMwhInput.value = mData.productionMwh ?? "";
-        costKwhInput.value = mData.costKwh ?? "";
-      }
+    function deleteGasEntry(date) {
+      const updated = getAllEntries().filter((item) => item.date !== date);
+      saveAllEntries(updated);
+      renderGasTable();
+    }
 
-      function handleMonthlyMetaChange() {
-        const mKey = getActiveMonthKey();
-        const metaAll = getMonthlyMeta();
-        metaAll[mKey] = {
-          productionMwh: prodMwhInput.value,
-          costKwh: costKwhInput.value
-        };
-        saveMonthlyMeta(metaAll);
-      }
+    function clearEntryForm() {
+      document.getElementById("gc-present-reading").value = "";
+      document.getElementById("gc-daily-consumption").value = "";
+      document.getElementById("gc-remarks").value = "";
+      document.getElementById("gc-time").value = "09:00";
+    }
 
-      prodMwhInput.addEventListener("input", handleMonthlyMetaChange);
-      costKwhInput.addEventListener("input", handleMonthlyMetaChange);
+    function getMonthKey() {
+      const d = document.getElementById("gc-report-date").value || document.getElementById("gc-date").value;
+      return (d || new Date().toISOString().split("T")[0]).slice(0, 7);
+    }
 
-      function renderAll() {
-        const logs = getLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
-        const activeMonth = getActiveMonthKey();
+    function saveMonthlySummaryMeta() {
+      const monthKey = getMonthKey();
+      const allMeta = JSON.parse(localStorage.getItem(GC_META_KEY) || "{}");
+      allMeta[monthKey] = {
+        totalProductionMwh: document.getElementById("gc-total-production-mwh").value,
+        costKwh: document.getElementById("gc-cost-kwh").value
+      };
+      localStorage.setItem(GC_META_KEY, JSON.stringify(allMeta));
+    }
 
-        tbodyEl.innerHTML = "";
-        let monthlyTotal = 0;
+    function loadMonthlySummaryMeta() {
+      const monthKey = getMonthKey();
+      const allMeta = JSON.parse(localStorage.getItem(GC_META_KEY) || "{}");
+      const meta = allMeta[monthKey] || {};
+      document.getElementById("gc-total-production-mwh").value = meta.totalProductionMwh || "";
+      document.getElementById("gc-cost-kwh").value = meta.costKwh || "";
+    }
 
-        logs.forEach((item, idx) => {
-          const itemMonth = getMonthKey(item.date);
-          if (itemMonth === activeMonth) {
-            monthlyTotal += parseFloat(item.dailyConsumption) || 0;
-          }
+    function calculateCostPerKwh() {
+      saveMonthlySummaryMeta();
+    }
 
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${item.date}</td>
-            <td>${formatTime12h(item.time)}</td>
-            <td>${Number(item.prevReading).toFixed(2)}</td>
-            <td>${Number(item.presentReading).toFixed(2)}</td>
-            <td><strong>${Number(item.dailyConsumption).toFixed(2)}</strong></td>
-            <td>${item.remarks || ""}</td>
-            <td class="gc-actions-cell">
-              <button type="button" data-edit="${idx}">Edit</button>
-              <button type="button" data-del="${idx}">Delete</button>
-            </td>
-          `;
-          tbodyEl.appendChild(tr);
-        });
+    function renderGasTable() {
+      const tbody = document.getElementById("gc-log-tbody");
+      const monthKey = getMonthKey();
+      const entries = getAllEntries()
+        .filter((item) => item.date.startsWith(monthKey))
+        .sort((a, b) => a.date.localeCompare(b.date));
 
-        const formattedTotal = monthlyTotal.toFixed(2);
-        monthlyAutoEl.value = formattedTotal;
-        totalGasAutoEl.value = formattedTotal;
+      let runningMonthly = 0;
+      tbody.innerHTML = "";
 
-        tbodyEl.querySelectorAll("button[data-edit]").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const index = parseInt(btn.getAttribute("data-edit"), 10);
-            const sorted = getLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
-            const target = sorted[index];
-            if (!target) return;
-            dateInput.value = target.date;
-            timeInput.value = target.time || "09:00";
-            prevInput.value = target.prevReading;
-            presentInput.value = target.presentReading;
-            remarksInput.value = target.remarks || "";
-            computeDailyConsumption();
-          });
-        });
+      entries.forEach((row) => {
+        const dailyVal = Number(row.dailyConsumption) || 0;
+        runningMonthly = Number((runningMonthly + dailyVal).toFixed(2));
 
-        tbodyEl.querySelectorAll("button[data-del]").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const index = parseInt(btn.getAttribute("data-del"), 10);
-            const sorted = getLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
-            const target = sorted[index];
-            if (!target) return;
-            const remaining = getLogs().filter(
-              (r) => !(r.date === target.date && r.time === target.time && r.presentReading === target.presentReading)
-            );
-            saveLogs(remaining);
-            renderAll();
-          });
-        });
-      }
-
-      entryForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const dateVal = dateInput.value;
-        const timeVal = timeInput.value || "09:00";
-        const prevVal = parseFloat(prevInput.value);
-        const presentVal = parseFloat(presentInput.value);
-        const remarksVal = remarksInput.value.trim();
-
-        if (!dateVal || isNaN(prevVal) || isNaN(presentVal)) return;
-
-        const dailyVal = presentVal - prevVal;
-        const logs = getLogs();
-
-        // Replace existing entry for the same date & time if present, otherwise add
-        const existingIdx = logs.findIndex((r) => r.date === dateVal && r.time === timeVal);
-        const record = {
-          date: dateVal,
-          time: timeVal,
-          prevReading: prevVal,
-          presentReading: presentVal,
-          dailyConsumption: dailyVal,
-          remarks: remarksVal
-        };
-
-        if (existingIdx >= 0) {
-          logs[existingIdx] = record;
-        } else {
-          logs.push(record);
-        }
-
-        saveLogs(logs);
-        pdfDateInput.value = dateVal;
-        loadMonthlyFieldsForActiveMonth();
-        renderAll();
-
-        // Prepare next day's previous reading smoothly while keeping default 09:00 AM
-        const nextDay = new Date(dateVal + "T00:00:00");
-        nextDay.setDate(nextDay.getDate() + 1);
-        const yyyy = nextDay.getFullYear();
-        const mm = String(nextDay.getMonth() + 1).padStart(2, "0");
-        const dd = String(nextDay.getDate()).padStart(2, "0");
-        dateInput.value = `${yyyy}-${mm}-${dd}`;
-        timeInput.value = "09:00";
-        prevInput.value = presentVal;
-        presentInput.value = "";
-        dailyInput.value = "";
-        remarksInput.value = "";
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.date}</td>
+          <td>${row.timeFormatted || "09:00 AM"}</td>
+          <td>${Number(row.prevReading).toFixed(2)}</td>
+          <td>${Number(row.presentReading).toFixed(2)}</td>
+          <td>${dailyVal.toFixed(2)}</td>
+          <td>${runningMonthly.toFixed(2)}</td>
+          <td>${row.remarks || ""}</td>
+          <td class="no-print">
+            <button type="button" onclick="deleteGasEntry('${row.date}')" style="padding:3px 8px; cursor:pointer;">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
 
-      clearBtn.addEventListener("click", function () {
-        entryForm.reset();
-        timeInput.value = "09:00";
-        dailyInput.value = "";
+      document.getElementById("gc-monthly-consumption").value = runningMonthly.toFixed(2);
+      document.getElementById("gc-total-gas").value = runningMonthly.toFixed(2);
+    }
+
+    // Downloads English PDF report with company name, logo, table, and totals
+    function downloadGasReportPDF() {
+      const selectedDate = document.getElementById("gc-report-date").value || document.getElementById("gc-date").value;
+      const monthKey = (selectedDate || new Date().toISOString().split("T")[0]).slice(0, 7);
+      const monthLabel = document.getElementById("gc-month-label").value || monthKey;
+      const companyName = document.getElementById("gc-company-name").textContent.trim();
+      const companyAddress = document.getElementById("gc-company-address").textContent.trim();
+      const totalGas = document.getElementById("gc-total-gas").value || "0.00";
+      const totalProdMwh = document.getElementById("gc-total-production-mwh").value || "0.00";
+      const costKwh = document.getElementById("gc-cost-kwh").value || "0.00";
+
+      const entries = getAllEntries()
+        .filter((item) => item.date.startsWith(monthKey))
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      let runningMonthly = 0;
+      const tableBody = entries.map((r) => {
+        const dailyVal = Number(r.dailyConsumption) || 0;
+        runningMonthly = Number((runningMonthly + dailyVal).toFixed(2));
+        return [
+          r.date,
+          r.timeFormatted || "09:00 AM",
+          Number(r.prevReading).toFixed(2),
+          Number(r.presentReading).toFixed(2),
+          dailyVal.toFixed(2),
+          runningMonthly.toFixed(2),
+          r.remarks || ""
+        ];
       });
 
-      downloadPdfBtn.addEventListener("click", function () {
-        syncExistingLogoIfPresent();
-        const chosenDateStr = pdfDateInput.value || dateInput.value;
-        const logs = getLogs().slice().sort((a, b) => a.date.localeCompare(b.date));
+      if (window.jspdf && window.jspdf.jsPDF) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
 
-        let filteredLogs = logs;
-        let monthLabel = "ALL MONTHS";
-        let yearLabel = "";
-        let selectedDateLabel = chosenDateStr || "ALL";
-
-        if (chosenDateStr) {
-          const dt = new Date(chosenDateStr + "T00:00:00");
-          const mKey = chosenDateStr.slice(0, 7);
-          monthLabel = dt.toLocaleString("en-US", { month: "long" }).toUpperCase();
-          yearLabel = String(dt.getFullYear());
-          filteredLogs = logs.filter((item) => getMonthKey(item.date) === mKey);
+        const logoImg = document.querySelector("#gc-logo-container img");
+        if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
+          try {
+            doc.addImage(logoImg, "PNG", 40, 30, 38, 38);
+          } catch (e) {}
         }
 
-        document.getElementById("gcPrintMonthYear").textContent =
-          `MONTH: ${monthLabel}${yearLabel ? " | YEAR: " + yearLabel : ""}`;
-        document.getElementById("gcPrintSelectedDate").textContent =
-          `SELECTED DATE: ${selectedDateLabel}`;
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(14);
+        doc.text(companyName, 90, 45);
 
-        const printTbody = document.getElementById("gcPrintTbody");
-        printTbody.innerHTML = "";
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.text(companyAddress, 90, 58);
 
-        let totalGas = 0;
-        filteredLogs.forEach((item) => {
-          totalGas += parseFloat(item.dailyConsumption) || 0;
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${item.date}</td>
-            <td>${formatTime12h(item.time)}</td>
-            <td>${Number(item.prevReading).toFixed(2)}</td>
-            <td>${Number(item.presentReading).toFixed(2)}</td>
-            <td>${Number(item.dailyConsumption).toFixed(2)}</td>
-            <td>${item.remarks || ""}</td>
-          `;
-          printTbody.appendChild(tr);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.text(`GAS CONSUMPTION LOG SHEET (${monthLabel})`, 90, 72);
+
+        doc.setFontSize(9);
+        doc.text(`Report Date: ${selectedDate}`, 400, 45);
+
+        doc.autoTable({
+          startY: 85,
+          head: [[
+            "Date",
+            "Time",
+            "Previous Meter Reading (M3)",
+            "Present Meter Reading (M3)",
+            "Daily Consumption (M3)",
+            "Monthly Consumption (M3)",
+            "Remarks"
+          ]],
+          body: tableBody,
+          styles: { fontSize: 8, cellPadding: 4 },
+          headStyles: { fillColor: [30, 41, 59] }
         });
 
-        document.getElementById("gcPrintTotalGas").textContent = totalGas.toFixed(2) + " M³";
-        document.getElementById("gcPrintProdMwh").textContent = (prodMwhInput.value || "0.00") + " MWH";
-        document.getElementById("gcPrintCostKwh").textContent = costKwhInput.value || "0.00";
+        const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 16 : 120;
+        doc.autoTable({
+          startY: finalY,
+          body: [
+            ["Total Gas Consumption (M3)", totalGas],
+            ["Total Production (MWH)", totalProdMwh],
+            ["Cost / kWh", costKwh]
+          ],
+          styles: { fontSize: 9, cellPadding: 4 },
+          columnStyles: { 0: { fontStyle: "bold", cellWidth: 180 }, 1: { cellWidth: 100 } }
+        });
 
+        doc.save(`Gas_Consumption_${monthKey}.pdf`);
+      } else {
         window.print();
-      });
-
-      function openGasConsumptionPage() {
-        syncExistingLogoIfPresent();
-        sectionEl.style.display = "block";
-        if (!dateInput.value) {
-          const today = new Date();
-          const yyyy = today.getFullYear();
-          const mm = String(today.getMonth() + 1).padStart(2, "0");
-          const dd = String(today.getDate()).padStart(2, "0");
-          const todayStr = `${yyyy}-${mm}-${dd}`;
-          dateInput.value = todayStr;
-          pdfDateInput.value = todayStr;
-          suggestPreviousReadingForDate(todayStr);
-        }
-        loadMonthlyFieldsForActiveMonth();
-        renderAll();
-        sectionEl.scrollIntoView({ behavior: "smooth" });
       }
-
-      closeBtn.addEventListener("click", function () {
-        sectionEl.style.display = "none";
-      });
-
-      document.querySelectorAll("[data-open-gas-consumption]").forEach((btn) => {
-        btn.addEventListener("click", openGasConsumptionPage);
-      });
-
-      // Expose helper if you want to open it programmatically from your existing menu/admin code
-      window.openGasConsumptionModule = openGasConsumptionPage;
-    })();
+    }
   </script>
 </body>
 </html>
