@@ -368,9 +368,9 @@
   .meta-inputs { display: flex; flex-wrap: wrap; gap: 14px; }
   .input-group { display: flex; flex-direction: column; }
   .input-group label { font-size: 11px; font-weight: 600; color: var(--slate-700); margin-bottom: 5px; text-transform: uppercase; }
-  .input-group input {
+  .input-group input, .input-group select {
     padding: 8px 12px; border: 1.5px solid var(--slate-200); border-radius: 8px;
-    font-size: 13px; font-weight: 600; color: var(--slate-900);
+    font-size: 13px; font-weight: 600; color: var(--slate-900); background: #fff;
   }
 
   .shift-switcher { display: flex; flex-wrap: wrap; background: var(--slate-100); padding: 4px; border-radius: 10px; gap: 4px; }
@@ -556,12 +556,13 @@
   }
 
   /* ================= REPORT SECTION ================= */
-  #report-container, #boiler-report-container, #comp-report-container {
+  #report-container, #boiler-report-container, #comp-report-container, #gas-report-container {
     display: none; background: #ffffff; border-radius: 14px; padding: 20px;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); border: 1px solid var(--slate-200);
     margin-top: 24px; max-width: 100%; overflow-x: auto;
   }
   .report-page { min-width: 1260px; background: #ffffff; position: relative; }
+  .report-page.gas-portrait-page { min-width: 820px; }
   .night-page-spacer { margin-top: 26px; }
 
   .rep-header {
@@ -579,6 +580,7 @@
   .rep-logo img { max-height: 44px; max-width: 85px; object-fit: contain; }
 
   .kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 10px; }
+  .kpi-strip.gas-kpi-3 { grid-template-columns: repeat(3, 1fr); }
   .kpi-item {
     background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3.5px solid var(--brand-dark);
     border-radius: 6px; padding: 5px 8px;
@@ -589,6 +591,7 @@
 
   table.clean-rep-table { width: 100%; border-collapse: collapse; font-size: 9px; text-align: center; }
   table.clean-rep-table th, table.clean-rep-table td { border: 1px solid #cbd5e1; padding: 3px 2.5px; }
+  table.clean-rep-table.gas-rep-table th, table.clean-rep-table.gas-rep-table td { padding: 4.5px 6px; font-size: 10px; }
   .grp-gen { background: #1e293b; color: #fff; font-weight: 700; font-size: 9.5px; }
   .grp-cost { background: #334155; color: #fff; font-weight: 700; font-size: 9.5px; }
   .grp-dept { background: #14452f; color: #fff; font-weight: 700; font-size: 9.5px; }
@@ -643,7 +646,7 @@
     }
     .no-print { display: none !important; }
     .container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
-    #report-container, #boiler-report-container, #comp-report-container {
+    #report-container, #boiler-report-container, #comp-report-container, #gas-report-container {
       display: block !important; box-shadow: none !important; border: none !important;
       padding: 0 !important; margin: 0 !important; overflow: visible !important;
     }
@@ -675,6 +678,8 @@
     body.print-mode-separate .kpi-item .k-val { font-size: 12.5px; }
     body.print-mode-separate table.clean-rep-table th,
     body.print-mode-separate table.clean-rep-table td { padding: 2.8px 2px; font-size: 8.6px; }
+    body.print-mode-separate table.clean-rep-table.gas-rep-table th,
+    body.print-mode-separate table.clean-rep-table.gas-rep-table td { padding: 3.5px 5px; font-size: 9px; }
     body.print-mode-separate .rep-charts { margin-top: 7px; gap: 10px; }
     body.print-mode-separate .canvas-wrap { height: 132px !important; max-height: 132px !important; }
     body.print-mode-separate .rep-footer { margin-top: 10px; }
@@ -1134,18 +1139,10 @@
           <button type="button" class="btn btn-primary" id="homeBtnGenerator" onclick="navigateSection('generator')" data-i18n="navGenerator">Generator</button>
           <button type="button" class="btn btn-accent" id="homeBtnBoiler" onclick="navigateSection('boiler')" data-i18n="navBoiler">Boiler</button>
           <button type="button" class="btn btn-combined" id="homeBtnCompressor" onclick="navigateSection('compressor')" data-i18n="navCompressor">Air Compressor</button>
+          <button type="button" class="btn btn-excel" id="homeBtnGas" onclick="navigateSection('gas')" data-i18n="navGas">Gas Consumption</button>
           <button type="button" class="btn btn-save" id="homeBtnSaved" onclick="navigateSection('saved')" data-i18n="navSaved">Saved Data</button>
           <button type="button" class="btn btn-excel" id="homeBtnAdmin" onclick="navigateSection('admin')" data-i18n="navAdmin">Admin Panel</button>
         </div>
-      </div>
-    </div>
-
-    <!-- ================= GAS CONSUMPTION UPCOMING VIEW ================= -->
-    <div id="view-gas" class="no-print" style="display:none;">
-      <div class="upcoming-card">
-        <span class="upcoming-pill">Upcoming</span>
-        <h2>upcoming gas consumption</h2>
-        <p>Gas Consumption tracking module is coming soon.</p>
       </div>
     </div>
 
@@ -1161,6 +1158,71 @@
         </div>
         <div id="adminPanelContent"></div>
       </div>
+    </div>
+
+    <!-- ================= GAS CONSUMPTION VIEW ================= -->
+    <div id="view-gas" style="display:none;">
+      <div class="control-card no-print">
+        <div class="top-controls">
+          <div class="meta-inputs">
+            <div class="input-group">
+              <label data-i18n="gasStartDateLbl">Start Date (1st Day)</label>
+              <input type="date" id="gasStartDate" value="2026-11-01" onchange="syncGasDatesFromStart(); triggerGasAutoSave();">
+            </div>
+            <div class="input-group">
+              <label data-i18n="gasDefaultTimeLbl">Default Entry Time</label>
+              <input type="time" id="gasDefaultTime" value="08:00" onchange="applyDefaultGasTime(); triggerGasAutoSave();">
+            </div>
+            <div class="input-group">
+              <label data-i18n="gasFormatRangeLbl">Format Download Date Range (1–30)</label>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <select id="gasRangeFrom" style="padding:7px 9px;"></select>
+                <span style="font-size:12px; font-weight:700; color:var(--slate-500);">to</span>
+                <select id="gasRangeTo" style="padding:7px 9px;"></select>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="company-badge" data-i18n="gasEntryBadge">Gas Consumption Monthly Log & Format Sheet</span>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="metric-input-card">
+            <label data-i18n="totGasConsAuto">Total Gas Consumption (m³ Auto)</label>
+            <input type="number" id="gas_total_cons_auto" value="0.00" readonly>
+          </div>
+          <div class="metric-input-card">
+            <label data-i18n="totProdMwhLbl">Total Production MWH</label>
+            <input type="number" inputmode="decimal" step="any" id="gas_total_prod_mwh" value="0" oninput="triggerGasAutoSave()">
+          </div>
+          <div class="metric-input-card">
+            <label data-i18n="totCostKwhLbl">Total Cost KWH</label>
+            <input type="number" inputmode="decimal" step="any" id="gas_total_cost_kwh" value="0" oninput="triggerGasAutoSave()">
+          </div>
+        </div>
+
+        <div class="table-wrapper" id="gas-entry-grid"></div>
+
+        <div class="btn-bar">
+          <button type="button" class="btn btn-reset perm-reset-btn" onclick="resetSectionEntries('gas')" data-i18n="resetEntryBtn">↺ Reset Entry</button>
+          <button type="button" class="btn btn-save" onclick="saveCurrentSectionData('gas', false)" data-i18n="saveBtn">Save Data</button>
+          <button type="button" class="btn btn-excel perm-excel-btn" onclick="downloadGasExcelSheet()" data-i18n="downloadExcelBtn">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary" onclick="buildGasReport()" data-i18n="submitReportBtn">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent perm-download-btn" onclick="printGasFormatReport()" data-i18n="downloadPdfBtn">Download / Print PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= GAS CONSUMPTION REPORT SECTION ================= -->
+    <div id="gas-report-container">
+      <div class="no-print perm-report-bar" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
+        <span style="font-weight:700; color:var(--brand-dark); font-size:13px;" data-i18n="gasPreviewReady">Gas Consumption Format Report Preview Ready</span>
+        <div class="perm-download-group" style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn btn-accent perm-download-btn" style="padding:8px 14px; font-size:12px;" onclick="printGasFormatReport()" data-i18n="downloadPdfBtn">Download / Print PDF</button>
+        </div>
+      </div>
+      <div id="gas-report-output"></div>
     </div>
 
     <!-- ================= AIR COMPRESSOR VIEW ================= -->
@@ -1335,6 +1397,7 @@
           <button type="button" class="shift-tab active" id="stab-generator" onclick="renderSavedCategory('generator', this)" data-i18n="navGenerator">Generator</button>
           <button type="button" class="shift-tab" id="stab-compressor" onclick="renderSavedCategory('compressor', this)" data-i18n="navCompressor">Air Compressor</button>
           <button type="button" class="shift-tab" id="stab-boiler" onclick="renderSavedCategory('boiler', this)" data-i18n="navBoiler">Boiler</button>
+          <button type="button" class="shift-tab" id="stab-gas" onclick="renderSavedCategory('gas', this)" data-i18n="navGas">Gas Consumption</button>
         </div>
         <div id="savedDataListContainer"></div>
         <div id="savedFullReportViewer" class="saved-report-viewer" style="display:none;"></div>
@@ -1602,7 +1665,7 @@ function renderLongQrCode(seedText = "PN-COMPOSITE") {
   box.innerHTML = `<svg viewBox="0 0 228 32" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">${bars}</svg>`;
 }
 
-/* ================= FIREBASE FIRESTORE REAL-TIME STORE (NO LOCALSTORAGE) ================= */
+/* ================= FIREBASE FIRESTORE REAL-TIME STORE ================= */
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBqrEtn-oWVZP3Z_LTdTLd_m6wAt0wsb8s",
   authDomain: "pn-composite-utility-6a495.firebaseapp.com",
@@ -1620,7 +1683,8 @@ let liveUsersList = [];
 let liveSavedLogs = {
   generator: [],
   compressor: [],
-  boiler: []
+  boiler: [],
+  gas: []
 };
 let currentActiveUser = null;
 let currentSavedCategory = "generator";
@@ -1629,8 +1693,8 @@ let activeCurrentSection = "home";
 // Live entry sync state
 const LIVE_CLIENT_ID = "client_" + Math.random().toString(36).slice(2, 10) + "_" + Date.now().toString(36);
 let isApplyingRemoteLiveUpdate = false;
-let liveSyncTimers = { generator: null, boiler: null, compressor: null };
-let latestLiveDocs = { generator: null, boiler: null, compressor: null };
+let liveSyncTimers = { generator: null, boiler: null, compressor: null, gas: null };
+let latestLiveDocs = { generator: null, boiler: null, compressor: null, gas: null };
 
 const DEFAULT_MEMBER_PERMISSIONS = {
   canGenerator: true,
@@ -1740,19 +1804,21 @@ function applyRoleAndPermissionRestrictions() {
   if (navGen) navGen.style.display = perms.canGenerator ? "flex" : "none";
   if (navBoi) navBoi.style.display = perms.canBoiler ? "flex" : "none";
   if (navComp) navComp.style.display = perms.canCompressor ? "flex" : "none";
-  if (navGas) navGas.style.display = perms.canGas !== false ? "flex" : "none";
+  if (navGas) navGas.style.display = perms.canGas ? "flex" : "none";
   if (navSaved) navSaved.style.display = perms.canSavedData ? "flex" : "none";
   if (navAdmin) navAdmin.style.display = isAdmin ? "flex" : "none";
 
   const hGen = document.getElementById("homeBtnGenerator");
   const hBoi = document.getElementById("homeBtnBoiler");
   const hComp = document.getElementById("homeBtnCompressor");
+  const hGas = document.getElementById("homeBtnGas");
   const hSaved = document.getElementById("homeBtnSaved");
   const hAdmin = document.getElementById("homeBtnAdmin");
 
   if (hGen) hGen.style.display = perms.canGenerator ? "inline-flex" : "none";
   if (hBoi) hBoi.style.display = perms.canBoiler ? "inline-flex" : "none";
   if (hComp) hComp.style.display = perms.canCompressor ? "inline-flex" : "none";
+  if (hGas) hGas.style.display = perms.canGas ? "inline-flex" : "none";
   if (hSaved) hSaved.style.display = perms.canSavedData ? "inline-flex" : "none";
   if (hAdmin) hAdmin.style.display = isAdmin ? "inline-flex" : "none";
 
@@ -1812,6 +1878,7 @@ function getSectionSelector(category) {
   if (category === "generator") return "#view-generator";
   if (category === "boiler") return "#view-boiler";
   if (category === "compressor") return "#view-compressor";
+  if (category === "gas") return "#view-gas";
   return "";
 }
 
@@ -1823,14 +1890,14 @@ function broadcastLiveEntry(category) {
   clearTimeout(liveSyncTimers[category]);
   liveSyncTimers[category] = setTimeout(() => {
     const inputs = {};
-    document.querySelectorAll(`${sel} input`).forEach(inp => {
+    document.querySelectorAll(`${sel} input, ${sel} select`).forEach(inp => {
       if (inp.id) inputs[inp.id] = inp.value;
     });
 
     const activeShift =
       category === "generator" ? currentActiveShift :
       category === "boiler" ? currentBoilerShift :
-      currentCompShift;
+      category === "compressor" ? currentCompShift : "monthly";
 
     firebaseDb.collection("pn_live_entries").doc(category).set({
       category,
@@ -1884,6 +1951,8 @@ function applyLiveDocToSection(category, docData) {
     } else if (category === "compressor") {
       recalcCompShift("day");
       recalcCompShift("night");
+    } else if (category === "gas") {
+      recalcGasConsumption();
     }
   } finally {
     isApplyingRemoteLiveUpdate = false;
@@ -1893,19 +1962,21 @@ function applyLiveDocToSection(category, docData) {
 document.addEventListener("input", function(e) {
   if (isApplyingRemoteLiveUpdate) return;
   const target = e.target;
-  if (!target || target.tagName !== "INPUT") return;
+  if (!target || (target.tagName !== "INPUT" && target.tagName !== "SELECT")) return;
   if (target.closest("#view-generator")) broadcastLiveEntry("generator");
   else if (target.closest("#view-boiler")) broadcastLiveEntry("boiler");
   else if (target.closest("#view-compressor")) broadcastLiveEntry("compressor");
+  else if (target.closest("#view-gas")) broadcastLiveEntry("gas");
 });
 
 document.addEventListener("change", function(e) {
   if (isApplyingRemoteLiveUpdate) return;
   const target = e.target;
-  if (!target || target.tagName !== "INPUT") return;
+  if (!target || (target.tagName !== "INPUT" && target.tagName !== "SELECT")) return;
   if (target.closest("#view-generator")) broadcastLiveEntry("generator");
   else if (target.closest("#view-boiler")) broadcastLiveEntry("boiler");
   else if (target.closest("#view-compressor")) broadcastLiveEntry("compressor");
+  else if (target.closest("#view-gas")) broadcastLiveEntry("gas");
 });
 
 function startRealtimeFirestoreListeners() {
@@ -1930,7 +2001,7 @@ function startRealtimeFirestoreListeners() {
   });
 
   firebaseDb.collection("pn_utility_logs").onSnapshot((snap) => {
-    const grouped = { generator: [], compressor: [], boiler: [] };
+    const grouped = { generator: [], compressor: [], boiler: [], gas: [] };
     snap.forEach(doc => {
       const data = doc.data();
       if (data && data.category && grouped[data.category]) {
@@ -1938,7 +2009,7 @@ function startRealtimeFirestoreListeners() {
       }
     });
 
-    ["generator", "compressor", "boiler"].forEach(cat => {
+    ["generator", "compressor", "boiler", "gas"].forEach(cat => {
       grouped[cat].sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
     });
 
@@ -1952,7 +2023,7 @@ function startRealtimeFirestoreListeners() {
     }
   });
 
-  ["generator", "boiler", "compressor"].forEach(cat => {
+  ["generator", "boiler", "compressor", "gas"].forEach(cat => {
     firebaseDb.collection("pn_live_entries").doc(cat).onSnapshot((docSnap) => {
       if (!docSnap.exists) return;
       const data = docSnap.data();
@@ -2013,7 +2084,7 @@ async function syncEmployeeToFirestore(profile) {
   await firebaseDb.collection("pn_employees").doc(emailKey).set(safeCopy, { merge: true });
 }
 
-/* ================= LANGUAGE (ENTIRE WEBSITE BN / EN) ================= */
+/* ================= LANGUAGE (ENTIRE WEBSITE BN / EN, DEFAULT EN) ================= */
 let currentLang = "en";
 const I18N_DICT = {
   bn: {
@@ -2056,7 +2127,7 @@ const I18N_DICT = {
     navCompressor: "এয়ার কম্প্রেসর",
     navGenerator: "জেনারেটর",
     navBoiler: "বয়লার",
-    navGas: "Gas Consumption",
+    navGas: "গ্যাস কনজাম্পশন",
     navSaved: "সেভ করা তথ্য",
     navAdmin: "অ্যাডমিন প্যানেল",
     myIdCard: "আমার আইডি কার্ড",
@@ -2084,6 +2155,7 @@ const I18N_DICT = {
     dayNightPdf1PageBtn: "ডে ও নাইট ডাউনলোড / প্রিন্ট PDF (১ পেজ)",
     compPreviewReady: "এয়ার কম্প্রেসর রিপোর্ট প্রিভিউ প্রস্তুত",
     boilerPreviewReady: "বয়লার রিপোর্ট প্রিভিউ প্রস্তুত",
+    gasPreviewReady: "গ্যাস কনজাম্পশন ফরমেট রিপোর্ট প্রিভিউ প্রস্তুত",
     repPreviewReady: "রিপোর্ট প্রিভিউ প্রস্তুত",
     ngRateLbl: "NG রেট (টাকা/m³)",
     lpgRateLbl: "LPG রেট (টাকা/Kg)",
@@ -2109,7 +2181,14 @@ const I18N_DICT = {
     natGasConsLbl: "ন্যাচারাল গ্যাস খরচ (m³)",
     dgKwhLbl: "ডিজেল জেনারেটর kWh",
     ggKwhLbl: "গ্যাস জেনারেটর kWh",
-    totShiftKwhAuto: "মোট শিফট kWh (অটো)"
+    totShiftKwhAuto: "মোট শিফট kWh (অটো)",
+    gasStartDateLbl: "শুরুর তারিখ (১ম দিন)",
+    gasDefaultTimeLbl: "ডিফল্ট সময়",
+    gasFormatRangeLbl: "ফরমেট ডাউনলোড তারিখ (১–৩০)",
+    gasEntryBadge: "গ্যাস কনজাম্পশন মাসিক লগ ও ফরমেট শিট",
+    totGasConsAuto: "মোট গ্যাস খরচ (m³ অটো)",
+    totProdMwhLbl: "মোট উৎপাদন MWH",
+    totCostKwhLbl: "মোট খরচ KWH"
   },
   en: {
     portalSub: "529, Ambag, Nilnagar, Konabari, Gazipur • Utility & Power Management Portal",
@@ -2179,6 +2258,7 @@ const I18N_DICT = {
     dayNightPdf1PageBtn: "Day & Night Download / Print PDF (1 Page)",
     compPreviewReady: "Air Compressor Report Preview Ready",
     boilerPreviewReady: "Boiler Report Preview Ready",
+    gasPreviewReady: "Gas Consumption Format Report Preview Ready",
     repPreviewReady: "Report Preview Ready",
     ngRateLbl: "NG Rate (Tk/m³)",
     lpgRateLbl: "LPG Rate (Tk/Kg)",
@@ -2204,7 +2284,14 @@ const I18N_DICT = {
     natGasConsLbl: "Natural Gas Consumption (m³)",
     dgKwhLbl: "Diesel Generator kWh",
     ggKwhLbl: "Gas Generator kWh",
-    totShiftKwhAuto: "Total Shift kWh (Auto)"
+    totShiftKwhAuto: "Total Shift kWh (Auto)",
+    gasStartDateLbl: "Start Date (Day 1)",
+    gasDefaultTimeLbl: "Default Time",
+    gasFormatRangeLbl: "Format Download Date Range (1–30)",
+    gasEntryBadge: "Gas Consumption Monthly Log & Format Sheet",
+    totGasConsAuto: "Total Gas Consumption (m³ Auto)",
+    totProdMwhLbl: "Total Production MWH",
+    totCostKwhLbl: "Total Cost KWH"
   }
 };
 
@@ -2550,7 +2637,7 @@ async function handleRegistrationConfirm() {
 }
 
 function hydrateLiveEntriesOnEnter() {
-  ["generator", "boiler", "compressor"].forEach(cat => {
+  ["generator", "boiler", "compressor", "gas"].forEach(cat => {
     if (latestLiveDocs[cat]) {
       applyLiveDocToSection(cat, latestLiveDocs[cat]);
     }
@@ -2659,6 +2746,7 @@ async function handleLogout() {
   document.getElementById("report-container").style.display = "none";
   document.getElementById("boiler-report-container").style.display = "none";
   document.getElementById("comp-report-container").style.display = "none";
+  document.getElementById("gas-report-container").style.display = "none";
   document.getElementById("auth-wrapper").style.display = "block";
   showAuthPanel("login");
 }
@@ -2718,6 +2806,7 @@ function renderAdminPanel() {
   const genCount = liveSavedLogs.generator.length;
   const compCount = liveSavedLogs.compressor.length;
   const boilerCount = liveSavedLogs.boiler.length;
+  const gasCount = (liveSavedLogs.gas || []).length;
 
   let html = `
     <div class="summary-grid" style="margin-top:0;">
@@ -2726,6 +2815,7 @@ function renderAdminPanel() {
       <div class="metric-input-card"><label>${currentLang === "bn" ? "সেভড জেনারেটর লগ" : "Saved Generator Logs"}</label><input type="text" readonly value="${genCount}"></div>
       <div class="metric-input-card"><label>${currentLang === "bn" ? "সেভড কম্প্রেসর লগ" : "Saved Compressor Logs"}</label><input type="text" readonly value="${compCount}"></div>
       <div class="metric-input-card"><label>${currentLang === "bn" ? "সেভড বয়লার লগ" : "Saved Boiler Logs"}</label><input type="text" readonly value="${boilerCount}"></div>
+      <div class="metric-input-card"><label>${currentLang === "bn" ? "সেভড গ্যাস লগ" : "Saved Gas Logs"}</label><input type="text" readonly value="${gasCount}"></div>
     </div>
 
     <h3 style="margin:14px 0 8px 0; font-size:14.5px; font-weight:800; color:var(--brand-dark);">${currentLang === "bn" ? "পেন্ডিং রেজিস্ট্রেশন রিকোয়েস্ট" : "Pending Registration Requests"}</h3>
@@ -2786,7 +2876,7 @@ function renderAdminPanel() {
               <label class="perm-chip"><input type="checkbox" ${p.canGenerator ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canGenerator', this.checked)"> Generator</label>
               <label class="perm-chip"><input type="checkbox" ${p.canBoiler ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canBoiler', this.checked)"> Boiler</label>
               <label class="perm-chip"><input type="checkbox" ${p.canCompressor ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canCompressor', this.checked)"> Compressor</label>
-              <label class="perm-chip"><input type="checkbox" ${p.canGas !== false ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canGas', this.checked)"> Gas Consumption</label>
+              <label class="perm-chip"><input type="checkbox" ${p.canGas ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canGas', this.checked)"> Gas Consumption</label>
               <label class="perm-chip"><input type="checkbox" ${p.canSavedData ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canSavedData', this.checked)"> Saved Data</label>
               <label class="perm-chip"><input type="checkbox" ${p.canResetEntry ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canResetEntry', this.checked)"> ↺ Reset Entry</label>
               <label class="perm-chip"><input type="checkbox" ${p.canDownloadExcel ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canDownloadExcel', this.checked)"> Download Excel Sheet</label>
@@ -2824,7 +2914,7 @@ function navigateSection(section, btnEl = null) {
   if (section === "generator" && !perms.canGenerator) { alert(currentLang === "bn" ? "জেনারেটর সেকশনের পারমিশন দেওয়া নেই।" : "Generator section permission is not assigned to you."); return; }
   if (section === "boiler" && !perms.canBoiler) { alert(currentLang === "bn" ? "বয়লার সেকশনের পারমিশন দেওয়া নেই।" : "Boiler section permission is not assigned to you."); return; }
   if (section === "compressor" && !perms.canCompressor) { alert(currentLang === "bn" ? "এয়ার কম্প্রেসর সেকশনের পারমিশন দেওয়া নেই।" : "Air Compressor section permission is not assigned to you."); return; }
-  if (section === "gas" && perms.canGas === false) { alert(currentLang === "bn" ? "Gas Consumption সেকশনের পারমিশন দেওয়া নেই।" : "Gas Consumption section permission is not assigned to you."); return; }
+  if (section === "gas" && !perms.canGas) { alert(currentLang === "bn" ? "গ্যাস কনজাম্পশন সেকশনের পারমিশন দেওয়া নেই।" : "Gas Consumption section permission is not assigned to you."); return; }
   if (section === "saved" && !perms.canSavedData) { alert(currentLang === "bn" ? "সেভ করা তথ্য দেখার পারমিশন দেওয়া নেই।" : "Saved Data permission is not assigned to you."); return; }
   if (section === "admin" && !isSuperAdminUser(currentActiveUser)) { alert(currentLang === "bn" ? "অ্যাডমিন প্যানেল শুধুমাত্র Super Admin-এর জন্য।" : "Admin Panel is restricted to Super Admin."); return; }
 
@@ -2840,18 +2930,19 @@ function navigateSection(section, btnEl = null) {
   document.getElementById("view-home").style.display = section === "home" ? "block" : "none";
   document.getElementById("view-compressor").style.display = section === "compressor" ? "block" : "none";
   document.getElementById("view-boiler").style.display = section === "boiler" ? "block" : "none";
-  document.getElementById("view-gas").style.display = section === "gas" ? "block" : "none";
   document.getElementById("view-generator").style.display = section === "generator" ? "block" : "none";
+  document.getElementById("view-gas").style.display = section === "gas" ? "block" : "none";
   document.getElementById("view-saved").style.display = section === "saved" ? "block" : "none";
   document.getElementById("view-admin").style.display = section === "admin" ? "block" : "none";
 
-  if (["generator", "boiler", "compressor"].includes(section) && latestLiveDocs[section]) {
+  if (["generator", "boiler", "compressor", "gas"].includes(section) && latestLiveDocs[section]) {
     applyLiveDocToSection(section, latestLiveDocs[section]);
   }
 
   if (section !== "generator") document.getElementById("report-container").style.display = "none";
   if (section !== "boiler") document.getElementById("boiler-report-container").style.display = "none";
   if (section !== "compressor") document.getElementById("comp-report-container").style.display = "none";
+  if (section !== "gas") document.getElementById("gas-report-container").style.display = "none";
 
   if (section === "saved") {
     const activeTab = document.querySelector("#view-saved .shift-tab.active") || document.getElementById("stab-generator");
@@ -2908,9 +2999,286 @@ function resetSectionEntries(category) {
     recalcCompShift("night");
     broadcastLiveEntry("compressor");
     document.getElementById("comp-report-container").style.display = "none";
+  } else if (category === "gas") {
+    document.querySelectorAll("#view-gas input[type='number']:not([readonly])").forEach(inp => {
+      inp.value = "0";
+    });
+    document.querySelectorAll("#view-gas input[type='text']").forEach(inp => {
+      inp.value = "";
+    });
+    recalcGasConsumption();
+    broadcastLiveEntry("gas");
+    document.getElementById("gas-report-container").style.display = "none";
   }
 
   alert(currentLang === "bn" ? "এন্ট্রি রিসেট সম্পন্ন হয়েছে।" : "Entries reset successfully.");
+}
+
+/* ================= GAS CONSUMPTION (30-DAY MONTHLY ENTRY & FORMAT REPORT) ================= */
+function initGasRangeSelectors() {
+  const fromSel = document.getElementById("gasRangeFrom");
+  const toSel = document.getElementById("gasRangeTo");
+  if (!fromSel || !toSel) return;
+  let opts = "";
+  for (let d = 1; d <= 31; d++) {
+    opts += `<option value="${d}">Day ${d}</option>`;
+  }
+  fromSel.innerHTML = opts;
+  toSel.innerHTML = opts;
+  fromSel.value = "1";
+  toSel.value = "30";
+}
+
+function renderGasEntryGrid() {
+  const container = document.getElementById("gas-entry-grid");
+  if (!container) return;
+
+  const startDateStr = document.getElementById("gasStartDate")?.value || "2026-11-01";
+  const defTime = document.getElementById("gasDefaultTime")?.value || "08:00";
+  const baseDate = new Date(startDateStr + "T00:00:00");
+
+  let html = `<table class="entry-grid" style="min-width:980px;">
+    <thead>
+      <tr>
+        <th style="width:48px;">Sl</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Previous Meter<br>Reading (m³)</th>
+        <th>Present Meter<br>Reading (m³)</th>
+        <th class="dept-th">Day Consumption<br>(m³ Auto)</th>
+        <th class="lpg-th">Monthly Consumption<br>(m³ Auto)</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  for (let i = 0; i < 31; i++) {
+    const rowDate = new Date(baseDate);
+    if (!isNaN(baseDate.getTime())) {
+      rowDate.setDate(baseDate.getDate() + i);
+    }
+    const isoDate = !isNaN(rowDate.getTime()) ? rowDate.toISOString().slice(0, 10) : startDateStr;
+
+    html += `<tr>
+      <td><strong>${i + 1}</strong></td>
+      <td><input type="date" id="gas_date_${i}" value="${isoDate}" style="width:128px;" onchange="triggerGasAutoSave()"></td>
+      <td><input type="time" id="gas_time_${i}" value="${defTime}" style="width:105px;" onchange="triggerGasAutoSave()"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="gas_prev_${i}" value="0" style="width:118px;" oninput="recalcGasConsumption(); triggerGasAutoSave();"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="gas_pres_${i}" value="0" style="width:118px;" oninput="recalcGasConsumption(); triggerGasAutoSave();"></td>
+      <td><input type="number" id="gas_day_cons_${i}" value="0.00" readonly style="width:115px;"></td>
+      <td><input type="number" id="gas_month_cons_${i}" value="0.00" readonly style="width:120px;"></td>
+      <td><input type="text" id="gas_remarks_${i}" value="" placeholder="Office Closed / Govt Holiday" style="width:190px; text-align:left; padding-left:8px;" oninput="triggerGasAutoSave()"></td>
+    </tr>`;
+  }
+
+  html += `</tbody></table>`;
+  container.innerHTML = html;
+}
+
+function syncGasDatesFromStart() {
+  const startDateStr = document.getElementById("gasStartDate")?.value;
+  if (!startDateStr) return;
+  const baseDate = new Date(startDateStr + "T00:00:00");
+  if (isNaN(baseDate.getTime())) return;
+
+  for (let i = 0; i < 31; i++) {
+    const d = new Date(baseDate);
+    d.setDate(baseDate.getDate() + i);
+    const inp = document.getElementById(`gas_date_${i}`);
+    if (inp) inp.value = d.toISOString().slice(0, 10);
+  }
+}
+
+function applyDefaultGasTime() {
+  const defTime = document.getElementById("gasDefaultTime")?.value || "08:00";
+  for (let i = 0; i < 31; i++) {
+    const inp = document.getElementById(`gas_time_${i}`);
+    if (inp) inp.value = defTime;
+  }
+}
+
+function recalcGasConsumption() {
+  let cumulativeMonthly = 0;
+  for (let i = 0; i < 31; i++) {
+    const prevEl = document.getElementById(`gas_prev_${i}`);
+    const presEl = document.getElementById(`gas_pres_${i}`);
+    const dayEl = document.getElementById(`gas_day_cons_${i}`);
+    const monthEl = document.getElementById(`gas_month_cons_${i}`);
+    if (!prevEl || !presEl || !dayEl || !monthEl) continue;
+
+    const prevVal = parseFloat(prevEl.value) || 0;
+    const presVal = parseFloat(presEl.value) || 0;
+    const dayDiff = presVal > 0 ? Math.max(0, presVal - prevVal) : 0;
+
+    cumulativeMonthly += dayDiff;
+    dayEl.value = dayDiff.toFixed(2);
+    monthEl.value = cumulativeMonthly.toFixed(2);
+  }
+
+  const totAutoEl = document.getElementById("gas_total_cons_auto");
+  if (totAutoEl) totAutoEl.value = cumulativeMonthly.toFixed(2);
+}
+
+function computeGasData() {
+  recalcGasConsumption();
+  const fromDay = Math.max(1, Math.min(31, parseInt(document.getElementById("gasRangeFrom")?.value || "1", 10)));
+  const toDay = Math.max(fromDay, Math.min(31, parseInt(document.getElementById("gasRangeTo")?.value || "30", 10)));
+  const startDate = document.getElementById("gasStartDate")?.value || "2026-11-01";
+  const totalProdMwh = parseFloat(document.getElementById("gas_total_prod_mwh")?.value) || 0;
+  const totalCostKwh = parseFloat(document.getElementById("gas_total_cost_kwh")?.value) || 0;
+
+  let allRows = [];
+  for (let i = 0; i < 31; i++) {
+    const date = document.getElementById(`gas_date_${i}`)?.value || "";
+    const time = document.getElementById(`gas_time_${i}`)?.value || "";
+    const prev = parseFloat(document.getElementById(`gas_prev_${i}`)?.value) || 0;
+    const pres = parseFloat(document.getElementById(`gas_pres_${i}`)?.value) || 0;
+    const dayCons = parseFloat(document.getElementById(`gas_day_cons_${i}`)?.value) || 0;
+    const monthCons = parseFloat(document.getElementById(`gas_month_cons_${i}`)?.value) || 0;
+    const remarks = document.getElementById(`gas_remarks_${i}`)?.value || "";
+    allRows.push({ dayNum: i + 1, date, time, prev, pres, dayCons, monthCons, remarks });
+  }
+
+  const selectedRows = allRows.filter(r => r.dayNum >= fromDay && r.dayNum <= toDay);
+  const rangeGasTotal = selectedRows.reduce((acc, r) => acc + r.dayCons, 0);
+  const fullMonthGasTotal = parseFloat(document.getElementById("gas_total_cons_auto")?.value) || 0;
+
+  return {
+    startDate,
+    fromDay,
+    toDay,
+    selectedRows,
+    allRows,
+    rangeGasTotal,
+    fullMonthGasTotal,
+    totalProdMwh,
+    totalCostKwh
+  };
+}
+
+function createGasReportPageHtml(data) {
+  const monthLabel = data.startDate
+    ? new Date(data.startDate + "T00:00:00").toLocaleDateString("en-GB", { month: "long", year: "numeric" })
+    : "";
+
+  let html = `
+    <div class="rep-header">
+      <div class="rep-company">
+        <h2>P.N. COMPOSITE LTD.</h2>
+        <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
+      </div>
+      <div class="rep-title-box">
+        <h3>Gas Consumption Monthly Log & Format Sheet</h3>
+        <span>${monthLabel} &bull; Day ${data.fromDay} to Day ${data.toDay}</span>
+      </div>
+      <div class="rep-logo">${getLogoHtml()}</div>
+    </div>
+
+    <div class="kpi-strip gas-kpi-3">
+      <div class="kpi-item"><div class="k-lbl">Total Gas Consumption (m³)</div><div class="k-val">${data.rangeGasTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m³</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Production MWH</div><div class="k-val">${data.totalProdMwh.toLocaleString()} MWH</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total Cost KWH</div><div class="k-val">${data.totalCostKwh.toLocaleString()} KWH</div></div>
+    </div>
+
+    <table class="clean-rep-table gas-rep-table">
+      <thead>
+        <tr>
+          <th class="grp-gen" style="width:38px;">Sl</th>
+          <th class="grp-gen">Date</th>
+          <th class="grp-gen">Time</th>
+          <th class="grp-cost">Previous Meter Reading (m³)</th>
+          <th class="grp-cost">Present Meter Reading (m³)</th>
+          <th class="grp-dept">Day Consumption (m³)</th>
+          <th class="grp-sum">Monthly Consumption (m³)</th>
+          <th class="grp-gen">Remarks</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  data.selectedRows.forEach(r => {
+    const fmtDate = r.date
+      ? new Date(r.date + "T00:00:00").toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })
+      : "-";
+    html += `<tr>
+      <td class="col-highlight">${r.dayNum}</td>
+      <td>${fmtDate}</td>
+      <td>${r.time || "-"}</td>
+      <td>${r.prev > 0 ? r.prev.toLocaleString() : ""}</td>
+      <td>${r.pres > 0 ? r.pres.toLocaleString() : ""}</td>
+      <td class="col-highlight">${r.dayCons > 0 ? r.dayCons.toFixed(2) : ""}</td>
+      <td class="col-sum-cell">${r.monthCons > 0 ? r.monthCons.toFixed(2) : ""}</td>
+      <td style="text-align:left; padding-left:6px;">${r.remarks || ""}</td>
+    </tr>`;
+  });
+
+  html += `
+    <tr class="total-row">
+      <td colspan="5" style="text-align:right; padding-right:8px;">TOTAL GAS CONSUMPTION (m³):</td>
+      <td>${data.rangeGasTotal.toFixed(2)}</td>
+      <td style="color:#9a3412;">${data.fullMonthGasTotal.toFixed(2)} m³</td>
+      <td>Prod: ${data.totalProdMwh} MWH | Cost: ${data.totalCostKwh} KWH</td>
+    </tr>
+  </tbody></table>
+
+  <div class="rep-footer" style="margin-top:18px;">
+    <div class="sig-line">Prepared By (Utility Engr.)</div>
+    <div class="sig-line">Checked By (In-Charge)</div>
+    <div class="sig-line">Approved By (Head of Utility)</div>
+  </div>
+  <div class="rep-creator-faint-left">Emon Talukder</div>`;
+
+  return html;
+}
+
+function buildGasReport() {
+  document.body.classList.remove("print-mode-combined");
+  document.body.classList.add("print-mode-separate");
+
+  const gasData = computeGasData();
+  document.getElementById("gas-report-output").innerHTML = `
+    <div class="report-page gas-portrait-page">${createGasReportPageHtml(gasData)}</div>
+  `;
+  document.getElementById("gas-report-container").style.display = "block";
+  saveCurrentSectionData("gas", true);
+  document.getElementById("gas-report-container").scrollIntoView({ behavior: "smooth" });
+}
+
+function printGasFormatReport() {
+  if (!getEffectivePermissions(currentActiveUser).canDownload) {
+    alert(currentLang === "bn" ? "ডাউনলোড পারমিশন চালু নেই।" : "Download permission is not enabled for your account.");
+    return;
+  }
+  buildGasReport();
+  setTimeout(() => window.print(), 220);
+}
+
+function downloadGasExcelSheet() {
+  if (!getEffectivePermissions(currentActiveUser).canDownloadExcel) {
+    alert(currentLang === "bn" ? "এক্সেল ডাউনলোড পারমিশন চালু নেই।" : "Excel Download permission is not enabled.");
+    return;
+  }
+  const data = computeGasData();
+  const rows = [
+    ["P.N. COMPOSITE LTD. - 529, Ambag, Nilnagar, Konabari, Gazipur"],
+    [`Gas Consumption Monthly Log (Day ${data.fromDay} to Day ${data.toDay})`],
+    ["Total Gas Consumption (m3)", data.rangeGasTotal.toFixed(2), "Total Production MWH", data.totalProdMwh, "Total Cost KWH", data.totalCostKwh],
+    [],
+    ["Sl", "Date", "Time", "Previous Meter Reading M3", "Present Meter Reading M3", "Day Consumption M3", "Monthly Consumption M3", "Remarks"]
+  ];
+  data.selectedRows.forEach(r => {
+    rows.push([r.dayNum, r.date, r.time, r.prev, r.pres, r.dayCons.toFixed(2), r.monthCons.toFixed(2), r.remarks]);
+  });
+
+  const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `PN_Composite_Gas_Consumption_${data.startDate}_Day${data.fromDay}-${data.toDay}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 /* ================= FIRESTORE REPLACE-BY-DATE SAVE & SAVED VIEWER ================= */
@@ -2918,7 +3286,7 @@ let autoSaveTimer = null;
 
 function collectInputsFromSelector(selector) {
   const inputs = {};
-  document.querySelectorAll(`${selector} input`).forEach(inp => {
+  document.querySelectorAll(`${selector} input, ${selector} select`).forEach(inp => {
     if (inp.id) inputs[inp.id] = inp.value;
   });
   return inputs;
@@ -2961,13 +3329,18 @@ async function saveCurrentSectionData(category, silent = false) {
     dateVal = document.getElementById("compDate").value || dateVal;
     activeShift = currentCompShift;
     snapshot = collectInputsFromSelector("#view-compressor");
+  } else if (category === "gas") {
+    dateVal = document.getElementById("gasStartDate").value || dateVal;
+    snapshot = collectInputsFromSelector("#view-gas");
   }
 
   const prevRecord = (liveSavedLogs[category] || []).find(item => item.date === dateVal) || {};
-  const mergedSnapshot = {
-    ...(prevRecord.snapshot || {}),
-    ...mergeShiftSnapshots(prevRecord.snapshot, snapshot, activeShift)
-  };
+  const mergedSnapshot = category === "gas"
+    ? { ...(prevRecord.snapshot || {}), ...snapshot }
+    : {
+        ...(prevRecord.snapshot || {}),
+        ...mergeShiftSnapshots(prevRecord.snapshot, snapshot, activeShift)
+      };
 
   restoreInputsToMap(mergedSnapshot);
 
@@ -3004,6 +3377,10 @@ async function saveCurrentSectionData(category, silent = false) {
     entry.dayComp = dayComp;
     entry.nightComp = nightComp;
     entry.summary = `Date: ${dateVal} | Air: ${(dayComp.totalProdAir + nightComp.totalProdAir).toLocaleString()} Kg | kWh: ${(dayComp.kwh + nightComp.kwh).toLocaleString()}`;
+  } else if (category === "gas") {
+    const gasData = computeGasData();
+    entry.gasData = gasData;
+    entry.summary = `Month Start: ${dateVal} | Gas: ${gasData.fullMonthGasTotal.toFixed(2)} m³ | Prod: ${gasData.totalProdMwh} MWH | Cost: ${gasData.totalCostKwh} KWH`;
   }
 
   await syncRecordToFirestore(category, entry);
@@ -3032,6 +3409,11 @@ function triggerCompAutoSave() {
   autoSaveTimer = setTimeout(() => saveCurrentSectionData("compressor", true), 500);
 }
 
+function triggerGasAutoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => saveCurrentSectionData("gas", true), 500);
+}
+
 function editSavedRecord(category, index) {
   const list = liveSavedLogs[category] || [];
   const record = list[index];
@@ -3055,6 +3437,10 @@ function editSavedRecord(category, index) {
     recalcCompShift("night");
     broadcastLiveEntry("compressor");
     navigateSection("compressor");
+  } else if (category === "gas") {
+    recalcGasConsumption();
+    broadcastLiveEntry("gas");
+    navigateSection("gas");
   }
 }
 
@@ -3162,7 +3548,8 @@ function renderSavedCategory(category, btnEl = null) {
     const canView =
       (category === "generator" && item.dayMetrics) ||
       (category === "boiler" && item.dayBoiler) ||
-      (category === "compressor" && item.dayComp);
+      (category === "compressor" && item.dayComp) ||
+      (category === "gas" && item.gasData);
 
     return `
       <div class="saved-record-item" id="saved-card-${category}-${idx}">
@@ -3250,6 +3637,14 @@ function viewSavedFullReport(category, index, autoPrint = false) {
     renderBarChart('scmp_day_' + index + '_dept', record.dayComp.secSummary.map(s => s.sec), record.dayComp.secSummary.map(s => s.airKg), '#e86c1f', false);
     renderBarChart('scmp_night_' + index + '_gen', record.nightComp.rows.map(r => r.time), record.nightComp.rows.map(r => r.hrProdAir), '#14452f', false);
     renderBarChart('scmp_night_' + index + '_dept', record.nightComp.secSummary.map(s => s.sec), record.nightComp.secSummary.map(s => s.airKg), '#e86c1f', false);
+  } else if (category === "gas" && record.gasData) {
+    viewer.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Gas Consumption Format Report — ${record.date}</strong>
+        ${perms.canDownload ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>` : ""}
+      </div>
+      <div class="report-page gas-portrait-page">${createGasReportPageHtml(record.gasData)}</div>
+    `;
   }
 
   viewer.scrollIntoView({ behavior: "smooth" });
@@ -3276,7 +3671,7 @@ document.addEventListener('focusout', function(e) {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT' && e.target.type === 'number' && !e.target.readOnly) {
     const id = e.target.id || '';
-    const match = id.match(/^(day|night|b_day|b_night|c_day|c_night)_([a-z0-9_]+)_(\d+)$/);
+    const match = id.match(/^(day|night|b_day|b_night|c_day|c_night|gas)_([a-z0-9_]+)_(\d+)$/);
     if (match) {
       e.preventDefault();
       const prefix = match[1];
@@ -3614,13 +4009,13 @@ function renderBoilerGrid(shift, hours) {
       <td><input type="number" inputmode="decimal" step="any" id="${p}_brun_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_fire_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_spress_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_ngton_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_ngst_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_lstop_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_lrun_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_lfire_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${p}_lpress_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_lpgton_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
-      <td><input type="number" id="${p}_tsteam_${idx}" readonly value="0.00"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_lpgst_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" id="${p}_totst_${idx}" readonly value="0.00"></td>
       ${BOILER_DEPTS.map(d => `<td><input type="number" inputmode="decimal" step="any" id="${p}_d_${d.toLowerCase()}_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>`).join('')}
     </tr>`;
   });
@@ -3631,19 +4026,21 @@ function renderBoilerGrid(shift, hours) {
 
 function recalcBoilerShift(shift) {
   const p = `b_${shift}`;
-  let sumNgTon = 0;
-  let sumLpgTon = 0;
+  let sumNg = 0;
+  let sumLpg = 0;
+
   for (let i = 0; i < 12; i++) {
-    const ngT = parseFloat(document.getElementById(`${p}_ngton_${i}`).value) || 0;
-    const lpgT = parseFloat(document.getElementById(`${p}_lpgton_${i}`).value) || 0;
-    const totT = ngT + lpgT;
-    document.getElementById(`${p}_tsteam_${i}`).value = totT.toFixed(2);
-    sumNgTon += ngT;
-    sumLpgTon += lpgT;
+    const ng = parseFloat(document.getElementById(`${p}_ngst_${i}`).value) || 0;
+    const lpg = parseFloat(document.getElementById(`${p}_lpgst_${i}`).value) || 0;
+    const tot = ng + lpg;
+    document.getElementById(`${p}_totst_${i}`).value = tot.toFixed(2);
+    sumNg += ng;
+    sumLpg += lpg;
   }
-  document.getElementById(`${p}_ng_steam_auto`).value = sumNgTon.toFixed(2);
-  document.getElementById(`${p}_lpg_steam_auto`).value = sumLpgTon.toFixed(2);
-  document.getElementById(`${p}_tot_steam_auto`).value = (sumNgTon + sumLpgTon).toFixed(2);
+
+  document.getElementById(`${p}_ng_steam_auto`).value = sumNg.toFixed(2);
+  document.getElementById(`${p}_lpg_steam_auto`).value = sumLpg.toFixed(2);
+  document.getElementById(`${p}_tot_steam_auto`).value = (sumNg + sumLpg).toFixed(2);
 }
 
 function switchBoilerShift(shift, btn) {
@@ -3654,16 +4051,109 @@ function switchBoilerShift(shift, btn) {
   document.getElementById('bpanel-night').style.display = shift === 'night' ? 'block' : 'none';
 }
 
+function handleBoilerImageScan(event) {
+  const perms = getEffectivePermissions(currentActiveUser);
+  if (event.target.id === "boilerCameraInput" && !perms.canOpenCamera) { alert("Camera permission is not enabled."); return; }
+  if (event.target.id === "boilerGalleryInput" && !perms.canUploadPhoto) { alert("Upload Photo permission is not enabled."); return; }
+
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    document.getElementById('boilerScannedImgPreview').src = e.target.result;
+    document.getElementById('boiler-scan-modal').style.display = 'block';
+    document.getElementById('boilerScanStatusText').textContent = 'Scanning Boiler Logsheet...';
+
+    const hours = currentBoilerShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
+    boilerScannedDraft = hours.map(t => ({
+      time: t, preb: 0, prea: 0, brun: 0, fire: 0, spress: 0, ngst: 0,
+      lstop: 0, lrun: 0, lfire: 0, lpress: 0, lpgst: 0
+    }));
+
+    try {
+      const result = await Tesseract.recognize(e.target.result, 'eng');
+      const lines = (result.data.text || '').split('\n').map(l => l.trim()).filter(Boolean);
+      lines.forEach(line => {
+        const hm = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/i);
+        const nums = line.match(/\b\d+(\.\d+)?\b/g);
+        if (hm && nums && nums.length >= 2) {
+          const hVal = parseInt(hm[1], 10);
+          const idx = hours.findIndex(h => parseInt(h, 10) === hVal);
+          if (idx !== -1) {
+            const vals = nums.map(Number).filter((_, i) => i > 0);
+            if (vals[0] !== undefined) boilerScannedDraft[idx].preb = vals[0];
+            if (vals[1] !== undefined) boilerScannedDraft[idx].prea = vals[1];
+            if (vals[2] !== undefined) boilerScannedDraft[idx].brun = vals[2];
+            if (vals[3] !== undefined) boilerScannedDraft[idx].fire = vals[3];
+            if (vals[4] !== undefined) boilerScannedDraft[idx].spress = vals[4];
+            if (vals[5] !== undefined) boilerScannedDraft[idx].ngst = vals[5];
+            if (vals[6] !== undefined) boilerScannedDraft[idx].lpgst = vals[6];
+          }
+        }
+      });
+      document.getElementById('boilerScanStatusText').textContent = 'Scan complete! Verify values below and click Auto-Fill.';
+    } catch (err) {
+      document.getElementById('boilerScanStatusText').textContent = 'Manual verify mode ready.';
+    }
+
+    document.getElementById('boilerParsedTableContainer').innerHTML = `
+      <table class="parsed-table">
+        <thead>
+          <tr><th>Time</th><th>NG Pre B</th><th>NG Pre A</th><th>Run</th><th>Fire%</th><th>Press</th><th>NG Stm</th><th>LPG Stm</th></tr>
+        </thead>
+        <tbody>
+          ${boilerScannedDraft.map((r, i) => `
+            <tr>
+              <td><strong>${r.time}</strong></td>
+              <td><input type="number" step="any" value="${r.preb}" onchange="boilerScannedDraft[${i}].preb=parseFloat(this.value)||0"></td>
+              <td><input type="number" step="any" value="${r.prea}" onchange="boilerScannedDraft[${i}].prea=parseFloat(this.value)||0"></td>
+              <td><input type="number" step="any" value="${r.brun}" onchange="boilerScannedDraft[${i}].brun=parseFloat(this.value)||0"></td>
+              <td><input type="number" step="any" value="${r.fire}" onchange="boilerScannedDraft[${i}].fire=parseFloat(this.value)||0"></td>
+              <td><input type="number" step="any" value="${r.spress}" onchange="boilerScannedDraft[${i}].spress=parseFloat(this.value)||0"></td>
+              <td><input type="number" step="any" value="${r.ngst}" onchange="boilerScannedDraft[${i}].ngst=parseFloat(this.value)||0"></td>
+              <td><input type="number" step="any" value="${r.lpgst}" onchange="boilerScannedDraft[${i}].lpgst=parseFloat(this.value)||0"></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function applyBoilerScannedRows() {
+  const p = `b_${currentBoilerShift}`;
+  boilerScannedDraft.forEach((r, i) => {
+    document.getElementById(`${p}_preb_${i}`).value = r.preb;
+    document.getElementById(`${p}_prea_${i}`).value = r.prea;
+    document.getElementById(`${p}_brun_${i}`).value = r.brun;
+    document.getElementById(`${p}_fire_${i}`).value = r.fire;
+    document.getElementById(`${p}_spress_${i}`).value = r.spress;
+    document.getElementById(`${p}_ngst_${i}`).value = r.ngst;
+    document.getElementById(`${p}_lpgst_${i}`).value = r.lpgst;
+  });
+  recalcBoilerShift(currentBoilerShift);
+  triggerBoilerAutoSave();
+  broadcastLiveEntry('boiler');
+  document.getElementById('boiler-scan-modal').style.display = 'none';
+}
+
 function computeBoilerShift(shift, hours) {
   const p = `b_${shift}`;
   const ngRate = parseFloat(document.getElementById('boilerNgRate').value) || 0;
   const lpgRate = parseFloat(document.getElementById('boilerLpgRate').value) || 0;
-  const totalNgCons = parseFloat(document.getElementById(`${p}_ng_cons`).value) || 0;
-  const totalLpgCons = parseFloat(document.getElementById(`${p}_lpg_cons`).value) || 0;
+  const ngCons = parseFloat(document.getElementById(`${p}_ng_cons`).value) || 0;
+  const lpgCons = parseFloat(document.getElementById(`${p}_lpg_cons`).value) || 0;
   const stenter12h = parseFloat(document.getElementById(`${p}_stenter_12h`).value) || 0;
 
+  const ngCost = Math.round(ngCons * ngRate);
+  const lpgCost = Math.round(lpgCons * lpgRate);
+  const grandCost = ngCost + lpgCost;
+
   let rows = [];
-  let sumNgTon = 0, sumLpgTon = 0, sumTotSteam = 0;
+  let sumNgSteam = 0;
+  let sumLpgSteam = 0;
   let deptSums = {};
   BOILER_DEPTS.forEach(d => deptSums[d.toLowerCase()] = 0);
 
@@ -3673,57 +4163,54 @@ function computeBoilerShift(shift, hours) {
     const brun = parseFloat(document.getElementById(`${p}_brun_${idx}`).value) || 0;
     const fire = parseFloat(document.getElementById(`${p}_fire_${idx}`).value) || 0;
     const spress = parseFloat(document.getElementById(`${p}_spress_${idx}`).value) || 0;
-    const ngTon = parseFloat(document.getElementById(`${p}_ngton_${idx}`).value) || 0;
+    const ngst = parseFloat(document.getElementById(`${p}_ngst_${idx}`).value) || 0;
     const lstop = parseFloat(document.getElementById(`${p}_lstop_${idx}`).value) || 0;
     const lrun = parseFloat(document.getElementById(`${p}_lrun_${idx}`).value) || 0;
     const lfire = parseFloat(document.getElementById(`${p}_lfire_${idx}`).value) || 0;
     const lpress = parseFloat(document.getElementById(`${p}_lpress_${idx}`).value) || 0;
-    const lpgTon = parseFloat(document.getElementById(`${p}_lpgton_${idx}`).value) || 0;
-    const totSteam = ngTon + lpgTon;
+    const lpgst = parseFloat(document.getElementById(`${p}_lpgst_${idx}`).value) || 0;
+    const totSteam = ngst + lpgst;
 
-    sumNgTon += ngTon;
-    sumLpgTon += lpgTon;
-    sumTotSteam += totSteam;
+    sumNgSteam += ngst;
+    sumLpgSteam += lpgst;
 
     let dVals = {};
     BOILER_DEPTS.forEach(d => {
       const k = d.toLowerCase();
-      const val = parseFloat(document.getElementById(`${p}_d_${k}_${idx}`).value) || 0;
-      dVals[k] = val;
-      deptSums[k] += val;
+      const v = parseFloat(document.getElementById(`${p}_d_${k}_${idx}`).value) || 0;
+      dVals[k] = v;
+      deptSums[k] += v;
     });
 
-    rows.push({ time, preb, prea, brun, fire, spress, ngTon, lstop, lrun, lfire, lpress, lpgTon, totSteam, dVals });
+    rows.push({
+      time, preb, prea, brun, fire, spress, ngst,
+      lstop, lrun, lfire, lpress, lpgst, totSteam, dVals
+    });
   });
 
-  const totalNgCost = Math.round(totalNgCons * ngRate);
-  const totalLpgCost = Math.round(totalLpgCons * lpgRate);
-  const grandCost = totalNgCost + totalLpgCost;
+  const totalSteamAll = sumNgSteam + sumLpgSteam;
+  const totalDeptUnits = Object.values(deptSums).reduce((a, b) => a + b, 0) + stenter12h;
 
-  rows.forEach(r => {
-    r.ngCons = sumNgTon > 0 ? Math.round((r.ngTon / sumNgTon) * totalNgCons) : 0;
-    r.lpgCons = sumLpgTon > 0 ? Math.round((r.lpgTon / sumLpgTon) * totalLpgCons) : 0;
-    r.ngCost = Math.round(r.ngCons * ngRate);
-    r.lpgCost = Math.round(r.lpgCons * lpgRate);
-    r.totCost = r.ngCost + r.lpgCost;
-  });
-
-  const totalDeptShare = Object.values(deptSums).reduce((a, b) => a + b, 0);
   const deptSummary = BOILER_DEPTS.map(dept => {
     const k = dept.toLowerCase();
-    const shareVal = deptSums[k];
-    const ratio = totalDeptShare > 0 ? (shareVal / totalDeptShare) : 0;
-    const steamShare = (ratio * sumTotSteam).toFixed(2);
-    const ngCost = Math.round(ratio * totalNgCost);
-    const lpgCost = Math.round(ratio * totalLpgCost);
-    const stenterVal = dept === 'Finishing' ? stenter12h : 0;
-    return { dept, shareVal, pct: (ratio * 100).toFixed(1), steamShare, ngCost, lpgCost, stenterVal, totCost: ngCost + lpgCost };
+    const baseVal = deptSums[k];
+    const effectiveVal = k === 'finishing' ? (baseVal + stenter12h) : baseVal;
+    const ratio = totalDeptUnits > 0 ? (effectiveVal / totalDeptUnits) : 0;
+    return {
+      dept,
+      shareVal: effectiveVal,
+      steamShare: (ratio * totalSteamAll).toFixed(2),
+      ngCostShare: Math.round(ratio * ngCost),
+      lpgCostShare: Math.round(ratio * lpgCost),
+      totCost: Math.round(ratio * grandCost),
+      pct: (ratio * 100).toFixed(2)
+    };
   });
 
   return {
-    rows, sumNgTon, sumLpgTon, sumTotSteam,
-    totalNgCons, totalLpgCons, totalNgCost, totalLpgCost, grandCost,
-    stenter12h, deptSums, totalDeptShare, deptSummary
+    rows, ngCons, lpgCons, ngCost, lpgCost, grandCost,
+    sumNgSteam, sumLpgSteam, totalSteamAll, stenter12h,
+    deptSums, totalDeptUnits, deptSummary
   };
 }
 
@@ -3735,37 +4222,34 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
         <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
-        <h3>Boiler NG & LPG Steam Generation & Cost</h3>
+        <h3>Boiler Hourly Steam Production & Cost Analysis</h3>
         <span>${shiftLabel} &bull; Date: ${dateStr}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
     </div>
 
     <div class="kpi-strip">
-      <div class="kpi-item"><div class="k-lbl">Total Steam</div><div class="k-val">${data.sumTotSteam.toFixed(2)} Ton</div></div>
-      <div class="kpi-item"><div class="k-lbl">NG / LPG Steam</div><div class="k-val">${data.sumNgTon.toFixed(2)} / ${data.sumLpgTon.toFixed(2)} T</div></div>
-      <div class="kpi-item"><div class="k-lbl">NG Consumption</div><div class="k-val">${data.totalNgCons.toLocaleString()} m³</div></div>
-      <div class="kpi-item"><div class="k-lbl">LPG Consumption</div><div class="k-val">${data.totalLpgCons.toLocaleString()} Kg</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Total Boiler Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Stenter (12H Fin.)</div><div class="k-val">${data.stenter12h.toLocaleString()}</div></div>
+      <div class="kpi-item"><div class="k-lbl">NG Used & Steam</div><div class="k-val">${data.ngCons.toLocaleString()} m³ (${data.sumNgSteam.toFixed(2)} T)</div></div>
+      <div class="kpi-item"><div class="k-lbl">LPG Used & Steam</div><div class="k-val">${data.lpgCons.toLocaleString()} Kg (${data.sumLpgSteam.toFixed(2)} T)</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Steam Generated</div><div class="k-val">${data.totalSteamAll.toFixed(2)} Ton</div></div>
+      <div class="kpi-item"><div class="k-lbl">Finishing Stenter (12h)</div><div class="k-val">${data.stenter12h.toLocaleString()}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total Shift Fuel Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Cost / Ton Steam</div><div class="k-val">৳ ${data.totalSteamAll > 0 ? (data.grandCost / data.totalSteamAll).toFixed(2) : '0.00'}</div></div>
     </div>
 
     <table class="clean-rep-table">
       <thead>
         <tr>
-          <th colspan="7" class="grp-gen">NG Boiler & Steam (Ton)</th>
-          <th colspan="5" class="grp-cost">LPG Boiler & Steam (Ton)</th>
-          <th colspan="3" class="grp-dept">Hourly Steam & Cost (Tk)</th>
-          <th colspan="${BOILER_DEPTS.length}" class="grp-dept">Department Share</th>
-          <th colspan="5" class="grp-sum">Department-Wise Cost & Stenter</th>
+          <th colspan="7" class="grp-gen">Natural Gas Boiler Operation</th>
+          <th colspan="6" class="grp-cost">LPG Boiler & Total Steam</th>
+          <th colspan="${BOILER_DEPTS.length}" class="grp-dept">Department Steam Share</th>
+          <th colspan="4" class="grp-sum">Dept Cost Summary</th>
         </tr>
         <tr>
-          <th class="sub-gen">Time</th><th class="sub-gen">Pre<br>Bef</th><th class="sub-gen">Pre<br>Aft</th>
-          <th class="sub-gen">Run</th><th class="sub-gen">Fire%</th><th class="sub-gen">Pres</th><th class="sub-gen">NG<br>Ton</th>
-          <th class="sub-cost">Stop</th><th class="sub-cost">Run</th><th class="sub-cost">Fire%</th><th class="sub-cost">Pres</th><th class="sub-cost">LPG<br>Ton</th>
-          <th class="sub-dept">Tot<br>Ton</th><th class="sub-dept">NG<br>Cost</th><th class="sub-dept">LPG<br>Cost</th>
+          <th class="sub-gen">Time</th><th class="sub-gen">Pre B</th><th class="sub-gen">Pre A</th><th class="sub-gen">Run</th><th class="sub-gen">Fire%</th><th class="sub-gen">Press</th><th class="sub-gen">NG Stm</th>
+          <th class="sub-cost">Stop</th><th class="sub-cost">Run</th><th class="sub-cost">Fire%</th><th class="sub-cost">Press</th><th class="sub-cost">LPG Stm</th><th class="sub-cost">Tot Stm</th>
           ${BOILER_DEPTS.map(d => `<th class="sub-dept">${d}</th>`).join('')}
-          <th class="sub-sum">Dept</th><th class="sub-sum">Steam<br>(Ton)</th><th class="sub-sum">Stenter<br>(12H)</th><th class="sub-sum">NG/LPG<br>Cost</th><th class="sub-sum">Total<br>Cost</th>
+          <th class="sub-sum">Dept</th><th class="sub-sum">Steam(T)</th><th class="sub-sum">NG Tk</th><th class="sub-sum">Tot Tk</th>
         </tr>
       </thead>
       <tbody>`;
@@ -3774,45 +4258,53 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     const r = data.rows[i];
     const ds = data.deptSummary[i];
     html += `<tr>
-      <td class="col-highlight">${r.time}</td><td>${r.preb}</td><td>${r.prea}</td>
-      <td>${r.brun}</td><td>${r.fire}</td><td>${r.spress}</td><td class="col-highlight">${r.ngTon.toFixed(2)}</td>
-      <td>${r.lstop}</td><td>${r.lrun}</td><td>${r.lfire}</td><td>${r.lpress}</td><td class="col-highlight">${r.lpgTon.toFixed(2)}</td>
-      <td class="col-highlight">${r.totSteam.toFixed(2)}</td><td>${r.ngCost.toLocaleString()}</td><td>${r.lpgCost.toLocaleString()}</td>
+      <td class="col-highlight">${r.time}</td>
+      <td>${r.preb}</td><td>${r.prea}</td><td>${r.brun}</td><td>${r.fire}</td><td>${r.spress}</td><td class="col-highlight">${r.ngst.toFixed(2)}</td>
+      <td>${r.lstop}</td><td>${r.lrun}</td><td>${r.lfire}</td><td>${r.lpress}</td><td class="col-highlight">${r.lpgst.toFixed(2)}</td><td class="col-highlight">${r.totSteam.toFixed(2)}</td>
       ${BOILER_DEPTS.map(d => `<td>${r.dVals[d.toLowerCase()]}</td>`).join('')}
       ${ds ? `
         <td class="col-sum-cell" style="text-align:left; padding-left:4px;">${ds.dept}</td>
         <td class="col-sum-cell">${ds.steamShare}</td>
-        <td class="col-sum-cell">${ds.stenterVal > 0 ? ds.stenterVal.toLocaleString() : '0'}</td>
-        <td class="col-sum-cell">${ds.ngCost.toLocaleString()}/${ds.lpgCost.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.ngCostShare.toLocaleString()}</td>
         <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
-      ` : `<td></td><td></td><td></td><td></td><td></td>`}
+      ` : `<td></td><td></td><td></td><td></td>`}
     </tr>`;
   }
 
   html += `
     <tr class="total-row">
-      <td colspan="6" style="text-align:right; padding-right:5px;">TOTAL SHIFT:</td>
-      <td>${data.sumNgTon.toFixed(2)}</td>
-      <td colspan="4"></td>
-      <td>${data.sumLpgTon.toFixed(2)}</td>
-      <td>${data.sumTotSteam.toFixed(2)}</td>
-      <td>${data.totalNgCost.toLocaleString()}</td>
-      <td>${data.totalLpgCost.toLocaleString()}</td>
-      ${BOILER_DEPTS.map(d => `<td>${data.deptSums[d.toLowerCase()].toLocaleString()}</td>`).join('')}
+      <td colspan="6">TOTAL STEAM (TON):</td>
+      <td>${data.sumNgSteam.toFixed(2)}</td>
+      <td colspan="4">LPG & TOTAL:</td>
+      <td>${data.sumLpgSteam.toFixed(2)}</td>
+      <td>${data.totalSteamAll.toFixed(2)}</td>
+      ${BOILER_DEPTS.map(d => {
+        const k = d.toLowerCase();
+        const val = k === 'finishing' ? `${data.deptSums[k]} (+${data.stenter12h})` : data.deptSums[k];
+        return `<td>${val}</td>`;
+      }).join('')}
       <td>TOTAL</td>
-      <td>${data.sumTotSteam.toFixed(2)}</td>
-      <td>${data.stenter12h.toLocaleString()}</td>
-      <td colspan="2" style="color:#9a3412;">৳ ${data.grandCost.toLocaleString()}</td>
+      <td>${data.totalSteamAll.toFixed(2)}</td>
+      <td>${data.ngCost.toLocaleString()}</td>
+      <td style="color:#9a3412;">৳ ${data.grandCost.toLocaleString()}</td>
+    </tr>
+    <tr class="pct-row">
+      <td colspan="13">DEPARTMENT STEAM SHARE % (INCLUDES 12H STENTER IN FINISHING):</td>
+      ${data.deptSummary.map(ds => `<td>${ds.pct}%</td>`).join('')}
+      <td>SHARE</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
     </tr>
   </tbody></table>
 
   <div class="rep-charts">
-    <div class="rep-chart-card"><h4>Hourly Steam Generation (Ton)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
-    <div class="rep-chart-card"><h4>Department-Wise Boiler Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Hourly Total Steam Generation (Ton)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Department-Wise Total Steam Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
   </div>
 
   <div class="rep-footer">
-    <div class="sig-line">Prepared By (Boiler Shift Engr.)</div>
+    <div class="sig-line">Prepared By (Boiler Engr.)</div>
     <div class="sig-line">Checked By (In-Charge)</div>
     <div class="sig-line">Approved By (Head of Utility)</div>
   </div>
@@ -3876,10 +4368,10 @@ function downloadBoilerExcelSheet() {
   const dayB = computeBoilerShift('day', DAY_HOURS);
   const nightB = computeBoilerShift('night', NIGHT_HOURS);
   const rows = [
-    ["P.N. COMPOSITE LTD. - Boiler NG & LPG Steam Generation & Cost"],
+    ["P.N. COMPOSITE LTD. - Boiler Hourly Report"],
     ["Report Date", dateVal],
-    ["Day Shift Total Steam (Ton)", dayB.sumTotSteam.toFixed(2), "Day Cost", dayB.grandCost, "Finishing Stenter (12H)", dayB.stenter12h],
-    ["Night Shift Total Steam (Ton)", nightB.sumTotSteam.toFixed(2), "Night Cost", nightB.grandCost, "Finishing Stenter (12H)", nightB.stenter12h]
+    ["Day NG Steam (Ton)", dayB.sumNgSteam, "Day LPG Steam (Ton)", dayB.sumLpgSteam, "Day Total Cost", dayB.grandCost],
+    ["Night NG Steam (Ton)", nightB.sumNgSteam, "Night LPG Steam (Ton)", nightB.sumLpgSteam, "Night Total Cost", nightB.grandCost]
   ];
   const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -3893,94 +4385,23 @@ function downloadBoilerExcelSheet() {
   URL.revokeObjectURL(url);
 }
 
-async function handleBoilerImageScan(event) {
-  const perms = getEffectivePermissions(currentActiveUser);
-  if (event.target.id === "boilerCameraInput" && !perms.canOpenCamera) {
-    alert(currentLang === "bn" ? "ক্যামেরা স্ক্যান পারমিশন দেওয়া নেই।" : "Open Camera & Scan permission is not enabled.");
-    return;
-  }
-  if (event.target.id === "boilerGalleryInput" && !perms.canUploadPhoto) {
-    alert(currentLang === "bn" ? "ছবি আপলোড পারমিশন দেওয়া নেই।" : "Upload Photo permission is not enabled.");
-    return;
-  }
-
-  const file = event.target.files[0];
-  if (!file) return;
-  const imgUrl = URL.createObjectURL(file);
-  const img = document.getElementById('boilerScannedImgPreview');
-  img.src = imgUrl;
-  document.getElementById('boiler-scan-modal').style.display = 'block';
-  document.getElementById('boilerScanStatusText').textContent = "Scanning image...";
-  const hours = currentBoilerShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
-  boilerScannedDraft = hours.map(t => ({ time: t, nums: [] }));
-  renderBoilerParsedTable();
-
-  img.onload = async function() {
-    try {
-      const worker = await Tesseract.createWorker("eng");
-      const res = await worker.recognize(img);
-      await worker.terminate();
-      const lines = (res.data.text || "").split(/\r?\n/).filter(Boolean);
-      lines.forEach(line => {
-        const m = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/);
-        if (!m) return;
-        const idx = hours.findIndex(h => h.startsWith(m[1] + ":"));
-        if (idx === -1) return;
-        const nums = (line.replace(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/, ' ').match(/\d+(?:\.\d+)?/g) || []).map(Number);
-        if (nums.length) boilerScannedDraft[idx].nums = nums;
-      });
-      renderBoilerParsedTable();
-      document.getElementById('boilerScanStatusText').textContent = "Scan complete! Click Auto-Fill Boiler Shift.";
-    } catch (e) {
-      document.getElementById('boilerScanStatusText').textContent = "Edit values if needed & click Auto-Fill Boiler Shift.";
-    }
-  };
-}
-
-function renderBoilerParsedTable() {
-  const cols = ["NG Ton", "LPG Ton"];
-  let html = `<table class="parsed-table"><thead><tr><th>Time</th>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>`;
-  boilerScannedDraft.forEach((row, rIdx) => {
-    html += `<tr><td><strong>${row.time}</strong></td>`;
-    for (let c = 0; c < cols.length; c++) {
-      const v = row.nums[c] !== undefined ? row.nums[c] : 0;
-      html += `<td><input type="number" step="any" value="${v}" onchange="boilerScannedDraft[${rIdx}].nums[${c}]=parseFloat(this.value)||0"></td>`;
-    }
-    html += `</tr>`;
-  });
-  html += `</tbody></table>`;
-  document.getElementById('boilerParsedTableContainer').innerHTML = html;
-}
-
-function applyBoilerScannedRows() {
-  const p = `b_${currentBoilerShift}`;
-  boilerScannedDraft.forEach((row, i) => {
-    if (row.nums[0] !== undefined) document.getElementById(`${p}_ngton_${i}`).value = row.nums[0];
-    if (row.nums[1] !== undefined) document.getElementById(`${p}_lpgton_${i}`).value = row.nums[1];
-  });
-  recalcBoilerShift(currentBoilerShift);
-  broadcastLiveEntry('boiler');
-  triggerBoilerAutoSave();
-  alert(`Auto-filled Boiler ${currentBoilerShift.toUpperCase()} shift.`);
-}
-
-/* ================= GENERATOR GRID & CALCULATIONS ================= */
-function renderEntryGrid(shift, hours) {
+/* ================= GENERATOR ENTRY GRID (WITH T-kW COLUMN) ================= */
+function renderGrid(shift, hours) {
   let html = `<table class="entry-grid">
     <thead>
       <tr>
         <th>Time</th>
         <th>M-Bar</th>
-        <th>Gas PSI<br>(M-Bar×0.0145)</th>
-        <th>GG-1 (kW)</th>
-        <th>GG-2 (kW)</th>
-        <th>GG-3 (kW)</th>
-        <th>DG-ETP</th>
-        <th>DG-Wash</th>
-        <th>DG-Rental</th>
-        <th>Total Gen (kW)</th>
-        <th>Gen Hr<br>(kWh)</th>
-        ${DEPARTMENTS.map(d => `<th class="dept-th">${d.label} Load</th>`).join('')}
+        <th>PSI<br>(Auto)</th>
+        <th>GG-1<br>(kW)</th>
+        <th>GG-2<br>(kW)</th>
+        <th>GG-3<br>(kW)</th>
+        <th>DG-ETP<br>(kW)</th>
+        <th>DG-Wsh<br>(kW)</th>
+        <th>DG-Rn<br>(kW)</th>
+        <th class="lpg-th">T-kW<br>(Auto)</th>
+        ${DEPARTMENTS.map(d => `<th class="dept-th">${d.label}<br>(kW)</th>`).join('')}
+        <th class="dept-th">T.Load<br>(kW)</th>
       </tr>
     </thead>
     <tbody>`;
@@ -3989,16 +4410,16 @@ function renderEntryGrid(shift, hours) {
     html += `<tr>
       <td><strong>${time}</strong></td>
       <td><input type="number" inputmode="decimal" step="any" id="${shift}_mbar_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" id="${shift}_psi_${idx}" readonly value="0.0"></td>
+      <td><input type="number" id="${shift}_psi_${idx}" readonly value="0.00"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg1_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg2_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
       <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg3_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_etp_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_washdg_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_rent_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" id="${shift}_tgen_${idx}" readonly value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_hrkwh_${idx}" oninput="triggerAutoSave();" value="0"></td>
-      ${DEPARTMENTS.map(d => `<td><input type="number" inputmode="decimal" step="any" id="${shift}_${d.key}_${idx}" oninput="triggerAutoSave();" value="0"></td>`).join('')}
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgetp_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgwash_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgrent_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
+      <td><input type="number" id="${shift}_tkw_${idx}" readonly value="0"></td>
+      ${DEPARTMENTS.map(d => `<td><input type="number" inputmode="decimal" step="any" id="${shift}_${d.key}_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>`).join('')}
+      <td><input type="number" id="${shift}_tload_${idx}" readonly value="0"></td>
     </tr>`;
   });
 
@@ -4007,15 +4428,30 @@ function renderEntryGrid(shift, hours) {
 }
 
 function recalcRow(shift, idx) {
-  const mbar = parseFloat(document.getElementById(`${shift}_mbar_${idx}`).value) || 0;
-  document.getElementById(`${shift}_psi_${idx}`).value = (mbar * 0.0145).toFixed(1);
-  const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
-  const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
-  const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
-  const etp = parseFloat(document.getElementById(`${shift}_etp_${idx}`).value) || 0;
-  const washdg = parseFloat(document.getElementById(`${shift}_washdg_${idx}`).value) || 0;
-  const rent = parseFloat(document.getElementById(`${shift}_rent_${idx}`).value) || 0;
-  document.getElementById(`${shift}_tgen_${idx}`).value = gg1 + gg2 + gg3 + etp + washdg + rent;
+  const mbarEl = document.getElementById(`${shift}_mbar_${idx}`);
+  const psiEl = document.getElementById(`${shift}_psi_${idx}`);
+  if (mbarEl && psiEl) {
+    const mbar = parseFloat(mbarEl.value) || 0;
+    psiEl.value = (mbar * 0.0145038).toFixed(2);
+  }
+
+  const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`)?.value) || 0;
+  const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`)?.value) || 0;
+  const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`)?.value) || 0;
+  const dgetp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`)?.value) || 0;
+  const dgwash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`)?.value) || 0;
+  const dgrent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`)?.value) || 0;
+
+  const tkwEl = document.getElementById(`${shift}_tkw_${idx}`);
+  if (tkwEl) {
+    tkwEl.value = Math.round(gg1 + gg2 + gg3 + dgetp + dgwash + dgrent);
+  }
+
+  let sum = 0;
+  DEPARTMENTS.forEach(d => {
+    sum += parseFloat(document.getElementById(`${shift}_${d.key}_${idx}`).value) || 0;
+  });
+  document.getElementById(`${shift}_tload_${idx}`).value = Math.round(sum);
 }
 
 function updateTotalKwh(shift) {
@@ -4033,197 +4469,320 @@ function switchShift(shift, btn) {
   document.getElementById('panel-night').style.display = shift === 'night' ? 'block' : 'none';
 }
 
-function closeScanModal() { document.getElementById('scan-modal').style.display = 'none'; }
+/* ================= GENERATOR CAMERA / PHOTO SCAN ================= */
+function closeScanModal() {
+  document.getElementById('scan-modal').style.display = 'none';
+}
 
 async function handleImageScan(event) {
   const perms = getEffectivePermissions(currentActiveUser);
-  if (event.target.id === "cameraInput" && !perms.canOpenCamera) {
-    alert(currentLang === "bn" ? "ক্যামেরা স্ক্যান পারমিশন দেওয়া নেই।" : "Open Camera & Scan permission is not enabled.");
-    return;
-  }
-  if (event.target.id === "galleryInput" && !perms.canUploadPhoto) {
-    alert(currentLang === "bn" ? "ছবি আপলোড পারমিশন দেওয়া নেই।" : "Upload Photo permission is not enabled.");
-    return;
-  }
+  if (event.target.id === "cameraInput" && !perms.canOpenCamera) { alert("Camera permission is not enabled."); return; }
+  if (event.target.id === "galleryInput" && !perms.canUploadPhoto) { alert("Upload Photo permission is not enabled."); return; }
 
   const file = event.target.files[0];
   if (!file) return;
-  const imgUrl = URL.createObjectURL(file);
-  const imgEl = document.getElementById('scannedImgPreview');
-  imgEl.src = imgUrl;
-  document.getElementById('scan-modal').style.display = 'block';
-  document.getElementById('scanStatusText').textContent = "Scanning logsheet with OCR...";
-  const hours = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
-  scannedRowsDraft = hours.map(t => ({ time: t, nums: [] }));
-  renderParsedTable();
 
-  imgEl.onload = async function() {
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    const imgDataUrl = e.target.result;
+    document.getElementById('scannedImgPreview').src = imgDataUrl;
+    document.getElementById('scan-modal').style.display = 'block';
+    document.getElementById('scanStatusText').textContent = 'Scanning logsheet titles & hourly rows...';
+
+    const hours = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
+    scannedRowsDraft = hours.map((t, i) => ({
+      time: t,
+      mbar: parseFloat(document.getElementById(`${currentActiveShift}_mbar_${i}`).value) || 0,
+      gg1: parseFloat(document.getElementById(`${currentActiveShift}_gg1_${i}`).value) || 0,
+      gg2: parseFloat(document.getElementById(`${currentActiveShift}_gg2_${i}`).value) || 0,
+      gg3: parseFloat(document.getElementById(`${currentActiveShift}_gg3_${i}`).value) || 0,
+      dgetp: parseFloat(document.getElementById(`${currentActiveShift}_dgetp_${i}`).value) || 0,
+      dgwash: parseFloat(document.getElementById(`${currentActiveShift}_dgwash_${i}`).value) || 0,
+      dgrent: parseFloat(document.getElementById(`${currentActiveShift}_dgrent_${i}`).value) || 0,
+      rmg: parseFloat(document.getElementById(`${currentActiveShift}_rmg_${i}`).value) || 0,
+      utility: parseFloat(document.getElementById(`${currentActiveShift}_utility_${i}`).value) || 0,
+      dyeing: parseFloat(document.getElementById(`${currentActiveShift}_dyeing_${i}`).value) || 0,
+      finishing: parseFloat(document.getElementById(`${currentActiveShift}_finishing_${i}`).value) || 0,
+      aop: parseFloat(document.getElementById(`${currentActiveShift}_aop_${i}`).value) || 0,
+      oval: parseFloat(document.getElementById(`${currentActiveShift}_oval_${i}`).value) || 0,
+      office: parseFloat(document.getElementById(`${currentActiveShift}_office_${i}`).value) || 0,
+      washing: parseFloat(document.getElementById(`${currentActiveShift}_washing_${i}`).value) || 0,
+      knitting: parseFloat(document.getElementById(`${currentActiveShift}_knitting_${i}`).value) || 0,
+      other: parseFloat(document.getElementById(`${currentActiveShift}_other_${i}`).value) || 0
+    }));
+
     try {
-      const worker = await Tesseract.createWorker("eng");
-      const ret = await worker.recognize(imgEl);
-      await worker.terminate();
-      const rawText = ret.data.text || "";
-      parseOcrTextToDraft(rawText, hours);
-      renderParsedTable();
-      document.getElementById('scanStatusText').textContent = "Scan complete! Select Section & click Auto-Fill.";
+      const result = await Tesseract.recognize(imgDataUrl, 'eng');
+      const rawText = result.data.text || '';
+      const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+
+      if (/Load|RMG|Dyeing|Finishing|AOP|Oval|Knitting/i.test(rawText) && !/GG-1|GG-2|M-Bar/i.test(rawText)) {
+        document.getElementById('scanTargetSection').value = 'dept';
+      } else {
+        document.getElementById('scanTargetSection').value = 'gen';
+      }
+
+      const targetSec = document.getElementById('scanTargetSection').value;
+
+      lines.forEach(line => {
+        const hourMatch = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/i);
+        const nums = line.match(/\b\d+(\.\d+)?\b/g);
+        if (hourMatch && nums && nums.length >= 2) {
+          const hVal = parseInt(hourMatch[1], 10);
+          const idx = hours.findIndex(h => parseInt(h, 10) === hVal);
+          if (idx !== -1) {
+            const vals = nums.map(Number).filter((_, i) => i > 0);
+            if (targetSec === 'gen') {
+              if (vals[0] !== undefined) scannedRowsDraft[idx].mbar = vals[0];
+              if (vals[1] !== undefined) scannedRowsDraft[idx].gg1 = vals[1];
+              if (vals[2] !== undefined) scannedRowsDraft[idx].gg2 = vals[2];
+              if (vals[3] !== undefined) scannedRowsDraft[idx].gg3 = vals[3];
+              if (vals[4] !== undefined) scannedRowsDraft[idx].dgetp = vals[4];
+              if (vals[5] !== undefined) scannedRowsDraft[idx].dgwash = vals[5];
+              if (vals[6] !== undefined) scannedRowsDraft[idx].dgrent = vals[6];
+            } else {
+              const deptKeys = ['rmg','utility','dyeing','finishing','aop','oval','office','washing','knitting','other'];
+              deptKeys.forEach((dk, di) => {
+                if (vals[di] !== undefined) scannedRowsDraft[idx][dk] = vals[di];
+              });
+            }
+          }
+        }
+      });
+
+      document.getElementById('scanStatusText').textContent = 'Scan complete! Select section and verify values below.';
     } catch (err) {
-      document.getElementById('scanStatusText').textContent = "Edit values if needed & click Auto-Fill.";
+      document.getElementById('scanStatusText').textContent = 'Image loaded. Verify or adjust values below.';
     }
+
+    renderParsedDraftTable();
   };
+  reader.readAsDataURL(file);
+  event.target.value = '';
 }
 
-function parseOcrTextToDraft(text, hours) {
-  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-  lines.forEach(line => {
-    const timeMatch = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/);
-    if (!timeMatch) return;
-    const hrNum = parseInt(timeMatch[1], 10);
-    const rowIdx = hours.findIndex(h => h.startsWith(hrNum + ":"));
-    if (rowIdx === -1) return;
-    const cleaned = line.replace(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b(?:\s*(?:AM|PM))?/gi, ' ');
-    const nums = (cleaned.match(/\d+(?:\.\d+)?/g) || []).map(Number);
-    if (nums.length > 0) scannedRowsDraft[rowIdx].nums = nums;
-  });
+function renderParsedDraftTable() {
+  const sec = document.getElementById('scanTargetSection').value;
+  if (sec === 'gen') {
+    document.getElementById('parsedTableContainer').innerHTML = `
+      <table class="parsed-table">
+        <thead>
+          <tr><th>Time</th><th>M-Bar</th><th>PSI (Auto)</th><th>GG-1</th><th>GG-2</th><th>GG-3</th><th>DG-ETP</th><th>DG-Wsh</th><th>DG-Rn</th></tr>
+        </thead>
+        <tbody>
+          ${scannedRowsDraft.map((r, i) => `
+            <tr>
+              <td><strong>${r.time}</strong></td>
+              <td><input type="number" step="any" value="${r.mbar}" onchange="scannedRowsDraft[${i}].mbar=parseFloat(this.value)||0; renderParsedDraftTable();"></td>
+              <td><strong>${(r.mbar * 0.0145038).toFixed(2)}</strong></td>
+              <td><input type="number" value="${r.gg1}" onchange="scannedRowsDraft[${i}].gg1=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.gg2}" onchange="scannedRowsDraft[${i}].gg2=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.gg3}" onchange="scannedRowsDraft[${i}].gg3=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.dgetp}" onchange="scannedRowsDraft[${i}].dgetp=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.dgwash}" onchange="scannedRowsDraft[${i}].dgwash=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.dgrent}" onchange="scannedRowsDraft[${i}].dgrent=parseFloat(this.value)||0"></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } else {
+    document.getElementById('parsedTableContainer').innerHTML = `
+      <table class="parsed-table">
+        <thead>
+          <tr><th>Time</th><th>RMG</th><th>Util</th><th>Dye</th><th>Fin</th><th>AOP</th><th>Oval</th><th>Off</th><th>Wash</th><th>Knit</th><th>Oth</th></tr>
+        </thead>
+        <tbody>
+          ${scannedRowsDraft.map((r, i) => `
+            <tr>
+              <td><strong>${r.time}</strong></td>
+              <td><input type="number" value="${r.rmg}" onchange="scannedRowsDraft[${i}].rmg=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.utility}" onchange="scannedRowsDraft[${i}].utility=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.dyeing}" onchange="scannedRowsDraft[${i}].dyeing=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.finishing}" onchange="scannedRowsDraft[${i}].finishing=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.aop}" onchange="scannedRowsDraft[${i}].aop=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.oval}" onchange="scannedRowsDraft[${i}].oval=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.office}" onchange="scannedRowsDraft[${i}].office=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.washing}" onchange="scannedRowsDraft[${i}].washing=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.knitting}" onchange="scannedRowsDraft[${i}].knitting=parseFloat(this.value)||0"></td>
+              <td><input type="number" value="${r.other}" onchange="scannedRowsDraft[${i}].other=parseFloat(this.value)||0"></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
 }
 
-function renderParsedTable() {
-  const section = document.getElementById('scanTargetSection').value;
-  const cols = section === 'gen'
-    ? ["M-Bar", "GG-1", "GG-2", "GG-3", "DG-ETP", "DG-Wash", "DG-Rent"]
-    : DEPARTMENTS.map(d => d.label);
-
-  let html = `<table class="parsed-table"><thead><tr><th>Time</th>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>`;
-  scannedRowsDraft.forEach((row, rIdx) => {
-    html += `<tr><td><strong>${row.time}</strong></td>`;
-    for (let c = 0; c < cols.length; c++) {
-      const val = row.nums[c] !== undefined ? row.nums[c] : 0;
-      html += `<td><input type="number" step="any" value="${val}" onchange="scannedRowsDraft[${rIdx}].nums[${c}] = parseFloat(this.value) || 0"></td>`;
-    }
-    html += `</tr>`;
-  });
-  html += `</tbody></table>`;
-  document.getElementById('parsedTableContainer').innerHTML = html;
-}
-document.getElementById('scanTargetSection').addEventListener('change', renderParsedTable);
+document.getElementById('scanTargetSection').addEventListener('change', renderParsedDraftTable);
 
 function applyScannedDataToShift() {
-  const section = document.getElementById('scanTargetSection').value;
-  const shift = currentActiveShift;
+  const s = currentActiveShift;
+  const sec = document.getElementById('scanTargetSection').value;
 
-  scannedRowsDraft.forEach((row, idx) => {
-    if (section === 'gen') {
-      const fields = ['mbar', 'gg1', 'gg2', 'gg3', 'etp', 'washdg', 'rent'];
-      fields.forEach((f, cIdx) => {
-        if (row.nums[cIdx] !== undefined) document.getElementById(`${shift}_${f}_${idx}`).value = row.nums[cIdx];
-      });
+  scannedRowsDraft.forEach((r, i) => {
+    if (sec === 'gen') {
+      document.getElementById(`${s}_mbar_${i}`).value = r.mbar;
+      document.getElementById(`${s}_gg1_${i}`).value = r.gg1;
+      document.getElementById(`${s}_gg2_${i}`).value = r.gg2;
+      document.getElementById(`${s}_gg3_${i}`).value = r.gg3;
+      document.getElementById(`${s}_dgetp_${i}`).value = r.dgetp;
+      document.getElementById(`${s}_dgwash_${i}`).value = r.dgwash;
+      document.getElementById(`${s}_dgrent_${i}`).value = r.dgrent;
     } else {
-      DEPARTMENTS.forEach((d, cIdx) => {
-        if (row.nums[cIdx] !== undefined) document.getElementById(`${shift}_${d.key}_${idx}`).value = row.nums[cIdx];
-      });
+      document.getElementById(`${s}_rmg_${i}`).value = r.rmg;
+      document.getElementById(`${s}_utility_${i}`).value = r.utility;
+      document.getElementById(`${s}_dyeing_${i}`).value = r.dyeing;
+      document.getElementById(`${s}_finishing_${i}`).value = r.finishing;
+      document.getElementById(`${s}_aop_${i}`).value = r.aop;
+      document.getElementById(`${s}_oval_${i}`).value = r.oval;
+      document.getElementById(`${s}_office_${i}`).value = r.office;
+      document.getElementById(`${s}_washing_${i}`).value = r.washing;
+      document.getElementById(`${s}_knitting_${i}`).value = r.knitting;
+      document.getElementById(`${s}_other_${i}`).value = r.other;
     }
-    recalcRow(shift, idx);
+    recalcRow(s, i);
   });
-  broadcastLiveEntry('generator');
+
   triggerAutoSave();
-  alert(`Auto-filled ${section.toUpperCase()} section for ${shift.toUpperCase()} shift!`);
+  broadcastLiveEntry('generator');
+  closeScanModal();
 }
 
-/* ================= COMPUTE GENERATOR SHIFT METRICS (12H TOTAL kWh ALLOCATION) ================= */
+/* ================= EXCEL (.CSV) SHEET DOWNLOAD ================= */
+function downloadExcelSheet() {
+  if (!getEffectivePermissions(currentActiveUser).canDownloadExcel) { alert(currentLang === "bn" ? "এক্সেল ডাউনলোড পারমিশন চালু নেই।" : "Excel Download permission is not enabled."); return; }
+  const dateVal = document.getElementById('reportDate').value;
+  const ngRate = document.getElementById('ngRate').value;
+  const dgRate = document.getElementById('dgRate').value;
+
+  let csvRows = [
+    ["P.N. COMPOSITE LTD. - 529, Ambag, Nilnagar, Konabari, Gazipur"],
+    ["Report Date", dateVal, "NG Rate (Tk/m3)", ngRate, "Diesel Rate (Tk/Ltr)", dgRate],
+    []
+  ];
+
+  [
+    { key: 'day', title: 'DAY SHIFT (9:00 AM - 8:00 PM)', hours: DAY_HOURS },
+    { key: 'night', title: 'NIGHT SHIFT (9:00 PM - 8:00 AM)', hours: NIGHT_HOURS }
+  ].forEach(sh => {
+    const m = computeShiftMetrics(sh.key, sh.hours);
+    csvRows.push([sh.title]);
+    csvRows.push(["Diesel Cons (Ltr)", m.dgCons, "NG Cons (m3)", m.ngCons, "DG kWh", m.dgKwh, "GG kWh", m.ggKwh, "Total kWh", m.totalKwh]);
+    csvRows.push([
+      "Time", "M-Bar", "PSI", "GG-1 (kW)", "GG-2 (kW)", "GG-3 (kW)", "DG-ETP (kW)", "DG-Wsh (kW)", "DG-Rn (kW)", "T-kW",
+      "RMG", "Utility", "Dyeing", "Finishing", "AOP", "Oval", "Office", "Washing", "Knitting", "Other", "Total Load (kW)"
+    ]);
+    m.rows.forEach(r => {
+      csvRows.push([
+        r.time, r.mbar, r.psi.toFixed(2), r.gg1, r.gg2, r.gg3, r.dgetp, r.dgwash, r.dgrent, r.tKw,
+        r.depts.rmg, r.depts.utility, r.depts.dyeing, r.depts.finishing, r.depts.aop,
+        r.depts.oval, r.depts.office, r.depts.washing, r.depts.knitting, r.depts.other, r.tLoad
+      ]);
+    });
+    csvRows.push([
+      "TOTAL", "", "",
+      m.genTotals.gg1, m.genTotals.gg2, m.genTotals.gg3, m.genTotals.dgetp, m.genTotals.dgwash, m.genTotals.dgrent, m.genTotals.tKw,
+      m.deptTotals.rmg, m.deptTotals.utility, m.deptTotals.dyeing, m.deptTotals.finishing, m.deptTotals.aop,
+      m.deptTotals.oval, m.deptTotals.office, m.deptTotals.washing, m.deptTotals.knitting, m.deptTotals.other, m.grandLoadTotal
+    ]);
+    csvRows.push([]);
+    csvRows.push(["Department", "Total kW", "Share %", "kWh Share", "NG Cost (Tk)", "Diesel Cost (Tk)", "Total Cost (Tk)"]);
+    m.deptSummary.forEach(ds => {
+      csvRows.push([ds.label, ds.totKw, ds.pct + "%", ds.kwhShare, ds.ngCostShare, ds.dgCostShare, ds.totCost]);
+    });
+    csvRows.push(["TOTAL", m.grandLoadTotal, "100%", m.totalKwh, m.ngCost, m.dgCost, m.grandCost]);
+    csvRows.push([]);
+  });
+
+  const csvContent = "\uFEFF" + csvRows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `PN_Composite_Utility_Report_${dateVal}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+/* ================= GENERATOR CALCULATIONS & REPORT ================= */
 function computeShiftMetrics(shift, hours) {
   const ngRate = parseFloat(document.getElementById('ngRate').value) || 0;
   const dgRate = parseFloat(document.getElementById('dgRate').value) || 0;
+
   const dgCons = parseFloat(document.getElementById(`${shift}_dg_cons`).value) || 0;
   const ngCons = parseFloat(document.getElementById(`${shift}_ng_cons`).value) || 0;
-  const dgKwh12h = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
-  const ggKwh12h = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
-  const shiftTotalKwh12h = dgKwh12h + ggKwh12h;
+  const dgKwh = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
+  const ggKwh = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
+  const totalKwh = dgKwh + ggKwh;
 
-  const dgCost = Math.round(dgCons * dgRate);
   const ngCost = Math.round(ngCons * ngRate);
-  const grandCost = dgCost + ngCost;
+  const dgCost = Math.round(dgCons * dgRate);
+  const grandCost = ngCost + dgCost;
 
   let rows = [];
-  let sumMbar = 0, sumPsi = 0, sumGg1 = 0, sumGg2 = 0, sumGg3 = 0;
-  let sumEtp = 0, sumWashdg = 0, sumRent = 0, sumTgen = 0, sumHrKwh = 0;
+  let genTotals = { gg1: 0, gg2: 0, gg3: 0, dgetp: 0, dgwash: 0, dgrent: 0, tKw: 0 };
   let deptTotals = {};
   DEPARTMENTS.forEach(d => deptTotals[d.key] = 0);
-
-  let rawHourLoads = [];
-  let totalAllHourLoad = 0;
+  let grandLoadTotal = 0;
 
   hours.forEach((time, idx) => {
     const mbar = parseFloat(document.getElementById(`${shift}_mbar_${idx}`).value) || 0;
-    const psi = mbar * 0.0145;
+    const psi = mbar * 0.0145038;
     const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
     const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
     const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
-    const etp = parseFloat(document.getElementById(`${shift}_etp_${idx}`).value) || 0;
-    const washdg = parseFloat(document.getElementById(`${shift}_washdg_${idx}`).value) || 0;
-    const rent = parseFloat(document.getElementById(`${shift}_rent_${idx}`).value) || 0;
-    const tgen = gg1 + gg2 + gg3 + etp + washdg + rent;
-    const hrKwh = parseFloat(document.getElementById(`${shift}_hrkwh_${idx}`).value) || 0;
+    const dgetp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
+    const dgwash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
+    const dgrent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
+    const tKw = Math.round(gg1 + gg2 + gg3 + dgetp + dgwash + dgrent);
 
-    let dLoads = {};
-    let hrDeptSum = 0;
+    genTotals.gg1 += gg1;
+    genTotals.gg2 += gg2;
+    genTotals.gg3 += gg3;
+    genTotals.dgetp += dgetp;
+    genTotals.dgwash += dgwash;
+    genTotals.dgrent += dgrent;
+    genTotals.tKw += tKw;
+
+    let depts = {};
+    let rowLoad = 0;
     DEPARTMENTS.forEach(d => {
       const val = parseFloat(document.getElementById(`${shift}_${d.key}_${idx}`).value) || 0;
-      dLoads[d.key] = val;
+      depts[d.key] = val;
       deptTotals[d.key] += val;
-      hrDeptSum += val;
+      rowLoad += val;
     });
 
-    const tLoad = hrDeptSum > 0 ? hrDeptSum : tgen;
-    rawHourLoads.push(tLoad);
-    totalAllHourLoad += tLoad;
-
-    sumMbar += mbar; sumPsi += psi; sumGg1 += gg1; sumGg2 += gg2; sumGg3 += gg3;
-    sumEtp += etp; sumWashdg += washdg; sumRent += rent; sumTgen += tgen;
-    sumHrKwh += hrKwh;
-
+    grandLoadTotal += rowLoad;
     rows.push({
-      time, mbar, psi, gg1, gg2, gg3, etp, washdg, rent, tgen, hrKwh,
-      dLoads, hrDeptSum, tLoad
+      time, mbar, psi, gg1, gg2, gg3, dgetp, dgwash, dgrent, tKw, depts, tLoad: rowLoad
     });
   });
 
-  // Allocate 12-hour total kWh and 12-hour total cost proportionally across hours & departments
-  rows.forEach((r, idx) => {
-    const hrRatio = totalAllHourLoad > 0 ? (rawHourLoads[idx] / totalAllHourLoad) : (1 / hours.length);
-    const allocatedHrKwh = shiftTotalKwh12h * hrRatio;
-    r.allocatedHrKwh = allocatedHrKwh;
-    r.hrCost = Math.round(allocatedHrKwh > 0 ? (allocatedHrKwh / (shiftTotalKwh12h || 1)) * grandCost : (hrRatio * grandCost));
-    r.hrDgCost = Math.round(r.hrCost * (grandCost > 0 ? dgCost / grandCost : 0));
-    r.hrNgCost = r.hrCost - r.hrDgCost;
-  });
-
-  const totalDeptLoad = Object.values(deptTotals).reduce((a, b) => a + b, 0);
   const deptSummary = DEPARTMENTS.map(d => {
-    const loadKw = deptTotals[d.key];
-    const ratio = totalDeptLoad > 0 ? (loadKw / totalDeptLoad) : 0;
-    const kwhFrom12hTotal = ratio * shiftTotalKwh12h;
-    const dCostShare = Math.round(ratio * dgCost);
-    const nCostShare = Math.round(ratio * ngCost);
+    const totKw = deptTotals[d.key];
+    const ratio = grandLoadTotal > 0 ? (totKw / grandLoadTotal) : 0;
     return {
-      key: d.key, label: d.label, loadKw,
-      pct: (ratio * 100).toFixed(1),
-      kwh: kwhFrom12hTotal.toFixed(1),
-      dgCost: dCostShare, ngCost: nCostShare,
-      totCost: dCostShare + nCostShare
+      label: d.label,
+      totKw,
+      pct: (ratio * 100).toFixed(2),
+      kwhShare: Math.round(ratio * totalKwh),
+      ngCostShare: Math.round(ratio * ngCost),
+      dgCostShare: Math.round(ratio * dgCost),
+      totCost: Math.round(ratio * grandCost)
     };
   });
 
-  const totalGgKw = sumGg1 + sumGg2 + sumGg3;
-  const totalDgKw = sumEtp + sumWashdg + sumRent;
-  const avgGasPsi = sumMbar > 0 ? (sumPsi / 12) : 0;
-
   return {
-    rows, dgCons, ngCons, dgKwh12h, ggKwh12h, shiftTotalKwh12h, dgCost, ngCost, grandCost,
-    sumMbar, sumPsi, avgGasPsi, sumGg1, sumGg2, sumGg3, sumEtp, sumWashdg, sumRent,
-    sumTgen, sumHrKwh, deptTotals, totalDeptLoad, deptSummary, totalGgKw, totalDgKw
+    rows, genTotals, deptTotals, grandLoadTotal,
+    dgCons, ngCons, dgKwh, ggKwh, totalKwh, ngCost, dgCost, grandCost, deptSummary
   };
 }
 
-function createReportPageHtml(shiftLabel, dateStr, m, chartIdPrefix) {
+function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   let html = `
     <div class="rep-header">
       <div class="rep-company">
@@ -4231,82 +4790,88 @@ function createReportPageHtml(shiftLabel, dateStr, m, chartIdPrefix) {
         <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
-        <h3>Generator & Power Distribution Analysis</h3>
+        <h3>Hourly Power Distribution & Cost Analysis</h3>
         <span>${shiftLabel} &bull; Date: ${dateStr}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
     </div>
 
     <div class="kpi-strip">
-      <div class="kpi-item"><div class="k-lbl">Total 12H Shift kWh</div><div class="k-val">${m.shiftTotalKwh12h.toLocaleString()} kWh</div></div>
-      <div class="kpi-item"><div class="k-lbl">GG / DG kWh (12H)</div><div class="k-val">${m.ggKwh12h.toLocaleString()} / ${m.dgKwh12h.toLocaleString()}</div></div>
-      <div class="kpi-item"><div class="k-lbl">Diesel Used</div><div class="k-val">${m.dgCons.toLocaleString()} Ltr</div></div>
-      <div class="kpi-item"><div class="k-lbl">Nat. Gas Used</div><div class="k-val">${m.ngCons.toLocaleString()} m³</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Total Shift Cost</div><div class="k-val">৳ ${m.grandCost.toLocaleString()}</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Avg. Cost / kWh</div><div class="k-val">৳ ${m.shiftTotalKwh12h > 0 ? (m.grandCost / m.shiftTotalKwh12h).toFixed(2) : '0.00'}</div></div>
+      <div class="kpi-item"><div class="k-lbl">Natural Gas Used</div><div class="k-val">${data.ngCons.toLocaleString()} m³</div></div>
+      <div class="kpi-item"><div class="k-lbl">Diesel Consumed</div><div class="k-val">${data.dgCons.toLocaleString()} Ltr</div></div>
+      <div class="kpi-item"><div class="k-lbl">Gas Gen. Output</div><div class="k-val">${data.ggKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">Diesel Gen. Output</div><div class="k-val">${data.dgKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total Shift Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Avg. Cost / kWh</div><div class="k-val">৳ ${data.totalKwh > 0 ? (data.grandCost / data.totalKwh).toFixed(2) : '0.00'}</div></div>
     </div>
 
     <table class="clean-rep-table">
       <thead>
         <tr>
-          <th colspan="10" class="grp-gen">Generator & Gas Pressure</th>
-          <th colspan="3" class="grp-cost">12H kWh & Cost (Tk)</th>
-          <th colspan="10" class="grp-dept">Department Load (kW)</th>
-          <th colspan="5" class="grp-sum">Department-Wise 12H Summary</th>
+          <th colspan="10" class="grp-gen">Generator Load & Gas Pressure</th>
+          <th colspan="11" class="grp-dept">Department-Wise Hourly Load (kW)</th>
+          <th colspan="4" class="grp-sum">Department Cost Summary</th>
         </tr>
         <tr>
           <th class="sub-gen">Time</th><th class="sub-gen">M-Bar</th><th class="sub-gen">PSI</th>
           <th class="sub-gen">GG-1</th><th class="sub-gen">GG-2</th><th class="sub-gen">GG-3</th>
-          <th class="sub-gen">ETP</th><th class="sub-gen">Wash</th><th class="sub-gen">Rent</th><th class="sub-gen">Gen kW</th>
-          <th class="sub-cost">12H kWh<br>Share</th><th class="sub-cost">DG Cost</th><th class="sub-cost">NG Cost</th>
+          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wsh</th><th class="sub-gen">DG-Rn</th><th class="sub-gen">T-kW</th>
           ${DEPARTMENTS.map(d => `<th class="sub-dept">${d.label}</th>`).join('')}
-          <th class="sub-sum">Dept</th><th class="sub-sum">Load %</th><th class="sub-sum">12H kWh</th><th class="sub-sum">DG/NG</th><th class="sub-sum">Total Cost</th>
+          <th class="sub-dept">T.Load</th>
+          <th class="sub-sum">Dept</th><th class="sub-sum">kWh</th><th class="sub-sum">NG Tk</th><th class="sub-sum">Tot Tk</th>
         </tr>
       </thead>
       <tbody>`;
 
   for (let i = 0; i < 12; i++) {
-    const r = m.rows[i];
-    const ds = m.deptSummary[i];
+    const r = data.rows[i];
+    const ds = data.deptSummary[i];
     html += `<tr>
-      <td class="col-highlight">${r.time}</td><td>${r.mbar}</td><td>${r.psi.toFixed(1)}</td>
+      <td class="col-highlight">${r.time}</td>
+      <td>${r.mbar}</td><td>${r.psi.toFixed(2)}</td>
       <td>${r.gg1}</td><td>${r.gg2}</td><td>${r.gg3}</td>
-      <td>${r.etp}</td><td>${r.washdg}</td><td>${r.rent}</td><td class="col-highlight">${r.tgen}</td>
-      <td>${r.allocatedHrKwh.toFixed(1)}</td><td>${r.hrDgCost.toLocaleString()}</td><td>${r.hrNgCost.toLocaleString()}</td>
-      ${DEPARTMENTS.map(d => `<td>${r.dLoads[d.key]}</td>`).join('')}
+      <td>${r.dgetp}</td><td>${r.dgwash}</td><td>${r.dgrent}</td>
+      <td class="col-highlight">${r.tKw}</td>
+      ${DEPARTMENTS.map(d => `<td>${r.depts[d.key]}</td>`).join('')}
+      <td class="col-highlight">${r.tLoad}</td>
       ${ds ? `
         <td class="col-sum-cell" style="text-align:left; padding-left:4px;">${ds.label}</td>
-        <td class="col-sum-cell">${ds.pct}%</td>
-        <td class="col-sum-cell">${ds.kwh}</td>
-        <td class="col-sum-cell">${ds.dgCost.toLocaleString()}/${ds.ngCost.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.kwhShare.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.ngCostShare.toLocaleString()}</td>
         <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
-      ` : `<td></td><td></td><td></td><td></td><td></td>`}
+      ` : `<td></td><td></td><td></td><td></td>`}
     </tr>`;
   }
 
-  // M-Bar & PSI do NOT show 12-hour total sum; show '-'
   html += `
     <tr class="total-row">
-      <td>12H TOTAL:</td><td>-</td><td>-</td>
-      <td>${m.sumGg1}</td><td>${m.sumGg2}</td><td>${m.sumGg3}</td>
-      <td>${m.sumEtp}</td><td>${m.sumWashdg}</td><td>${m.sumRent}</td><td>${m.sumTgen}</td>
-      <td>${m.shiftTotalKwh12h.toLocaleString()}</td><td>${m.dgCost.toLocaleString()}</td><td>${m.ngCost.toLocaleString()}</td>
-      ${DEPARTMENTS.map(d => `<td>${m.deptTotals[d.key]}</td>`).join('')}
-      <td>TOTAL</td><td>100%</td><td>${m.shiftTotalKwh12h.toLocaleString()}</td><td>${m.dgCost.toLocaleString()}/${m.ngCost.toLocaleString()}</td><td style="color:#9a3412;">৳ ${m.grandCost.toLocaleString()}</td>
+      <td>TOTAL:</td>
+      <td></td>
+      <td></td>
+      <td>${data.genTotals.gg1.toLocaleString()}</td><td>${data.genTotals.gg2.toLocaleString()}</td><td>${data.genTotals.gg3.toLocaleString()}</td>
+      <td>${data.genTotals.dgetp.toLocaleString()}</td><td>${data.genTotals.dgwash.toLocaleString()}</td><td>${data.genTotals.dgrent.toLocaleString()}</td>
+      <td>${data.genTotals.tKw.toLocaleString()}</td>
+      ${DEPARTMENTS.map(d => `<td>${data.deptTotals[d.key].toLocaleString()}</td>`).join('')}
+      <td>${data.grandLoadTotal.toLocaleString()}</td>
+      <td>TOTAL</td>
+      <td>${data.totalKwh.toLocaleString()}</td>
+      <td>${data.ngCost.toLocaleString()}</td>
+      <td style="color:#9a3412;">৳ ${data.grandCost.toLocaleString()}</td>
     </tr>
     <tr class="pct-row">
-      <td colspan="10" style="text-align:right; padding-right:6px;">12H kWh & Load Share %:</td>
+      <td colspan="10">LOAD SHARE %:</td>
+      ${data.deptSummary.map(ds => `<td>${ds.pct}%</td>`).join('')}
       <td>100%</td>
-      <td>${m.grandCost > 0 ? ((m.dgCost / m.grandCost) * 100).toFixed(1) : '0.0'}%</td>
-      <td>${m.grandCost > 0 ? ((m.ngCost / m.grandCost) * 100).toFixed(1) : '0.0'}%</td>
-      ${m.deptSummary.map(d => `<td>${d.pct}%</td>`).join('')}
-      <td colspan="5">12H Total kWh: ${m.shiftTotalKwh12h.toLocaleString()} kWh</td>
+      <td>SHARE</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
     </tr>
   </tbody></table>
 
   <div class="rep-charts">
-    <div class="rep-chart-card"><h4>Hourly Generator Load (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
-    <div class="rep-chart-card"><h4>Department-Wise 12H Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Hourly Total Plant Load (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Department-Wise Total Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
   </div>
 
   <div class="rep-footer">
@@ -4317,31 +4882,6 @@ function createReportPageHtml(shiftLabel, dateStr, m, chartIdPrefix) {
   <div class="rep-creator-faint-left">Emon Talukder</div>`;
 
   return html;
-}
-
-function renderBarChart(canvasId, labels, data, colorHex, isCompact) {
-  const ctx = document.getElementById(canvasId).getContext('2d');
-  const chart = new Chart(ctx, {
-    type: 'bar',
-    data: { labels, datasets: [{ data, backgroundColor: colorHex, borderRadius: isCompact ? 1 : 3, maxBarThickness: isCompact ? 10 : 22 }] },
-    options: {
-      responsive: true, maintainAspectRatio: false, animation: false,
-      layout: { padding: { top: isCompact ? 8 : 16, right: 4, left: 0, bottom: 0 } },
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          anchor: 'end', align: 'top', color: '#0f172a',
-          font: { weight: 'bold', size: isCompact ? 5.5 : 8.5 },
-          formatter: v => v > 0 ? (typeof v === 'number' && v % 1 !== 0 ? v.toFixed(1) : v.toLocaleString()) : ''
-        }
-      },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: isCompact ? 5.5 : 8 }, maxRotation: isCompact ? 0 : 35, autoSkip: false } },
-        y: { beginAtZero: true, grace: '18%', grid: { color: '#f1f5f9' }, ticks: { font: { size: isCompact ? 5.5 : 8 }, maxTicksLimit: isCompact ? 3 : 5 } }
-      }
-    }
-  });
-  activeCharts.push(chart);
 }
 
 function buildFinalReport(mode = 'separate') {
@@ -4366,9 +4906,9 @@ function buildFinalReport(mode = 'separate') {
   document.getElementById('report-container').style.display = 'block';
 
   const isCompact = (mode === 'combined');
-  renderBarChart('day_gen', dayMetrics.rows.map(r => r.time), dayMetrics.rows.map(r => r.tgen), '#14452f', isCompact);
+  renderBarChart('day_gen', dayMetrics.rows.map(r => r.time), dayMetrics.rows.map(r => r.tLoad), '#14452f', isCompact);
   renderBarChart('day_dept', dayMetrics.deptSummary.map(d => d.label), dayMetrics.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
-  renderBarChart('night_gen', nightMetrics.rows.map(r => r.time), nightMetrics.rows.map(r => r.tgen), '#14452f', isCompact);
+  renderBarChart('night_gen', nightMetrics.rows.map(r => r.time), nightMetrics.rows.map(r => r.tLoad), '#14452f', isCompact);
   renderBarChart('night_dept', nightMetrics.deptSummary.map(d => d.label), nightMetrics.deptSummary.map(d => d.totCost), '#e86c1f', isCompact);
 
   saveCurrentSectionData('generator', true);
@@ -4393,104 +4933,82 @@ function printCombinedSinglePage() {
   });
 }
 
-function downloadExcelSheet() {
-  if (!getEffectivePermissions(currentActiveUser).canDownloadExcel) { alert(currentLang === "bn" ? "এক্সেল ডাউনলোড পারমিশন চালু নেই।" : "Excel Download permission is not enabled."); return; }
-  const dateVal = document.getElementById('reportDate').value;
-  const dayM = computeShiftMetrics('day', DAY_HOURS);
-  const nightM = computeShiftMetrics('night', NIGHT_HOURS);
-  const rows = [
-    ["P.N. COMPOSITE LTD. - Generator & Power Distribution Report"],
-    ["Report Date", dateVal],
-    ["Day 12H kWh", dayM.shiftTotalKwh12h, "Day Cost", dayM.grandCost],
-    ["Night 12H kWh", nightM.shiftTotalKwh12h, "Night Cost", nightM.grandCost]
-  ];
-  const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `PN_Composite_Generator_Report_${dateVal}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+function renderBarChart(canvasId, labels, values, barColor, isCompact) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const ctx = el.getContext('2d');
+  const maxVal = Math.max(...values, 10);
+
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        backgroundColor: barColor,
+        borderRadius: isCompact ? 2 : 3,
+        barPercentage: 0.65
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: { padding: { top: isCompact ? 10 : 16 } },
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          anchor: 'end',
+          align: 'top',
+          offset: isCompact ? 0 : 1,
+          color: '#0f172a',
+          font: { weight: '700', size: isCompact ? 6.5 : 8.5 },
+          formatter: (val) => val > 0 ? Math.round(val).toLocaleString() : ''
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: isCompact ? 6 : 7.5, weight: '600' }, color: '#334155', maxRotation: 0 } },
+        y: { beginAtZero: true, suggestedMax: maxVal * 1.18, grid: { color: '#f1f5f9' }, ticks: { font: { size: isCompact ? 6 : 7.5 }, color: '#64748b' } }
+      }
+    }
+  });
+  activeCharts.push(chart);
 }
 
-/* ================= INITIALIZATION & LIFETIME AUTO-RESTORE ================= */
-renderEntryGrid('day', DAY_HOURS);
-renderEntryGrid('night', NIGHT_HOURS);
+/* ================= INITIALIZE GRIDS & LIFETIME SESSION RESTORE ================= */
+initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz", "Dhaka", "Gazipur", "Gazipur Sadar");
+initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz", "Sylhet", "Sunamganj", "Bishwambarpur");
+renderGrid('day', DAY_HOURS);
+renderGrid('night', NIGHT_HOURS);
 renderBoilerGrid('day', DAY_HOURS);
 renderBoilerGrid('night', NIGHT_HOURS);
 renderCompGrid('day', DAY_HOURS);
 renderCompGrid('night', NIGHT_HOURS);
-initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz");
-initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz");
+initGasRangeSelectors();
+renderGasEntryGrid();
+startRealtimeFirestoreListeners();
 
-async function bootPortal() {
-  const tabSaved = readTabState();
-  applyLanguage(tabSaved.lang || "en");
+// Default language is English ('en') unless user explicitly toggled in this tab
+const initialTabState = readTabState();
+if (initialTabState.lang === "bn") {
+  applyLanguage("bn");
+} else {
+  applyLanguage("en");
+}
 
-  if (firestoreReady) {
-    startRealtimeFirestoreListeners();
-    try {
-      const empSnap = await firebaseDb.collection("pn_employees").get();
-      const loadedUsers = [];
-      empSnap.forEach(doc => loadedUsers.push(doc.data()));
-      if (loadedUsers.length) liveUsersList = loadedUsers;
-
-      const logSnap = await firebaseDb.collection("pn_utility_logs").get();
-      const grouped = { generator: [], compressor: [], boiler: [] };
-      logSnap.forEach(doc => {
-        const d = doc.data();
-        if (d && d.category && grouped[d.category]) grouped[d.category].push(d);
-      });
-      ["generator", "compressor", "boiler"].forEach(cat => {
-        grouped[cat].sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
-      });
-      liveSavedLogs = grouped;
-
-      for (const cat of ["generator", "boiler", "compressor"]) {
-        const liveDoc = await firebaseDb.collection("pn_live_entries").doc(cat).get();
-        if (liveDoc.exists) latestLiveDocs[cat] = liveDoc.data();
-      }
-    } catch (e) {}
-  }
-
-  let restoredSession = null;
-  if (firestoreReady) {
-    try {
-      const sessDoc = await firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).get();
-      if (sessDoc.exists && sessDoc.data().email) {
-        restoredSession = sessDoc.data();
-      }
-    } catch (e) {}
-  }
-
-  const activeEmail = (restoredSession && restoredSession.email) || tabSaved.email || "";
-  if (activeEmail) {
-    let profile = liveUsersList.find(u => u.email.toLowerCase() === activeEmail.toLowerCase());
-    if (!profile && firestoreReady) {
+(async function restoreLifetimeSession() {
+  const tabState = readTabState();
+  if (tabState.email) {
+    let profile = tabState.userProfile || liveUsersList.find(u => u.email.toLowerCase() === tabState.email.toLowerCase());
+    if (!profile && firebaseDb) {
       try {
-        const pDoc = await firebaseDb.collection("pn_employees").doc(activeEmail.toLowerCase()).get();
-        if (pDoc.exists) profile = pDoc.data();
+        const empSnap = await firebaseDb.collection("pn_employees").doc(tabState.email.toLowerCase()).get();
+        if (empSnap.exists) profile = empSnap.data();
       } catch (e) {}
     }
-    if (!profile && tabSaved.userProfile && tabSaved.userProfile.email && tabSaved.userProfile.email.toLowerCase() === activeEmail.toLowerCase()) {
-      profile = tabSaved.userProfile;
-    }
-
     if (profile) {
-      if (profile.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()) {
-        profile.role = "super_admin";
-        profile.approved = true;
-        profile.status = "approved";
-      }
       currentActiveUser = profile;
-      activeCurrentSection = (restoredSession && restoredSession.activeSection) || tabSaved.activeSection || "home";
-      if ((restoredSession && restoredSession.lang) || tabSaved.lang) {
-        applyLanguage((restoredSession && restoredSession.lang) || tabSaved.lang);
-      }
-      persistLifetimeSessionInFirestore(profile, activeCurrentSection);
+      activeCurrentSection = tabState.activeSection || "home";
       document.getElementById("auth-wrapper").style.display = "none";
       document.getElementById("app-shell").style.display = "block";
       applyRoleAndPermissionRestrictions();
@@ -4500,11 +5018,31 @@ async function bootPortal() {
     }
   }
 
-  document.getElementById("auth-wrapper").style.display = "block";
-  showAuthPanel("login");
-}
+  if (!firebaseDb) return;
+  try {
+    const docSnap = await firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).get();
+    if (!docSnap.exists) return;
+    const sess = docSnap.data();
+    if (!sess || !sess.email) return;
 
-bootPortal();
+    let profile = liveUsersList.find(u => u.email.toLowerCase() === sess.email.toLowerCase());
+    if (!profile) {
+      const empSnap = await firebaseDb.collection("pn_employees").doc(sess.email.toLowerCase()).get();
+      if (empSnap.exists) profile = empSnap.data();
+    }
+
+    if (profile) {
+      currentActiveUser = profile;
+      activeCurrentSection = sess.activeSection || "home";
+      writeTabState({ email: profile.email, activeSection: activeCurrentSection, userProfile: profile });
+      document.getElementById("auth-wrapper").style.display = "none";
+      document.getElementById("app-shell").style.display = "block";
+      applyRoleAndPermissionRestrictions();
+      hydrateLiveEntriesOnEnter();
+      navigateSection(activeCurrentSection);
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>
