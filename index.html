@@ -368,9 +368,9 @@
   .meta-inputs { display: flex; flex-wrap: wrap; gap: 14px; }
   .input-group { display: flex; flex-direction: column; }
   .input-group label { font-size: 11px; font-weight: 600; color: var(--slate-700); margin-bottom: 5px; text-transform: uppercase; }
-  .input-group input, .input-group select {
+  .input-group input {
     padding: 8px 12px; border: 1.5px solid var(--slate-200); border-radius: 8px;
-    font-size: 13px; font-weight: 600; color: var(--slate-900); background: #fff;
+    font-size: 13px; font-weight: 600; color: var(--slate-900);
   }
 
   .shift-switcher { display: flex; flex-wrap: wrap; background: var(--slate-100); padding: 4px; border-radius: 10px; gap: 4px; }
@@ -461,6 +461,31 @@
     outline: none; border-color: var(--brand-accent); background: #fffaf5;
   }
   table.entry-grid input[readonly] {
+    background: #f1f5f9; border-color: transparent; font-weight: 700; color: var(--brand-dark);
+  }
+
+  /* Gas Consumption Entry Table Styling */
+  table.gas-entry-grid { width: 100%; min-width: 960px; border-collapse: collapse; font-size: 12px; }
+  table.gas-entry-grid th {
+    background: var(--brand-dark); color: #ffffff; font-weight: 700;
+    padding: 9px 6px; white-space: nowrap; border-right: 1px solid #1e293b;
+  }
+  table.gas-entry-grid td {
+    padding: 5px 6px; border-bottom: 1px solid var(--slate-200);
+    border-right: 1px solid var(--slate-100); text-align: center;
+  }
+  table.gas-entry-grid tr:nth-child(even) { background: #fafbfc; }
+  table.gas-entry-grid input[type="date"],
+  table.gas-entry-grid input[type="time"] {
+    width: 118px; padding: 5px 6px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 11.5px; font-weight: 600;
+  }
+  table.gas-entry-grid input[type="number"] {
+    width: 115px; padding: 5px 6px; border: 1px solid #cbd5e1; border-radius: 5px; text-align: center; font-size: 12px; font-weight: 600;
+  }
+  table.gas-entry-grid input[type="text"] {
+    width: 170px; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 5px; text-align: left; font-size: 12px;
+  }
+  table.gas-entry-grid input[readonly] {
     background: #f1f5f9; border-color: transparent; font-weight: 700; color: var(--brand-dark);
   }
 
@@ -562,7 +587,7 @@
     margin-top: 24px; max-width: 100%; overflow-x: auto;
   }
   .report-page { min-width: 1260px; background: #ffffff; position: relative; }
-  .report-page.gas-portrait-page { min-width: 820px; }
+  .gas-report-page { min-width: 960px; background: #ffffff; position: relative; }
   .night-page-spacer { margin-top: 26px; }
 
   .rep-header {
@@ -580,7 +605,7 @@
   .rep-logo img { max-height: 44px; max-width: 85px; object-fit: contain; }
 
   .kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 10px; }
-  .kpi-strip.gas-kpi-3 { grid-template-columns: repeat(3, 1fr); }
+  .kpi-strip-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
   .kpi-item {
     background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3.5px solid var(--brand-dark);
     border-radius: 6px; padding: 5px 8px;
@@ -591,7 +616,7 @@
 
   table.clean-rep-table { width: 100%; border-collapse: collapse; font-size: 9px; text-align: center; }
   table.clean-rep-table th, table.clean-rep-table td { border: 1px solid #cbd5e1; padding: 3px 2.5px; }
-  table.clean-rep-table.gas-rep-table th, table.clean-rep-table.gas-rep-table td { padding: 4.5px 6px; font-size: 10px; }
+  .blank-summary-cell { border: none !important; background: transparent !important; }
   .grp-gen { background: #1e293b; color: #fff; font-weight: 700; font-size: 9.5px; }
   .grp-cost { background: #334155; color: #fff; font-weight: 700; font-size: 9.5px; }
   .grp-dept { background: #14452f; color: #fff; font-weight: 700; font-size: 9.5px; }
@@ -608,7 +633,25 @@
     background: #f1f5f9; font-weight: 800; color: #0f172a;
     border-top: 2px solid #475569; border-bottom: 2px solid #475569;
   }
+  .total-row td.blank-summary-cell {
+    background: transparent !important;
+    border: none !important;
+  }
   .pct-row td { background: #ffffff; font-size: 8px; color: #475569; font-weight: 600; }
+  .pct-row td.blank-summary-cell {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  /* Gas Consumption Full-Page A4 Table */
+  table.gas-a4-table { width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: center; }
+  table.gas-a4-table th {
+    background: #14452f; color: #ffffff; font-weight: 700; padding: 7px 6px; border: 1px solid #94a3b8;
+  }
+  table.gas-a4-table td {
+    border: 1px solid #cbd5e1; padding: 6.2px 6px; font-weight: 600; color: #0f172a;
+  }
+  table.gas-a4-table tr:nth-child(even) { background: #f8fafc; }
 
   .rep-charts {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;
@@ -661,6 +704,25 @@
       margin-top: 1px !important;
     }
 
+    /* Full A4 height stretch for Gas Consumption format print */
+    body.print-mode-gas .gas-report-page {
+      min-width: 100% !important; width: 100% !important;
+      min-height: 196mm !important;
+      display: flex !important; flex-direction: column !important; justify-content: space-between !important;
+      padding: 2mm 1mm !important;
+      break-inside: avoid !important; page-break-inside: avoid !important;
+    }
+    body.print-mode-gas table.gas-a4-table {
+      flex: 1 !important;
+      font-size: 9.2px !important;
+    }
+    body.print-mode-gas table.gas-a4-table th {
+      padding: 4.5px 4px !important;
+    }
+    body.print-mode-gas table.gas-a4-table td {
+      padding: 3.6px 4px !important;
+    }
+
     body.print-mode-separate .report-page {
       min-width: 100% !important; width: 100% !important;
       margin: 0 !important; padding: 1px 0 !important;
@@ -678,8 +740,6 @@
     body.print-mode-separate .kpi-item .k-val { font-size: 12.5px; }
     body.print-mode-separate table.clean-rep-table th,
     body.print-mode-separate table.clean-rep-table td { padding: 2.8px 2px; font-size: 8.6px; }
-    body.print-mode-separate table.clean-rep-table.gas-rep-table th,
-    body.print-mode-separate table.clean-rep-table.gas-rep-table td { padding: 3.5px 5px; font-size: 9px; }
     body.print-mode-separate .rep-charts { margin-top: 7px; gap: 10px; }
     body.print-mode-separate .canvas-wrap { height: 132px !important; max-height: 132px !important; }
     body.print-mode-separate .rep-footer { margin-top: 10px; }
@@ -1139,7 +1199,7 @@
           <button type="button" class="btn btn-primary" id="homeBtnGenerator" onclick="navigateSection('generator')" data-i18n="navGenerator">Generator</button>
           <button type="button" class="btn btn-accent" id="homeBtnBoiler" onclick="navigateSection('boiler')" data-i18n="navBoiler">Boiler</button>
           <button type="button" class="btn btn-combined" id="homeBtnCompressor" onclick="navigateSection('compressor')" data-i18n="navCompressor">Air Compressor</button>
-          <button type="button" class="btn btn-excel" id="homeBtnGas" onclick="navigateSection('gas')" data-i18n="navGas">Gas Consumption</button>
+          <button type="button" class="btn btn-primary" id="homeBtnGas" onclick="navigateSection('gas')" data-i18n="navGas">Gas Consumption</button>
           <button type="button" class="btn btn-save" id="homeBtnSaved" onclick="navigateSection('saved')" data-i18n="navSaved">Saved Data</button>
           <button type="button" class="btn btn-excel" id="homeBtnAdmin" onclick="navigateSection('admin')" data-i18n="navAdmin">Admin Panel</button>
         </div>
@@ -1158,71 +1218,6 @@
         </div>
         <div id="adminPanelContent"></div>
       </div>
-    </div>
-
-    <!-- ================= GAS CONSUMPTION VIEW ================= -->
-    <div id="view-gas" style="display:none;">
-      <div class="control-card no-print">
-        <div class="top-controls">
-          <div class="meta-inputs">
-            <div class="input-group">
-              <label data-i18n="gasStartDateLbl">Start Date (1st Day)</label>
-              <input type="date" id="gasStartDate" value="2026-11-01" onchange="syncGasDatesFromStart(); triggerGasAutoSave();">
-            </div>
-            <div class="input-group">
-              <label data-i18n="gasDefaultTimeLbl">Default Entry Time</label>
-              <input type="time" id="gasDefaultTime" value="08:00" onchange="applyDefaultGasTime(); triggerGasAutoSave();">
-            </div>
-            <div class="input-group">
-              <label data-i18n="gasFormatRangeLbl">Format Download Date Range (1–30)</label>
-              <div style="display:flex; align-items:center; gap:6px;">
-                <select id="gasRangeFrom" style="padding:7px 9px;"></select>
-                <span style="font-size:12px; font-weight:700; color:var(--slate-500);">to</span>
-                <select id="gasRangeTo" style="padding:7px 9px;"></select>
-              </div>
-            </div>
-          </div>
-          <div>
-            <span class="company-badge" data-i18n="gasEntryBadge">Gas Consumption Monthly Log & Format Sheet</span>
-          </div>
-        </div>
-
-        <div class="summary-grid">
-          <div class="metric-input-card">
-            <label data-i18n="totGasConsAuto">Total Gas Consumption (m³ Auto)</label>
-            <input type="number" id="gas_total_cons_auto" value="0.00" readonly>
-          </div>
-          <div class="metric-input-card">
-            <label data-i18n="totProdMwhLbl">Total Production MWH</label>
-            <input type="number" inputmode="decimal" step="any" id="gas_total_prod_mwh" value="0" oninput="triggerGasAutoSave()">
-          </div>
-          <div class="metric-input-card">
-            <label data-i18n="totCostKwhLbl">Total Cost KWH</label>
-            <input type="number" inputmode="decimal" step="any" id="gas_total_cost_kwh" value="0" oninput="triggerGasAutoSave()">
-          </div>
-        </div>
-
-        <div class="table-wrapper" id="gas-entry-grid"></div>
-
-        <div class="btn-bar">
-          <button type="button" class="btn btn-reset perm-reset-btn" onclick="resetSectionEntries('gas')" data-i18n="resetEntryBtn">↺ Reset Entry</button>
-          <button type="button" class="btn btn-save" onclick="saveCurrentSectionData('gas', false)" data-i18n="saveBtn">Save Data</button>
-          <button type="button" class="btn btn-excel perm-excel-btn" onclick="downloadGasExcelSheet()" data-i18n="downloadExcelBtn">Download Excel Sheet</button>
-          <button type="button" class="btn btn-primary" onclick="buildGasReport()" data-i18n="submitReportBtn">Submit & Generate Report</button>
-          <button type="button" class="btn btn-accent perm-download-btn" onclick="printGasFormatReport()" data-i18n="downloadPdfBtn">Download / Print PDF</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ================= GAS CONSUMPTION REPORT SECTION ================= -->
-    <div id="gas-report-container">
-      <div class="no-print perm-report-bar" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
-        <span style="font-weight:700; color:var(--brand-dark); font-size:13px;" data-i18n="gasPreviewReady">Gas Consumption Format Report Preview Ready</span>
-        <div class="perm-download-group" style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn btn-accent perm-download-btn" style="padding:8px 14px; font-size:12px;" onclick="printGasFormatReport()" data-i18n="downloadPdfBtn">Download / Print PDF</button>
-        </div>
-      </div>
-      <div id="gas-report-output"></div>
     </div>
 
     <!-- ================= AIR COMPRESSOR VIEW ================= -->
@@ -1387,6 +1382,65 @@
         </div>
       </div>
       <div id="boiler-report-output"></div>
+    </div>
+
+    <!-- ================= GAS CONSUMPTION VIEW ================= -->
+    <div id="view-gas" style="display:none;">
+      <div class="control-card no-print">
+        <div class="top-controls">
+          <div class="meta-inputs">
+            <div class="input-group">
+              <label data-i18n="gasMonthLbl">Month & Year</label>
+              <input type="month" id="gasMonthInput" value="2026-11" onchange="onGasMonthChange()">
+            </div>
+            <div class="input-group">
+              <label data-i18n="fromDayLbl">From Date (1–31)</label>
+              <input type="number" id="gasFromDay" min="1" max="31" value="1" oninput="recalcGasGrid()">
+            </div>
+            <div class="input-group">
+              <label data-i18n="toDayLbl">To Date (1–31)</label>
+              <input type="number" id="gasToDay" min="1" max="31" value="30" oninput="recalcGasGrid()">
+            </div>
+          </div>
+          <span class="company-badge" data-i18n="gasEntryBadge">Gas Consumption Daily & Monthly Log</span>
+        </div>
+
+        <div class="summary-grid">
+          <div class="metric-input-card">
+            <label data-i18n="totGasConsAutoLbl">Total Gas Consumption (M³ Auto)</label>
+            <input type="number" id="gas_total_cons_auto" value="0.00" readonly>
+          </div>
+          <div class="metric-input-card">
+            <label data-i18n="totProdMwhLbl">Total Production MWH</label>
+            <input type="number" step="any" id="gas_total_prod_mwh" value="0" oninput="triggerGasAutoSave()">
+          </div>
+          <div class="metric-input-card">
+            <label data-i18n="totCostKwhLbl">Total Cost KWH</label>
+            <input type="number" step="any" id="gas_total_cost_kwh" value="0" oninput="triggerGasAutoSave()">
+          </div>
+        </div>
+
+        <div class="table-wrapper" id="gas-grid-wrapper"></div>
+
+        <div class="btn-bar">
+          <button type="button" class="btn btn-reset perm-reset-btn" onclick="resetSectionEntries('gas')" data-i18n="resetEntryBtn">↺ Reset Entry</button>
+          <button type="button" class="btn btn-save" onclick="saveCurrentSectionData('gas', false)" data-i18n="saveBtn">Save Data</button>
+          <button type="button" class="btn btn-excel perm-excel-btn" onclick="downloadGasExcelSheet()" data-i18n="downloadExcelBtn">Download Excel Sheet</button>
+          <button type="button" class="btn btn-primary" onclick="buildGasReport()" data-i18n="submitReportBtn">Submit & Generate Report</button>
+          <button type="button" class="btn btn-accent perm-download-btn" onclick="printGasReport()" data-i18n="downloadPdfBtn">Download / Print PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= GAS CONSUMPTION REPORT SECTION ================= -->
+    <div id="gas-report-container">
+      <div class="no-print perm-report-bar" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0;">
+        <span style="font-weight:700; color:var(--brand-dark); font-size:13px;" data-i18n="gasPreviewReady">Gas Consumption Report Preview Ready</span>
+        <div class="perm-download-group" style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn btn-accent perm-download-btn" style="padding:8px 14px; font-size:12px;" onclick="printGasReport()" data-i18n="downloadPdfBtn">Download / Print PDF</button>
+        </div>
+      </div>
+      <div id="gas-report-output"></div>
     </div>
 
     <!-- ================= SAVED DATA VIEW ================= -->
@@ -1700,7 +1754,7 @@ const DEFAULT_MEMBER_PERMISSIONS = {
   canGenerator: true,
   canBoiler: true,
   canCompressor: true,
-  canGas: true,
+  canGasConsumption: true,
   canSavedData: true,
   canDownload: false,
   canDelete: false,
@@ -1762,7 +1816,7 @@ function isSuperAdminUser(user) {
 function getEffectivePermissions(user) {
   if (!user) {
     return {
-      canGenerator: false, canBoiler: false, canCompressor: false, canGas: false,
+      canGenerator: false, canBoiler: false, canCompressor: false, canGasConsumption: false,
       canSavedData: false, canDownload: false, canDelete: false, canViewAllMembersData: false,
       canResetEntry: false, canDownloadExcel: false, canDayNightPdf: false,
       canOpenCamera: false, canUploadPhoto: false
@@ -1770,7 +1824,7 @@ function getEffectivePermissions(user) {
   }
   if (isSuperAdminUser(user)) {
     return {
-      canGenerator: true, canBoiler: true, canCompressor: true, canGas: true,
+      canGenerator: true, canBoiler: true, canCompressor: true, canGasConsumption: true,
       canSavedData: true, canDownload: true, canDelete: true, canViewAllMembersData: true,
       canResetEntry: true, canDownloadExcel: true, canDayNightPdf: true,
       canOpenCamera: true, canUploadPhoto: true
@@ -1804,7 +1858,7 @@ function applyRoleAndPermissionRestrictions() {
   if (navGen) navGen.style.display = perms.canGenerator ? "flex" : "none";
   if (navBoi) navBoi.style.display = perms.canBoiler ? "flex" : "none";
   if (navComp) navComp.style.display = perms.canCompressor ? "flex" : "none";
-  if (navGas) navGas.style.display = perms.canGas ? "flex" : "none";
+  if (navGas) navGas.style.display = perms.canGasConsumption ? "flex" : "none";
   if (navSaved) navSaved.style.display = perms.canSavedData ? "flex" : "none";
   if (navAdmin) navAdmin.style.display = isAdmin ? "flex" : "none";
 
@@ -1818,7 +1872,7 @@ function applyRoleAndPermissionRestrictions() {
   if (hGen) hGen.style.display = perms.canGenerator ? "inline-flex" : "none";
   if (hBoi) hBoi.style.display = perms.canBoiler ? "inline-flex" : "none";
   if (hComp) hComp.style.display = perms.canCompressor ? "inline-flex" : "none";
-  if (hGas) hGas.style.display = perms.canGas ? "inline-flex" : "none";
+  if (hGas) hGas.style.display = perms.canGasConsumption ? "inline-flex" : "none";
   if (hSaved) hSaved.style.display = perms.canSavedData ? "inline-flex" : "none";
   if (hAdmin) hAdmin.style.display = isAdmin ? "inline-flex" : "none";
 
@@ -1890,7 +1944,7 @@ function broadcastLiveEntry(category) {
   clearTimeout(liveSyncTimers[category]);
   liveSyncTimers[category] = setTimeout(() => {
     const inputs = {};
-    document.querySelectorAll(`${sel} input, ${sel} select`).forEach(inp => {
+    document.querySelectorAll(`${sel} input`).forEach(inp => {
       if (inp.id) inputs[inp.id] = inp.value;
     });
 
@@ -1923,6 +1977,14 @@ function applyLiveDocToSection(category, docData) {
     const activeEl = document.activeElement;
     const inputs = docData.inputs;
 
+    if (category === "gas" && inputs.gasMonthInput) {
+      const mEl = document.getElementById("gasMonthInput");
+      if (mEl && mEl.value !== inputs.gasMonthInput) {
+        mEl.value = inputs.gasMonthInput;
+        renderGasGridForMonth(inputs.gasMonthInput);
+      }
+    }
+
     Object.keys(inputs).forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
@@ -1952,7 +2014,7 @@ function applyLiveDocToSection(category, docData) {
       recalcCompShift("day");
       recalcCompShift("night");
     } else if (category === "gas") {
-      recalcGasConsumption();
+      recalcGasGrid();
     }
   } finally {
     isApplyingRemoteLiveUpdate = false;
@@ -1962,7 +2024,7 @@ function applyLiveDocToSection(category, docData) {
 document.addEventListener("input", function(e) {
   if (isApplyingRemoteLiveUpdate) return;
   const target = e.target;
-  if (!target || (target.tagName !== "INPUT" && target.tagName !== "SELECT")) return;
+  if (!target || target.tagName !== "INPUT") return;
   if (target.closest("#view-generator")) broadcastLiveEntry("generator");
   else if (target.closest("#view-boiler")) broadcastLiveEntry("boiler");
   else if (target.closest("#view-compressor")) broadcastLiveEntry("compressor");
@@ -1972,7 +2034,7 @@ document.addEventListener("input", function(e) {
 document.addEventListener("change", function(e) {
   if (isApplyingRemoteLiveUpdate) return;
   const target = e.target;
-  if (!target || (target.tagName !== "INPUT" && target.tagName !== "SELECT")) return;
+  if (!target || target.tagName !== "INPUT") return;
   if (target.closest("#view-generator")) broadcastLiveEntry("generator");
   else if (target.closest("#view-boiler")) broadcastLiveEntry("boiler");
   else if (target.closest("#view-compressor")) broadcastLiveEntry("compressor");
@@ -2155,8 +2217,15 @@ const I18N_DICT = {
     dayNightPdf1PageBtn: "ডে ও নাইট ডাউনলোড / প্রিন্ট PDF (১ পেজ)",
     compPreviewReady: "এয়ার কম্প্রেসর রিপোর্ট প্রিভিউ প্রস্তুত",
     boilerPreviewReady: "বয়লার রিপোর্ট প্রিভিউ প্রস্তুত",
-    gasPreviewReady: "গ্যাস কনজাম্পশন ফরমেট রিপোর্ট প্রিভিউ প্রস্তুত",
+    gasPreviewReady: "গ্যাস কনজাম্পশন রিপোর্ট প্রিভিউ প্রস্তুত",
     repPreviewReady: "রিপোর্ট প্রিভিউ প্রস্তুত",
+    gasMonthLbl: "মাস ও বছর",
+    fromDayLbl: "শুরুর তারিখ (১–৩১)",
+    toDayLbl: "শেষ তারিখ (১–৩১)",
+    gasEntryBadge: "গ্যাস কনজাম্পশন দৈনিক ও মাসিক লগ",
+    totGasConsAutoLbl: "মোট গ্যাস খরচ (M³ অটো)",
+    totProdMwhLbl: "মোট উৎপাদন MWH",
+    totCostKwhLbl: "মোট খরচ KWH",
     ngRateLbl: "NG রেট (টাকা/m³)",
     lpgRateLbl: "LPG রেট (টাকা/Kg)",
     natGasRateLbl: "ন্যাচারাল গ্যাস রেট (টাকা/m³)",
@@ -2181,14 +2250,7 @@ const I18N_DICT = {
     natGasConsLbl: "ন্যাচারাল গ্যাস খরচ (m³)",
     dgKwhLbl: "ডিজেল জেনারেটর kWh",
     ggKwhLbl: "গ্যাস জেনারেটর kWh",
-    totShiftKwhAuto: "মোট শিফট kWh (অটো)",
-    gasStartDateLbl: "শুরুর তারিখ (১ম দিন)",
-    gasDefaultTimeLbl: "ডিফল্ট সময়",
-    gasFormatRangeLbl: "ফরমেট ডাউনলোড তারিখ (১–৩০)",
-    gasEntryBadge: "গ্যাস কনজাম্পশন মাসিক লগ ও ফরমেট শিট",
-    totGasConsAuto: "মোট গ্যাস খরচ (m³ অটো)",
-    totProdMwhLbl: "মোট উৎপাদন MWH",
-    totCostKwhLbl: "মোট খরচ KWH"
+    totShiftKwhAuto: "মোট শিফট kWh (অটো)"
   },
   en: {
     portalSub: "529, Ambag, Nilnagar, Konabari, Gazipur • Utility & Power Management Portal",
@@ -2258,8 +2320,15 @@ const I18N_DICT = {
     dayNightPdf1PageBtn: "Day & Night Download / Print PDF (1 Page)",
     compPreviewReady: "Air Compressor Report Preview Ready",
     boilerPreviewReady: "Boiler Report Preview Ready",
-    gasPreviewReady: "Gas Consumption Format Report Preview Ready",
+    gasPreviewReady: "Gas Consumption Report Preview Ready",
     repPreviewReady: "Report Preview Ready",
+    gasMonthLbl: "Month & Year",
+    fromDayLbl: "From Date (1–31)",
+    toDayLbl: "To Date (1–31)",
+    gasEntryBadge: "Gas Consumption Daily & Monthly Log",
+    totGasConsAutoLbl: "Total Gas Consumption (M³ Auto)",
+    totProdMwhLbl: "Total Production MWH",
+    totCostKwhLbl: "Total Cost KWH",
     ngRateLbl: "NG Rate (Tk/m³)",
     lpgRateLbl: "LPG Rate (Tk/Kg)",
     natGasRateLbl: "Natural Gas Rate (Tk/m³)",
@@ -2284,14 +2353,7 @@ const I18N_DICT = {
     natGasConsLbl: "Natural Gas Consumption (m³)",
     dgKwhLbl: "Diesel Generator kWh",
     ggKwhLbl: "Gas Generator kWh",
-    totShiftKwhAuto: "Total Shift kWh (Auto)",
-    gasStartDateLbl: "Start Date (Day 1)",
-    gasDefaultTimeLbl: "Default Time",
-    gasFormatRangeLbl: "Format Download Date Range (1–30)",
-    gasEntryBadge: "Gas Consumption Monthly Log & Format Sheet",
-    totGasConsAuto: "Total Gas Consumption (m³ Auto)",
-    totProdMwhLbl: "Total Production MWH",
-    totCostKwhLbl: "Total Cost KWH"
+    totShiftKwhAuto: "Total Shift kWh (Auto)"
   }
 };
 
@@ -2806,7 +2868,7 @@ function renderAdminPanel() {
   const genCount = liveSavedLogs.generator.length;
   const compCount = liveSavedLogs.compressor.length;
   const boilerCount = liveSavedLogs.boiler.length;
-  const gasCount = (liveSavedLogs.gas || []).length;
+  const gasCount = liveSavedLogs.gas.length;
 
   let html = `
     <div class="summary-grid" style="margin-top:0;">
@@ -2876,7 +2938,7 @@ function renderAdminPanel() {
               <label class="perm-chip"><input type="checkbox" ${p.canGenerator ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canGenerator', this.checked)"> Generator</label>
               <label class="perm-chip"><input type="checkbox" ${p.canBoiler ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canBoiler', this.checked)"> Boiler</label>
               <label class="perm-chip"><input type="checkbox" ${p.canCompressor ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canCompressor', this.checked)"> Compressor</label>
-              <label class="perm-chip"><input type="checkbox" ${p.canGas ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canGas', this.checked)"> Gas Consumption</label>
+              <label class="perm-chip"><input type="checkbox" ${p.canGasConsumption ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canGasConsumption', this.checked)"> Gas Consumption</label>
               <label class="perm-chip"><input type="checkbox" ${p.canSavedData ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canSavedData', this.checked)"> Saved Data</label>
               <label class="perm-chip"><input type="checkbox" ${p.canResetEntry ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canResetEntry', this.checked)"> ↺ Reset Entry</label>
               <label class="perm-chip"><input type="checkbox" ${p.canDownloadExcel ? "checked" : ""} onchange="toggleMemberPermission('${safeEmail}', 'canDownloadExcel', this.checked)"> Download Excel Sheet</label>
@@ -2914,7 +2976,7 @@ function navigateSection(section, btnEl = null) {
   if (section === "generator" && !perms.canGenerator) { alert(currentLang === "bn" ? "জেনারেটর সেকশনের পারমিশন দেওয়া নেই।" : "Generator section permission is not assigned to you."); return; }
   if (section === "boiler" && !perms.canBoiler) { alert(currentLang === "bn" ? "বয়লার সেকশনের পারমিশন দেওয়া নেই।" : "Boiler section permission is not assigned to you."); return; }
   if (section === "compressor" && !perms.canCompressor) { alert(currentLang === "bn" ? "এয়ার কম্প্রেসর সেকশনের পারমিশন দেওয়া নেই।" : "Air Compressor section permission is not assigned to you."); return; }
-  if (section === "gas" && !perms.canGas) { alert(currentLang === "bn" ? "গ্যাস কনজাম্পশন সেকশনের পারমিশন দেওয়া নেই।" : "Gas Consumption section permission is not assigned to you."); return; }
+  if (section === "gas" && !perms.canGasConsumption) { alert(currentLang === "bn" ? "গ্যাস কনজাম্পশন সেকশনের পারমিশন দেওয়া নেই।" : "Gas Consumption section permission is not assigned to you."); return; }
   if (section === "saved" && !perms.canSavedData) { alert(currentLang === "bn" ? "সেভ করা তথ্য দেখার পারমিশন দেওয়া নেই।" : "Saved Data permission is not assigned to you."); return; }
   if (section === "admin" && !isSuperAdminUser(currentActiveUser)) { alert(currentLang === "bn" ? "অ্যাডমিন প্যানেল শুধুমাত্র Super Admin-এর জন্য।" : "Admin Panel is restricted to Super Admin."); return; }
 
@@ -3000,13 +3062,12 @@ function resetSectionEntries(category) {
     broadcastLiveEntry("compressor");
     document.getElementById("comp-report-container").style.display = "none";
   } else if (category === "gas") {
-    document.querySelectorAll("#view-gas input[type='number']:not([readonly])").forEach(inp => {
-      inp.value = "0";
-    });
-    document.querySelectorAll("#view-gas input[type='text']").forEach(inp => {
-      inp.value = "";
-    });
-    recalcGasConsumption();
+    document.getElementById("gasFromDay").value = "1";
+    document.getElementById("gasToDay").value = "30";
+    document.getElementById("gas_total_prod_mwh").value = "0";
+    document.getElementById("gas_total_cost_kwh").value = "0";
+    renderGasGridForMonth(document.getElementById("gasMonthInput").value || "2026-11");
+    recalcGasGrid();
     broadcastLiveEntry("gas");
     document.getElementById("gas-report-container").style.display = "none";
   }
@@ -3014,153 +3075,153 @@ function resetSectionEntries(category) {
   alert(currentLang === "bn" ? "এন্ট্রি রিসেট সম্পন্ন হয়েছে।" : "Entries reset successfully.");
 }
 
-/* ================= GAS CONSUMPTION (30-DAY MONTHLY ENTRY & FORMAT REPORT) ================= */
-function initGasRangeSelectors() {
-  const fromSel = document.getElementById("gasRangeFrom");
-  const toSel = document.getElementById("gasRangeTo");
-  if (!fromSel || !toSel) return;
-  let opts = "";
-  for (let d = 1; d <= 31; d++) {
-    opts += `<option value="${d}">Day ${d}</option>`;
-  }
-  fromSel.innerHTML = opts;
-  toSel.innerHTML = opts;
-  fromSel.value = "1";
-  toSel.value = "30";
+/* ================= GAS CONSUMPTION GRID, CALCULATIONS & A4 REPORT ================= */
+function getDaysInMonthStr(monthStr) {
+  const parts = (monthStr || "2026-11").split("-");
+  const yr = parseInt(parts[0], 10) || 2026;
+  const mo = parseInt(parts[1], 10) || 11;
+  return new Date(yr, mo, 0).getDate();
 }
 
-function renderGasEntryGrid() {
-  const container = document.getElementById("gas-entry-grid");
-  if (!container) return;
+function renderGasGridForMonth(monthStr = "2026-11") {
+  const daysCount = getDaysInMonthStr(monthStr);
+  const toDayEl = document.getElementById("gasToDay");
+  if (toDayEl && parseInt(toDayEl.value, 10) > daysCount) {
+    toDayEl.value = daysCount;
+  }
 
-  const startDateStr = document.getElementById("gasStartDate")?.value || "2026-11-01";
-  const defTime = document.getElementById("gasDefaultTime")?.value || "08:00";
-  const baseDate = new Date(startDateStr + "T00:00:00");
-
-  let html = `<table class="entry-grid" style="min-width:980px;">
+  let html = `<table class="gas-entry-grid">
     <thead>
       <tr>
-        <th style="width:48px;">Sl</th>
         <th>Date</th>
         <th>Time</th>
-        <th>Previous Meter<br>Reading (m³)</th>
-        <th>Present Meter<br>Reading (m³)</th>
-        <th class="dept-th">Day Consumption<br>(m³ Auto)</th>
-        <th class="lpg-th">Monthly Consumption<br>(m³ Auto)</th>
+        <th>Previous Meter Reading M³</th>
+        <th>Present Meter Reading M³</th>
+        <th>Day Consumption M³</th>
+        <th>Monthly Consumption M³</th>
         <th>Remarks</th>
       </tr>
     </thead>
     <tbody>`;
 
-  for (let i = 0; i < 31; i++) {
-    const rowDate = new Date(baseDate);
-    if (!isNaN(baseDate.getTime())) {
-      rowDate.setDate(baseDate.getDate() + i);
-    }
-    const isoDate = !isNaN(rowDate.getTime()) ? rowDate.toISOString().slice(0, 10) : startDateStr;
-
-    html += `<tr>
-      <td><strong>${i + 1}</strong></td>
-      <td><input type="date" id="gas_date_${i}" value="${isoDate}" style="width:128px;" onchange="triggerGasAutoSave()"></td>
-      <td><input type="time" id="gas_time_${i}" value="${defTime}" style="width:105px;" onchange="triggerGasAutoSave()"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="gas_prev_${i}" value="0" style="width:118px;" oninput="recalcGasConsumption(); triggerGasAutoSave();"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="gas_pres_${i}" value="0" style="width:118px;" oninput="recalcGasConsumption(); triggerGasAutoSave();"></td>
-      <td><input type="number" id="gas_day_cons_${i}" value="0.00" readonly style="width:115px;"></td>
-      <td><input type="number" id="gas_month_cons_${i}" value="0.00" readonly style="width:120px;"></td>
-      <td><input type="text" id="gas_remarks_${i}" value="" placeholder="Office Closed / Govt Holiday" style="width:190px; text-align:left; padding-left:8px;" oninput="triggerGasAutoSave()"></td>
+  for (let d = 1; d <= daysCount; d++) {
+    const dayPad = String(d).padStart(2, "0");
+    const dateIso = `${monthStr}-${dayPad}`;
+    html += `<tr id="gas_row_${d}">
+      <td><input type="date" id="gas_date_${d}" value="${dateIso}" onchange="triggerGasAutoSave()"></td>
+      <td><input type="time" id="gas_time_${d}" value="08:00" onchange="triggerGasAutoSave()"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="gas_prev_${d}" value="0" oninput="recalcGasGrid(); triggerGasAutoSave();"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="gas_pres_${d}" value="0" oninput="recalcGasGrid(); triggerGasAutoSave();"></td>
+      <td><input type="number" id="gas_day_${d}" value="0.00" readonly></td>
+      <td><input type="number" id="gas_month_${d}" value="0.00" readonly></td>
+      <td><input type="text" id="gas_rem_${d}" placeholder="Holiday / Note" oninput="triggerGasAutoSave()"></td>
     </tr>`;
   }
 
   html += `</tbody></table>`;
-  container.innerHTML = html;
+  document.getElementById("gas-grid-wrapper").innerHTML = html;
+  recalcGasGrid();
 }
 
-function syncGasDatesFromStart() {
-  const startDateStr = document.getElementById("gasStartDate")?.value;
-  if (!startDateStr) return;
-  const baseDate = new Date(startDateStr + "T00:00:00");
-  if (isNaN(baseDate.getTime())) return;
-
-  for (let i = 0; i < 31; i++) {
-    const d = new Date(baseDate);
-    d.setDate(baseDate.getDate() + i);
-    const inp = document.getElementById(`gas_date_${i}`);
-    if (inp) inp.value = d.toISOString().slice(0, 10);
-  }
+function onGasMonthChange() {
+  const mVal = document.getElementById("gasMonthInput").value || "2026-11";
+  renderGasGridForMonth(mVal);
+  broadcastLiveEntry("gas");
+  triggerGasAutoSave();
 }
 
-function applyDefaultGasTime() {
-  const defTime = document.getElementById("gasDefaultTime")?.value || "08:00";
-  for (let i = 0; i < 31; i++) {
-    const inp = document.getElementById(`gas_time_${i}`);
-    if (inp) inp.value = defTime;
-  }
-}
+function recalcGasGrid() {
+  const mVal = document.getElementById("gasMonthInput")?.value || "2026-11";
+  const daysCount = getDaysInMonthStr(mVal);
+  let fromDay = parseInt(document.getElementById("gasFromDay")?.value, 10) || 1;
+  let toDay = parseInt(document.getElementById("gasToDay")?.value, 10) || daysCount;
+  if (fromDay < 1) fromDay = 1;
+  if (toDay > daysCount) toDay = daysCount;
+  if (toDay < fromDay) toDay = fromDay;
 
-function recalcGasConsumption() {
-  let cumulativeMonthly = 0;
-  for (let i = 0; i < 31; i++) {
-    const prevEl = document.getElementById(`gas_prev_${i}`);
-    const presEl = document.getElementById(`gas_pres_${i}`);
-    const dayEl = document.getElementById(`gas_day_cons_${i}`);
-    const monthEl = document.getElementById(`gas_month_cons_${i}`);
+  let cumulative = 0;
+  for (let d = 1; d <= daysCount; d++) {
+    const rowEl = document.getElementById(`gas_row_${d}`);
+    if (rowEl) {
+      rowEl.style.display = (d >= fromDay && d <= toDay) ? "" : "none";
+    }
+    const prevEl = document.getElementById(`gas_prev_${d}`);
+    const presEl = document.getElementById(`gas_pres_${d}`);
+    const dayEl = document.getElementById(`gas_day_${d}`);
+    const monthEl = document.getElementById(`gas_month_${d}`);
     if (!prevEl || !presEl || !dayEl || !monthEl) continue;
+
+    if (d < fromDay || d > toDay) continue;
 
     const prevVal = parseFloat(prevEl.value) || 0;
     const presVal = parseFloat(presEl.value) || 0;
-    const dayDiff = presVal > 0 ? Math.max(0, presVal - prevVal) : 0;
-
-    cumulativeMonthly += dayDiff;
-    dayEl.value = dayDiff.toFixed(2);
-    monthEl.value = cumulativeMonthly.toFixed(2);
+    let dayCons = 0;
+    if (presVal > 0 || prevVal > 0) {
+      dayCons = Math.max(0, presVal - prevVal);
+    }
+    cumulative += dayCons;
+    dayEl.value = dayCons.toFixed(2);
+    monthEl.value = cumulative.toFixed(2);
   }
 
   const totAutoEl = document.getElementById("gas_total_cons_auto");
-  if (totAutoEl) totAutoEl.value = cumulativeMonthly.toFixed(2);
+  if (totAutoEl) totAutoEl.value = cumulative.toFixed(2);
 }
 
 function computeGasData() {
-  recalcGasConsumption();
-  const fromDay = Math.max(1, Math.min(31, parseInt(document.getElementById("gasRangeFrom")?.value || "1", 10)));
-  const toDay = Math.max(fromDay, Math.min(31, parseInt(document.getElementById("gasRangeTo")?.value || "30", 10)));
-  const startDate = document.getElementById("gasStartDate")?.value || "2026-11-01";
-  const totalProdMwh = parseFloat(document.getElementById("gas_total_prod_mwh")?.value) || 0;
-  const totalCostKwh = parseFloat(document.getElementById("gas_total_cost_kwh")?.value) || 0;
+  const monthStr = document.getElementById("gasMonthInput").value || "2026-11";
+  const daysCount = getDaysInMonthStr(monthStr);
+  let fromDay = parseInt(document.getElementById("gasFromDay").value, 10) || 1;
+  let toDay = parseInt(document.getElementById("gasToDay").value, 10) || daysCount;
+  if (fromDay < 1) fromDay = 1;
+  if (toDay > daysCount) toDay = daysCount;
+  if (toDay < fromDay) toDay = fromDay;
 
-  let allRows = [];
-  for (let i = 0; i < 31; i++) {
-    const date = document.getElementById(`gas_date_${i}`)?.value || "";
-    const time = document.getElementById(`gas_time_${i}`)?.value || "";
-    const prev = parseFloat(document.getElementById(`gas_prev_${i}`)?.value) || 0;
-    const pres = parseFloat(document.getElementById(`gas_pres_${i}`)?.value) || 0;
-    const dayCons = parseFloat(document.getElementById(`gas_day_cons_${i}`)?.value) || 0;
-    const monthCons = parseFloat(document.getElementById(`gas_month_cons_${i}`)?.value) || 0;
-    const remarks = document.getElementById(`gas_remarks_${i}`)?.value || "";
-    allRows.push({ dayNum: i + 1, date, time, prev, pres, dayCons, monthCons, remarks });
+  const totalProdMwh = parseFloat(document.getElementById("gas_total_prod_mwh").value) || 0;
+  const totalCostKwh = parseFloat(document.getElementById("gas_total_cost_kwh").value) || 0;
+
+  let rows = [];
+  let cumulative = 0;
+  for (let d = fromDay; d <= toDay; d++) {
+    const dateVal = document.getElementById(`gas_date_${d}`)?.value || `${monthStr}-${String(d).padStart(2, "0")}`;
+    const timeVal = document.getElementById(`gas_time_${d}`)?.value || "08:00";
+    const prevVal = parseFloat(document.getElementById(`gas_prev_${d}`)?.value) || 0;
+    const presVal = parseFloat(document.getElementById(`gas_pres_${d}`)?.value) || 0;
+    const dayCons = (presVal > 0 || prevVal > 0) ? Math.max(0, presVal - prevVal) : 0;
+    cumulative += dayCons;
+    const remarks = document.getElementById(`gas_rem_${d}`)?.value || "";
+
+    rows.push({
+      dayNum: d,
+      date: dateVal,
+      time: timeVal,
+      prevReading: prevVal,
+      presReading: presVal,
+      dayCons,
+      monthlyCons: cumulative,
+      remarks
+    });
   }
 
-  const selectedRows = allRows.filter(r => r.dayNum >= fromDay && r.dayNum <= toDay);
-  const rangeGasTotal = selectedRows.reduce((acc, r) => acc + r.dayCons, 0);
-  const fullMonthGasTotal = parseFloat(document.getElementById("gas_total_cons_auto")?.value) || 0;
+  const [yrStr, moStr] = monthStr.split("-");
+  const monthTitle = new Date(parseInt(yrStr, 10), parseInt(moStr, 10) - 1, 1).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric"
+  });
 
   return {
-    startDate,
+    monthStr,
+    monthTitle,
     fromDay,
     toDay,
-    selectedRows,
-    allRows,
-    rangeGasTotal,
-    fullMonthGasTotal,
+    rows,
+    totalGasCons: cumulative,
     totalProdMwh,
     totalCostKwh
   };
 }
 
-function createGasReportPageHtml(data) {
-  const monthLabel = data.startDate
-    ? new Date(data.startDate + "T00:00:00").toLocaleDateString("en-GB", { month: "long", year: "numeric" })
-    : "";
-
+function createGasReportPageHtml(g) {
   let html = `
     <div class="rep-header">
       <div class="rep-company">
@@ -3168,88 +3229,86 @@ function createGasReportPageHtml(data) {
         <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
-        <h3>Gas Consumption Monthly Log & Format Sheet</h3>
-        <span>${monthLabel} &bull; Day ${data.fromDay} to Day ${data.toDay}</span>
+        <h3>Monthly Gas Consumption Report</h3>
+        <span>${g.monthTitle} &bull; Date: ${g.fromDay} to ${g.toDay}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
     </div>
 
-    <div class="kpi-strip gas-kpi-3">
-      <div class="kpi-item"><div class="k-lbl">Total Gas Consumption (m³)</div><div class="k-val">${data.rangeGasTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m³</div></div>
-      <div class="kpi-item"><div class="k-lbl">Total Production MWH</div><div class="k-val">${data.totalProdMwh.toLocaleString()} MWH</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Total Cost KWH</div><div class="k-val">${data.totalCostKwh.toLocaleString()} KWH</div></div>
+    <div class="kpi-strip-3">
+      <div class="kpi-item"><div class="k-lbl">Total Gas Consumption</div><div class="k-val">${g.totalGasCons.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} M³</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Production MWH</div><div class="k-val">${g.totalProdMwh.toLocaleString()} MWH</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total Cost KWH</div><div class="k-val">${g.totalCostKwh.toLocaleString()} KWH</div></div>
     </div>
 
-    <table class="clean-rep-table gas-rep-table">
+    <table class="gas-a4-table">
       <thead>
         <tr>
-          <th class="grp-gen" style="width:38px;">Sl</th>
-          <th class="grp-gen">Date</th>
-          <th class="grp-gen">Time</th>
-          <th class="grp-cost">Previous Meter Reading (m³)</th>
-          <th class="grp-cost">Present Meter Reading (m³)</th>
-          <th class="grp-dept">Day Consumption (m³)</th>
-          <th class="grp-sum">Monthly Consumption (m³)</th>
-          <th class="grp-gen">Remarks</th>
+          <th style="width:12%;">Date</th>
+          <th style="width:9%;">Time</th>
+          <th style="width:15%;">Previous Meter Reading M³</th>
+          <th style="width:15%;">Present Meter Reading M³</th>
+          <th style="width:14%;">Day Consumption M³</th>
+          <th style="width:15%;">Monthly Consumption M³</th>
+          <th style="width:20%;">Remarks</th>
         </tr>
       </thead>
       <tbody>`;
 
-  data.selectedRows.forEach(r => {
-    const fmtDate = r.date
-      ? new Date(r.date + "T00:00:00").toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })
-      : "-";
+  g.rows.forEach(r => {
+    const dispDate = new Date(r.date).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
     html += `<tr>
-      <td class="col-highlight">${r.dayNum}</td>
-      <td>${fmtDate}</td>
-      <td>${r.time || "-"}</td>
-      <td>${r.prev > 0 ? r.prev.toLocaleString() : ""}</td>
-      <td>${r.pres > 0 ? r.pres.toLocaleString() : ""}</td>
-      <td class="col-highlight">${r.dayCons > 0 ? r.dayCons.toFixed(2) : ""}</td>
-      <td class="col-sum-cell">${r.monthCons > 0 ? r.monthCons.toFixed(2) : ""}</td>
-      <td style="text-align:left; padding-left:6px;">${r.remarks || ""}</td>
+      <td>${dispDate}</td>
+      <td>${r.time}</td>
+      <td>${r.prevReading > 0 ? r.prevReading.toLocaleString() : "0"}</td>
+      <td>${r.presReading > 0 ? r.presReading.toLocaleString() : "0"}</td>
+      <td style="font-weight:700; color:#14452f;">${r.dayCons.toFixed(2)}</td>
+      <td style="font-weight:700; color:#9a3412;">${r.monthlyCons.toFixed(2)}</td>
+      <td style="text-align:left; padding-left:8px;">${r.remarks}</td>
     </tr>`;
   });
 
   html += `
-    <tr class="total-row">
-      <td colspan="5" style="text-align:right; padding-right:8px;">TOTAL GAS CONSUMPTION (m³):</td>
-      <td>${data.rangeGasTotal.toFixed(2)}</td>
-      <td style="color:#9a3412;">${data.fullMonthGasTotal.toFixed(2)} m³</td>
-      <td>Prod: ${data.totalProdMwh} MWH | Cost: ${data.totalCostKwh} KWH</td>
-    </tr>
-  </tbody></table>
+      <tr class="total-row">
+        <td colspan="4" style="text-align:right; padding-right:8px;">TOTAL MONTHLY GAS CONSUMPTION (${g.monthTitle}):</td>
+        <td style="color:#14452f;">${g.totalGasCons.toFixed(2)} M³</td>
+        <td style="color:#9a3412;">${g.totalGasCons.toFixed(2)} M³</td>
+        <td style="text-align:left; padding-left:8px;">Prod: ${g.totalProdMwh} MWH | Cost: ${g.totalCostKwh} KWH</td>
+      </tr>
+      </tbody>
+    </table>
 
-  <div class="rep-footer" style="margin-top:18px;">
-    <div class="sig-line">Prepared By (Utility Engr.)</div>
-    <div class="sig-line">Checked By (In-Charge)</div>
-    <div class="sig-line">Approved By (Head of Utility)</div>
-  </div>
-  <div class="rep-creator-faint-left">Emon Talukder</div>`;
+    <div class="rep-footer">
+      <div class="sig-line">Prepared By (Utility Engr.)</div>
+      <div class="sig-line">Checked By (In-Charge)</div>
+      <div class="sig-line">Approved By (Head of Utility)</div>
+    </div>
+    <div class="rep-creator-faint-left">Emon Talukder</div>`;
 
   return html;
 }
 
 function buildGasReport() {
-  document.body.classList.remove("print-mode-combined");
-  document.body.classList.add("print-mode-separate");
+  document.body.classList.remove("print-mode-separate", "print-mode-combined");
+  document.body.classList.add("print-mode-gas");
 
-  const gasData = computeGasData();
+  recalcGasGrid();
+  const gData = computeGasData();
   document.getElementById("gas-report-output").innerHTML = `
-    <div class="report-page gas-portrait-page">${createGasReportPageHtml(gasData)}</div>
+    <div class="gas-report-page">${createGasReportPageHtml(gData)}</div>
   `;
   document.getElementById("gas-report-container").style.display = "block";
   saveCurrentSectionData("gas", true);
   document.getElementById("gas-report-container").scrollIntoView({ behavior: "smooth" });
 }
 
-function printGasFormatReport() {
+function printGasReport() {
   if (!getEffectivePermissions(currentActiveUser).canDownload) {
-    alert(currentLang === "bn" ? "ডাউনলোড পারমিশন চালু নেই।" : "Download permission is not enabled for your account.");
+    alert(currentLang === "bn" ? "ডাউনলোড পারমিশন চালু নেই।" : "Download permission is not enabled.");
     return;
   }
   buildGasReport();
-  setTimeout(() => window.print(), 220);
+  setTimeout(() => window.print(), 200);
 }
 
 function downloadGasExcelSheet() {
@@ -3257,24 +3316,22 @@ function downloadGasExcelSheet() {
     alert(currentLang === "bn" ? "এক্সেল ডাউনলোড পারমিশন চালু নেই।" : "Excel Download permission is not enabled.");
     return;
   }
-  const data = computeGasData();
+  const g = computeGasData();
   const rows = [
-    ["P.N. COMPOSITE LTD. - 529, Ambag, Nilnagar, Konabari, Gazipur"],
-    [`Gas Consumption Monthly Log (Day ${data.fromDay} to Day ${data.toDay})`],
-    ["Total Gas Consumption (m3)", data.rangeGasTotal.toFixed(2), "Total Production MWH", data.totalProdMwh, "Total Cost KWH", data.totalCostKwh],
+    ["P.N. COMPOSITE LTD. - Monthly Gas Consumption Report", g.monthTitle],
+    ["Total Gas Consumption (M3)", g.totalGasCons.toFixed(2), "Total Production MWH", g.totalProdMwh, "Total Cost KWH", g.totalCostKwh],
     [],
-    ["Sl", "Date", "Time", "Previous Meter Reading M3", "Present Meter Reading M3", "Day Consumption M3", "Monthly Consumption M3", "Remarks"]
+    ["Date", "Time", "Previous Meter Reading M3", "Present Meter Reading M3", "Day Consumption M3", "Monthly Consumption M3", "Remarks"]
   ];
-  data.selectedRows.forEach(r => {
-    rows.push([r.dayNum, r.date, r.time, r.prev, r.pres, r.dayCons.toFixed(2), r.monthCons.toFixed(2), r.remarks]);
+  g.rows.forEach(r => {
+    rows.push([r.date, r.time, r.prevReading, r.presReading, r.dayCons.toFixed(2), r.monthlyCons.toFixed(2), r.remarks]);
   });
-
   const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `PN_Composite_Gas_Consumption_${data.startDate}_Day${data.fromDay}-${data.toDay}.csv`;
+  a.download = `PN_Composite_Gas_Consumption_${g.monthStr}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -3286,7 +3343,7 @@ let autoSaveTimer = null;
 
 function collectInputsFromSelector(selector) {
   const inputs = {};
-  document.querySelectorAll(`${selector} input, ${selector} select`).forEach(inp => {
+  document.querySelectorAll(`${selector} input`).forEach(inp => {
     if (inp.id) inputs[inp.id] = inp.value;
   });
   return inputs;
@@ -3294,6 +3351,10 @@ function collectInputsFromSelector(selector) {
 
 function restoreInputsToMap(inputs) {
   if (!inputs) return;
+  if (inputs.gasMonthInput && document.getElementById("gasMonthInput")) {
+    document.getElementById("gasMonthInput").value = inputs.gasMonthInput;
+    renderGasGridForMonth(inputs.gasMonthInput);
+  }
   Object.keys(inputs).forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = inputs[id];
@@ -3330,7 +3391,7 @@ async function saveCurrentSectionData(category, silent = false) {
     activeShift = currentCompShift;
     snapshot = collectInputsFromSelector("#view-compressor");
   } else if (category === "gas") {
-    dateVal = document.getElementById("gasStartDate").value || dateVal;
+    dateVal = document.getElementById("gasMonthInput").value || "2026-11";
     snapshot = collectInputsFromSelector("#view-gas");
   }
 
@@ -3378,9 +3439,10 @@ async function saveCurrentSectionData(category, silent = false) {
     entry.nightComp = nightComp;
     entry.summary = `Date: ${dateVal} | Air: ${(dayComp.totalProdAir + nightComp.totalProdAir).toLocaleString()} Kg | kWh: ${(dayComp.kwh + nightComp.kwh).toLocaleString()}`;
   } else if (category === "gas") {
+    recalcGasGrid();
     const gasData = computeGasData();
     entry.gasData = gasData;
-    entry.summary = `Month Start: ${dateVal} | Gas: ${gasData.fullMonthGasTotal.toFixed(2)} m³ | Prod: ${gasData.totalProdMwh} MWH | Cost: ${gasData.totalCostKwh} KWH`;
+    entry.summary = `Month: ${gasData.monthTitle} (${gasData.fromDay}–${gasData.toDay}) | Total Gas: ${gasData.totalGasCons.toFixed(2)} M³ | Prod: ${gasData.totalProdMwh} MWH`;
   }
 
   await syncRecordToFirestore(category, entry);
@@ -3388,8 +3450,8 @@ async function saveCurrentSectionData(category, silent = false) {
   if (!silent) {
     alert(
       currentLang === "bn"
-        ? `তারিখ ${dateVal}-এর ডাটা সেভ (রিপ্লেস) হয়েছে। একই তারিখে ডুপ্লিকেট হবে না।`
-        : `Data for ${dateVal} saved/replaced successfully (no duplicate date entries).`
+        ? `${dateVal}-এর ডাটা সেভ (রিপ্লেস) হয়েছে।`
+        : `Data for ${dateVal} saved/replaced successfully.`
     );
   }
 }
@@ -3438,7 +3500,7 @@ function editSavedRecord(category, index) {
     broadcastLiveEntry("compressor");
     navigateSection("compressor");
   } else if (category === "gas") {
-    recalcGasConsumption();
+    recalcGasGrid();
     broadcastLiveEntry("gas");
     navigateSection("gas");
   }
@@ -3640,10 +3702,10 @@ function viewSavedFullReport(category, index, autoPrint = false) {
   } else if (category === "gas" && record.gasData) {
     viewer.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Gas Consumption Format Report — ${record.date}</strong>
+        <strong style="color:var(--brand-dark); font-size:13px;">Full Saved Gas Consumption Report — ${record.gasData.monthTitle}</strong>
         ${perms.canDownload ? `<button type="button" class="btn btn-accent" style="padding:6px 12px; font-size:12px;" onclick="window.print()">Download / Print PDF</button>` : ""}
       </div>
-      <div class="report-page gas-portrait-page">${createGasReportPageHtml(record.gasData)}</div>
+      <div class="gas-report-page">${createGasReportPageHtml(record.gasData)}</div>
     `;
   }
 
@@ -3863,7 +3925,7 @@ function createCompReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
         <td class="col-sum-cell">${ss.airKg.toLocaleString()}</td>
         <td class="col-sum-cell">${ss.kwhShare}</td>
         <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ss.costShare.toLocaleString()}</td>
-      ` : `<td></td><td></td><td></td><td></td>`}
+      ` : `<td class="blank-summary-cell"></td><td class="blank-summary-cell"></td><td class="blank-summary-cell"></td><td class="blank-summary-cell"></td>`}
     </tr>`;
   }
 
@@ -3906,7 +3968,7 @@ function createCompReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
 }
 
 function buildCompReport(mode = 'separate') {
-  document.body.classList.remove('print-mode-separate', 'print-mode-combined');
+  document.body.classList.remove('print-mode-separate', 'print-mode-combined', 'print-mode-gas');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
   activeCharts.forEach(c => c.destroy());
@@ -3963,40 +4025,39 @@ function downloadCompExcelSheet() {
     ["P.N. COMPOSITE LTD. - Air Compressor Report"],
     ["Report Date", dateVal],
     ["Day kWh", dayC.kwh, "Day Air Prod (Kg)", dayC.totalProdAir, "Day Cost", dayC.totalCost],
-    ["Night kWh", nightC.kwh, "Night Air Prod (Kg)", nightC.totalProdAir, "Night Cost", nightC.totalCost]
+    ["Night kWh", nightC.kwh, "Night Air Prod (Kg)", nightC.totalProdAir, "Night Cost", nightC.totalCost],
+    [],
+    ["Shift", "Time", ...COMP_UNITS, "Hr Prod (Kg)", ...COMP_SECTIONS]
   ];
-  const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  dayC.rows.forEach(r => rows.push(["Day", r.time, ...r.uVals, r.hrProdAir, ...COMP_SECTIONS.map(s => r.sVals[s.toLowerCase()])]));
+  nightC.rows.forEach(r => rows.push(["Night", r.time, ...r.uVals, r.hrProdAir, ...COMP_SECTIONS.map(s => r.sVals[s.toLowerCase()])]));
+  const csv = "\uFEFF" + rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n");
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `PN_Composite_Compressor_Report_${dateVal}.csv`;
+  a.download = `PN_Composite_Air_Compressor_${dateVal}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
-/* ================= BOILER ENTRY GRID & CALCULATIONS ================= */
+/* ================= BOILER ================= */
 function renderBoilerGrid(shift, hours) {
   const p = `b_${shift}`;
   let html = `<table class="entry-grid">
     <thead>
       <tr>
         <th>Time</th>
-        <th>NG Pre<br>Before</th>
-        <th>NG Pre<br>After (Mbar)</th>
-        <th>Boiler<br>Run</th>
-        <th>Fire %</th>
-        <th>Steam<br>Press (Bar)</th>
-        <th>NG Steam<br>(Ton)</th>
-        <th class="lpg-th">Stop</th>
-        <th class="lpg-th">Run</th>
-        <th class="lpg-th">LPG Fire %</th>
-        <th class="lpg-th">LPG Press</th>
-        <th class="lpg-th">LPG Steam<br>(Ton)</th>
-        <th class="dept-th">Total Steam<br>(Ton Auto)</th>
-        ${BOILER_DEPTS.map(d => `<th class="dept-th">${d} Share</th>`).join('')}
+        <th>NG-B1<br>(Ton)</th>
+        <th>NG-B2<br>(Ton)</th>
+        <th>NG-B3<br>(Ton)</th>
+        <th>E.G-B1<br>(Ton)</th>
+        <th>E.G-B2<br>(Ton)</th>
+        <th class="lpg-th">LPG-B<br>(Ton)</th>
+        <th class="lpg-th">Tot Steam<br>(Ton Auto)</th>
+        ${BOILER_DEPTS.map(d => `<th class="dept-th">${d}<br>(Ton)</th>`).join('')}
       </tr>
     </thead>
     <tbody>`;
@@ -4004,18 +4065,13 @@ function renderBoilerGrid(shift, hours) {
   hours.forEach((time, idx) => {
     html += `<tr>
       <td><strong>${time}</strong></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_preb_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_prea_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_brun_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_fire_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_spress_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_ngst_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_lstop_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_lrun_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_lfire_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_lpress_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${p}_lpgst_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
-      <td><input type="number" id="${p}_totst_${idx}" readonly value="0.00"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_ngb1_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_ngb2_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_ngb3_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_egb1_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_egb2_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${p}_lpgb_${idx}" oninput="recalcBoilerShift('${shift}'); triggerBoilerAutoSave();" value="0"></td>
+      <td><input type="number" id="${p}_tot_${idx}" readonly value="0.00"></td>
       ${BOILER_DEPTS.map(d => `<td><input type="number" inputmode="decimal" step="any" id="${p}_d_${d.toLowerCase()}_${idx}" oninput="triggerBoilerAutoSave()" value="0"></td>`).join('')}
     </tr>`;
   });
@@ -4026,21 +4082,28 @@ function renderBoilerGrid(shift, hours) {
 
 function recalcBoilerShift(shift) {
   const p = `b_${shift}`;
-  let sumNg = 0;
-  let sumLpg = 0;
+  let ngSteamTot = 0;
+  let lpgSteamTot = 0;
 
   for (let i = 0; i < 12; i++) {
-    const ng = parseFloat(document.getElementById(`${p}_ngst_${i}`).value) || 0;
-    const lpg = parseFloat(document.getElementById(`${p}_lpgst_${i}`).value) || 0;
-    const tot = ng + lpg;
-    document.getElementById(`${p}_totst_${i}`).value = tot.toFixed(2);
-    sumNg += ng;
-    sumLpg += lpg;
+    const ng1 = parseFloat(document.getElementById(`${p}_ngb1_${i}`).value) || 0;
+    const ng2 = parseFloat(document.getElementById(`${p}_ngb2_${i}`).value) || 0;
+    const ng3 = parseFloat(document.getElementById(`${p}_ngb3_${i}`).value) || 0;
+    const eg1 = parseFloat(document.getElementById(`${p}_egb1_${i}`).value) || 0;
+    const eg2 = parseFloat(document.getElementById(`${p}_egb2_${i}`).value) || 0;
+    const lpg = parseFloat(document.getElementById(`${p}_lpgb_${i}`).value) || 0;
+
+    const rowNg = ng1 + ng2 + ng3 + eg1 + eg2;
+    const rowTot = rowNg + lpg;
+    document.getElementById(`${p}_tot_${i}`).value = rowTot.toFixed(2);
+
+    ngSteamTot += rowNg;
+    lpgSteamTot += lpg;
   }
 
-  document.getElementById(`${p}_ng_steam_auto`).value = sumNg.toFixed(2);
-  document.getElementById(`${p}_lpg_steam_auto`).value = sumLpg.toFixed(2);
-  document.getElementById(`${p}_tot_steam_auto`).value = (sumNg + sumLpg).toFixed(2);
+  document.getElementById(`${p}_ng_steam_auto`).value = ngSteamTot.toFixed(2);
+  document.getElementById(`${p}_lpg_steam_auto`).value = lpgSteamTot.toFixed(2);
+  document.getElementById(`${p}_tot_steam_auto`).value = (ngSteamTot + lpgSteamTot).toFixed(2);
 }
 
 function switchBoilerShift(shift, btn) {
@@ -4051,166 +4114,78 @@ function switchBoilerShift(shift, btn) {
   document.getElementById('bpanel-night').style.display = shift === 'night' ? 'block' : 'none';
 }
 
-function handleBoilerImageScan(event) {
-  const perms = getEffectivePermissions(currentActiveUser);
-  if (event.target.id === "boilerCameraInput" && !perms.canOpenCamera) { alert("Camera permission is not enabled."); return; }
-  if (event.target.id === "boilerGalleryInput" && !perms.canUploadPhoto) { alert("Upload Photo permission is not enabled."); return; }
-
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = async function(e) {
-    document.getElementById('boilerScannedImgPreview').src = e.target.result;
-    document.getElementById('boiler-scan-modal').style.display = 'block';
-    document.getElementById('boilerScanStatusText').textContent = 'Scanning Boiler Logsheet...';
-
-    const hours = currentBoilerShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
-    boilerScannedDraft = hours.map(t => ({
-      time: t, preb: 0, prea: 0, brun: 0, fire: 0, spress: 0, ngst: 0,
-      lstop: 0, lrun: 0, lfire: 0, lpress: 0, lpgst: 0
-    }));
-
-    try {
-      const result = await Tesseract.recognize(e.target.result, 'eng');
-      const lines = (result.data.text || '').split('\n').map(l => l.trim()).filter(Boolean);
-      lines.forEach(line => {
-        const hm = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/i);
-        const nums = line.match(/\b\d+(\.\d+)?\b/g);
-        if (hm && nums && nums.length >= 2) {
-          const hVal = parseInt(hm[1], 10);
-          const idx = hours.findIndex(h => parseInt(h, 10) === hVal);
-          if (idx !== -1) {
-            const vals = nums.map(Number).filter((_, i) => i > 0);
-            if (vals[0] !== undefined) boilerScannedDraft[idx].preb = vals[0];
-            if (vals[1] !== undefined) boilerScannedDraft[idx].prea = vals[1];
-            if (vals[2] !== undefined) boilerScannedDraft[idx].brun = vals[2];
-            if (vals[3] !== undefined) boilerScannedDraft[idx].fire = vals[3];
-            if (vals[4] !== undefined) boilerScannedDraft[idx].spress = vals[4];
-            if (vals[5] !== undefined) boilerScannedDraft[idx].ngst = vals[5];
-            if (vals[6] !== undefined) boilerScannedDraft[idx].lpgst = vals[6];
-          }
-        }
-      });
-      document.getElementById('boilerScanStatusText').textContent = 'Scan complete! Verify values below and click Auto-Fill.';
-    } catch (err) {
-      document.getElementById('boilerScanStatusText').textContent = 'Manual verify mode ready.';
-    }
-
-    document.getElementById('boilerParsedTableContainer').innerHTML = `
-      <table class="parsed-table">
-        <thead>
-          <tr><th>Time</th><th>NG Pre B</th><th>NG Pre A</th><th>Run</th><th>Fire%</th><th>Press</th><th>NG Stm</th><th>LPG Stm</th></tr>
-        </thead>
-        <tbody>
-          ${boilerScannedDraft.map((r, i) => `
-            <tr>
-              <td><strong>${r.time}</strong></td>
-              <td><input type="number" step="any" value="${r.preb}" onchange="boilerScannedDraft[${i}].preb=parseFloat(this.value)||0"></td>
-              <td><input type="number" step="any" value="${r.prea}" onchange="boilerScannedDraft[${i}].prea=parseFloat(this.value)||0"></td>
-              <td><input type="number" step="any" value="${r.brun}" onchange="boilerScannedDraft[${i}].brun=parseFloat(this.value)||0"></td>
-              <td><input type="number" step="any" value="${r.fire}" onchange="boilerScannedDraft[${i}].fire=parseFloat(this.value)||0"></td>
-              <td><input type="number" step="any" value="${r.spress}" onchange="boilerScannedDraft[${i}].spress=parseFloat(this.value)||0"></td>
-              <td><input type="number" step="any" value="${r.ngst}" onchange="boilerScannedDraft[${i}].ngst=parseFloat(this.value)||0"></td>
-              <td><input type="number" step="any" value="${r.lpgst}" onchange="boilerScannedDraft[${i}].lpgst=parseFloat(this.value)||0"></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
-  };
-  reader.readAsDataURL(file);
-  event.target.value = '';
-}
-
-function applyBoilerScannedRows() {
-  const p = `b_${currentBoilerShift}`;
-  boilerScannedDraft.forEach((r, i) => {
-    document.getElementById(`${p}_preb_${i}`).value = r.preb;
-    document.getElementById(`${p}_prea_${i}`).value = r.prea;
-    document.getElementById(`${p}_brun_${i}`).value = r.brun;
-    document.getElementById(`${p}_fire_${i}`).value = r.fire;
-    document.getElementById(`${p}_spress_${i}`).value = r.spress;
-    document.getElementById(`${p}_ngst_${i}`).value = r.ngst;
-    document.getElementById(`${p}_lpgst_${i}`).value = r.lpgst;
-  });
-  recalcBoilerShift(currentBoilerShift);
-  triggerBoilerAutoSave();
-  broadcastLiveEntry('boiler');
-  document.getElementById('boiler-scan-modal').style.display = 'none';
-}
-
 function computeBoilerShift(shift, hours) {
   const p = `b_${shift}`;
-  const ngRate = parseFloat(document.getElementById('boilerNgRate').value) || 0;
-  const lpgRate = parseFloat(document.getElementById('boilerLpgRate').value) || 0;
   const ngCons = parseFloat(document.getElementById(`${p}_ng_cons`).value) || 0;
   const lpgCons = parseFloat(document.getElementById(`${p}_lpg_cons`).value) || 0;
+  const ngRate = parseFloat(document.getElementById('boilerNgRate').value) || 0;
+  const lpgRate = parseFloat(document.getElementById('boilerLpgRate').value) || 0;
   const stenter12h = parseFloat(document.getElementById(`${p}_stenter_12h`).value) || 0;
 
-  const ngCost = Math.round(ngCons * ngRate);
-  const lpgCost = Math.round(lpgCons * lpgRate);
-  const grandCost = ngCost + lpgCost;
+  const ngCost = ngCons * ngRate;
+  const lpgCost = lpgCons * lpgRate;
+  const grandCost = Math.round(ngCost + lpgCost);
 
   let rows = [];
-  let sumNgSteam = 0;
-  let sumLpgSteam = 0;
-  let deptSums = {};
-  BOILER_DEPTS.forEach(d => deptSums[d.toLowerCase()] = 0);
+  let sumNgb1 = 0, sumNgb2 = 0, sumNgb3 = 0, sumEgb1 = 0, sumEgb2 = 0, sumLpgb = 0;
+  let deptHourlySums = {};
+  BOILER_DEPTS.forEach(d => deptHourlySums[d.toLowerCase()] = 0);
 
   hours.forEach((time, idx) => {
-    const preb = parseFloat(document.getElementById(`${p}_preb_${idx}`).value) || 0;
-    const prea = parseFloat(document.getElementById(`${p}_prea_${idx}`).value) || 0;
-    const brun = parseFloat(document.getElementById(`${p}_brun_${idx}`).value) || 0;
-    const fire = parseFloat(document.getElementById(`${p}_fire_${idx}`).value) || 0;
-    const spress = parseFloat(document.getElementById(`${p}_spress_${idx}`).value) || 0;
-    const ngst = parseFloat(document.getElementById(`${p}_ngst_${idx}`).value) || 0;
-    const lstop = parseFloat(document.getElementById(`${p}_lstop_${idx}`).value) || 0;
-    const lrun = parseFloat(document.getElementById(`${p}_lrun_${idx}`).value) || 0;
-    const lfire = parseFloat(document.getElementById(`${p}_lfire_${idx}`).value) || 0;
-    const lpress = parseFloat(document.getElementById(`${p}_lpress_${idx}`).value) || 0;
-    const lpgst = parseFloat(document.getElementById(`${p}_lpgst_${idx}`).value) || 0;
-    const totSteam = ngst + lpgst;
+    const ngb1 = parseFloat(document.getElementById(`${p}_ngb1_${idx}`).value) || 0;
+    const ngb2 = parseFloat(document.getElementById(`${p}_ngb2_${idx}`).value) || 0;
+    const ngb3 = parseFloat(document.getElementById(`${p}_ngb3_${idx}`).value) || 0;
+    const egb1 = parseFloat(document.getElementById(`${p}_egb1_${idx}`).value) || 0;
+    const egb2 = parseFloat(document.getElementById(`${p}_egb2_${idx}`).value) || 0;
+    const lpgb = parseFloat(document.getElementById(`${p}_lpgb_${idx}`).value) || 0;
+    const totSteam = ngb1 + ngb2 + ngb3 + egb1 + egb2 + lpgb;
 
-    sumNgSteam += ngst;
-    sumLpgSteam += lpgst;
+    sumNgb1 += ngb1; sumNgb2 += ngb2; sumNgb3 += ngb3;
+    sumEgb1 += egb1; sumEgb2 += egb2; sumLpgb += lpgb;
 
     let dVals = {};
     BOILER_DEPTS.forEach(d => {
       const k = d.toLowerCase();
       const v = parseFloat(document.getElementById(`${p}_d_${k}_${idx}`).value) || 0;
       dVals[k] = v;
-      deptSums[k] += v;
+      deptHourlySums[k] += v;
     });
 
-    rows.push({
-      time, preb, prea, brun, fire, spress, ngst,
-      lstop, lrun, lfire, lpress, lpgst, totSteam, dVals
-    });
+    rows.push({ time, ngb1, ngb2, ngb3, egb1, egb2, lpgb, totSteam, dVals });
   });
 
-  const totalSteamAll = sumNgSteam + sumLpgSteam;
-  const totalDeptUnits = Object.values(deptSums).reduce((a, b) => a + b, 0) + stenter12h;
+  const totNgSteam = sumNgb1 + sumNgb2 + sumNgb3 + sumEgb1 + sumEgb2;
+  const totLpgSteam = sumLpgb;
+  const grandSteam = totNgSteam + totLpgSteam;
 
-  const deptSummary = BOILER_DEPTS.map(dept => {
-    const k = dept.toLowerCase();
-    const baseVal = deptSums[k];
-    const effectiveVal = k === 'finishing' ? (baseVal + stenter12h) : baseVal;
-    const ratio = totalDeptUnits > 0 ? (effectiveVal / totalDeptUnits) : 0;
+  let deptFinalTotals = {};
+  let totalAllDeptsSteam = 0;
+  BOILER_DEPTS.forEach(d => {
+    const k = d.toLowerCase();
+    const val = deptHourlySums[k] + (k === 'finishing' ? stenter12h : 0);
+    deptFinalTotals[k] = val;
+    totalAllDeptsSteam += val;
+  });
+
+  const deptSummary = BOILER_DEPTS.map(d => {
+    const k = d.toLowerCase();
+    const steamTon = deptFinalTotals[k];
+    const ratio = totalAllDeptsSteam > 0 ? (steamTon / totalAllDeptsSteam) : 0;
     return {
-      dept,
-      shareVal: effectiveVal,
-      steamShare: (ratio * totalSteamAll).toFixed(2),
-      ngCostShare: Math.round(ratio * ngCost),
-      lpgCostShare: Math.round(ratio * lpgCost),
-      totCost: Math.round(ratio * grandCost),
-      pct: (ratio * 100).toFixed(2)
+      dept: d,
+      steamTon,
+      pct: (ratio * 100).toFixed(2),
+      ngShare: (ratio * ngCons).toFixed(1),
+      lpgShare: (ratio * lpgCons).toFixed(1),
+      totCost: Math.round(ratio * grandCost)
     };
   });
 
   return {
-    rows, ngCons, lpgCons, ngCost, lpgCost, grandCost,
-    sumNgSteam, sumLpgSteam, totalSteamAll, stenter12h,
-    deptSums, totalDeptUnits, deptSummary
+    rows, ngCons, lpgCons, ngRate, lpgRate, ngCost, lpgCost, grandCost,
+    sumNgb1, sumNgb2, sumNgb3, sumEgb1, sumEgb2, sumLpgb,
+    totNgSteam, totLpgSteam, grandSteam,
+    deptHourlySums, stenter12h, deptFinalTotals, totalAllDeptsSteam, deptSummary
   };
 }
 
@@ -4222,34 +4197,33 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
         <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
-        <h3>Boiler Hourly Steam Production & Cost Analysis</h3>
+        <h3>Boiler Steam Generation & Department Cost Analysis</h3>
         <span>${shiftLabel} &bull; Date: ${dateStr}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
     </div>
 
     <div class="kpi-strip">
-      <div class="kpi-item"><div class="k-lbl">NG Used & Steam</div><div class="k-val">${data.ngCons.toLocaleString()} m³ (${data.sumNgSteam.toFixed(2)} T)</div></div>
-      <div class="kpi-item"><div class="k-lbl">LPG Used & Steam</div><div class="k-val">${data.lpgCons.toLocaleString()} Kg (${data.sumLpgSteam.toFixed(2)} T)</div></div>
-      <div class="kpi-item"><div class="k-lbl">Total Steam Generated</div><div class="k-val">${data.totalSteamAll.toFixed(2)} Ton</div></div>
-      <div class="kpi-item"><div class="k-lbl">Finishing Stenter (12h)</div><div class="k-val">${data.stenter12h.toLocaleString()}</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Total Shift Fuel Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Cost / Ton Steam</div><div class="k-val">৳ ${data.totalSteamAll > 0 ? (data.grandCost / data.totalSteamAll).toFixed(2) : '0.00'}</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Steam Gen</div><div class="k-val">${data.grandSteam.toFixed(2)} Ton</div></div>
+      <div class="kpi-item"><div class="k-lbl">NG + E.G Steam</div><div class="k-val">${data.totNgSteam.toFixed(2)} Ton</div></div>
+      <div class="kpi-item"><div class="k-lbl">LPG Steam</div><div class="k-val">${data.totLpgSteam.toFixed(2)} Ton</div></div>
+      <div class="kpi-item"><div class="k-lbl">NG / LPG Used</div><div class="k-val">${data.ngCons.toLocaleString()} m³ / ${data.lpgCons.toLocaleString()} Kg</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Total Shift Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Avg. Cost / Ton</div><div class="k-val">৳ ${data.grandSteam > 0 ? Math.round(data.grandCost / data.grandSteam).toLocaleString() : 0}</div></div>
     </div>
 
     <table class="clean-rep-table">
       <thead>
         <tr>
-          <th colspan="7" class="grp-gen">Natural Gas Boiler Operation</th>
-          <th colspan="6" class="grp-cost">LPG Boiler & Total Steam</th>
-          <th colspan="${BOILER_DEPTS.length}" class="grp-dept">Department Steam Share</th>
-          <th colspan="4" class="grp-sum">Dept Cost Summary</th>
+          <th colspan="8" class="grp-gen">Boiler Steam Generation (Ton)</th>
+          <th colspan="${BOILER_DEPTS.length}" class="grp-dept">Department-Wise Steam Consumption (Ton)</th>
+          <th colspan="5" class="grp-sum">Department-Wise Shift Cost Summary</th>
         </tr>
         <tr>
-          <th class="sub-gen">Time</th><th class="sub-gen">Pre B</th><th class="sub-gen">Pre A</th><th class="sub-gen">Run</th><th class="sub-gen">Fire%</th><th class="sub-gen">Press</th><th class="sub-gen">NG Stm</th>
-          <th class="sub-cost">Stop</th><th class="sub-cost">Run</th><th class="sub-cost">Fire%</th><th class="sub-cost">Press</th><th class="sub-cost">LPG Stm</th><th class="sub-cost">Tot Stm</th>
+          <th class="sub-gen">Time</th><th class="sub-gen">NG-B1</th><th class="sub-gen">NG-B2</th><th class="sub-gen">NG-B3</th>
+          <th class="sub-gen">E.G-B1</th><th class="sub-gen">E.G-B2</th><th class="sub-gen">LPG-B</th><th class="sub-gen">Tot Steam</th>
           ${BOILER_DEPTS.map(d => `<th class="sub-dept">${d}</th>`).join('')}
-          <th class="sub-sum">Dept</th><th class="sub-sum">Steam(T)</th><th class="sub-sum">NG Tk</th><th class="sub-sum">Tot Tk</th>
+          <th class="sub-sum">Department</th><th class="sub-sum">Steam(T)</th><th class="sub-sum">NG(m³)</th><th class="sub-sum">LPG(Kg)</th><th class="sub-sum">Cost(Tk)</th>
         </tr>
       </thead>
       <tbody>`;
@@ -4259,48 +4233,56 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
     const ds = data.deptSummary[i];
     html += `<tr>
       <td class="col-highlight">${r.time}</td>
-      <td>${r.preb}</td><td>${r.prea}</td><td>${r.brun}</td><td>${r.fire}</td><td>${r.spress}</td><td class="col-highlight">${r.ngst.toFixed(2)}</td>
-      <td>${r.lstop}</td><td>${r.lrun}</td><td>${r.lfire}</td><td>${r.lpress}</td><td class="col-highlight">${r.lpgst.toFixed(2)}</td><td class="col-highlight">${r.totSteam.toFixed(2)}</td>
+      <td>${r.ngb1}</td><td>${r.ngb2}</td><td>${r.ngb3}</td>
+      <td>${r.egb1}</td><td>${r.egb2}</td><td>${r.lpgb}</td>
+      <td class="col-highlight">${r.totSteam.toFixed(2)}</td>
       ${BOILER_DEPTS.map(d => `<td>${r.dVals[d.toLowerCase()]}</td>`).join('')}
       ${ds ? `
         <td class="col-sum-cell" style="text-align:left; padding-left:4px;">${ds.dept}</td>
-        <td class="col-sum-cell">${ds.steamShare}</td>
-        <td class="col-sum-cell">${ds.ngCostShare.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.steamTon.toFixed(2)}</td>
+        <td class="col-sum-cell">${ds.ngShare}</td>
+        <td class="col-sum-cell">${ds.lpgShare}</td>
         <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
-      ` : `<td></td><td></td><td></td><td></td>`}
+      ` : `<td class="blank-summary-cell"></td><td class="blank-summary-cell"></td><td class="blank-summary-cell"></td><td class="blank-summary-cell"></td><td class="blank-summary-cell"></td>`}
     </tr>`;
   }
 
   html += `
     <tr class="total-row">
-      <td colspan="6">TOTAL STEAM (TON):</td>
-      <td>${data.sumNgSteam.toFixed(2)}</td>
-      <td colspan="4">LPG & TOTAL:</td>
-      <td>${data.sumLpgSteam.toFixed(2)}</td>
-      <td>${data.totalSteamAll.toFixed(2)}</td>
-      ${BOILER_DEPTS.map(d => {
-        const k = d.toLowerCase();
-        const val = k === 'finishing' ? `${data.deptSums[k]} (+${data.stenter12h})` : data.deptSums[k];
-        return `<td>${val}</td>`;
-      }).join('')}
+      <td>STENTER (12H):</td>
+      <td colspan="7" style="text-align:left; padding-left:6px; color:#14452f;">Finishing Stenter 12-Hour Steam = ${data.stenter12h.toFixed(2)} Ton</td>
+      ${BOILER_DEPTS.map(d => `<td>${d.toLowerCase() === 'finishing' ? data.stenter12h.toFixed(2) : '-'}</td>`).join('')}
+      <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+    </tr>
+    <tr class="total-row">
+      <td>TOTAL:</td>
+      <td>${data.sumNgb1.toFixed(1)}</td><td>${data.sumNgb2.toFixed(1)}</td><td>${data.sumNgb3.toFixed(1)}</td>
+      <td>${data.sumEgb1.toFixed(1)}</td><td>${data.sumEgb2.toFixed(1)}</td><td>${data.sumLpgb.toFixed(1)}</td>
+      <td>${data.grandSteam.toFixed(2)}</td>
+      ${BOILER_DEPTS.map(d => `<td>${data.deptFinalTotals[d.toLowerCase()].toFixed(2)}</td>`).join('')}
       <td>TOTAL</td>
-      <td>${data.totalSteamAll.toFixed(2)}</td>
-      <td>${data.ngCost.toLocaleString()}</td>
+      <td>${data.totalAllDeptsSteam.toFixed(2)}</td>
+      <td>${data.ngCons.toLocaleString()}</td>
+      <td>${data.lpgCons.toLocaleString()}</td>
       <td style="color:#9a3412;">৳ ${data.grandCost.toLocaleString()}</td>
     </tr>
     <tr class="pct-row">
-      <td colspan="13">DEPARTMENT STEAM SHARE % (INCLUDES 12H STENTER IN FINISHING):</td>
+      <td>SHARE %:</td>
+      <td>${data.grandSteam > 0 ? ((data.sumNgb1 / data.grandSteam) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandSteam > 0 ? ((data.sumNgb2 / data.grandSteam) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandSteam > 0 ? ((data.sumNgb3 / data.grandSteam) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandSteam > 0 ? ((data.sumEgb1 / data.grandSteam) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandSteam > 0 ? ((data.sumEgb2 / data.grandSteam) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandSteam > 0 ? ((data.sumLpgb / data.grandSteam) * 100).toFixed(1) : 0}%</td>
+      <td>100%</td>
       ${data.deptSummary.map(ds => `<td>${ds.pct}%</td>`).join('')}
-      <td>SHARE</td>
-      <td>100%</td>
-      <td>100%</td>
-      <td>100%</td>
+      <td>SHARE</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td>
     </tr>
   </tbody></table>
 
   <div class="rep-charts">
     <div class="rep-chart-card"><h4>Hourly Total Steam Generation (Ton)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
-    <div class="rep-chart-card"><h4>Department-Wise Total Steam Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+    <div class="rep-chart-card"><h4>Department-Wise Steam Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
   </div>
 
   <div class="rep-footer">
@@ -4314,7 +4296,7 @@ function createBoilerReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
 }
 
 function buildBoilerReport(mode = 'separate') {
-  document.body.classList.remove('print-mode-separate', 'print-mode-combined');
+  document.body.classList.remove('print-mode-separate', 'print-mode-combined', 'print-mode-gas');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
   activeCharts.forEach(c => c.destroy());
@@ -4368,13 +4350,17 @@ function downloadBoilerExcelSheet() {
   const dayB = computeBoilerShift('day', DAY_HOURS);
   const nightB = computeBoilerShift('night', NIGHT_HOURS);
   const rows = [
-    ["P.N. COMPOSITE LTD. - Boiler Hourly Report"],
+    ["P.N. COMPOSITE LTD. - Boiler Steam & Cost Report"],
     ["Report Date", dateVal],
-    ["Day NG Steam (Ton)", dayB.sumNgSteam, "Day LPG Steam (Ton)", dayB.sumLpgSteam, "Day Total Cost", dayB.grandCost],
-    ["Night NG Steam (Ton)", nightB.sumNgSteam, "Night LPG Steam (Ton)", nightB.sumLpgSteam, "Night Total Cost", nightB.grandCost]
+    ["Day Total Steam (Ton)", dayB.grandSteam.toFixed(2), "Day Cost (Tk)", dayB.grandCost, "Day Finishing Stenter (12H)", dayB.stenter12h],
+    ["Night Total Steam (Ton)", nightB.grandSteam.toFixed(2), "Night Cost (Tk)", nightB.grandCost, "Night Finishing Stenter (12H)", nightB.stenter12h],
+    [],
+    ["Shift", "Time", "NG-B1", "NG-B2", "NG-B3", "E.G-B1", "E.G-B2", "LPG-B", "Tot Steam", ...BOILER_DEPTS]
   ];
-  const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  dayB.rows.forEach(r => rows.push(["Day", r.time, r.ngb1, r.ngb2, r.ngb3, r.egb1, r.egb2, r.lpgb, r.totSteam, ...BOILER_DEPTS.map(d => r.dVals[d.toLowerCase()])]));
+  nightB.rows.forEach(r => rows.push(["Night", r.time, r.ngb1, r.ngb2, r.ngb3, r.egb1, r.egb2, r.lpgb, r.totSteam, ...BOILER_DEPTS.map(d => r.dVals[d.toLowerCase()])]));
+  const csv = "\uFEFF" + rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n");
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -4385,8 +4371,95 @@ function downloadBoilerExcelSheet() {
   URL.revokeObjectURL(url);
 }
 
-/* ================= GENERATOR ENTRY GRID (WITH T-kW COLUMN) ================= */
-function renderGrid(shift, hours) {
+/* ================= BOILER IMAGE SCANNER ================= */
+async function handleBoilerImageScan(event) {
+  const perms = getEffectivePermissions(currentActiveUser);
+  if (!(perms.canOpenCamera || perms.canUploadPhoto)) {
+    alert(currentLang === "bn" ? "স্ক্যান বা ছবি আপলোডের পারমিশন চালু নেই।" : "Camera Scan / Photo Upload permission is not enabled.");
+    return;
+  }
+  const file = event.target.files[0];
+  if (!file) return;
+  const modal = document.getElementById('boiler-scan-modal');
+  const statusEl = document.getElementById('boilerScanStatusText');
+  modal.style.display = 'block';
+  statusEl.textContent = "Processing boiler logsheet image...";
+
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    document.getElementById('boilerScannedImgPreview').src = e.target.result;
+    try {
+      const result = await Tesseract.recognize(e.target.result, 'eng');
+      const lines = result.data.text.split('\n').map(l => l.trim()).filter(Boolean);
+      const hoursList = currentBoilerShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
+      boilerScannedDraft = [];
+
+      for (let i = 0; i < 12; i++) {
+        let nums = [];
+        for (let ln of lines) {
+          if (ln.toLowerCase().includes(hoursList[i].split(':')[0])) {
+            const matches = ln.match(/\d+(\.\d+)?/g);
+            if (matches && matches.length >= 2) {
+              nums = matches.map(Number);
+              break;
+            }
+          }
+        }
+        boilerScannedDraft.push({
+          time: hoursList[i],
+          ngb1: nums[1] || 0,
+          ngb2: nums[2] || 0,
+          ngb3: nums[3] || 0,
+          egb1: nums[4] || 0,
+          egb2: nums[5] || 0,
+          lpgb: nums[6] || 0
+        });
+      }
+      renderBoilerParsedTable();
+      statusEl.textContent = "Scan complete. Verify values and click Auto-Fill Boiler Shift.";
+    } catch (err) {
+      statusEl.textContent = "OCR failed. Enter values manually in preview table.";
+    }
+  };
+  reader.readAsDataURL(file);
+  event.target.value = "";
+}
+
+function renderBoilerParsedTable() {
+  let html = `<table class="parsed-table"><thead><tr><th>Time</th><th>NG-B1</th><th>NG-B2</th><th>NG-B3</th><th>E.G-B1</th><th>E.G-B2</th><th>LPG-B</th></tr></thead><tbody>`;
+  boilerScannedDraft.forEach((r, idx) => {
+    html += `<tr>
+      <td><strong>${r.time}</strong></td>
+      <td><input type="number" step="any" value="${r.ngb1}" onchange="boilerScannedDraft[${idx}].ngb1=parseFloat(this.value)||0"></td>
+      <td><input type="number" step="any" value="${r.ngb2}" onchange="boilerScannedDraft[${idx}].ngb2=parseFloat(this.value)||0"></td>
+      <td><input type="number" step="any" value="${r.ngb3}" onchange="boilerScannedDraft[${idx}].ngb3=parseFloat(this.value)||0"></td>
+      <td><input type="number" step="any" value="${r.egb1}" onchange="boilerScannedDraft[${idx}].egb1=parseFloat(this.value)||0"></td>
+      <td><input type="number" step="any" value="${r.egb2}" onchange="boilerScannedDraft[${idx}].egb2=parseFloat(this.value)||0"></td>
+      <td><input type="number" step="any" value="${r.lpgb}" onchange="boilerScannedDraft[${idx}].lpgb=parseFloat(this.value)||0"></td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  document.getElementById('boilerParsedTableContainer').innerHTML = html;
+}
+
+function applyBoilerScannedRows() {
+  const p = `b_${currentBoilerShift}`;
+  boilerScannedDraft.forEach((r, i) => {
+    document.getElementById(`${p}_ngb1_${i}`).value = r.ngb1;
+    document.getElementById(`${p}_ngb2_${i}`).value = r.ngb2;
+    document.getElementById(`${p}_ngb3_${i}`).value = r.ngb3;
+    document.getElementById(`${p}_egb1_${i}`).value = r.egb1;
+    document.getElementById(`${p}_egb2_${i}`).value = r.egb2;
+    document.getElementById(`${p}_lpgb_${i}`).value = r.lpgb;
+  });
+  recalcBoilerShift(currentBoilerShift);
+  broadcastLiveEntry("boiler");
+  triggerBoilerAutoSave();
+  document.getElementById('boiler-scan-modal').style.display = 'none';
+}
+
+/* ================= GENERATOR ENTRY TABLE (WITH T-kW COLUMN) ================= */
+function renderEntryGrid(shift, hours) {
   let html = `<table class="entry-grid">
     <thead>
       <tr>
@@ -4398,10 +4471,10 @@ function renderGrid(shift, hours) {
         <th>GG-3<br>(kW)</th>
         <th>DG-ETP<br>(kW)</th>
         <th>DG-Wsh<br>(kW)</th>
-        <th>DG-Rn<br>(kW)</th>
+        <th>DG-Rnt<br>(kW)</th>
         <th class="lpg-th">T-kW<br>(Auto)</th>
         ${DEPARTMENTS.map(d => `<th class="dept-th">${d.label}<br>(kW)</th>`).join('')}
-        <th class="dept-th">T.Load<br>(kW)</th>
+        <th>T-Load<br>(Auto)</th>
       </tr>
     </thead>
     <tbody>`;
@@ -4409,16 +4482,16 @@ function renderGrid(shift, hours) {
   hours.forEach((time, idx) => {
     html += `<tr>
       <td><strong>${time}</strong></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_mbar_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_mbar_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
       <td><input type="number" id="${shift}_psi_${idx}" readonly value="0.00"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg1_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg2_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg3_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgetp_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgwash_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
-      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgrent_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg1_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg2_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_gg3_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgetp_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgwash_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
+      <td><input type="number" inputmode="decimal" step="any" id="${shift}_dgrent_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>
       <td><input type="number" id="${shift}_tkw_${idx}" readonly value="0"></td>
-      ${DEPARTMENTS.map(d => `<td><input type="number" inputmode="decimal" step="any" id="${shift}_${d.key}_${idx}" oninput="recalcRow('${shift}', ${idx}); triggerAutoSave();" value="0"></td>`).join('')}
+      ${DEPARTMENTS.map(d => `<td><input type="number" inputmode="decimal" step="any" id="${shift}_d_${d.key}_${idx}" oninput="recalcRow('${shift}', ${idx})" value="0"></td>`).join('')}
       <td><input type="number" id="${shift}_tload_${idx}" readonly value="0"></td>
     </tr>`;
   });
@@ -4428,37 +4501,29 @@ function renderGrid(shift, hours) {
 }
 
 function recalcRow(shift, idx) {
-  const mbarEl = document.getElementById(`${shift}_mbar_${idx}`);
-  const psiEl = document.getElementById(`${shift}_psi_${idx}`);
-  if (mbarEl && psiEl) {
-    const mbar = parseFloat(mbarEl.value) || 0;
-    psiEl.value = (mbar * 0.0145038).toFixed(2);
-  }
+  const mbar = parseFloat(document.getElementById(`${shift}_mbar_${idx}`).value) || 0;
+  document.getElementById(`${shift}_psi_${idx}`).value = (mbar * 0.0145038).toFixed(2);
 
-  const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`)?.value) || 0;
-  const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`)?.value) || 0;
-  const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`)?.value) || 0;
-  const dgetp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`)?.value) || 0;
-  const dgwash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`)?.value) || 0;
-  const dgrent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`)?.value) || 0;
-
+  const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
+  const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
+  const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
+  const dgetp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
+  const dgwash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
+  const dgrent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
   const tkwEl = document.getElementById(`${shift}_tkw_${idx}`);
-  if (tkwEl) {
-    tkwEl.value = Math.round(gg1 + gg2 + gg3 + dgetp + dgwash + dgrent);
-  }
+  if (tkwEl) tkwEl.value = (gg1 + gg2 + gg3 + dgetp + dgwash + dgrent);
 
-  let sum = 0;
+  let loadSum = 0;
   DEPARTMENTS.forEach(d => {
-    sum += parseFloat(document.getElementById(`${shift}_${d.key}_${idx}`).value) || 0;
+    loadSum += parseFloat(document.getElementById(`${shift}_d_${d.key}_${idx}`).value) || 0;
   });
-  document.getElementById(`${shift}_tload_${idx}`).value = Math.round(sum);
+  document.getElementById(`${shift}_tload_${idx}`).value = loadSum;
 }
 
 function updateTotalKwh(shift) {
   const dg = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
   const gg = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
   document.getElementById(`${shift}_total_kwh`).value = dg + gg;
-  triggerAutoSave();
 }
 
 function switchShift(shift, btn) {
@@ -4469,319 +4534,270 @@ function switchShift(shift, btn) {
   document.getElementById('panel-night').style.display = shift === 'night' ? 'block' : 'none';
 }
 
-/* ================= GENERATOR CAMERA / PHOTO SCAN ================= */
-function closeScanModal() {
-  document.getElementById('scan-modal').style.display = 'none';
-}
-
+/* ================= GENERATOR CAMERA / GALLERY SCAN & OCR ================= */
 async function handleImageScan(event) {
   const perms = getEffectivePermissions(currentActiveUser);
-  if (event.target.id === "cameraInput" && !perms.canOpenCamera) { alert("Camera permission is not enabled."); return; }
-  if (event.target.id === "galleryInput" && !perms.canUploadPhoto) { alert("Upload Photo permission is not enabled."); return; }
-
+  if (!(perms.canOpenCamera || perms.canUploadPhoto)) {
+    alert(currentLang === "bn" ? "স্ক্যান বা ছবি আপলোডের পারমিশন চালু নেই।" : "Camera Scan / Photo Upload permission is not enabled.");
+    return;
+  }
   const file = event.target.files[0];
   if (!file) return;
 
+  const modal = document.getElementById('scan-modal');
+  const previewImg = document.getElementById('scannedImgPreview');
+  const statusEl = document.getElementById('scanStatusText');
+  modal.style.display = 'block';
+  statusEl.textContent = "Processing image with OCR... please wait.";
+
   const reader = new FileReader();
   reader.onload = async function(e) {
-    const imgDataUrl = e.target.result;
-    document.getElementById('scannedImgPreview').src = imgDataUrl;
-    document.getElementById('scan-modal').style.display = 'block';
-    document.getElementById('scanStatusText').textContent = 'Scanning logsheet titles & hourly rows...';
-
-    const hours = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
-    scannedRowsDraft = hours.map((t, i) => ({
-      time: t,
-      mbar: parseFloat(document.getElementById(`${currentActiveShift}_mbar_${i}`).value) || 0,
-      gg1: parseFloat(document.getElementById(`${currentActiveShift}_gg1_${i}`).value) || 0,
-      gg2: parseFloat(document.getElementById(`${currentActiveShift}_gg2_${i}`).value) || 0,
-      gg3: parseFloat(document.getElementById(`${currentActiveShift}_gg3_${i}`).value) || 0,
-      dgetp: parseFloat(document.getElementById(`${currentActiveShift}_dgetp_${i}`).value) || 0,
-      dgwash: parseFloat(document.getElementById(`${currentActiveShift}_dgwash_${i}`).value) || 0,
-      dgrent: parseFloat(document.getElementById(`${currentActiveShift}_dgrent_${i}`).value) || 0,
-      rmg: parseFloat(document.getElementById(`${currentActiveShift}_rmg_${i}`).value) || 0,
-      utility: parseFloat(document.getElementById(`${currentActiveShift}_utility_${i}`).value) || 0,
-      dyeing: parseFloat(document.getElementById(`${currentActiveShift}_dyeing_${i}`).value) || 0,
-      finishing: parseFloat(document.getElementById(`${currentActiveShift}_finishing_${i}`).value) || 0,
-      aop: parseFloat(document.getElementById(`${currentActiveShift}_aop_${i}`).value) || 0,
-      oval: parseFloat(document.getElementById(`${currentActiveShift}_oval_${i}`).value) || 0,
-      office: parseFloat(document.getElementById(`${currentActiveShift}_office_${i}`).value) || 0,
-      washing: parseFloat(document.getElementById(`${currentActiveShift}_washing_${i}`).value) || 0,
-      knitting: parseFloat(document.getElementById(`${currentActiveShift}_knitting_${i}`).value) || 0,
-      other: parseFloat(document.getElementById(`${currentActiveShift}_other_${i}`).value) || 0
-    }));
-
+    previewImg.src = e.target.result;
     try {
-      const result = await Tesseract.recognize(imgDataUrl, 'eng');
-      const rawText = result.data.text || '';
-      const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
-
-      if (/Load|RMG|Dyeing|Finishing|AOP|Oval|Knitting/i.test(rawText) && !/GG-1|GG-2|M-Bar/i.test(rawText)) {
-        document.getElementById('scanTargetSection').value = 'dept';
-      } else {
-        document.getElementById('scanTargetSection').value = 'gen';
-      }
-
-      const targetSec = document.getElementById('scanTargetSection').value;
-
-      lines.forEach(line => {
-        const hourMatch = line.match(/\b(1[0-2]|[1-9])\s*[:.]\s*00\b/i);
-        const nums = line.match(/\b\d+(\.\d+)?\b/g);
-        if (hourMatch && nums && nums.length >= 2) {
-          const hVal = parseInt(hourMatch[1], 10);
-          const idx = hours.findIndex(h => parseInt(h, 10) === hVal);
-          if (idx !== -1) {
-            const vals = nums.map(Number).filter((_, i) => i > 0);
-            if (targetSec === 'gen') {
-              if (vals[0] !== undefined) scannedRowsDraft[idx].mbar = vals[0];
-              if (vals[1] !== undefined) scannedRowsDraft[idx].gg1 = vals[1];
-              if (vals[2] !== undefined) scannedRowsDraft[idx].gg2 = vals[2];
-              if (vals[3] !== undefined) scannedRowsDraft[idx].gg3 = vals[3];
-              if (vals[4] !== undefined) scannedRowsDraft[idx].dgetp = vals[4];
-              if (vals[5] !== undefined) scannedRowsDraft[idx].dgwash = vals[5];
-              if (vals[6] !== undefined) scannedRowsDraft[idx].dgrent = vals[6];
-            } else {
-              const deptKeys = ['rmg','utility','dyeing','finishing','aop','oval','office','washing','knitting','other'];
-              deptKeys.forEach((dk, di) => {
-                if (vals[di] !== undefined) scannedRowsDraft[idx][dk] = vals[di];
-              });
-            }
-          }
-        }
-      });
-
-      document.getElementById('scanStatusText').textContent = 'Scan complete! Select section and verify values below.';
+      const result = await Tesseract.recognize(e.target.result, 'eng');
+      parseOcrTextToRows(result.data.text);
+      statusEl.textContent = "Scan complete. Review & edit values below, then click 'Auto-Fill Section'.";
     } catch (err) {
-      document.getElementById('scanStatusText').textContent = 'Image loaded. Verify or adjust values below.';
+      statusEl.textContent = "Could not auto-read text clearly. Enter/edit values manually in table below.";
+      initEmptyDraftRows();
     }
-
-    renderParsedDraftTable();
   };
   reader.readAsDataURL(file);
-  event.target.value = '';
+  event.target.value = "";
+}
+
+function initEmptyDraftRows() {
+  const hoursList = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
+  scannedRowsDraft = hoursList.map(t => ({
+    time: t, mbar: 0, gg1: 0, gg2: 0, gg3: 0, dgetp: 0, dgwash: 0, dgrent: 0,
+    rmg: 0, utility: 0, dyeing: 0, finishing: 0, aop: 0, oval: 0, office: 0, washing: 0, knitting: 0, other: 0
+  }));
+  renderParsedDraftTable();
+}
+
+function parseOcrTextToRows(rawText) {
+  const hoursList = currentActiveShift === 'day' ? DAY_HOURS : NIGHT_HOURS;
+  const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+  scannedRowsDraft = [];
+
+  for (let i = 0; i < 12; i++) {
+    const hourPrefix = hoursList[i].split(':')[0];
+    let matchedNumbers = [];
+    for (let line of lines) {
+      if (line.toLowerCase().includes(hourPrefix + ':') || line.toLowerCase().startsWith(hourPrefix + ' ')) {
+        const nums = line.match(/\d+(\.\d+)?/g);
+        if (nums && nums.length >= 2) {
+          matchedNumbers = nums.slice(1).map(Number);
+          break;
+        }
+      }
+    }
+    scannedRowsDraft.push({
+      time: hoursList[i],
+      mbar: matchedNumbers[0] || 0,
+      gg1: matchedNumbers[1] || 0,
+      gg2: matchedNumbers[2] || 0,
+      gg3: matchedNumbers[3] || 0,
+      dgetp: matchedNumbers[4] || 0,
+      dgwash: matchedNumbers[5] || 0,
+      dgrent: matchedNumbers[6] || 0,
+      rmg: matchedNumbers[0] || 0,
+      utility: matchedNumbers[1] || 0,
+      dyeing: matchedNumbers[2] || 0,
+      finishing: matchedNumbers[3] || 0,
+      aop: matchedNumbers[4] || 0,
+      oval: matchedNumbers[5] || 0,
+      office: matchedNumbers[6] || 0,
+      washing: matchedNumbers[7] || 0,
+      knitting: matchedNumbers[8] || 0,
+      other: matchedNumbers[9] || 0
+    });
+  }
+  renderParsedDraftTable();
 }
 
 function renderParsedDraftTable() {
   const sec = document.getElementById('scanTargetSection').value;
+  let html = '<table class="parsed-table"><thead><tr><th>Time</th>';
   if (sec === 'gen') {
-    document.getElementById('parsedTableContainer').innerHTML = `
-      <table class="parsed-table">
-        <thead>
-          <tr><th>Time</th><th>M-Bar</th><th>PSI (Auto)</th><th>GG-1</th><th>GG-2</th><th>GG-3</th><th>DG-ETP</th><th>DG-Wsh</th><th>DG-Rn</th></tr>
-        </thead>
-        <tbody>
-          ${scannedRowsDraft.map((r, i) => `
-            <tr>
-              <td><strong>${r.time}</strong></td>
-              <td><input type="number" step="any" value="${r.mbar}" onchange="scannedRowsDraft[${i}].mbar=parseFloat(this.value)||0; renderParsedDraftTable();"></td>
-              <td><strong>${(r.mbar * 0.0145038).toFixed(2)}</strong></td>
-              <td><input type="number" value="${r.gg1}" onchange="scannedRowsDraft[${i}].gg1=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.gg2}" onchange="scannedRowsDraft[${i}].gg2=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.gg3}" onchange="scannedRowsDraft[${i}].gg3=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.dgetp}" onchange="scannedRowsDraft[${i}].dgetp=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.dgwash}" onchange="scannedRowsDraft[${i}].dgwash=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.dgrent}" onchange="scannedRowsDraft[${i}].dgrent=parseFloat(this.value)||0"></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
+    html += '<th>M-Bar</th><th>GG-1</th><th>GG-2</th><th>GG-3</th><th>DG-ETP</th><th>DG-Wsh</th><th>DG-Rnt</th></tr></thead><tbody>';
+    scannedRowsDraft.forEach((r, idx) => {
+      html += `<tr>
+        <td><strong>${r.time}</strong></td>
+        <td><input type="number" step="any" value="${r.mbar}" onchange="scannedRowsDraft[${idx}].mbar=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.gg1}" onchange="scannedRowsDraft[${idx}].gg1=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.gg2}" onchange="scannedRowsDraft[${idx}].gg2=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.gg3}" onchange="scannedRowsDraft[${idx}].gg3=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.dgetp}" onchange="scannedRowsDraft[${idx}].dgetp=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.dgwash}" onchange="scannedRowsDraft[${idx}].dgwash=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.dgrent}" onchange="scannedRowsDraft[${idx}].dgrent=parseFloat(this.value)||0"></td>
+      </tr>`;
+    });
   } else {
-    document.getElementById('parsedTableContainer').innerHTML = `
-      <table class="parsed-table">
-        <thead>
-          <tr><th>Time</th><th>RMG</th><th>Util</th><th>Dye</th><th>Fin</th><th>AOP</th><th>Oval</th><th>Off</th><th>Wash</th><th>Knit</th><th>Oth</th></tr>
-        </thead>
-        <tbody>
-          ${scannedRowsDraft.map((r, i) => `
-            <tr>
-              <td><strong>${r.time}</strong></td>
-              <td><input type="number" value="${r.rmg}" onchange="scannedRowsDraft[${i}].rmg=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.utility}" onchange="scannedRowsDraft[${i}].utility=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.dyeing}" onchange="scannedRowsDraft[${i}].dyeing=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.finishing}" onchange="scannedRowsDraft[${i}].finishing=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.aop}" onchange="scannedRowsDraft[${i}].aop=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.oval}" onchange="scannedRowsDraft[${i}].oval=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.office}" onchange="scannedRowsDraft[${i}].office=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.washing}" onchange="scannedRowsDraft[${i}].washing=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.knitting}" onchange="scannedRowsDraft[${i}].knitting=parseFloat(this.value)||0"></td>
-              <td><input type="number" value="${r.other}" onchange="scannedRowsDraft[${i}].other=parseFloat(this.value)||0"></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
+    html += '<th>RMG</th><th>Utility</th><th>Dyeing</th><th>Finish</th><th>AOP</th><th>Oval</th><th>Office</th><th>Wash</th><th>Knit</th><th>Other</th></tr></thead><tbody>';
+    scannedRowsDraft.forEach((r, idx) => {
+      html += `<tr>
+        <td><strong>${r.time}</strong></td>
+        <td><input type="number" step="any" value="${r.rmg}" onchange="scannedRowsDraft[${idx}].rmg=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.utility}" onchange="scannedRowsDraft[${idx}].utility=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.dyeing}" onchange="scannedRowsDraft[${idx}].dyeing=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.finishing}" onchange="scannedRowsDraft[${idx}].finishing=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.aop}" onchange="scannedRowsDraft[${idx}].aop=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.oval}" onchange="scannedRowsDraft[${idx}].oval=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.office}" onchange="scannedRowsDraft[${idx}].office=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.washing}" onchange="scannedRowsDraft[${idx}].washing=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.knitting}" onchange="scannedRowsDraft[${idx}].knitting=parseFloat(this.value)||0"></td>
+        <td><input type="number" step="any" value="${r.other}" onchange="scannedRowsDraft[${idx}].other=parseFloat(this.value)||0"></td>
+      </tr>`;
+    });
   }
+  html += '</tbody></table>';
+  document.getElementById('parsedTableContainer').innerHTML = html;
 }
 
 document.getElementById('scanTargetSection').addEventListener('change', renderParsedDraftTable);
 
 function applyScannedDataToShift() {
-  const s = currentActiveShift;
   const sec = document.getElementById('scanTargetSection').value;
-
-  scannedRowsDraft.forEach((r, i) => {
+  const shift = currentActiveShift;
+  scannedRowsDraft.forEach((r, idx) => {
     if (sec === 'gen') {
-      document.getElementById(`${s}_mbar_${i}`).value = r.mbar;
-      document.getElementById(`${s}_gg1_${i}`).value = r.gg1;
-      document.getElementById(`${s}_gg2_${i}`).value = r.gg2;
-      document.getElementById(`${s}_gg3_${i}`).value = r.gg3;
-      document.getElementById(`${s}_dgetp_${i}`).value = r.dgetp;
-      document.getElementById(`${s}_dgwash_${i}`).value = r.dgwash;
-      document.getElementById(`${s}_dgrent_${i}`).value = r.dgrent;
+      document.getElementById(`${shift}_mbar_${idx}`).value = r.mbar;
+      document.getElementById(`${shift}_gg1_${idx}`).value = r.gg1;
+      document.getElementById(`${shift}_gg2_${idx}`).value = r.gg2;
+      document.getElementById(`${shift}_gg3_${idx}`).value = r.gg3;
+      document.getElementById(`${shift}_dgetp_${idx}`).value = r.dgetp;
+      document.getElementById(`${shift}_dgwash_${idx}`).value = r.dgwash;
+      document.getElementById(`${shift}_dgrent_${idx}`).value = r.dgrent;
     } else {
-      document.getElementById(`${s}_rmg_${i}`).value = r.rmg;
-      document.getElementById(`${s}_utility_${i}`).value = r.utility;
-      document.getElementById(`${s}_dyeing_${i}`).value = r.dyeing;
-      document.getElementById(`${s}_finishing_${i}`).value = r.finishing;
-      document.getElementById(`${s}_aop_${i}`).value = r.aop;
-      document.getElementById(`${s}_oval_${i}`).value = r.oval;
-      document.getElementById(`${s}_office_${i}`).value = r.office;
-      document.getElementById(`${s}_washing_${i}`).value = r.washing;
-      document.getElementById(`${s}_knitting_${i}`).value = r.knitting;
-      document.getElementById(`${s}_other_${i}`).value = r.other;
+      DEPARTMENTS.forEach(d => {
+        document.getElementById(`${shift}_d_${d.key}_${idx}`).value = r[d.key] || 0;
+      });
     }
-    recalcRow(s, i);
+    recalcRow(shift, idx);
   });
-
+  broadcastLiveEntry("generator");
   triggerAutoSave();
-  broadcastLiveEntry('generator');
   closeScanModal();
 }
 
-/* ================= EXCEL (.CSV) SHEET DOWNLOAD ================= */
-function downloadExcelSheet() {
-  if (!getEffectivePermissions(currentActiveUser).canDownloadExcel) { alert(currentLang === "bn" ? "এক্সেল ডাউনলোড পারমিশন চালু নেই।" : "Excel Download permission is not enabled."); return; }
-  const dateVal = document.getElementById('reportDate').value;
-  const ngRate = document.getElementById('ngRate').value;
-  const dgRate = document.getElementById('dgRate').value;
-
-  let csvRows = [
-    ["P.N. COMPOSITE LTD. - 529, Ambag, Nilnagar, Konabari, Gazipur"],
-    ["Report Date", dateVal, "NG Rate (Tk/m3)", ngRate, "Diesel Rate (Tk/Ltr)", dgRate],
-    []
-  ];
-
-  [
-    { key: 'day', title: 'DAY SHIFT (9:00 AM - 8:00 PM)', hours: DAY_HOURS },
-    { key: 'night', title: 'NIGHT SHIFT (9:00 PM - 8:00 AM)', hours: NIGHT_HOURS }
-  ].forEach(sh => {
-    const m = computeShiftMetrics(sh.key, sh.hours);
-    csvRows.push([sh.title]);
-    csvRows.push(["Diesel Cons (Ltr)", m.dgCons, "NG Cons (m3)", m.ngCons, "DG kWh", m.dgKwh, "GG kWh", m.ggKwh, "Total kWh", m.totalKwh]);
-    csvRows.push([
-      "Time", "M-Bar", "PSI", "GG-1 (kW)", "GG-2 (kW)", "GG-3 (kW)", "DG-ETP (kW)", "DG-Wsh (kW)", "DG-Rn (kW)", "T-kW",
-      "RMG", "Utility", "Dyeing", "Finishing", "AOP", "Oval", "Office", "Washing", "Knitting", "Other", "Total Load (kW)"
-    ]);
-    m.rows.forEach(r => {
-      csvRows.push([
-        r.time, r.mbar, r.psi.toFixed(2), r.gg1, r.gg2, r.gg3, r.dgetp, r.dgwash, r.dgrent, r.tKw,
-        r.depts.rmg, r.depts.utility, r.depts.dyeing, r.depts.finishing, r.depts.aop,
-        r.depts.oval, r.depts.office, r.depts.washing, r.depts.knitting, r.depts.other, r.tLoad
-      ]);
-    });
-    csvRows.push([
-      "TOTAL", "", "",
-      m.genTotals.gg1, m.genTotals.gg2, m.genTotals.gg3, m.genTotals.dgetp, m.genTotals.dgwash, m.genTotals.dgrent, m.genTotals.tKw,
-      m.deptTotals.rmg, m.deptTotals.utility, m.deptTotals.dyeing, m.deptTotals.finishing, m.deptTotals.aop,
-      m.deptTotals.oval, m.deptTotals.office, m.deptTotals.washing, m.deptTotals.knitting, m.deptTotals.other, m.grandLoadTotal
-    ]);
-    csvRows.push([]);
-    csvRows.push(["Department", "Total kW", "Share %", "kWh Share", "NG Cost (Tk)", "Diesel Cost (Tk)", "Total Cost (Tk)"]);
-    m.deptSummary.forEach(ds => {
-      csvRows.push([ds.label, ds.totKw, ds.pct + "%", ds.kwhShare, ds.ngCostShare, ds.dgCostShare, ds.totCost]);
-    });
-    csvRows.push(["TOTAL", m.grandLoadTotal, "100%", m.totalKwh, m.ngCost, m.dgCost, m.grandCost]);
-    csvRows.push([]);
-  });
-
-  const csvContent = "\uFEFF" + csvRows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `PN_Composite_Utility_Report_${dateVal}.csv`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+function closeScanModal() {
+  document.getElementById('scan-modal').style.display = 'none';
 }
 
-/* ================= GENERATOR CALCULATIONS & REPORT ================= */
+/* ================= GENERATOR COMPUTE & EXCEL ================= */
 function computeShiftMetrics(shift, hours) {
   const ngRate = parseFloat(document.getElementById('ngRate').value) || 0;
   const dgRate = parseFloat(document.getElementById('dgRate').value) || 0;
-
   const dgCons = parseFloat(document.getElementById(`${shift}_dg_cons`).value) || 0;
   const ngCons = parseFloat(document.getElementById(`${shift}_ng_cons`).value) || 0;
   const dgKwh = parseFloat(document.getElementById(`${shift}_dg_kwh`).value) || 0;
   const ggKwh = parseFloat(document.getElementById(`${shift}_gg_kwh`).value) || 0;
   const totalKwh = dgKwh + ggKwh;
 
-  const ngCost = Math.round(ngCons * ngRate);
-  const dgCost = Math.round(dgCons * dgRate);
-  const grandCost = ngCost + dgCost;
+  const dgCost = dgCons * dgRate;
+  const ngCost = ngCons * ngRate;
+  const grandCost = Math.round(dgCost + ngCost);
 
   let rows = [];
-  let genTotals = { gg1: 0, gg2: 0, gg3: 0, dgetp: 0, dgwash: 0, dgrent: 0, tKw: 0 };
-  let deptTotals = {};
-  DEPARTMENTS.forEach(d => deptTotals[d.key] = 0);
-  let grandLoadTotal = 0;
+  let sumMbar = 0, sumPsi = 0, sumGg1 = 0, sumGg2 = 0, sumGg3 = 0, sumDgetp = 0, sumDgwash = 0, sumDgrent = 0, sumTkw = 0;
+  let deptSums = {};
+  DEPARTMENTS.forEach(d => deptSums[d.key] = 0);
 
   hours.forEach((time, idx) => {
     const mbar = parseFloat(document.getElementById(`${shift}_mbar_${idx}`).value) || 0;
-    const psi = mbar * 0.0145038;
+    const psi = parseFloat((mbar * 0.0145038).toFixed(2));
     const gg1 = parseFloat(document.getElementById(`${shift}_gg1_${idx}`).value) || 0;
     const gg2 = parseFloat(document.getElementById(`${shift}_gg2_${idx}`).value) || 0;
     const gg3 = parseFloat(document.getElementById(`${shift}_gg3_${idx}`).value) || 0;
     const dgetp = parseFloat(document.getElementById(`${shift}_dgetp_${idx}`).value) || 0;
     const dgwash = parseFloat(document.getElementById(`${shift}_dgwash_${idx}`).value) || 0;
     const dgrent = parseFloat(document.getElementById(`${shift}_dgrent_${idx}`).value) || 0;
-    const tKw = Math.round(gg1 + gg2 + gg3 + dgetp + dgwash + dgrent);
+    const tkw = gg1 + gg2 + gg3 + dgetp + dgwash + dgrent;
 
-    genTotals.gg1 += gg1;
-    genTotals.gg2 += gg2;
-    genTotals.gg3 += gg3;
-    genTotals.dgetp += dgetp;
-    genTotals.dgwash += dgwash;
-    genTotals.dgrent += dgrent;
-    genTotals.tKw += tKw;
+    sumMbar += mbar; sumPsi += psi; sumGg1 += gg1; sumGg2 += gg2; sumGg3 += gg3;
+    sumDgetp += dgetp; sumDgwash += dgwash; sumDgrent += dgrent; sumTkw += tkw;
 
-    let depts = {};
-    let rowLoad = 0;
+    let dVals = {};
+    let tLoad = 0;
     DEPARTMENTS.forEach(d => {
-      const val = parseFloat(document.getElementById(`${shift}_${d.key}_${idx}`).value) || 0;
-      depts[d.key] = val;
-      deptTotals[d.key] += val;
-      rowLoad += val;
+      const val = parseFloat(document.getElementById(`${shift}_d_${d.key}_${idx}`).value) || 0;
+      dVals[d.key] = val;
+      deptSums[d.key] += val;
+      tLoad += val;
     });
 
-    grandLoadTotal += rowLoad;
+    const rowRatio = totalKwh > 0 ? (tLoad / totalKwh) : 0;
+    const rowDgKwh = rowRatio * dgKwh;
+    const rowGgKwh = rowRatio * ggKwh;
+    const rowDgCost = rowRatio * dgCost;
+    const rowGgCost = rowRatio * ngCost;
+
     rows.push({
-      time, mbar, psi, gg1, gg2, gg3, dgetp, dgwash, dgrent, tKw, depts, tLoad: rowLoad
+      time, mbar, psi, gg1, gg2, gg3, dgetp, dgwash, dgrent, tkw,
+      dVals, tLoad,
+      dgKwh: rowDgKwh.toFixed(1),
+      ggKwh: rowGgKwh.toFixed(1),
+      dgCost: Math.round(rowDgCost),
+      ggCost: Math.round(rowGgCost)
     });
   });
 
+  const grandLoadSum = Object.values(deptSums).reduce((a, b) => a + b, 0);
   const deptSummary = DEPARTMENTS.map(d => {
-    const totKw = deptTotals[d.key];
-    const ratio = grandLoadTotal > 0 ? (totKw / grandLoadTotal) : 0;
+    const kwSum = deptSums[d.key];
+    const ratio = grandLoadSum > 0 ? (kwSum / grandLoadSum) : 0;
+    const dKwh = ratio * totalKwh;
+    const dCost = ratio * grandCost;
     return {
+      key: d.key,
       label: d.label,
-      totKw,
+      kwSum,
       pct: (ratio * 100).toFixed(2),
-      kwhShare: Math.round(ratio * totalKwh),
-      ngCostShare: Math.round(ratio * ngCost),
-      dgCostShare: Math.round(ratio * dgCost),
-      totCost: Math.round(ratio * grandCost)
+      kwh: dKwh.toFixed(1),
+      totCost: Math.round(dCost)
     };
   });
 
   return {
-    rows, genTotals, deptTotals, grandLoadTotal,
-    dgCons, ngCons, dgKwh, ggKwh, totalKwh, ngCost, dgCost, grandCost, deptSummary
+    rows, dgCons, ngCons, dgKwh, ggKwh, totalKwh, dgCost, ngCost, grandCost,
+    sumMbar, sumPsi, sumGg1, sumGg2, sumGg3, sumDgetp, sumDgwash, sumDgrent, sumTkw,
+    deptSums, grandLoadSum, deptSummary
   };
 }
 
+function downloadExcelSheet() {
+  if (!getEffectivePermissions(currentActiveUser).canDownloadExcel) { alert(currentLang === "bn" ? "এক্সেল ডাউনলোড পারমিশন চালু নেই।" : "Excel Download permission is not enabled."); return; }
+  const dateVal = document.getElementById('reportDate').value;
+  const dayM = computeShiftMetrics('day', DAY_HOURS);
+  const nightM = computeShiftMetrics('night', NIGHT_HOURS);
+
+  const csvRows = [];
+  csvRows.push(["P.N. COMPOSITE LTD. - Power Generation & Department Cost Report"]);
+  csvRows.push(["Report Date", dateVal, "NG Rate (Tk/m3)", document.getElementById('ngRate').value, "Diesel Rate (Tk/Ltr)", document.getElementById('dgRate').value]);
+  csvRows.push([]);
+  csvRows.push(["Shift", "Time", "M-Bar", "PSI", "GG-1 (kW)", "GG-2 (kW)", "GG-3 (kW)", "DG-ETP", "DG-Wsh", "DG-Rnt", "T-kW", "DG kWh", "GG kWh", "DG Cost", "GG Cost", ...DEPARTMENTS.map(d => d.label), "Total Load"]);
+
+  dayM.rows.forEach(r => {
+    csvRows.push(["Day", r.time, r.mbar, r.psi, r.gg1, r.gg2, r.gg3, r.dgetp, r.dgwash, r.dgrent, r.tkw, r.dgKwh, r.ggKwh, r.dgCost, r.ggCost, ...DEPARTMENTS.map(d => r.dVals[d.key]), r.tLoad]);
+  });
+  nightM.rows.forEach(r => {
+    csvRows.push(["Night", r.time, r.mbar, r.psi, r.gg1, r.gg2, r.gg3, r.dgetp, r.dgwash, r.dgrent, r.tkw, r.dgKwh, r.ggKwh, r.dgCost, r.ggCost, ...DEPARTMENTS.map(d => r.dVals[d.key]), r.tLoad]);
+  });
+
+  const csvString = "\uFEFF" + csvRows.map(row => row.map(v => `"${v}"`).join(",")).join("\n");
+  const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `PN_Composite_Power_Report_${dateVal}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+/* ================= GENERATOR REPORT & CHART RENDERER ================= */
 function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   let html = `
     <div class="rep-header">
@@ -4790,35 +4806,37 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
         <p>529, Ambag, Nilnagar, Konabari, Gazipur</p>
       </div>
       <div class="rep-title-box">
-        <h3>Hourly Power Distribution & Cost Analysis</h3>
+        <h3>Power Generation & Department Cost Analysis</h3>
         <span>${shiftLabel} &bull; Date: ${dateStr}</span>
       </div>
       <div class="rep-logo">${getLogoHtml()}</div>
     </div>
 
     <div class="kpi-strip">
-      <div class="kpi-item"><div class="k-lbl">Natural Gas Used</div><div class="k-val">${data.ngCons.toLocaleString()} m³</div></div>
-      <div class="kpi-item"><div class="k-lbl">Diesel Consumed</div><div class="k-val">${data.dgCons.toLocaleString()} Ltr</div></div>
-      <div class="kpi-item"><div class="k-lbl">Gas Gen. Output</div><div class="k-val">${data.ggKwh.toLocaleString()} kWh</div></div>
-      <div class="kpi-item"><div class="k-lbl">Diesel Gen. Output</div><div class="k-val">${data.dgKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">Total Shift kWh</div><div class="k-val">${data.totalKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">Gas Gen. kWh</div><div class="k-val">${data.ggKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">Diesel Gen. kWh</div><div class="k-val">${data.dgKwh.toLocaleString()} kWh</div></div>
+      <div class="kpi-item"><div class="k-lbl">NG / Diesel Used</div><div class="k-val">${data.ngCons.toLocaleString()} m³ / ${data.dgCons.toLocaleString()} L</div></div>
       <div class="kpi-item orange"><div class="k-lbl">Total Shift Cost</div><div class="k-val">৳ ${data.grandCost.toLocaleString()}</div></div>
-      <div class="kpi-item orange"><div class="k-lbl">Avg. Cost / kWh</div><div class="k-val">৳ ${data.totalKwh > 0 ? (data.grandCost / data.totalKwh).toFixed(2) : '0.00'}</div></div>
+      <div class="kpi-item orange"><div class="k-lbl">Avg. Unit Cost</div><div class="k-val">৳ ${data.totalKwh > 0 ? (data.grandCost / data.totalKwh).toFixed(2) : '0.00'}/kWh</div></div>
     </div>
 
     <table class="clean-rep-table">
       <thead>
         <tr>
-          <th colspan="10" class="grp-gen">Generator Load & Gas Pressure</th>
-          <th colspan="11" class="grp-dept">Department-Wise Hourly Load (kW)</th>
-          <th colspan="4" class="grp-sum">Department Cost Summary</th>
+          <th colspan="10" class="grp-gen">Generator Load & Pressure (kW)</th>
+          <th colspan="4" class="grp-cost">Hourly Energy & Cost</th>
+          <th colspan="11" class="grp-dept">Department-Wise Power Distribution (kW)</th>
+          <th colspan="4" class="grp-sum">Department-Wise Shift Summary</th>
         </tr>
         <tr>
           <th class="sub-gen">Time</th><th class="sub-gen">M-Bar</th><th class="sub-gen">PSI</th>
           <th class="sub-gen">GG-1</th><th class="sub-gen">GG-2</th><th class="sub-gen">GG-3</th>
-          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wsh</th><th class="sub-gen">DG-Rn</th><th class="sub-gen">T-kW</th>
+          <th class="sub-gen">DG-ETP</th><th class="sub-gen">DG-Wsh</th><th class="sub-gen">DG-Rnt</th><th class="sub-gen">T-kW</th>
+          <th class="sub-cost">DG kWh</th><th class="sub-cost">GG kWh</th><th class="sub-cost">DG Tk</th><th class="sub-cost">GG Tk</th>
           ${DEPARTMENTS.map(d => `<th class="sub-dept">${d.label}</th>`).join('')}
-          <th class="sub-dept">T.Load</th>
-          <th class="sub-sum">Dept</th><th class="sub-sum">kWh</th><th class="sub-sum">NG Tk</th><th class="sub-sum">Tot Tk</th>
+          <th class="sub-dept">T-Load</th>
+          <th class="sub-sum">Department</th><th class="sub-sum">Tot kW</th><th class="sub-sum">kWh</th><th class="sub-sum">Cost (Tk)</th>
         </tr>
       </thead>
       <tbody>`;
@@ -4826,40 +4844,59 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   for (let i = 0; i < 12; i++) {
     const r = data.rows[i];
     const ds = data.deptSummary[i];
+    const rowTkw = r.tkw !== undefined ? r.tkw : (r.gg1 + r.gg2 + r.gg3 + r.dgetp + r.dgwash + r.dgrent);
     html += `<tr>
       <td class="col-highlight">${r.time}</td>
-      <td>${r.mbar}</td><td>${r.psi.toFixed(2)}</td>
+      <td>${r.mbar}</td><td>${r.psi}</td>
       <td>${r.gg1}</td><td>${r.gg2}</td><td>${r.gg3}</td>
       <td>${r.dgetp}</td><td>${r.dgwash}</td><td>${r.dgrent}</td>
-      <td class="col-highlight">${r.tKw}</td>
-      ${DEPARTMENTS.map(d => `<td>${r.depts[d.key]}</td>`).join('')}
+      <td class="col-highlight">${rowTkw}</td>
+      <td>${r.dgKwh}</td><td>${r.ggKwh}</td><td>${r.dgCost}</td><td>${r.ggCost}</td>
+      ${DEPARTMENTS.map(d => `<td>${r.dVals[d.key]}</td>`).join('')}
       <td class="col-highlight">${r.tLoad}</td>
       ${ds ? `
         <td class="col-sum-cell" style="text-align:left; padding-left:4px;">${ds.label}</td>
-        <td class="col-sum-cell">${ds.kwhShare.toLocaleString()}</td>
-        <td class="col-sum-cell">${ds.ngCostShare.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.kwSum.toLocaleString()}</td>
+        <td class="col-sum-cell">${ds.kwh}</td>
         <td class="col-sum-cell" style="font-weight:700; color:#9a3412;">${ds.totCost.toLocaleString()}</td>
-      ` : `<td></td><td></td><td></td><td></td>`}
+      ` : `<td class="blank-summary-cell"></td><td class="blank-summary-cell"></td><td class="blank-summary-cell"></td><td class="blank-summary-cell"></td>`}
     </tr>`;
   }
+
+  const totalTkwVal = data.sumTkw !== undefined
+    ? data.sumTkw
+    : (data.sumGg1 + data.sumGg2 + data.sumGg3 + data.sumDgetp + data.sumDgwash + data.sumDgrent);
 
   html += `
     <tr class="total-row">
       <td>TOTAL:</td>
-      <td></td>
-      <td></td>
-      <td>${data.genTotals.gg1.toLocaleString()}</td><td>${data.genTotals.gg2.toLocaleString()}</td><td>${data.genTotals.gg3.toLocaleString()}</td>
-      <td>${data.genTotals.dgetp.toLocaleString()}</td><td>${data.genTotals.dgwash.toLocaleString()}</td><td>${data.genTotals.dgrent.toLocaleString()}</td>
-      <td>${data.genTotals.tKw.toLocaleString()}</td>
-      ${DEPARTMENTS.map(d => `<td>${data.deptTotals[d.key].toLocaleString()}</td>`).join('')}
-      <td>${data.grandLoadTotal.toLocaleString()}</td>
+      <td class="blank-summary-cell"></td><td class="blank-summary-cell"></td>
+      <td>${data.sumGg1}</td><td>${data.sumGg2}</td><td>${data.sumGg3}</td>
+      <td>${data.sumDgetp}</td><td>${data.sumDgwash}</td><td>${data.sumDgrent}</td>
+      <td>${totalTkwVal.toLocaleString()}</td>
+      <td>${data.dgKwh.toLocaleString()}</td><td>${data.ggKwh.toLocaleString()}</td>
+      <td>${Math.round(data.dgCost).toLocaleString()}</td><td>${Math.round(data.ngCost).toLocaleString()}</td>
+      ${DEPARTMENTS.map(d => `<td>${data.deptSums[d.key]}</td>`).join('')}
+      <td>${data.grandLoadSum.toLocaleString()}</td>
       <td>TOTAL</td>
+      <td>${data.grandLoadSum.toLocaleString()}</td>
       <td>${data.totalKwh.toLocaleString()}</td>
-      <td>${data.ngCost.toLocaleString()}</td>
       <td style="color:#9a3412;">৳ ${data.grandCost.toLocaleString()}</td>
     </tr>
     <tr class="pct-row">
-      <td colspan="10">LOAD SHARE %:</td>
+      <td>SHARE %:</td>
+      <td class="blank-summary-cell"></td><td class="blank-summary-cell"></td>
+      <td>${data.grandLoadSum > 0 ? ((data.sumGg1 / data.grandLoadSum) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandLoadSum > 0 ? ((data.sumGg2 / data.grandLoadSum) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandLoadSum > 0 ? ((data.sumGg3 / data.grandLoadSum) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandLoadSum > 0 ? ((data.sumDgetp / data.grandLoadSum) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandLoadSum > 0 ? ((data.sumDgwash / data.grandLoadSum) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandLoadSum > 0 ? ((data.sumDgrent / data.grandLoadSum) * 100).toFixed(1) : 0}%</td>
+      <td>100%</td>
+      <td>${data.totalKwh > 0 ? ((data.dgKwh / data.totalKwh) * 100).toFixed(1) : 0}%</td>
+      <td>${data.totalKwh > 0 ? ((data.ggKwh / data.totalKwh) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandCost > 0 ? ((data.dgCost / data.grandCost) * 100).toFixed(1) : 0}%</td>
+      <td>${data.grandCost > 0 ? ((data.ngCost / data.grandCost) * 100).toFixed(1) : 0}%</td>
       ${data.deptSummary.map(ds => `<td>${ds.pct}%</td>`).join('')}
       <td>100%</td>
       <td>SHARE</td>
@@ -4870,12 +4907,18 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   </tbody></table>
 
   <div class="rep-charts">
-    <div class="rep-chart-card"><h4>Hourly Total Plant Load (kW)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div></div>
-    <div class="rep-chart-card"><h4>Department-Wise Total Cost (Tk)</h4><div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div></div>
+    <div class="rep-chart-card">
+      <h4>Hourly Total Generation Load (kW)</h4>
+      <div class="canvas-wrap"><canvas id="${chartIdPrefix}_gen"></canvas></div>
+    </div>
+    <div class="rep-chart-card">
+      <h4>Department-Wise Shift Cost (Tk)</h4>
+      <div class="canvas-wrap"><canvas id="${chartIdPrefix}_dept"></canvas></div>
+    </div>
   </div>
 
   <div class="rep-footer">
-    <div class="sig-line">Prepared By (Shift Engr.)</div>
+    <div class="sig-line">Prepared By (Sub-Asst. Engr.)</div>
     <div class="sig-line">Checked By (In-Charge)</div>
     <div class="sig-line">Approved By (Head of Utility)</div>
   </div>
@@ -4884,8 +4927,47 @@ function createReportPageHtml(shiftLabel, dateStr, data, chartIdPrefix) {
   return html;
 }
 
+function renderBarChart(canvasId, labels, values, barColor, isCompact = false) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        backgroundColor: barColor,
+        borderRadius: 3,
+        barPercentage: 0.52,
+        categoryPercentage: 0.72
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: { padding: { top: isCompact ? 10 : 16, right: 6, left: 2, bottom: 0 } },
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          anchor: 'end',
+          align: 'top',
+          offset: 1,
+          color: '#0f172a',
+          font: { weight: 'bold', size: isCompact ? 6.5 : 8 },
+          formatter: (val) => val > 0 ? val.toLocaleString() : ''
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: isCompact ? 6.5 : 8, weight: '600' }, color: '#334155', maxRotation: 0 } },
+        y: { beginAtZero: true, grace: '22%', grid: { color: '#f1f5f9' }, ticks: { font: { size: isCompact ? 6.5 : 8 }, color: '#64748b' } }
+      }
+    }
+  });
+  activeCharts.push(chart);
+}
+
 function buildFinalReport(mode = 'separate') {
-  document.body.classList.remove('print-mode-separate', 'print-mode-combined');
+  document.body.classList.remove('print-mode-separate', 'print-mode-combined', 'print-mode-gas');
   document.body.classList.add(mode === 'combined' ? 'print-mode-combined' : 'print-mode-separate');
 
   activeCharts.forEach(c => c.destroy());
@@ -4933,116 +5015,71 @@ function printCombinedSinglePage() {
   });
 }
 
-function renderBarChart(canvasId, labels, values, barColor, isCompact) {
-  const el = document.getElementById(canvasId);
-  if (!el) return;
-  const ctx = el.getContext('2d');
-  const maxVal = Math.max(...values, 10);
-
-  const chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: values,
-        backgroundColor: barColor,
-        borderRadius: isCompact ? 2 : 3,
-        barPercentage: 0.65
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      layout: { padding: { top: isCompact ? 10 : 16 } },
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          anchor: 'end',
-          align: 'top',
-          offset: isCompact ? 0 : 1,
-          color: '#0f172a',
-          font: { weight: '700', size: isCompact ? 6.5 : 8.5 },
-          formatter: (val) => val > 0 ? Math.round(val).toLocaleString() : ''
-        }
-      },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: isCompact ? 6 : 7.5, weight: '600' }, color: '#334155', maxRotation: 0 } },
-        y: { beginAtZero: true, suggestedMax: maxVal * 1.18, grid: { color: '#f1f5f9' }, ticks: { font: { size: isCompact ? 6 : 7.5 }, color: '#64748b' } }
-      }
-    }
-  });
-  activeCharts.push(chart);
-}
-
-/* ================= INITIALIZE GRIDS & LIFETIME SESSION RESTORE ================= */
-initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz", "Dhaka", "Gazipur", "Gazipur Sadar");
-initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz", "Sylhet", "Sunamganj", "Bishwambarpur");
-renderGrid('day', DAY_HOURS);
-renderGrid('night', NIGHT_HOURS);
+/* ================= INITIALIZATION ================= */
+renderEntryGrid('day', DAY_HOURS);
+renderEntryGrid('night', NIGHT_HOURS);
 renderBoilerGrid('day', DAY_HOURS);
 renderBoilerGrid('night', NIGHT_HOURS);
 renderCompGrid('day', DAY_HOURS);
 renderCompGrid('night', NIGHT_HOURS);
-initGasRangeSelectors();
-renderGasEntryGrid();
-startRealtimeFirestoreListeners();
+renderGasGridForMonth('2026-11');
 
-// Default language is English ('en') unless user explicitly toggled in this tab
-const initialTabState = readTabState();
-if (initialTabState.lang === "bn") {
-  applyLanguage("bn");
-} else {
-  applyLanguage("en");
-}
+initDivisionDropdown("regPresDiv", "regPresDist", "regPresUpz", "Dhaka", "Gazipur", "Gazipur Sadar");
+initDivisionDropdown("regPermDiv", "regPermDist", "regPermUpz", "Sylhet", "Sunamganj", "Bishwambarpur");
 
-(async function restoreLifetimeSession() {
+document.addEventListener('input', function(e) {
+  if (e.target.closest('#view-generator')) triggerAutoSave();
+  if (e.target.closest('#view-boiler')) triggerBoilerAutoSave();
+  if (e.target.closest('#view-compressor')) triggerCompAutoSave();
+  if (e.target.closest('#view-gas')) triggerGasAutoSave();
+});
+
+/* ================= START REAL-TIME LISTENERS & RESTORE LIFETIME SESSION ================= */
+async function restoreLifetimeSessionOnStartup() {
   const tabState = readTabState();
-  if (tabState.email) {
-    let profile = tabState.userProfile || liveUsersList.find(u => u.email.toLowerCase() === tabState.email.toLowerCase());
-    if (!profile && firebaseDb) {
-      try {
-        const empSnap = await firebaseDb.collection("pn_employees").doc(tabState.email.toLowerCase()).get();
-        if (empSnap.exists) profile = empSnap.data();
-      } catch (e) {}
-    }
-    if (profile) {
-      currentActiveUser = profile;
-      activeCurrentSection = tabState.activeSection || "home";
-      document.getElementById("auth-wrapper").style.display = "none";
-      document.getElementById("app-shell").style.display = "block";
-      applyRoleAndPermissionRestrictions();
-      hydrateLiveEntriesOnEnter();
-      navigateSection(activeCurrentSection);
-      return;
-    }
+  applyLanguage(tabState.lang || "en");
+
+  if (firebaseDb) {
+    startRealtimeFirestoreListeners();
+    try {
+      const snap = await firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).get();
+      if (snap.exists) {
+        const sess = snap.data();
+        if (sess && sess.email) {
+          const emailLower = sess.email.toLowerCase();
+          let userProf = tabState.userProfile || null;
+          const empSnap = await firebaseDb.collection("pn_employees").doc(emailLower).get();
+          if (empSnap.exists) userProf = empSnap.data();
+          if (userProf) {
+            currentActiveUser = userProf;
+            activeCurrentSection = sess.activeSection || tabState.activeSection || "home";
+            applyLanguage(sess.lang || tabState.lang || "en");
+            document.getElementById("auth-wrapper").style.display = "none";
+            document.getElementById("app-shell").style.display = "block";
+            applyRoleAndPermissionRestrictions();
+            navigateSection(activeCurrentSection);
+            return;
+          }
+        }
+      }
+    } catch (e) {}
   }
 
-  if (!firebaseDb) return;
-  try {
-    const docSnap = await firebaseDb.collection("pn_sessions").doc(getSessionDeviceId()).get();
-    if (!docSnap.exists) return;
-    const sess = docSnap.data();
-    if (!sess || !sess.email) return;
+  if (tabState.email && tabState.userProfile) {
+    currentActiveUser = tabState.userProfile;
+    activeCurrentSection = tabState.activeSection || "home";
+    document.getElementById("auth-wrapper").style.display = "none";
+    document.getElementById("app-shell").style.display = "block";
+    applyRoleAndPermissionRestrictions();
+    navigateSection(activeCurrentSection);
+    return;
+  }
 
-    let profile = liveUsersList.find(u => u.email.toLowerCase() === sess.email.toLowerCase());
-    if (!profile) {
-      const empSnap = await firebaseDb.collection("pn_employees").doc(sess.email.toLowerCase()).get();
-      if (empSnap.exists) profile = empSnap.data();
-    }
+  document.getElementById("auth-wrapper").style.display = "block";
+  document.getElementById("app-shell").style.display = "none";
+}
 
-    if (profile) {
-      currentActiveUser = profile;
-      activeCurrentSection = sess.activeSection || "home";
-      writeTabState({ email: profile.email, activeSection: activeCurrentSection, userProfile: profile });
-      document.getElementById("auth-wrapper").style.display = "none";
-      document.getElementById("app-shell").style.display = "block";
-      applyRoleAndPermissionRestrictions();
-      hydrateLiveEntriesOnEnter();
-      navigateSection(activeCurrentSection);
-    }
-  } catch (e) {}
-})();
+restoreLifetimeSessionOnStartup();
 </script>
 </body>
 </html>
